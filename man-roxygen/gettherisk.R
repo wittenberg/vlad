@@ -1,0 +1,48 @@
+#' @references Steiner SH, Cook RJ, Farewell VT and Treasure T (2000).
+#'  “Monitoring surgical performance using risk-adjusted cumulative sum charts.”
+#'  \emph{Biostatistics}, \strong{1}(4), pp. 441-452.
+#'  doi: \href{https://doi.org/10.1093/biostatistics/1.4.441}{10.1093/biostatistics/1.4.441}.
+#'
+#' Steiner S (2014). “Risk-Adjusted Monitoring of Outcomes in Health Care.”
+#' In Lawless JF (ed.), \emph{Statistics in Action}, pp. 225-242. Informa UK Limited.
+#' doi: \href{https://doi.org/10.1201/b16597-15}{10.1201/b16597-15}.
+#'
+#' @examples
+#' \dontrun{
+#' library("vlad")
+#' # see Steiner et al. 2000 page 445 or Steiner (2014) p. 234
+#' coeff <- c("(Intercept)"=-3.68, "Parsonnet"=0.077)
+#' # low risk patient (Parsonnet score=0) has a risk of death 2.5%
+#' gettherisk(0, coeff=coeff)
+#' # high risk patient (Parsonnet score=71) has a risk of death 86%
+#' gettherisk(71, coeff=coeff)
+#' # high risk patient (Parsonnet score=50) has a risk of death 54%
+#' gettherisk(50, coeff=coeff)
+#'
+#' # Get mortality and probability of death of a phase I dataset
+#' library("spcadjust")
+#' data("cardiacsurgery")
+#' cardiacsurgery <- dplyr::mutate(cardiacsurgery, phase=factor(ifelse(date < 2*365, "I", "II")))
+#' SI <- subset(cardiacsurgery, c(phase=="I"), c("Parsonnet", "status"))
+#' coeff1 <- coef(glm(status ~ Parsonnet, data=SI, family="binomial"))
+#' mprob <- as.numeric(table(SI$Parsonnet) / length(SI$Parsonnet))
+#'
+#' # Use estimated model coefficients and parsonnet scores in gettherisk function
+#' s <- sort(unique(SI$Parsonnet))
+#' mort <- sapply(s, gettherisk, coeff=coeff1)
+#' df1 <- data.frame(s, mprob, mort)
+#'
+#' # Plot mortality and probability to die of phase I data
+#' ggplot2::qplot(data=df1, s, mprob) + ggplot2::theme_classic()
+#' library(ggplot2)
+#' xx <- tapply(SI$status, SI$Parsonnet, sum)
+#' nn <- tapply(SI$status, SI$Parsonnet, length)
+#' ll <- binom::binom.confint(xx, nn, conf.level=0.99, methods="exact")$lower
+#' uu <- binom::binom.confint(xx, nn, conf.level=0.99, methods="exact")$upper
+#' ybar <- tapply(SI$status, SI$Parsonnet, mean)
+#' ggplot(data=df1, aes(s, mort)) +
+#'  geom_point(data=data.frame(s, ybar), aes(s, ybar), inherit.aes=FALSE) +
+#'  geom_errorbar(aes(ymax=uu, ymin=ll), width=0.9, position="dodge", alpha=0.3) +
+#'  geom_line(colour="red") + labs(x="Parsonnet score", y="Probability to die") +
+#'  theme_classic()
+#'}
