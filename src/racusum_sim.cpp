@@ -1,11 +1,11 @@
 #include "racusum_sim.h"
 
 // [[Rcpp::export(.loglikelihood)]]
-double loglikelihood(DataFrame df, NumericVector coeff, double R0 = 1, double RA = 2, bool yemp = true){
+double loglikelihood(DataFrame df, NumericVector coeff, double R0, double RA, bool yemp){
   int y, row, s;
   double wt, pt;
   NumericVector col1, col2, rnd;
-  
+
   col1 = df[0];                             // Parsonnet score stored in the dataframe
   col2 = df[1];                             // Surgical outcome stored in the dataframe
   rnd = runif(1);
@@ -24,11 +24,11 @@ double loglikelihood(DataFrame df, NumericVector coeff, double R0 = 1, double RA
   return wt;
 }
 
-double loglikelihood2(DataFrame df, NumericVector coeff, NumericVector coeff2, double R0 = 1, double RA = 2, double RQ = 1){
+double loglikelihood2(DataFrame df, NumericVector coeff, NumericVector coeff2, double R0, double RA, double RQ){
   int y, row, s;
   double wt, x, Qstar, xstar, rdm, pt;
   NumericVector col1, col2, rnd, rndm;
-  
+
   col1 = df[0];                             // Parsonnet score stored in the dataframe
   col2 = df[1];                             // Surgical outcome stored in the dataframe
   rnd = runif(1);
@@ -45,11 +45,11 @@ double loglikelihood2(DataFrame df, NumericVector coeff, NumericVector coeff2, d
   return wt;
 }
 
-double loglikelihood3(DataFrame df, double R0 = 1, double RA = 2){
+double loglikelihood3(DataFrame df, double R0, double RA){
   NumericVector col2, rnd;
   int row, y;
   double wt;
-  
+
   col2 = df[1];                             // Surgical outcome stored in the dataframe
   rnd = runif(1);
   row = rnd[0] * df.nrows();
@@ -59,7 +59,7 @@ double loglikelihood3(DataFrame df, double R0 = 1, double RA = 2){
 }
 
 // [[Rcpp::export(.racusum_arl_nonRA)]]
-int racusum_arl_nonRA(int r, double h, DataFrame df, double R0 = 1, double RA = 2) {
+int racusum_arl_nonRA(int r, double h, DataFrame df, double R0, double RA) {
   double qn = 0, wt = 0;
   int rl = 0;
   do{
@@ -71,7 +71,7 @@ int racusum_arl_nonRA(int r, double h, DataFrame df, double R0 = 1, double RA = 
 }
 
 // [[Rcpp::export(.racusum_arl_sim)]]
-int racusum_arl_sim(int r, NumericVector coeff, double h, DataFrame df, double R0 = 1, double RA = 2, bool yemp = true) {
+int racusum_arl_sim(int r, NumericVector coeff, double h, DataFrame df, double R0, double RA, bool yemp) {
   double qn = 0, wt = 0;
   int rl = 0;
   do{
@@ -83,7 +83,7 @@ int racusum_arl_sim(int r, NumericVector coeff, double h, DataFrame df, double R
 }
 
 // [[Rcpp::export(.racusum_arloc_sim)]]
-int racusum_arloc_sim(int r, NumericVector coeff, NumericVector coeff2, double h, DataFrame df, double R0 = 1, double RA = 2, double RQ = 1) {
+int racusum_arloc_sim(int r, NumericVector coeff, NumericVector coeff2, double h, DataFrame df, double R0, double RA, double RQ) {
   double qn = 0, wt = 0;
   int rl = 0;
   do{
@@ -94,45 +94,44 @@ int racusum_arloc_sim(int r, NumericVector coeff, NumericVector coeff2, double h
   return rl;
 }
 
-// conditional steady-state ARL (RA-CUSUM) -- m = #ic-observations with m >= 0
 // [[Rcpp::export(.racusum_adoc_sim)]]
-int racusum_adoc_sim(int r, NumericVector coeff, NumericVector coeff2, double h, DataFrame df, double R0 = 1, double RA = 2,  double RQ = 1, int m = 5) {
-  int success = 0, rl = 0;
-  double qn = 0, wt = 0, R = 1;
-  while ( !success ) {
-    rl = 0;
-    qn = 0;
-    R = 1;
-    do {
-      rl++;
-      if ( rl > m) R = RQ;
-      wt = loglikelihood2(df, coeff, coeff2, R0, RA, R);
-      qn = fmax(0, qn + wt);
-    } while ( qn <= h );
-    if ( rl > m ) {
-      rl += -m;
-      success = 1;
-    }
-  }
-  return rl;
-}
-
-// cyclical steady-state ARL (RA-CUSUM) -- m = #ic-observations with m >= 0
-// [[Rcpp::export(.racusum_adoc2_sim)]]
-int racusum_adoc2_sim(int r, NumericVector coeff, NumericVector coeff2, double h, DataFrame df, double R0 = 1, double RA = 2,  double RQ = 1, int m = 5) {
-  int rl = 0;
-  double qn = 0, wt = 0, R = 1;
-  do {
-    rl++;
-    if ( rl > m ) R = RQ;
-    wt = loglikelihood2(df, coeff, coeff2, R0, RA, R);
-    qn = fmax(0, qn + wt);
-    if ( rl <= m ) {
-      if ( qn > h ) {
-        qn = 0;
+int racusum_adoc_sim(int r, NumericVector coeff, NumericVector coeff2, double h, DataFrame df, double R0, double RA,  double RQ, int m, int type) {
+  // conditional steady-state ARL (RA-CUSUM) -- m = #ic-observations with m >= 0
+  if (type == 1) {
+    int success = 0, rl = 0;
+    double qn = 0, wt = 0, R = 1;
+    while ( !success ) {
+      rl = 0;
+      qn = 0;
+      R = 1;
+      do {
+        rl++;
+        if ( rl > m) R = RQ;
+        wt = loglikelihood2(df, coeff, coeff2, R0, RA, R);
+        qn = fmax(0, qn + wt);
+      } while ( qn <= h );
+      if ( rl > m ) {
+        rl += -m;
+        success = 1;
       }
     }
-  } while ( qn <= h );
-  rl += -m;
-  return rl;
+    return rl;
+  } else if (type == 2) {
+  // cyclical steady-state ARL (RA-CUSUM) -- m = #ic-observations with m >= 0
+    int rl = 0;
+    double qn = 0, wt = 0, R = 1;
+    do {
+      rl++;
+      if ( rl > m ) R = RQ;
+      wt = loglikelihood2(df, coeff, coeff2, R0, RA, R);
+      qn = fmax(0, qn + wt);
+      if ( rl <= m ) {
+        if ( qn > h ) {
+          qn = 0;
+        }
+      }
+    } while ( qn <= h );
+    rl += -m;
+    return rl;
+  }
 }

@@ -25,27 +25,23 @@
     .Call('_vlad_eocusum_adoc_sim', PACKAGE = 'vlad', r, k, h, df, coeff, coeff2, QS, side, type, m)
 }
 
-.loglikelihood <- function(df, coeff, R0 = 1, RA = 2, yemp = TRUE) {
+.loglikelihood <- function(df, coeff, R0, RA, yemp) {
     .Call('_vlad_loglikelihood', PACKAGE = 'vlad', df, coeff, R0, RA, yemp)
 }
 
-.racusum_arl_nonRA <- function(r, h, df, R0 = 1, RA = 2) {
+.racusum_arl_nonRA <- function(r, h, df, R0, RA) {
     .Call('_vlad_racusum_arl_nonRA', PACKAGE = 'vlad', r, h, df, R0, RA)
 }
 
-.racusum_arl_sim <- function(r, coeff, h, df, R0 = 1, RA = 2, yemp = TRUE) {
+.racusum_arl_sim <- function(r, coeff, h, df, R0, RA, yemp) {
     .Call('_vlad_racusum_arl_sim', PACKAGE = 'vlad', r, coeff, h, df, R0, RA, yemp)
 }
 
-.racusum_arloc_sim <- function(r, coeff, coeff2, h, df, R0 = 1, RA = 2, RQ = 1) {
+.racusum_arloc_sim <- function(r, coeff, coeff2, h, df, R0, RA, RQ) {
     .Call('_vlad_racusum_arloc_sim', PACKAGE = 'vlad', r, coeff, coeff2, h, df, R0, RA, RQ)
 }
 
-.racusum_adoc_sim <- function(r, coeff, coeff2, h, df, R0 = 1, RA = 2, RQ = 1, m = 5L) {
-    .Call('_vlad_racusum_adoc_sim', PACKAGE = 'vlad', r, coeff, coeff2, h, df, R0, RA, RQ, m)
-}
-
-.racusum_adoc2_sim <- function(r, coeff, coeff2, h, df, R0 = 1, RA = 2, RQ = 1, m = 5L) {
-    .Call('_vlad_racusum_adoc2_sim', PACKAGE = 'vlad', r, coeff, coeff2, h, df, R0, RA, RQ, m)
+.racusum_adoc_sim <- function(r, coeff, coeff2, h, df, R0, RA, RQ, m, type) {
+    .Call('_vlad_racusum_adoc_sim', PACKAGE = 'vlad', r, coeff, coeff2, h, df, R0, RA, RQ, m, type)
 }
 

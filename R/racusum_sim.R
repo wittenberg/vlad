@@ -24,13 +24,20 @@
 #' @author Philipp Wittenberg
 #' @export
 loglikelihood <- function(df, coeff, R0 = 1, RA = 2, yemp = TRUE) {
-  .loglikelihood(
-    as.data.frame(df),
-    as.vector(coeff),
-    as.numeric(R0),
-    as.numeric(RA),
-    as.logical(yemp)
-  )
+  df <- as.data.frame(df)
+  if (class(df) != "data.frame") {stop("provide a dataframe for argument \"df\"")}
+  else if (ncol(df) != 2) {stop("provide a dataframe with two columns for argument \"df\"")}
+  else if (sapply(df, class)[1] != "integer") {stop("first column of dataframe must be of type integer")}
+  else if (sapply(df, class)[2] != "numeric") {stop("second column of dataframe must be of type numeric")}
+  coeff <- as.vector(coeff)
+  if (is.na(coeff)  || length(coeff)  != 2) {stop("model coefficients \"coeff\"  must a numeric vector with two elements")}
+  R0 <- as.numeric(R0)
+  if (is.na(R0) || R0 <= 0) {stop("Odds ratio of death under the null hypotheses \"R0\" must a positive numeric value")}
+  RA <- as.numeric(RA)
+  if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses \"RA\" must a positive numeric value")}
+  if (is.na(yemp) || is.logical(yemp) != "TRUE") {warning("argument \"yemp\" must be logical using TRUE as default value")}
+  yemp <- as.logical(yemp)
+  .loglikelihood(df, coeff, R0, RA, yemp)
 }
 
 #' @name racusum.arl.nonRA.sim
@@ -53,13 +60,20 @@ loglikelihood <- function(df, coeff, R0 = 1, RA = 2, yemp = TRUE) {
 #' @author Philipp Wittenberg
 #' @export
 racusum.arl.nonRA.sim <- function(r, h, df, R0 = 1, RA = 2) {
-  .racusum_arl_nonRA(
-    as.integer(r),
-    as.numeric(h),
-    as.data.frame(df),
-    as.numeric(R0),
-    as.numeric(RA)
-  )
+  r <- as.integer(r)
+  if (is.na(r) || r <= 0) {stop("number of simulation runs r must a positive integer")}
+  h <- as.numeric(h)
+  if (is.na(h) || h <= 0) {stop("control limit h must a positive numeric value")}
+  df <- as.data.frame(df)
+  if (class(df) != "data.frame") {stop("provide a dataframe for argument \"df\"")}
+  else if (ncol(df) != 2) {stop("provide a dataframe with two columns for argument \"df\"")}
+  else if (sapply(df, class)[1] != "integer") {stop("first column of dataframe must be of type integer")}
+  else if (sapply(df, class)[2] != "numeric") {stop("second column of dataframe must be of type numeric")}
+  R0 <- as.numeric(R0)
+  if (is.na(R0) || R0 <= 0) {stop("Odds ratio of death under the null hypotheses \"R0\" must a positive numeric value")}
+  RA <- as.numeric(RA)
+  if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses \"RA\" must a positive numeric value")}
+  .racusum_arl_nonRA(r, h, df, R0, RA)
 }
 
 #' @name racusum.arl.sim
@@ -79,15 +93,24 @@ racusum.arl.nonRA.sim <- function(r, h, df, R0 = 1, RA = 2) {
 #' @author Philipp Wittenberg
 #' @export
 racusum.arl.sim <- function(r, coeff, h, df, R0 = 1, RA = 2, yemp = TRUE) {
-  .racusum_arl_sim(
-    as.integer(r),
-    as.vector(coeff),
-    as.numeric(h),
-    as.data.frame(df),
-    as.numeric(R0),
-    as.numeric(RA),
-    as.logical(yemp)
-  )
+  r <- as.integer(r)
+  if (is.na(r) || r <= 0) {stop("number of simulation runs r must a positive integer")}
+  coeff <- as.vector(coeff)
+  if (is.na(coeff)  || length(coeff)  != 2) {stop("model coefficients \"coeff\"  must a numeric vector with two elements")}
+  h <- as.numeric(h)
+  if (is.na(h) || h <= 0) {stop("control limit h must a positive numeric value")}
+  df <- as.data.frame(df)
+  if (class(df) != "data.frame") {stop("provide a dataframe for argument \"df\"")}
+  else if (ncol(df) != 2) {stop("provide a dataframe with two columns for argument \"df\"")}
+  else if (sapply(df, class)[1] != "integer") {stop("first column of dataframe must be of type integer")}
+  else if (sapply(df, class)[2] != "numeric") {stop("second column of dataframe must be of type numeric")}
+  R0 <- as.numeric(R0)
+  if (is.na(R0) || R0 <= 0) {stop("Odds ratio of death under the null hypotheses \"R0\" must a positive numeric value")}
+  RA <- as.numeric(RA)
+  if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses \"RA\" must a positive numeric value")}
+  if (is.na(yemp) || is.logical(yemp) != "TRUE") {warning("argument \"yemp\" must be logical using TRUE as default value")}
+  yemp <- as.logical(yemp)
+  .racusum_arl_sim(r, coeff, h, df, R0, RA, yemp)
 }
 
 #' @name racusum.arloc.sim
@@ -110,26 +133,37 @@ racusum.arl.sim <- function(r, coeff, h, df, R0 = 1, RA = 2, yemp = TRUE) {
 #'
 #' @export
 racusum.arloc.sim <- function(r, coeff, coeff2, h, df, R0 = 1, RA = 2, RQ = 1) {
-  .racusum_arloc_sim(
-    as.integer(r),
-    as.vector(coeff),
-    as.vector(coeff2),
-    as.numeric(h),
-    as.data.frame(df),
-    as.numeric(R0),
-    as.numeric(RA),
-    as.numeric(RQ)
-  )
+  r <- as.integer(r)
+  if (is.na(r) || r <= 0) {stop("number of simulation runs r must a positive integer")}
+  coeff <- as.vector(coeff)
+  if (is.na(coeff)  || length(coeff)  != 2) {stop("model coefficients \"coeff\"  must a numeric vector with two elements")}
+  coeff2 <- as.vector(coeff2)
+  if (is.na(coeff2)  || length(coeff2)  != 2) {stop("model coefficients \"coeff2\"  must a numeric vector with two elements")}
+  h <- as.numeric(h)
+  if (is.na(h) || h <= 0) {stop("control limit h must a positive numeric value")}
+  df <- as.data.frame(df)
+  if (class(df) != "data.frame") {stop("provide a dataframe for argument \"df\"")}
+  else if (ncol(df) != 2) {stop("provide a dataframe with two columns for argument \"df\"")}
+  else if (sapply(df, class)[1] != "integer") {stop("first column of dataframe must be of type integer")}
+  else if (sapply(df, class)[2] != "numeric") {stop("second column of dataframe must be of type numeric")}
+  R0 <- as.numeric(R0)
+  if (is.na(R0) || R0 <= 0) {stop("Odds ratio of death under the null hypotheses \"R0\" must a positive numeric value")}
+  RA <- as.numeric(RA)
+  if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses \"RA\" must a positive numeric value")}
+  RQ <- as.numeric(RQ)
+  if (is.na(RQ) || RQ < 0) {stop("RQ must a positive numeric value")}
+  .racusum_arloc_sim(r, coeff, coeff2, h, df, R0, RA, RQ)
 }
 
 #' @name racusum.adoc.sim
-#' @title Compute conditional steady-state ARLs of RA-CUSUM control charts using
+#' @title Compute steady-state ARLs of RA-CUSUM control charts using
 #' simulation
-#' @description Compute conditional steady-state ARLs of RA-CUSUM control charts using simulation.
+#' @description Compute steady-state ARLs of RA-CUSUM control charts using simulation.
 #'
 #' @inheritParams racusum.arloc.sim
 #' @param m Integer. Simulated in-control observations.
-#'
+#' @param type character. Default argument is "cond" for computation of conditional steady-state.
+#' Other option is the cyclical steady-state "cycl".
 #' @return Returns a single value which is the Run Length.
 #'
 #' @details Describe the resampling algorithm for calulating out of control run length.
@@ -139,47 +173,34 @@ racusum.arloc.sim <- function(r, coeff, coeff2, h, df, R0 = 1, RA = 2, RQ = 1) {
 #' @author Philipp Wittenberg
 #'
 #' @export
-racusum.adoc.sim <- function(r, coeff, coeff2, h, df, R0 = 1, RA = 2, RQ = 1, m = 50) {
-  .racusum_adoc_sim(
-    as.integer(r),
-    as.vector(coeff),
-    as.vector(coeff2),
-    as.numeric(h),
-    as.data.frame(df),
-    as.numeric(R0),
-    as.numeric(RA),
-    as.numeric(RQ),
-    as.integer(m)
-  )
-}
-
-#' @name racusum.adoc2.sim
-#' @title Compute cycliclal steady-state ARLs of RA-CUSUM control charts using simulation
-#' @description Compute cycliclal steady-state ARLs of RA-CUSUM control charts using simulation.
-#'
-#' @inheritParams racusum.arloc.sim
-#' @param m Integer. Simulated in-control observations.
-#'
-#' @return Returns a single value which is the Run Length.
-#'
-#' @details Describe the resampling algorithm for calulating out of control run length.
-#'
-#' @template racusum.adoc2.sim
-#'
-#' @author Philipp Wittenberg
-#' @export
-racusum.adoc2.sim <- function(r, coeff, coeff2, h, df, R0 = 1, RA = 2, RQ = 1, m = 50) {
-  .racusum_adoc2_sim(
-    as.integer(r),
-    as.vector(coeff),
-    as.vector(coeff2),
-    as.numeric(h),
-    as.data.frame(df),
-    as.numeric(R0),
-    as.numeric(RA),
-    as.numeric(RQ),
-    as.integer(m)
-  )
+racusum.adoc.sim <- function(r, coeff, coeff2, h, df, R0 = 1, RA = 2, RQ = 1, m = 50, type = "cond") {
+  r <- as.integer(r)
+  if (is.na(r) || r <= 0) {stop("number of simulation runs r must a positive integer")}
+  coeff <- as.vector(coeff)
+  if (is.na(coeff)  || length(coeff)  != 2) {stop("model coefficients \"coeff\"  must a numeric vector with two elements")}
+  coeff2 <- as.vector(coeff2)
+  if (is.na(coeff2)  || length(coeff2)  != 2) {stop("model coefficients \"coeff2\"  must a numeric vector with two elements")}
+  h <- as.numeric(h)
+  if (is.na(h) || h <= 0) {stop("control limit h must a positive numeric value")}
+  df <- as.data.frame(df)
+  if (class(df) != "data.frame") {stop("provide a dataframe for argument \"df\"")}
+  else if (ncol(df) != 2) {stop("provide a dataframe with two columns for argument \"df\"")}
+  else if (sapply(df, class)[1] != "integer") {stop("first column of dataframe must be of type integer")}
+  else if (sapply(df, class)[2] != "numeric") {stop("second column of dataframe must be of type numeric")}
+  R0 <- as.numeric(R0)
+  if (is.na(R0) || R0 <= 0) {stop("Odds ratio of death under the null hypotheses \"R0\" must a positive numeric value")}
+  RA <- as.numeric(RA)
+  if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses \"RA\" must a positive numeric value")}
+  RQ <- as.numeric(RQ)
+  if (is.na(RQ) || RQ < 0) {stop("RQ must a positive numeric value")}
+  m <- as.integer(m)
+  if (is.na(m) || m < 0) {stop("m must a positive integer")}
+  itype <- switch(type, cond = 1, cycl = 2)
+  if (is.null(itype)) {
+    warning("no valid input, using type=cond (conditional steady-state) as default")
+    itype <- 1
+  }
+  .racusum_adoc_sim(r, coeff, coeff2, h, df, R0, RA, RQ, m, itype)
 }
 
 #' @name racusum.arl.h.sim

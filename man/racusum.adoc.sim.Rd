@@ -2,11 +2,11 @@
 % Please edit documentation in R/racusum_sim.R
 \name{racusum.adoc.sim}
 \alias{racusum.adoc.sim}
-\title{Compute conditional steady-state ARLs of RA-CUSUM control charts using
+\title{Compute steady-state ARLs of RA-CUSUM control charts using
 simulation}
 \usage{
 racusum.adoc.sim(r, coeff, coeff2, h, df, R0 = 1, RA = 2, RQ = 1,
-  m = 50)
+  m = 50, type = "cond")
 }
 \arguments{
 \item{r}{Integer vector. Number of runs.}
@@ -33,12 +33,15 @@ ratio of death RA=1/2.}
 \item{RQ}{double. Defines the performance of a surgeon with the odds ratio ratio of death Q.}
 
 \item{m}{Integer. Simulated in-control observations.}
+
+\item{type}{character. Default argument is "cond" for computation of conditional steady-state.
+Other option is the cyclical steady-state "cycl".}
 }
 \value{
 Returns a single value which is the Run Length.
 }
 \description{
-Compute conditional steady-state ARLs of RA-CUSUM control charts using simulation.
+Compute steady-state ARLs of RA-CUSUM control charts using simulation.
 }
 \details{
 Describe the resampling algorithm for calulating out of control run length.
