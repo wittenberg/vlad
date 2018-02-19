@@ -39,7 +39,7 @@ kopt ##(Improvement)
 ### k = kopt
 QA <- 1/2
 # manually find optimal k
-pbar <- mean(sapply(df1[, 1], gettherisk, coef=coeff))
+pbar <- mean(sapply(S2I[, 1], gettherisk, coef=coeff))
 kopt <- pbar * ( 1 - QA + log(QA) ) / log(QA)
 all.equal(kopt, optimal.k(QA=1/2, parsonnetscores=S2I$Parsonnet, coeff=coeff) )
 }

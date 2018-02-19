@@ -12,34 +12,18 @@
 #' @details Formula deterioration:  \deqn{ k{det} = \frac{Q{A} - 1 - log(Q{A})}{log(Q{A})}\bar{p} , Q{A} > 1    }
 #'          Formula improvement:    \deqn{ k{imp} = \frac{1 - Q{A} + log(Q{A})}{log(Q{A})}\bar{p} , Q{A} < 1    }
 #'
+#' @template optimal.k
+#'
 #' @author Philipp Wittenberg
-#' @examples
-#' \dontrun{
-#' library("vlad"); library("spcadjust")
-#' data("cardiacsurgery")
-#' cardiacsurgery <- dplyr::mutate(cardiacsurgery, phase=factor(ifelse(date < 2*365, "I", "II")))
-#' S2I <- subset(cardiacsurgery, c(surgeon==2 & phase=="I"), c("Parsonnet", "status"))
-#' coeff <- coef(glm(status ~ Parsonnet, data=S2I, family="binomial"))
-#' kopt <- optimal.k(QA=2, parsonnetscores=S2I$Parsonnet, coeff=coeff)
-#' kopt ## (Deterioration)
-## k_opt = 0.04059649
-#' kopt <- optimal.k(QA=1/2, parsonnetscores=S2I$Parsonnet, coeff=coeff)
-#' kopt ##(Improvement)
-#' ## k_opt = 0.02555328
-#' ### k = kopt
-#' QA <- 1/2
-#' # manually find optimal k
-#' pbar <- mean(sapply(df1[, 1], gettherisk, coef=coeff))
-#' kopt <- pbar * ( 1 - QA + log(QA) ) / log(QA)
-#' all.equal(kopt, optimal.k(QA=1/2, parsonnetscores=S2I$Parsonnet, coeff=coeff) )
-#' }
 #' @export
 optimal.k <- function(QA, parsonnetscores, coeff) {
-  .optimal_k(
-    as.numeric(QA),
-    as.vector(parsonnetscores),
-    as.vector(coeff)
-  )
+  QA <- as.numeric(QA)
+  if (is.na(QA) || QA < 0) {stop("QS must a positive numeric value")}
+  parsonnetscores <- as.vector(parsonnetscores)
+  if (is.na(parsonnetscores) || is.vector(parsonnetscores) != "TRUE") {stop("argument \"parsonnetscore\" must be an integer value")}
+  coeff <- as.vector(coeff)
+  if (is.na(coeff)  || length(coeff)  != 2) {stop("model coefficients \"coeff\"  must a numeric vector with two elements")}
+  .optimal_k(QA, parsonnetscores, coeff)
 }
 
 #' @name gettherisk
@@ -58,10 +42,11 @@ optimal.k <- function(QA, parsonnetscores, coeff) {
 #'
 #' @export
 gettherisk <- function(parsonnetscore, coeff) {
-  .gettherisk(
-    as.integer(parsonnetscore),
-    as.vector(coeff)
-  )
+  parsonnetscore <- as.integer(parsonnetscore)
+  if (is.na(parsonnetscore) || is.integer(parsonnetscore) != "TRUE") {stop("argument \"parsonnetscore\" must be an integer value")}
+  coeff <- as.vector(coeff)
+  if (is.na(coeff)  || length(coeff)  != 2) {stop("model coefficients \"coeff\"  must a numeric vector with two elements")}
+  .gettherisk(parsonnetscore, coeff)
 }
 
 #' @name calceo
@@ -83,11 +68,16 @@ gettherisk <- function(parsonnetscore, coeff) {
 #' @author Philipp Wittenberg
 #' @export
 calceo <- function(df, coeff, yemp = TRUE) {
-  .calceo(
-    as.data.frame(df),
-    as.vector(coeff),
-    as.logical(yemp)
-  )
+  df <- as.data.frame(df)
+  if (class(df) != "data.frame") {stop("provide a dataframe for argument \"df\"")}
+  else if (ncol(df) != 2) {stop("provide a dataframe with two columns for argument \"df\"")}
+  else if (sapply(df, class)[1] != "integer") {stop("first column of dataframe must be of type integer")}
+  else if (sapply(df, class)[2] != "numeric") {stop("second column of dataframe must be of type numeric")}
+  coeff <- as.vector(coeff)
+  if (is.na(coeff)  || length(coeff)  != 2) {stop("model coefficients \"coeff\"  must a numeric vector with two elements")}
+  if (is.na(yemp) || is.logical(yemp) != "TRUE") {warning("argument \"yemp\" must be logical using TRUE as default value")}
+  yemp <- as.logical(yemp)
+  .calceo(df, coeff, yemp)
 }
 
 #' @name eocusum.arl.sim
@@ -98,8 +88,8 @@ calceo <- function(df, coeff, yemp = TRUE) {
 #' @param k double. Reference value of the CUSUM control chart.
 #' @param h double. Decision interval (alarm limit, threshold) of the CUSUM control chart.
 #' @inheritParams calceo
-#' @param side int. If side = 1, calculate ARL for the upper arm of the V-mask. If side = 2,
-#'  calulate the lower arm of the V-mask.
+#' @param side character. Default is "low" to calculate ARL for the upper arm of the V-mask. If side = "up",
+#'  calculate the lower arm of the V-mask.
 #'
 #' @return Returns a single value which is the Run Length.
 #'
@@ -109,16 +99,28 @@ calceo <- function(df, coeff, yemp = TRUE) {
 #'
 #' @author Philipp Wittenberg
 #' @export
-eocusum.arl.sim <- function(r, k, h, df, coeff, yemp = TRUE, side = 1) {
-  .eocusum_arl_sim(
-    as.integer(r),
-    as.numeric(k),
-    as.numeric(h),
-    as.data.frame(df),
-    as.vector(coeff),
-    as.logical(yemp),
-    as.integer(side)
-  )
+eocusum.arl.sim <- function(r, k, h, df, coeff, yemp = TRUE, side = "low") {
+  r <- as.integer(r)
+  if (is.na(r) || r <= 0) {stop("number of simulation runs r must a positive integer")}
+  k <- as.numeric(k)
+  if (is.na(k) || k  < 0) {stop("reference value k must a positive numeric value")}
+  h <- as.numeric(h)
+  if (is.na(h) || h <= 0) {stop("control limit h must a positive numeric value")}
+  df <- as.data.frame(df)
+  if (class(df) != "data.frame") {stop("provide a dataframe for argument \"df\"")}
+  else if (ncol(df) != 2) {stop("provide a dataframe with two columns for argument \"df\"")}
+  else if (sapply(df, class)[1] != "integer") {stop("first column of dataframe must be of type integer")}
+  else if (sapply(df, class)[2] != "numeric") {stop("second column of dataframe must be of type numeric")}
+  coeff <- as.vector(coeff)
+  if (is.na(coeff)  || length(coeff)  != 2) {stop("model coefficients \"coeff\"  must a numeric vector with two elements")}
+  if (is.na(yemp) || is.logical(yemp) != "TRUE") {warning("argument \"yemp\" must be logical using TRUE as default value")}
+  yemp <- as.logical(yemp)
+  iside <- switch(as.character(side), low = 1, up = 2)
+  if (is.null(iside)) {
+    warning("no valid input, using side=low (deterioration) as default")
+    iside <- 1
+  }
+  .eocusum_arl_sim(r, k, h, df, coeff, yemp, iside)
 }
 
 #' @name eocusum.arloc.sim
@@ -139,17 +141,31 @@ eocusum.arl.sim <- function(r, k, h, df, coeff, yemp = TRUE, side = 1) {
 #'
 #' @author Philipp Wittenberg
 #' @export
-eocusum.arloc.sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = 1) {
-  .eocusum_arloc_sim(
-    as.integer(r),
-    as.numeric(k),
-    as.numeric(h),
-    as.data.frame(df),
-    as.vector(coeff),
-    as.vector(coeff2),
-    as.numeric(QS),
-    as.integer(side)
-  )
+eocusum.arloc.sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low") {
+  r <- as.integer(r)
+  if (is.na(r) || r <= 0) {stop("number of simulation runs r must a positive integer")}
+  k <- as.numeric(k)
+  if (is.na(k) || k  < 0) {stop("reference value k must a positive numeric value")}
+  h <- as.numeric(h)
+  if (is.na(h) || h <= 0) {stop("control limit h must a positive numeric value")}
+  df <- as.data.frame(df)
+  if (class(df) != "data.frame") {stop("provide a dataframe for argument \"df\"")}
+  else if (ncol(df) != 2) {stop("provide a dataframe with two columns for argument \"df\"")}
+  else if (sapply(df, class)[1] != "integer") {stop("first column of dataframe must be of type integer")}
+  else if (sapply(df, class)[2] != "numeric") {stop("second column of dataframe must be of type numeric")}
+  coeff <- as.vector(coeff)
+  if (is.na(coeff)  || length(coeff)  != 2) {stop("model coefficients \"coeff\"  must a numeric vector with two elements")}
+  if (is.na(coeff2) || length(coeff2) != 2) {stop("model coefficients \"coeff2\" must a numeric vector with two elements")}
+  iside <- switch(as.character(side), low = 1, up = 2)
+  if (is.null(iside)) {
+    warning("no valid input, using side=low (deterioration) as default")
+    iside <- 1
+  }
+  QS <- as.numeric(QS)
+  if (is.na(QS) || QS < 0) {stop("QS must a positive numeric value")}
+  else if (QS < 1 && iside == 1) {stop("for detecting deterioration (side=\"low\"), QS must a positive numeric value >= 1")}
+  else if (QS > 1 && iside == 2) {stop("for detecting improvement, QS must a positive numeric value <= 1")}
+  .eocusum_arloc_sim(r, k, h, df, coeff, coeff2, QS, iside)
 }
 
 #' @name eocusum.adoc.sim

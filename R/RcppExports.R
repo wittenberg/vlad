@@ -9,15 +9,15 @@
     .Call('_vlad_optimal_k', PACKAGE = 'vlad', QA, parsonnetscores, coeff)
 }
 
-.calceo <- function(df, coeff, yemp = TRUE) {
+.calceo <- function(df, coeff, yemp) {
     .Call('_vlad_calceo', PACKAGE = 'vlad', df, coeff, yemp)
 }
 
-.eocusum_arl_sim <- function(r, k, h, df, coeff, yemp = TRUE, side = 1L) {
+.eocusum_arl_sim <- function(r, k, h, df, coeff, yemp, side) {
     .Call('_vlad_eocusum_arl_sim', PACKAGE = 'vlad', r, k, h, df, coeff, yemp, side)
 }
 
-.eocusum_arloc_sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = 1L) {
+.eocusum_arloc_sim <- function(r, k, h, df, coeff, coeff2, QS, side) {
     .Call('_vlad_eocusum_arloc_sim', PACKAGE = 'vlad', r, k, h, df, coeff, coeff2, QS, side)
 }
 

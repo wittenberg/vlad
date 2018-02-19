@@ -4,7 +4,7 @@
 \alias{eocusum.arl.sim}
 \title{Compute ARLs of EO-CUSUM control charts using simulation}
 \usage{
-eocusum.arl.sim(r, k, h, df, coeff, yemp = TRUE, side = 1)
+eocusum.arl.sim(r, k, h, df, coeff, yemp = TRUE, side = "low")
 }
 \arguments{
 \item{r}{int. Number of of simulation runs.}
@@ -21,8 +21,8 @@ from the binary logistic regression model. For more information see details.}
 \item{yemp}{boolean. If TRUE use observed outcome value, if FALSE use estimated binary logistc
 regression model.}
 
-\item{side}{int. If side = 1, calculate ARL for the upper arm of the V-mask. If side = 2,
-calulate the lower arm of the V-mask.}
+\item{side}{character. Default is "low" to calculate ARL for the upper arm of the V-mask. If side = "up",
+calculate the lower arm of the V-mask.}
 }
 \value{
 Returns a single value which is the Run Length.

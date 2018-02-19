@@ -23,7 +23,7 @@ double optimal_k(double QA, IntegerVector parsonnetscores, NumericVector coeff) 
 }
 
 // [[Rcpp::export(.calceo)]]
-double calceo(DataFrame df, NumericVector coeff, bool yemp = true) {
+double calceo(DataFrame df, NumericVector coeff, bool yemp) {
   int y, row;
   double x;
   NumericVector col1, col2, rnd;
@@ -44,7 +44,7 @@ double calceo(DataFrame df, NumericVector coeff, bool yemp = true) {
   return x - y;
 }
 
-double calceo2(DataFrame df, NumericVector coeff, NumericVector coeff2, double QS = 1) {
+double calceo2(DataFrame df, NumericVector coeff, NumericVector coeff2, double QS) {
   int y, row, s;
   double x, Qstar, xstar, rdm, x2;
   NumericVector col1, col2, rnd, rndm;
@@ -65,7 +65,7 @@ double calceo2(DataFrame df, NumericVector coeff, NumericVector coeff2, double Q
 }
 
 // [[Rcpp::export(.eocusum_arl_sim)]]
-int eocusum_arl_sim(int r, double k, double h, DataFrame df, NumericVector coeff, bool yemp = true, int side = 1) {
+int eocusum_arl_sim(int r, double k, double h, DataFrame df, NumericVector coeff, bool yemp, int side) {
   int rl = 0;
   double z = 0;
   if (side == 1) {                                        // lower side (deterioration)
@@ -91,7 +91,7 @@ int eocusum_arl_sim(int r, double k, double h, DataFrame df, NumericVector coeff
 
 
 // [[Rcpp::export(.eocusum_arloc_sim)]]
-int eocusum_arloc_sim(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS = 1, int side = 1) {
+int eocusum_arloc_sim(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS, int side) {
   int rl = 0;
   double z = 0;
   if (side == 1) {                                         // lower side (deterioration)

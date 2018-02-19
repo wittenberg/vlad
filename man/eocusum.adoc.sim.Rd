@@ -25,8 +25,8 @@ details.}
 
 \item{QS}{double. Defines the performance of a surgeon with the odds ratio ratio of death Q.}
 
-\item{side}{int. If side = 1, calculate ARL for the upper arm of the V-mask. If side = 2,
-calulate the lower arm of the V-mask.}
+\item{side}{character. Default is "low" to calculate ARL for the upper arm of the V-mask. If side = "up",
+calculate the lower arm of the V-mask.}
 
 \item{type}{character. Default argument is "cond" for computation of conditional steady-state.
 Other option is the cyclical steady-state "cycl".}
