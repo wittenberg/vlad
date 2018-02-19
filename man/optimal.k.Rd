@@ -25,7 +25,6 @@ Formula deterioration:  \deqn{ k{det} = \frac{Q{A} - 1 - log(Q{A})}{log(Q{A})}\b
          Formula improvement:    \deqn{ k{imp} = \frac{1 - Q{A} + log(Q{A})}{log(Q{A})}\bar{p} , Q{A} < 1    }
 }
 \examples{
-\dontrun{
 library("vlad"); library("spcadjust")
 data("cardiacsurgery")
 cardiacsurgery <- dplyr::mutate(cardiacsurgery, phase=factor(ifelse(date < 2*365, "I", "II")))
@@ -47,7 +46,6 @@ QA <- 1/2
 pbar <- mean(sapply(S2I[, 1], gettherisk, coef=coeff))
 kopt <- pbar * ( 1 - QA + log(QA) ) / log(QA)
 all.equal(kopt, optimal.k(QA=1/2, parsonnetscores=S2I$Parsonnet, coeff=coeff) )
-}
 }
 \author{
 Philipp Wittenberg

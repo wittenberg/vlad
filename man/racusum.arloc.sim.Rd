@@ -37,7 +37,7 @@ Compute Out of Control ARLs of RA-CUSUM control charts using simulation.
 }
 \examples{
 \dontrun{
-library("vlad); library("ggplot2)
+library("vlad"); library("ggplot2")
 ## Set seed for reproducibility
 RNGkind("L'Ecuyer-CMRG")
 set.seed(1234)

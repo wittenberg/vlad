@@ -8,7 +8,6 @@
 #' doi: \href{https://doi.org/10.1201/b16597-15}{10.1201/b16597-15}.
 #'
 #' @examples
-#' \dontrun{
 #' library("vlad")
 #' # see Steiner et al. 2000 page 445 or Steiner (2014) p. 234
 #' coeff <- c("(Intercept)"=-3.68, "Parsonnet"=0.077)
@@ -19,6 +18,7 @@
 #' # high risk patient (Parsonnet score=50) has a risk of death 54%
 #' gettherisk(50, coeff=coeff)
 #'
+#' \dontrun{
 #' # Get mortality and probability of death of a phase I dataset
 #' library("spcadjust")
 #' data("cardiacsurgery")

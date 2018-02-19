@@ -30,30 +30,28 @@ Returns a single value which is the log-likelihood ratio score.
 Compute the log-likelihood ratio score.
 }
 \examples{
-\dontrun{
-require(VLAD2)
+require(vlad)
 # see Steiner et al. (2000) p. 446 or Steiner (2014) p. 234
 coeff <- c("(Intercept)"=-3.68, "Parsonnet"=0.077)
 # Log-likelihood ratio scores for detecting an increase in the failure rate:
 # low risk patients with a Parsonnet score of zero
 
-loglikelihood(df=data.frame(0, 0), coeff=coeff, RA=2)
-loglikelihood(df=data.frame(0, 1), coeff=coeff, RA=2)
+loglikelihood(df=data.frame(as.integer(0), 0), coeff=coeff, RA=2)
+loglikelihood(df=data.frame(as.integer(0), 1), coeff=coeff, RA=2)
 
 # higher risk patients with a Parsonnet score of 50
-loglikelihood(df=data.frame(50, 0), coeff=coeff, RA=2)
-loglikelihood(df=data.frame(50, 1), coeff=coeff, RA=2)
+loglikelihood(df=data.frame(as.integer(50), 0), coeff=coeff, RA=2)
+loglikelihood(df=data.frame(as.integer(50), 1), coeff=coeff, RA=2)
 
 # see Steiner (2014) p. 234
 # Log-likelihood ratio scores for detecting an decrease in the failure rate:
 # low risk patients with a Parsonnet score of zero
-loglikelihood(df=data.frame(0, 0), coeff=coeff, RA=1/2)
-loglikelihood(df=data.frame(0, 1), coeff=coeff, RA=1/2)
+loglikelihood(df=data.frame(as.integer(0), 0), coeff=coeff, RA=1/2)
+loglikelihood(df=data.frame(as.integer(0), 1), coeff=coeff, RA=1/2)
 
 # higher risk patients with a Parsonnet score of 50
-loglikelihood(df=data.frame(50, 0), coeff=coeff, RA=1/2)
-loglikelihood(df=data.frame(50, 1), coeff=coeff, RA=1/2)
-}
+loglikelihood(df=data.frame(as.integer(50), 0), coeff=coeff, RA=1/2)
+loglikelihood(df=data.frame(as.integer(50), 1), coeff=coeff, RA=1/2)
 }
 \references{
 Steiner SH, Cook RJ, Farewell VT and Treasure T (2000).

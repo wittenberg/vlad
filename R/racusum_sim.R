@@ -50,8 +50,6 @@ loglikelihood <- function(df, coeff, R0 = 1, RA = 2, yemp = TRUE) {
 #'
 #' @return Returns a single value which is the Run Length.
 #'
-#' @references \insertRef{Steiner.etal_2000}{VLAD2}
-#'
 #' @author Philipp Wittenberg
 #' @export
 racusum.arl.nonRA.sim <- function(r, h, df, R0 = 1, RA = 2) {

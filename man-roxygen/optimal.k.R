@@ -1,5 +1,4 @@
 #' @examples
-#' \dontrun{
 #' library("vlad"); library("spcadjust")
 #' data("cardiacsurgery")
 #' cardiacsurgery <- dplyr::mutate(cardiacsurgery, phase=factor(ifelse(date < 2*365, "I", "II")))
@@ -22,4 +21,3 @@
 #' pbar <- mean(sapply(S2I[, 1], gettherisk, coef=coeff))
 #' kopt <- pbar * ( 1 - QA + log(QA) ) / log(QA)
 #' all.equal(kopt, optimal.k(QA=1/2, parsonnetscores=S2I$Parsonnet, coeff=coeff) )
-#' }
