@@ -16,11 +16,10 @@ eocusum.arloc.sim(r, k, h, df, coeff, coeff2, QS = 1, side = "low")
 \item{df}{DataFrame. First column Parsonnet Score and second column outcome of each operation.}
 
 \item{coeff}{NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
-from the binary logistic regression model. For more information see details.}
+from the binary logistic regression model.}
 
 \item{coeff2}{NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
-from the binary logistic regression model of a resampled dataset. For more information see
-details.}
+from the binary logistic regression model of a resampled dataset.}
 
 \item{QS}{double. Defines the performance of a surgeon with the odds ratio ratio of death Q.}
 
@@ -32,9 +31,6 @@ Returns a single value which is the Run Length.
 }
 \description{
 Compute Out of Control ARLs of EO-CUSUM control charts using simulation.
-}
-\details{
-Describe the algorithm for calulating in control run length ...
 }
 \examples{
 \dontrun{

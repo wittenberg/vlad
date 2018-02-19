@@ -10,7 +10,7 @@ racusum.arl.sim(r, coeff, h, df, R0 = 1, RA = 2, yemp = TRUE)
 \item{r}{Integer vector. Number of runs.}
 
 \item{coeff}{NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
-from the binary logistic regression model. For more information see details.}
+from the binary logistic regression model.}
 
 \item{h}{double. Control Chart limit for detecting deterioration/improvement.}
 
@@ -32,9 +32,6 @@ Returns a single value which is the Run Length.
 }
 \description{
 Compute ARLs of RA-CUSUM control charts using simulation.
-}
-\details{
-Describe the algorithm for calulating in control run length ...
 }
 \examples{
 \dontrun{

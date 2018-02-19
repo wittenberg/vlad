@@ -34,6 +34,7 @@ coeff <- coef(glm(status ~ Parsonnet, data=S2I, family="binomial"))
 kopt <- optimal.k(QA=2, parsonnetscores=S2I$Parsonnet, coeff=coeff)
 kopt ## (Deterioration)
 # manually find optimal k for detecting improvement
+QA <- 2
 pbar <- mean(sapply(S2I[, 1], gettherisk, coef=coeff))
 kopt <- pbar * ( QA - 1 - log(QA) ) / log(QA)
 all.equal(kopt, optimal.k(QA=2, parsonnetscores=S2I$Parsonnet, coeff=coeff) )

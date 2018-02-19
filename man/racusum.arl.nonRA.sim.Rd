@@ -24,9 +24,6 @@ Returns a single value which is the Run Length.
 \description{
 Compute ARLs of Non RA-CUSUM control charts using simulation.
 }
-\details{
-Describe the algorithm for calulating in control run length ...
-}
 \references{
 \insertRef{Steiner.etal_2000}{VLAD2}
 }

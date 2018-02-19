@@ -5,7 +5,7 @@
 \title{Compute alarm threshold of EO-CUSUM control charts using simulation}
 \usage{
 eocusum.arl.h.sim(L0, df, k, coeff, m = 100, yemp = TRUE, side = 1,
-  nc = 1, OUTPUT = TRUE)
+  nc = 1, verbose = TRUE)
 }
 \arguments{
 \item{L0}{double. In-Control ARL.}
@@ -22,11 +22,12 @@ logistic regression model. For more information see details.}
 
 \item{yemp}{boolean. Use emirical outcome value.}
 
-\item{side}{int 1="upper arm" or 2="lower arm".}
+\item{side}{character. Default is "low" to calculate ARL for the upper arm of the V-mask. If side = "up",
+calculate the lower arm of the V-mask.}
 
 \item{nc}{integer. Number of cores.}
 
-\item{OUTPUT}{boolean. If TRUE verbose output is included, if FALSE a quiet calculation of h is done.}
+\item{verbose}{boolean. If TRUE verbose output is included, if FALSE a quiet calculation of h is done.}
 }
 \value{
 Returns a single value which is the distance d of the V-mask for a given ARL and \eqn{\theta}{theta}.

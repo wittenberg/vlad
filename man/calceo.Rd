@@ -10,13 +10,13 @@ calceo(df, coeff, yemp = TRUE)
 \item{df}{DataFrame. First column Parsonnet Score and second column outcome of each operation.}
 
 \item{coeff}{NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
-from the binary logistic regression model. For more information see details.}
+from the binary logistic regression model.}
 
 \item{yemp}{boolean. If TRUE use observed outcome value, if FALSE use estimated binary logistc
 regression model.}
 }
 \value{
-output A description of the object the function outputs
+Returns a single value which is the difference between expected and observed.
 }
 \description{
 Compute Expected minus Observed value.
@@ -27,11 +27,11 @@ library("vlad")
 # see Steiner (2014) p. 234
 coeff <- c("(Intercept)"=-3.68, "Parsonnet"=0.077)
 # penalty reward for death (E-O scores multiplied with -1 to get O-E scores)
-calceo(df=data.frame(0, 1), coeff=coeff)*-1
-calceo(df=data.frame(50, 1), coeff=coeff)*-1
+calceo(df=data.frame(as.integer(0), 1), coeff=coeff)*-1
+calceo(df=data.frame(as.integer(50), 1), coeff=coeff)*-1
 # penalty reward for survival
-calceo(df=data.frame(0, 0), coeff=coeff)*-1
-calceo(df=data.frame(50, 0), coeff=coeff)*-1
+calceo(df=data.frame(as.integer(0), 0), coeff=coeff)*-1
+calceo(df=data.frame(as.integer(50), 0), coeff=coeff)*-1
 
 # Plot a VLAD/CRAM chart
 library("spcadjust")

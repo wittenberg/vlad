@@ -18,11 +18,11 @@
 #' # see Steiner (2014) p. 234
 #' coeff <- c("(Intercept)"=-3.68, "Parsonnet"=0.077)
 #' # penalty reward for death (E-O scores multiplied with -1 to get O-E scores)
-#' calceo(df=data.frame(0, 1), coeff=coeff)*-1
-#' calceo(df=data.frame(50, 1), coeff=coeff)*-1
+#' calceo(df=data.frame(as.integer(0), 1), coeff=coeff)*-1
+#' calceo(df=data.frame(as.integer(50), 1), coeff=coeff)*-1
 #' # penalty reward for survival
-#' calceo(df=data.frame(0, 0), coeff=coeff)*-1
-#' calceo(df=data.frame(50, 0), coeff=coeff)*-1
+#' calceo(df=data.frame(as.integer(0), 0), coeff=coeff)*-1
+#' calceo(df=data.frame(as.integer(50), 0), coeff=coeff)*-1
 #'
 #' # Plot a VLAD/CRAM chart
 #' library("spcadjust")

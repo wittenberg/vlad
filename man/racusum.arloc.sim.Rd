@@ -10,11 +10,10 @@ racusum.arloc.sim(r, coeff, coeff2, h, df, R0 = 1, RA = 2, RQ = 1)
 \item{r}{Integer vector. Number of runs.}
 
 \item{coeff}{NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
-from the binary logistic regression model. For more information see details.}
+from the binary logistic regression model.}
 
 \item{coeff2}{NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
-from the binary logistic regression model of a resampled dataset. For more information see
-details.}
+from the binary logistic regression model of a resampled dataset.}
 
 \item{h}{double. Control Chart limit for detecting deterioration/improvement.}
 
@@ -35,9 +34,6 @@ Returns a single value which is the Run Length.
 }
 \description{
 Compute Out of Control ARLs of RA-CUSUM control charts using simulation.
-}
-\details{
-Describe the resampling algorithm for calulating out of control run length.
 }
 \examples{
 \dontrun{

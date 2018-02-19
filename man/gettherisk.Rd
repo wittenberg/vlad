@@ -10,7 +10,7 @@ gettherisk(parsonnetscore, coeff)
 \item{parsonnetscore}{int. Parsonnet Score.}
 
 \item{coeff}{NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
-from the binary logistic regression model. For more information see details.}
+from the binary logistic regression model.}
 }
 \value{
 output A description of the object the function outputs

@@ -5,7 +5,7 @@
 \title{Compute alarm threshold of Non RA-CUSUM control charts using simulation}
 \usage{
 racusum.arl.nonRA.h.sim(L0, df, R0 = 1, RA = 2, m = 100, nc = 1,
-  sv = 0.5, stepsize = 0.5, OUTPUT = TRUE)
+  verbose = TRUE)
 }
 \arguments{
 \item{L0}{double. Prespecified Average Run Length.}
@@ -24,11 +24,7 @@ RA=1/2.}
 
 \item{nc}{integer. Number of cores.}
 
-\item{sv}{double. Starting value of secant method.}
-
-\item{stepsize}{double. Parameter for tuning  increase/decrease of secant method.}
-
-\item{OUTPUT}{swrgvares}
+\item{verbose}{boolean. If TRUE verbose output is included, if FALSE a quiet calculation of h is done.}
 }
 \value{
 Returns a single value which is the control limit h for a given in-control ARL.

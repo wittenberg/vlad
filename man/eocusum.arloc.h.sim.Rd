@@ -5,7 +5,7 @@
 \title{Compute alarm threshold of Out of Control EO-CUSUM control charts using simulation}
 \usage{
 eocusum.arloc.h.sim(L0, df, k, coeff, coeff2, m = 100, QS = 1, side = 1,
-  nc = 1, OUTPUT = TRUE)
+  nc = 1, verbose = TRUE)
 }
 \arguments{
 \item{L0}{double. In-Control ARL.}
@@ -15,19 +15,22 @@ the preoperative patient risk. The second column are binary (0/1) outcome values
 
 \item{k}{A double}
 
-\item{coeff}{double.}
+\item{coeff}{NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
+from the binary logistic regression model.}
 
-\item{coeff2}{double.}
+\item{coeff2}{NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
+from the binary logistic regression model of a resampled dataset.}
 
 \item{m}{integer. Number of simulation runs.}
 
 \item{QS}{double. Defines the performance of a surgeon with the odds ratio ratio of death Q.}
 
-\item{side}{int 1="upper arm" or 2="lower arm".}
+\item{side}{character. Default is "low" to calculate ARL for the upper arm of the V-mask. If side = "up",
+calculate the lower arm of the V-mask.}
 
 \item{nc}{integer. Number of cores.}
 
-\item{OUTPUT}{boolean. If TRUE verbose output is included, if FALSE a quiet calculation of h is done.}
+\item{verbose}{boolean. If TRUE verbose output is included, if FALSE a quiet calculation of h is done.}
 }
 \value{
 Returns a single value which is the distance d of the V-mask for a given ARL

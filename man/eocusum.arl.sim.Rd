@@ -16,7 +16,7 @@ eocusum.arl.sim(r, k, h, df, coeff, yemp = TRUE, side = "low")
 \item{df}{DataFrame. First column Parsonnet Score and second column outcome of each operation.}
 
 \item{coeff}{NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
-from the binary logistic regression model. For more information see details.}
+from the binary logistic regression model.}
 
 \item{yemp}{boolean. If TRUE use observed outcome value, if FALSE use estimated binary logistc
 regression model.}
@@ -29,9 +29,6 @@ Returns a single value which is the Run Length.
 }
 \description{
 Compute ARLs of EO-CUSUM control charts using simulation.
-}
-\details{
-Describe the algorithm for calulating in control run length ...
 }
 \references{
 Steiner SH, Cook RJ, Farewell VT and Treasure T (2000).

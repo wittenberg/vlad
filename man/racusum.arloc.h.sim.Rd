@@ -5,7 +5,7 @@
 \title{Compute alarm threshold (Out of Control ARL) of RA-CUSUM control charts using simulation}
 \usage{
 racusum.arloc.h.sim(L0, df, coeff, coeff2, R0 = 1, RA = 2, RQ = 1,
-  m = 100, nc = 1, OUTPUT = TRUE)
+  m = 100, nc = 1, verbose = TRUE)
 }
 \arguments{
 \item{L0}{double. Prespecified Average Run Length.}
@@ -13,9 +13,11 @@ racusum.arloc.h.sim(L0, df, coeff, coeff2, R0 = 1, RA = 2, RQ = 1,
 \item{df}{DataFrame. First column are Parsonnet Score values within a range of zero to 100 representing
 the preoperative patient risk. The second column are binary (0/1) outcome values of each operation.}
 
-\item{coeff}{NumericVector}
+\item{coeff}{NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
+from the binary logistic regression model.}
 
-\item{coeff2}{NumericVector}
+\item{coeff2}{NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
+from the binary logistic regression model of a resampled dataset.}
 
 \item{R0}{double. Odds ratio of death under the null hypotheses.}
 
@@ -30,7 +32,7 @@ RA=1/2.}
 
 \item{nc}{integer. Number of cores.}
 
-\item{OUTPUT}{boolean. If TRUE verbose output is included, if FALSE a quiet calculation of h is done.}
+\item{verbose}{boolean. If TRUE verbose output is included, if FALSE a quiet calculation of h is done.}
 }
 \value{
 Returns a single value which is the control limit h for a given in-control ARL.

@@ -11,7 +11,7 @@ loglikelihood(df, coeff, R0 = 1, RA = 2, yemp = TRUE)
 the preoperative patient risk. The second column are binary (0/1) outcome values of each operation.}
 
 \item{coeff}{NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
-from the binary logistic regression model. For more information see details.}
+from the binary logistic regression model.}
 
 \item{R0}{double. Odds ratio of death under the null hypotheses.}
 
@@ -28,10 +28,6 @@ Returns a single value which is the log-likelihood ratio score.
 }
 \description{
 Compute the log-likelihood ratio score.
-}
-\details{
-Using .... include equation of log-likelihood ratio here and use
- \code{\link{gettherisk}} to calulate the risk of failure.
 }
 \examples{
 \dontrun{

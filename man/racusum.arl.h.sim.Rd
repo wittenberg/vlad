@@ -5,7 +5,7 @@
 \title{Compute alarm threshold of RA-CUSUM control charts using simulation}
 \usage{
 racusum.arl.h.sim(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRUE,
-  nc = 1, OUTPUT = TRUE)
+  nc = 1, verbose = TRUE)
 }
 \arguments{
 \item{L0}{double. Prespecified in-control Average Run Length.}
@@ -14,7 +14,7 @@ racusum.arl.h.sim(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRUE,
 the preoperative patient risk. The second column are binary (0/1) outcome values of each operation.}
 
 \item{coeff}{NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
-from the binary logistic regression model. For more information see details.}
+from the binary logistic regression model.}
 
 \item{R0}{double. Odds ratio of death under the null hypotheses.}
 
@@ -29,7 +29,7 @@ RA=1/2.}
 
 \item{nc}{integer. Number of cores used for parallel processing.}
 
-\item{OUTPUT}{boolean. If TRUE verbose output is included, if FALSE a quiet calculation of h is done.}
+\item{verbose}{boolean. If TRUE verbose output is included, if FALSE a quiet calculation of h is done.}
 }
 \value{
 Returns a single value which is the control limit h for a given in-control ARL.

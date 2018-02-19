@@ -10,14 +10,11 @@
 #' @param df DataFrame. First column are Parsonnet Score values within a range of zero to 100 representing
 #' the preoperative patient risk. The second column are binary (0/1) outcome values of each operation.
 #' @param coeff NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
-#'  from the binary logistic regression model. For more information see details.
+#'  from the binary logistic regression model.
 #' @param yemp boolean. If TRUE use observed outcome value, if FALSE use estimated binary logistc
 #'  regression model.
 #'
 #' @return Returns a single value which is the log-likelihood ratio score.
-#'
-#' @details Using .... include equation of log-likelihood ratio here and use
-#'  \code{\link{gettherisk}} to calulate the risk of failure.
 #'
 #' @template loglikelihood
 #'
@@ -53,8 +50,6 @@ loglikelihood <- function(df, coeff, R0 = 1, RA = 2, yemp = TRUE) {
 #'
 #' @return Returns a single value which is the Run Length.
 #'
-#' @details Describe the algorithm for calulating in control run length ...
-#'
 #' @references \insertRef{Steiner.etal_2000}{VLAD2}
 #'
 #' @author Philipp Wittenberg
@@ -85,8 +80,6 @@ racusum.arl.nonRA.sim <- function(r, h, df, R0 = 1, RA = 2) {
 #' @param h double. Control Chart limit for detecting deterioration/improvement.
 #'
 #' @return Returns a single value which is the Run Length.
-#'
-#' @details Describe the algorithm for calulating in control run length ...
 #'
 #' @template racusum.arl.sim
 #'
@@ -119,13 +112,10 @@ racusum.arl.sim <- function(r, coeff, h, df, R0 = 1, RA = 2, yemp = TRUE) {
 #'
 #' @inheritParams racusum.arl.sim
 #' @param coeff2 NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
-#'  from the binary logistic regression model of a resampled dataset. For more information see
-#'  details.
+#'  from the binary logistic regression model of a resampled dataset.
 #' @param RQ double. Defines the performance of a surgeon with the odds ratio ratio of death Q.
 #'
 #' @return Returns a single value which is the Run Length.
-#'
-#' @details Describe the resampling algorithm for calulating out of control run length.
 #'
 #' @template racusum.arloc.sim
 #'
@@ -217,10 +207,10 @@ racusum.adoc.sim <- function(r, coeff, coeff2, h, df, R0 = 1, RA = 2, RQ = 1, m 
 #' @param df DataFrame. First column are Parsonnet Score values within a range of zero to 100 representing
 #' the preoperative patient risk. The second column are binary (0/1) outcome values of each operation.
 #' @param coeff NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
-#'  from the binary logistic regression model. For more information see details.
+#'  from the binary logistic regression model.
 #' @param yemp boolean. If TRUE, use emirical outcome values, else use model.
 #' @param nc integer. Number of cores used for parallel processing.
-#' @param OUTPUT boolean. If TRUE verbose output is included, if FALSE a quiet calculation of h is done.
+#' @param verbose boolean. If TRUE verbose output is included, if FALSE a quiet calculation of h is done.
 #'
 #' @return Returns a single value which is the control limit h for a given in-control ARL.
 #'
@@ -244,16 +234,16 @@ racusum.adoc.sim <- function(r, coeff, coeff2, h, df, R0 = 1, RA = 2, RQ = 1, m 
 #' racusum.arl.h.sim(L0=740, df=S2I, coeff=coeff1, m=10^2, nc=4)
 #'}
 #' @export
-racusum.arl.h.sim <- function(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRUE, nc = 1, OUTPUT = TRUE) {
+racusum.arl.h.sim <- function(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRUE, nc = 1, verbose = TRUE) {
   h2 <- 1
   L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum.arl.sim, h = h2, df = df, coeff = coeff, R0 = R0, RA = RA, yemp = yemp, mc.cores = nc)))
-  if ( OUTPUT ) cat(paste("(i)\t", h2, "\t", L2, "\n"))
+  if ( verbose ) cat(paste("(i)\t", h2, "\t", L2, "\n"))
   LL <- NULL
   while ( L2 < L0 & h2 < 6 ) {
     L1 <- L2
     h2 <- h2 + 1
     L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum.arl.sim, h = h2, df = df, coeff = coeff, R0 = R0, RA = RA, yemp = yemp, mc.cores = nc)))
-    if ( OUTPUT ) cat(paste("(ii)\t", h2, "\t", L2, "\n"))
+    if ( verbose ) cat(paste("(ii)\t", h2, "\t", L2, "\n"))
     LL <- c(LL, L2)
   }
   if ( L2 < L0 ) {
@@ -264,13 +254,13 @@ racusum.arl.h.sim <- function(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRU
     q <- (beta[1] - L0) / beta[3]
     h2 <- -p / 2 + 1 * sqrt(p^2 / 4 - q)
     L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum.arl.sim, h = h2, df = df, coeff = coeff, R0 = R0, RA = RA, yemp = yemp, mc.cores = nc)))
-    if ( OUTPUT ) cat(paste("(iii)\t", h2, "\t", L2, "\n"))
+    if ( verbose ) cat(paste("(iii)\t", h2, "\t", L2, "\n"))
     if ( L2 < L0 ) {
       while ( L2 < L0 ) {
         L1 <- L2
         h2 <- h2 + 1
         L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum.arl.sim, h = h2, df = df, coeff = coeff, R0 = R0, RA = RA, yemp = yemp, mc.cores = nc)))
-        if ( OUTPUT ) cat(paste("(iv)a\t", h2, "\t", L2, "\n"))
+        if ( verbose ) cat(paste("(iv)a\t", h2, "\t", L2, "\n"))
         }
       h1 <- h2 - 1
     } else {
@@ -278,7 +268,7 @@ racusum.arl.h.sim <- function(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRU
         L1 <- L2
         h2 <- h2 - 1
         L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum.arl.sim, h = h2, df = df, coeff = coeff, R0 = R0, RA = RA, yemp = yemp, mc.cores = nc)))
-        if ( OUTPUT ) cat(paste("(iv)b\t", h2, "\t", L2, "\n"))
+        if ( verbose ) cat(paste("(iv)b\t", h2, "\t", L2, "\n"))
       }
       h1 <- h2 + 1
     }
@@ -289,7 +279,7 @@ racusum.arl.h.sim <- function(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRU
   while ( a.error > 1e-4 & h.error > 1e-6 ) {
     h3 <- h1 + (L0 - L1) / (L2 - L1) * (h2 - h1)
     L3 <- mean(do.call(c, parallel::mclapply(1:m, racusum.arl.sim, h = h3, df = df, coeff = coeff, R0 = R0, RA = RA, yemp = yemp, mc.cores = nc)))
-    if ( OUTPUT ) cat(paste("(v)\t", h3, "\t", L3, "\n"))
+    if ( verbose ) cat(paste("(v)\t", h3, "\t", L3, "\n"))
     h1 <- h2
     h2 <- h3
     L1 <- L2
@@ -300,7 +290,7 @@ racusum.arl.h.sim <- function(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRU
       if ( L3 < L0 ) {
         h3 <- ( round( h3 * scaling ) + 1 ) / scaling - 1e-6
         L3 <- mean(do.call(c, parallel::mclapply(1:m, racusum.arl.sim, h = h3, df = df, coeff = coeff, R0 = R0, RA = RA, yemp = yemp, mc.cores = nc)))
-        if ( OUTPUT ) cat(paste("(vi)\t", h3, "\t", L3, "\n"))
+        if ( verbose ) cat(paste("(vi)\t", h3, "\t", L3, "\n"))
       }
       break
     }
@@ -308,7 +298,7 @@ racusum.arl.h.sim <- function(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRU
   if ( L3 < L0 ) {
     h3 <- ( round( h3 * scaling ) + 1 ) / scaling - 1e-6
     L3 <- mean(do.call(c, parallel::mclapply(1:m, racusum.arl.sim, h = h3, df = df, coeff = coeff, R0 = R0, RA = RA, yemp = yemp, mc.cores = nc)))
-    if ( OUTPUT ) cat(paste("(vii)\t", h3, "\t", L3, "\n"))
+    if ( verbose ) cat(paste("(vii)\t", h3, "\t", L3, "\n"))
   }
   h <- h3
   h
@@ -328,9 +318,7 @@ racusum.arl.h.sim <- function(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRU
 #' @param df DataFrame. First column are Parsonnet Score values within a range of zero to 100 representing
 #' the preoperative patient risk. The second column are binary (0/1) outcome values of each operation.
 #' @param nc integer. Number of cores.
-#' @param sv double. Starting value of secant method.
-#' @param stepsize double. Parameter for tuning  increase/decrease of secant method.
-#' @param OUTPUT swrgvares
+#' @param verbose boolean. If TRUE verbose output is included, if FALSE a quiet calculation of h is done.
 #'
 #' @return Returns a single value which is the control limit h for a given in-control ARL.
 #'
@@ -340,16 +328,16 @@ racusum.arl.h.sim <- function(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRU
 #'
 #' @author Philipp Wittenberg
 #' @export
-racusum.arl.nonRA.h.sim <- function(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, sv = 0.5, stepsize = 0.5, OUTPUT = TRUE) {
+racusum.arl.nonRA.h.sim <- function(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, verbose = TRUE) {
   h2 <- 1
   L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum.arl.nonRA.sim, h = h2, df = df, R0 = R0, RA = RA, mc.cores = nc)))
-  if ( OUTPUT ) cat(paste("(i)\t", h2, "\t", L2, "\n"))
+  if ( verbose ) cat(paste("(i)\t", h2, "\t", L2, "\n"))
   LL <- NULL
   while ( L2 < L0 & h2 < 6 ) {
     L1 <- L2
     h2 <- h2 + 1
     L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum.arl.nonRA.sim, h = h2, df = df, R0 = R0, RA = RA, mc.cores = nc)))
-    if ( OUTPUT ) cat(paste("(ii)\t", h2, "\t", L2, "\n"))
+    if ( verbose ) cat(paste("(ii)\t", h2, "\t", L2, "\n"))
     LL <- c(LL, L2)
   }
   if ( L2 < L0 ) {
@@ -360,13 +348,13 @@ racusum.arl.nonRA.h.sim <- function(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, sv 
     q <- (beta[1] - L0) / beta[3]
     h2 <- -p / 2 + 1 * sqrt(p^2 / 4 - q)
     L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum.arl.nonRA.sim, h = h2, df = df, R0 = R0, RA = RA, mc.cores = nc)))
-    if ( OUTPUT ) cat(paste("(iii)\t", h2, "\t", L2, "\n"))
+    if ( verbose ) cat(paste("(iii)\t", h2, "\t", L2, "\n"))
     if ( L2 < L0 ) {
       while ( L2 < L0 ) {
         L1 <- L2
         h2 <- h2 + 1
         L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum.arl.nonRA.sim, h = h2, df = df, R0 = R0, RA = RA, mc.cores = nc)))
-        if ( OUTPUT ) cat(paste("(iv)a\t", h2, "\t", L2, "\n"))
+        if ( verbose ) cat(paste("(iv)a\t", h2, "\t", L2, "\n"))
         }
       h1 <- h2 - 1
     } else {
@@ -374,7 +362,7 @@ racusum.arl.nonRA.h.sim <- function(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, sv 
         L1 <- L2
         h2 <- h2 - 1
         L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum.arl.nonRA.sim, h = h2, df = df, R0 = R0, RA = RA, mc.cores = nc)))
-        if ( OUTPUT ) cat(paste("(iv)b\t", h2, "\t", L2, "\n"))
+        if ( verbose ) cat(paste("(iv)b\t", h2, "\t", L2, "\n"))
       }
       h1 <- h2 + 1
     }
@@ -385,7 +373,7 @@ racusum.arl.nonRA.h.sim <- function(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, sv 
   while ( a.error > 1e-4 & h.error > 1e-6 ) {
     h3 <- h1 + (L0 - L1) / (L2 - L1) * (h2 - h1)
     L3 <- mean(do.call(c, parallel::mclapply(1:m, racusum.arl.nonRA.sim, h = h3, df = df, R0 = R0, RA = RA, mc.cores = nc)))
-    if ( OUTPUT ) cat(paste("(v)\t", h3, "\t", L3, "\n"))
+    if ( verbose ) cat(paste("(v)\t", h3, "\t", L3, "\n"))
     h1 <- h2
     h2 <- h3
     L1 <- L2
@@ -396,7 +384,7 @@ racusum.arl.nonRA.h.sim <- function(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, sv 
       if ( L3 < L0 ) {
         h3 <- ( round( h3 * scaling ) + 1 ) / scaling - 1e-6
         L3 <- mean(do.call(c, parallel::mclapply(1:m, racusum.arl.nonRA.sim, h = h3, df = df, R0 = R0, RA = RA, mc.cores = nc)))
-        if ( OUTPUT ) cat(paste("(vi)\t", h3, "\t", L3, "\n"))
+        if ( verbose ) cat(paste("(vi)\t", h3, "\t", L3, "\n"))
       }
       break
     }
@@ -404,7 +392,7 @@ racusum.arl.nonRA.h.sim <- function(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, sv 
   if ( L3 < L0 ) {
     h3 <- ( round( h3 * scaling ) + 1 ) / scaling - 1e-6
     L3 <- mean(do.call(c, parallel::mclapply(1:m, racusum.arl.nonRA.sim, h = h3, df = df, R0 = R0, RA = RA, mc.cores = nc)))
-    if ( OUTPUT ) cat(paste("(vii)\t", h3, "\t", L3, "\n"))
+    if ( verbose ) cat(paste("(vii)\t", h3, "\t", L3, "\n"))
   }
   h <- h3
   h
@@ -424,11 +412,13 @@ racusum.arl.nonRA.h.sim <- function(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, sv 
 #' @param m integer. Number of simulation runs.
 #' @param df DataFrame. First column are Parsonnet Score values within a range of zero to 100 representing
 #' the preoperative patient risk. The second column are binary (0/1) outcome values of each operation.
-#' @param coeff NumericVector
-#' @param coeff2 NumericVector
+#' @param coeff NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
+#'  from the binary logistic regression model.
+#' @param coeff2 NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
+#'  from the binary logistic regression model of a resampled dataset.
 #' @param RQ double. Defines the performance of a surgeon with the odds ratio ratio of death Q.
 #' @param nc integer. Number of cores.
-#' @param OUTPUT boolean. If TRUE verbose output is included, if FALSE a quiet calculation of h is done.
+#' @param verbose boolean. If TRUE verbose output is included, if FALSE a quiet calculation of h is done.
 #'
 #' @return Returns a single value which is the control limit h for a given in-control ARL.
 #'
@@ -440,16 +430,16 @@ racusum.arl.nonRA.h.sim <- function(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, sv 
 #'
 #' @author Philipp Wittenberg
 #' @export
-racusum.arloc.h.sim <- function(L0, df, coeff, coeff2, R0 = 1, RA = 2, RQ = 1, m = 100, nc = 1, OUTPUT = TRUE) {
+racusum.arloc.h.sim <- function(L0, df, coeff, coeff2, R0 = 1, RA = 2, RQ = 1, m = 100, nc = 1, verbose = TRUE) {
   h2 <- 1
   L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum.arloc.sim, h = h2, df = df, coeff = coeff, coeff2 = coeff2, R0 = R0, RA = RA, RQ = RQ, mc.cores = nc)))
-  if ( OUTPUT ) cat(paste("(i)\t", h2, "\t", L2, "\n"))
+  if ( verbose ) cat(paste("(i)\t", h2, "\t", L2, "\n"))
   LL <- NULL
   while ( L2 < L0 & h2 < 6 ) {
     L1 <- L2
     h2 <- h2 + 1
     L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum.arloc.sim, h = h2, df = df, coeff = coeff, coeff2 = coeff2, R0 = R0, RA = RA, RQ = RQ, mc.cores = nc)))
-    if ( OUTPUT ) cat(paste("(ii)\t", h2, "\t", L2, "\n"))
+    if ( verbose ) cat(paste("(ii)\t", h2, "\t", L2, "\n"))
     LL <- c(LL, L2)
   }
   if ( L2 < L0 ) {
@@ -460,13 +450,13 @@ racusum.arloc.h.sim <- function(L0, df, coeff, coeff2, R0 = 1, RA = 2, RQ = 1, m
     q <- (beta[1] - L0) / beta[3]
     h2 <- -p / 2 + 1 * sqrt(p^2 / 4 - q)
     L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum.arloc.sim, h = h2, df = df, coeff = coeff, coeff2 = coeff2, R0 = R0, RA = RA, RQ = RQ, mc.cores = nc)))
-    if ( OUTPUT ) cat(paste("(iii)\t", h2, "\t", L2, "\n"))
+    if ( verbose ) cat(paste("(iii)\t", h2, "\t", L2, "\n"))
     if ( L2 < L0 ) {
       while ( L2 < L0 ) {
         L1 <- L2
         h2 <- h2 + 1
         L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum.arloc.sim, h = h2, df = df, coeff = coeff, coeff2 = coeff2, R0 = R0, RA = RA, RQ = RQ, mc.cores = nc)))
-        if ( OUTPUT ) cat(paste("(iv)a\t", h2, "\t", L2, "\n"))
+        if ( verbose ) cat(paste("(iv)a\t", h2, "\t", L2, "\n"))
         }
       h1 <- h2 - 1
     } else {
@@ -474,7 +464,7 @@ racusum.arloc.h.sim <- function(L0, df, coeff, coeff2, R0 = 1, RA = 2, RQ = 1, m
         L1 <- L2
         h2 <- h2 - 1
         L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum.arloc.sim, h = h2, df = df, coeff = coeff, coeff2 = coeff2, R0 = R0, RA = RA, RQ = RQ, mc.cores = nc)))
-        if ( OUTPUT ) cat(paste("(iv)b\t", h2, "\t", L2, "\n"))
+        if ( verbose ) cat(paste("(iv)b\t", h2, "\t", L2, "\n"))
       }
       h1 <- h2 + 1
     }
@@ -485,7 +475,7 @@ racusum.arloc.h.sim <- function(L0, df, coeff, coeff2, R0 = 1, RA = 2, RQ = 1, m
   while ( a.error > 1e-4 & h.error > 1e-6 ) {
     h3 <- h1 + (L0 - L1) / (L2 - L1) * (h2 - h1)
     L3 <- mean(do.call(c, parallel::mclapply(1:m, racusum.arloc.sim, h = h3, df = df, coeff = coeff, coeff2 = coeff2, R0 = R0, RA = RA, RQ = RQ, mc.cores = nc)))
-    if ( OUTPUT ) cat(paste("(v)\t", h3, "\t", L3, "\n"))
+    if ( verbose ) cat(paste("(v)\t", h3, "\t", L3, "\n"))
     h1 <- h2
     h2 <- h3
     L1 <- L2
@@ -496,7 +486,7 @@ racusum.arloc.h.sim <- function(L0, df, coeff, coeff2, R0 = 1, RA = 2, RQ = 1, m
       if ( L3 < L0 ) {
         h3 <- ( round( h3 * scaling ) + 1 ) / scaling - 1e-6
         L3 <- mean(do.call(c, parallel::mclapply(1:m, racusum.arloc.sim, h = h3, df = df, coeff = coeff, coeff2 = coeff2, R0 = R0, RA = RA, RQ = RQ, mc.cores = nc)))
-        if ( OUTPUT ) cat(paste("(vi)\t", h3, "\t", L3, "\n"))
+        if ( verbose ) cat(paste("(vi)\t", h3, "\t", L3, "\n"))
       }
       break
     }
@@ -504,7 +494,7 @@ racusum.arloc.h.sim <- function(L0, df, coeff, coeff2, R0 = 1, RA = 2, RQ = 1, m
   if ( L3 < L0 ) {
     h3 <- ( round( h3 * scaling ) + 1 ) / scaling - 1e-6
     L3 <- mean(do.call(c, parallel::mclapply(1:m, racusum.arloc.sim, h = h3, df = df, coeff = coeff, coeff2 = coeff2, R0 = R0, RA = RA, RQ = RQ, mc.cores = nc)))
-    if ( OUTPUT ) cat(paste("(vii)\t", h3, "\t", L3, "\n"))
+    if ( verbose ) cat(paste("(vii)\t", h3, "\t", L3, "\n"))
   }
   h <- h3
   h

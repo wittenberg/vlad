@@ -32,7 +32,7 @@ optimal.k <- function(QA, parsonnetscores, coeff) {
 #'
 #' @param parsonnetscore int. Parsonnet Score.
 #' @param coeff NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
-#'  from the binary logistic regression model. For more information see details.
+#'  from the binary logistic regression model.
 #'
 #' @return output A description of the object the function outputs
 #'
@@ -55,11 +55,11 @@ gettherisk <- function(parsonnetscore, coeff) {
 #'
 #' @param df DataFrame. First column Parsonnet Score and second column outcome of each operation.
 #' @param coeff NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
-#'  from the binary logistic regression model. For more information see details.
+#'  from the binary logistic regression model.
 #' @param yemp boolean. If TRUE use observed outcome value, if FALSE use estimated binary logistc
 #'  regression model.
 #'
-#' @return output A description of the object the function outputs
+#' @return Returns a single value which is the difference between expected and observed.
 #'
 #' @template calceo
 #'
@@ -92,8 +92,6 @@ calceo <- function(df, coeff, yemp = TRUE) {
 #'  calculate the lower arm of the V-mask.
 #'
 #' @return Returns a single value which is the Run Length.
-#'
-#' @details Describe the algorithm for calulating in control run length ...
 #'
 #' @template eocusum.arl.sim
 #'
@@ -129,13 +127,10 @@ eocusum.arl.sim <- function(r, k, h, df, coeff, yemp = TRUE, side = "low") {
 #'
 #' @inheritParams eocusum.arl.sim
 #' @param coeff2 NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
-#'  from the binary logistic regression model of a resampled dataset. For more information see
-#'  details.
+#'  from the binary logistic regression model of a resampled dataset.
 #' @param QS double. Defines the performance of a surgeon with the odds ratio ratio of death Q.
 #'
 #' @return Returns a single value which is the Run Length.
-#'
-#' @details Describe the algorithm for calulating in control run length ...
 #'
 #' @template eocusum.arloc.sim
 #'
@@ -178,8 +173,6 @@ eocusum.arloc.sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low") 
 #' Other option is the cyclical steady-state "cycl".
 #'
 #' @return Returns a single value which is the Run Length.
-#'
-#' @details Describe the resampling algorithm for calulating out of control run length.
 #'
 #' @template eocusum.adoc.sim
 #'
@@ -230,11 +223,14 @@ eocusum.adoc.sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low", t
 #' @param k A double
 #' @param m integer. Number of simulation runs.
 #' @param QS double. Defines the performance of a surgeon with the odds ratio ratio of death Q.
-#' @param side int 1="upper arm" or 2="lower arm".
-#' @param coeff double.
-#' @param coeff2 double.
+#' @param side character. Default is "low" to calculate ARL for the upper arm of the V-mask. If side = "up",
+#'  calculate the lower arm of the V-mask.
+#' @param coeff NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
+#'  from the binary logistic regression model.
+#' @param coeff2 NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
+#'  from the binary logistic regression model of a resampled dataset.
 #' @param nc integer. Number of cores.
-#' @param OUTPUT boolean. If TRUE verbose output is included, if FALSE a quiet calculation of h is done.
+#' @param verbose boolean. If TRUE verbose output is included, if FALSE a quiet calculation of h is done.
 #'
 #' @return Returns a single value which is the distance d of the V-mask for a given ARL
 #'  and \eqn{\theta}{theta}.
@@ -247,16 +243,16 @@ eocusum.adoc.sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low", t
 #'
 #' @author Philipp Wittenberg
 #' @export
-eocusum.arloc.h.sim <- function(L0, df, k, coeff, coeff2, m = 100, QS = 1, side = 1, nc = 1, OUTPUT = TRUE) {
+eocusum.arloc.h.sim <- function(L0, df, k, coeff, coeff2, m = 100, QS = 1, side = 1, nc = 1, verbose = TRUE) {
   h2 <- 1
   L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arloc.sim, h = h2, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
-  if ( OUTPUT ) cat(paste("(i)\t", h2, "\t", L2, "\n"))
+  if ( verbose ) cat(paste("(i)\t", h2, "\t", L2, "\n"))
   LL <- NULL
   while ( L2 < L0 & h2 < 6 ) {
     L1 <- L2
     h2 <- h2 + 1
     L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arloc.sim, h = h2, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
-    if ( OUTPUT ) cat(paste("(ii)\t", h2, "\t", L2, "\n"))
+    if ( verbose ) cat(paste("(ii)\t", h2, "\t", L2, "\n"))
     LL <- c(LL, L2)
   }
   if ( L2 < L0 ) {
@@ -267,13 +263,13 @@ eocusum.arloc.h.sim <- function(L0, df, k, coeff, coeff2, m = 100, QS = 1, side 
     q <- (beta[1] - L0)/beta[3]
     h2 <- -p / 2 + 1*sqrt(p^2 / 4 - q)
     L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arloc.sim, h = h2, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
-    if ( OUTPUT ) cat(paste("(iii)\t", h2, "\t", L2, "\n"))
+    if ( verbose ) cat(paste("(iii)\t", h2, "\t", L2, "\n"))
     if ( L2 < L0 ) {
       while ( L2 < L0 ) {
         L1 <- L2
         h2 <- h2 + 1
         L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arloc.sim, h = h2, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
-        if ( OUTPUT ) cat(paste("(iv)a\t", h2, "\t", L2, "\n"))
+        if ( verbose ) cat(paste("(iv)a\t", h2, "\t", L2, "\n"))
         }
       h1 <- h2 - 1
     } else {
@@ -281,7 +277,7 @@ eocusum.arloc.h.sim <- function(L0, df, k, coeff, coeff2, m = 100, QS = 1, side 
         L1 <- L2
         h2 <- h2 - 1
         L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arloc.sim, h = h2, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
-        if ( OUTPUT ) cat(paste("(iv)b\t", h2, "\t", L2, "\n"))
+        if ( verbose ) cat(paste("(iv)b\t", h2, "\t", L2, "\n"))
       }
       h1 <- h2 + 1
     }
@@ -292,7 +288,7 @@ eocusum.arloc.h.sim <- function(L0, df, k, coeff, coeff2, m = 100, QS = 1, side 
   while ( a.error > 1e-4 & h.error > 1e-6 ) {
     h3 <- h1 + (L0 - L1) / (L2 - L1) * (h2 - h1)
     L3 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arloc.sim, h = h3, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
-    if ( OUTPUT ) cat(paste("(v)\t", h3, "\t", L3, "\n"))
+    if ( verbose ) cat(paste("(v)\t", h3, "\t", L3, "\n"))
     h1 <- h2
     h2 <- h3
     L1 <- L2
@@ -303,7 +299,7 @@ eocusum.arloc.h.sim <- function(L0, df, k, coeff, coeff2, m = 100, QS = 1, side 
       if ( L3 < L0 ) {
         h3 <- ( round( h3 * scaling ) + 1 ) / scaling - 1e-6
         L3 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arloc.sim, h = h3, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
-        if ( OUTPUT ) cat(paste("(vi)\t", h3, "\t", L3, "\n"))
+        if ( verbose ) cat(paste("(vi)\t", h3, "\t", L3, "\n"))
       }
       break
     }
@@ -311,7 +307,7 @@ eocusum.arloc.h.sim <- function(L0, df, k, coeff, coeff2, m = 100, QS = 1, side 
   if ( L3 < L0 ) {
     h3 <- ( round( h3 * scaling ) + 1 ) / scaling - 1e-6
     L3 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arloc.sim, h = h3, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
-    if ( OUTPUT ) cat(paste("(vii)\t", h3, "\t", L3, "\n"))
+    if ( verbose ) cat(paste("(vii)\t", h3, "\t", L3, "\n"))
   }
   h <- h3
   h
@@ -324,14 +320,15 @@ eocusum.arloc.h.sim <- function(L0, df, k, coeff, coeff2, m = 100, QS = 1, side 
 #' @param L0 double. In-Control ARL.
 #' @param k A double
 #' @param m integer. Number of simulation runs.
-#' @param side int 1="upper arm" or 2="lower arm".
+#' @param side character. Default is "low" to calculate ARL for the upper arm of the V-mask. If side = "up",
+#'  calculate the lower arm of the V-mask.
 #' @param df DataFrame. First column are Parsonnet Score values within a range of zero to 100 representing
 #' the preoperative patient risk. The second column are binary (0/1) outcome values of each operation.
 #' @param coeff NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta} from the binary
 #' logistic regression model. For more information see details.
 #' @param yemp boolean. Use emirical outcome value.
 #' @param nc integer. Number of cores.
-#' @param OUTPUT boolean. If TRUE verbose output is included, if FALSE a quiet calculation of h is done.
+#' @param verbose boolean. If TRUE verbose output is included, if FALSE a quiet calculation of h is done.
 #'
 #' @return Returns a single value which is the distance d of the V-mask for a given ARL and \eqn{\theta}{theta}.
 #'
@@ -341,16 +338,16 @@ eocusum.arloc.h.sim <- function(L0, df, k, coeff, coeff2, m = 100, QS = 1, side 
 #'
 #' @author Philipp Wittenberg
 #' @export
-eocusum.arl.h.sim <- function(L0, df, k, coeff, m = 100, yemp = TRUE, side = 1, nc = 1, OUTPUT = TRUE) {
+eocusum.arl.h.sim <- function(L0, df, k, coeff, m = 100, yemp = TRUE, side = 1, nc = 1, verbose = TRUE) {
   h2 <- 1
   L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arl.sim, k = k, h = h2, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
-  if ( OUTPUT ) cat(paste("(i)\t", h2, "\t", L2, "\n"))
+  if ( verbose ) cat(paste("(i)\t", h2, "\t", L2, "\n"))
   LL <- NULL
   while ( L2 < L0 & h2 < 6 ) {
     L1 <- L2
     h2 <- h2 + 1
     L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arl.sim, k = k, h = h2, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
-    if ( OUTPUT ) cat(paste("(ii)\t", h2, "\t", L2, "\n"))
+    if ( verbose ) cat(paste("(ii)\t", h2, "\t", L2, "\n"))
     LL <- c(LL, L2)
   }
   if ( L2 < L0 ) {
@@ -361,13 +358,13 @@ eocusum.arl.h.sim <- function(L0, df, k, coeff, m = 100, yemp = TRUE, side = 1, 
     q <- (beta[1] - L0) / beta[3]
     h2 <- -p / 2 + 1 * sqrt(p^2 / 4 - q)
     L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arl.sim, k = k, h = h2, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
-    if ( OUTPUT ) cat(paste("(iii)\t", h2, "\t", L2, "\n"))
+    if ( verbose ) cat(paste("(iii)\t", h2, "\t", L2, "\n"))
     if ( L2 < L0 ) {
       while ( L2 < L0 ) {
         L1 <- L2
         h2 <- h2 + 1
         L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arl.sim, k = k, h = h2, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
-        if ( OUTPUT ) cat(paste("(iv)a\t", h2, "\t", L2, "\n"))
+        if ( verbose ) cat(paste("(iv)a\t", h2, "\t", L2, "\n"))
         }
       h1 <- h2 - 1
     } else {
@@ -375,7 +372,7 @@ eocusum.arl.h.sim <- function(L0, df, k, coeff, m = 100, yemp = TRUE, side = 1, 
         L1 <- L2
         h2 <- h2 - 1
         L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arl.sim, k = k, h = h2, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
-        if ( OUTPUT ) cat(paste("(iv)b\t", h2, "\t", L2, "\n"))
+        if ( verbose ) cat(paste("(iv)b\t", h2, "\t", L2, "\n"))
       }
       h1 <- h2 + 1
     }
@@ -386,7 +383,7 @@ eocusum.arl.h.sim <- function(L0, df, k, coeff, m = 100, yemp = TRUE, side = 1, 
   while ( a.error > 1e-4 & h.error > 1e-6 ) {
     h3 <- h1 + (L0 - L1) / (L2 - L1) * (h2 - h1)
     L3 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arl.sim, k = k, h = h3, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
-    if ( OUTPUT ) cat(paste("(v)\t", h3, "\t", L3, "\n"))
+    if ( verbose ) cat(paste("(v)\t", h3, "\t", L3, "\n"))
     h1 <- h2
     h2 <- h3
     L1 <- L2
@@ -397,7 +394,7 @@ eocusum.arl.h.sim <- function(L0, df, k, coeff, m = 100, yemp = TRUE, side = 1, 
       if ( L3 < L0 ) {
         h3 <- ( round( h3 * scaling ) + 1 ) / scaling - 1e-6
         L3 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arl.sim, k = k, h = h3, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
-        if ( OUTPUT ) cat(paste("(vi)\t", h3, "\t", L3, "\n"))
+        if ( verbose ) cat(paste("(vi)\t", h3, "\t", L3, "\n"))
       }
       break
     }
@@ -405,7 +402,7 @@ eocusum.arl.h.sim <- function(L0, df, k, coeff, m = 100, yemp = TRUE, side = 1, 
   if ( L3 < L0 ) {
     h3 <- ( round( h3 * scaling ) + 1 ) / scaling - 1e-6
     L3 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arl.sim, k = k, h = h3, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
-    if ( OUTPUT ) cat(paste("(vii)\t", h3, "\t", L3, "\n"))
+    if ( verbose ) cat(paste("(vii)\t", h3, "\t", L3, "\n"))
   }
   h <- h3
   h
