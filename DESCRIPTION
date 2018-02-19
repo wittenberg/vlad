@@ -2,7 +2,6 @@ Package: vlad
 Type: Package
 Title: Variable life-adjusted display (VLAD) and other risk-adjusted control charts
 Version: 0.0.1
-Date: 2018-02-15
 Authors@R: person("Philipp", "Wittenberg", email = "pwitten@hsu-hh.de",
                   role = c("aut", "cre"))
 Depends: R (>= 2.10)
@@ -16,8 +15,6 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports: Rcpp (>= 0.12.12)
-Suggests: dplyr, knitr, ggplot2, parallel, shiny, spcadjust (>= 1.1), tidyr
-VignetteBuilder: knitr
+Suggests: dplyr, ggplot2, parallel, spcadjust (>= 1.1), tidyr
 LinkingTo: Rcpp, RcppArmadillo
 RoxygenNote: 6.0.1
-RdMacros: Rdpack
