@@ -21,12 +21,8 @@
     .Call('_vlad_eocusum_arloc_sim', PACKAGE = 'vlad', r, k, h, df, coeff, coeff2, QS, side)
 }
 
-.eocusum_adoc_sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = 1L, m = 5L) {
-    .Call('_vlad_eocusum_adoc_sim', PACKAGE = 'vlad', r, k, h, df, coeff, coeff2, QS, side, m)
-}
-
-.eocusum_adoc2_sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = 1L, m = 5L) {
-    .Call('_vlad_eocusum_adoc2_sim', PACKAGE = 'vlad', r, k, h, df, coeff, coeff2, QS, side, m)
+.eocusum_adoc_sim <- function(r, k, h, df, coeff, coeff2, QS, side, type, m) {
+    .Call('_vlad_eocusum_adoc_sim', PACKAGE = 'vlad', r, k, h, df, coeff, coeff2, QS, side, type, m)
 }
 
 .loglikelihood <- function(df, coeff, R0 = 1, RA = 2, yemp = TRUE) {

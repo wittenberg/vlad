@@ -2,9 +2,10 @@
 % Please edit documentation in R/eocusum_sim.R
 \name{eocusum.adoc.sim}
 \alias{eocusum.adoc.sim}
-\title{Compute conditional steady-state ARLs of EO-CUSUM control charts using simulation}
+\title{Compute steady-state ARLs of EO-CUSUM control charts using simulation}
 \usage{
-eocusum.adoc.sim(r, k, h, df, coeff, coeff2, QS = 1, side = 1, m = 50)
+eocusum.adoc.sim(r, k, h, df, coeff, coeff2, QS = 1, side = "low",
+  type = "cond", m = 50)
 }
 \arguments{
 \item{r}{int. Number of of simulation runs.}
@@ -27,13 +28,16 @@ details.}
 \item{side}{int. If side = 1, calculate ARL for the upper arm of the V-mask. If side = 2,
 calulate the lower arm of the V-mask.}
 
+\item{type}{character. Default argument is "cond" for computation of conditional steady-state.
+Other option is the cyclical steady-state "cycl".}
+
 \item{m}{Integer. Simulated in-control observations.}
 }
 \value{
 Returns a single value which is the Run Length.
 }
 \description{
-Compute conditional steady-state ARLs of EO-CUSUM control charts using simulation.
+Compute steady-state ARLs of EO-CUSUM control charts using simulation.
 }
 \details{
 Describe the resampling algorithm for calulating out of control run length.

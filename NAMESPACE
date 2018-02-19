@@ -2,7 +2,6 @@
 
 export(calceo)
 export(eocusum.adoc.sim)
-export(eocusum.adoc2.sim)
 export(eocusum.arl.h.sim)
 export(eocusum.arl.sim)
 export(eocusum.arloc.h.sim)

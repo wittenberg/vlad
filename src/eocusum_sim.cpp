@@ -3,7 +3,7 @@
 // [[Rcpp::export(.gettherisk)]]
 double gettherisk(int parsonnetscore, NumericVector coeff) {
   double logitp, risk;
-  
+
   logitp = coeff[0] + parsonnetscore * coeff[1];
   risk = exp(logitp)/(1 + exp(logitp));
   return risk;
@@ -13,7 +13,7 @@ double gettherisk(int parsonnetscore, NumericVector coeff) {
 double optimal_k(double QA, IntegerVector parsonnetscores, NumericVector coeff) {
   int n;
   double optk = 0, sum = 0, pbar;
-  
+
   n = parsonnetscores.size();
   for (int i=0; i < n; ++i) {sum += gettherisk(parsonnetscores[i], coeff);}
   pbar = sum/n;
@@ -27,7 +27,7 @@ double calceo(DataFrame df, NumericVector coeff, bool yemp = true) {
   int y, row;
   double x;
   NumericVector col1, col2, rnd;
-  
+
   col1 = df[0];
   col2 = df[1];
   rnd = runif(1);
@@ -48,7 +48,7 @@ double calceo2(DataFrame df, NumericVector coeff, NumericVector coeff2, double Q
   int y, row, s;
   double x, Qstar, xstar, rdm, x2;
   NumericVector col1, col2, rnd, rndm;
-  
+
   col1 = df[0];                  // Parsonnet score stored in the dataframe
   col2 = df[1];                  // Surgical outcome stored in the dataframe
   rnd = runif(1);
@@ -115,89 +115,109 @@ int eocusum_arloc_sim(int r, double k, double h, DataFrame df, NumericVector coe
   return rl;
 }
 
+// [[Rcpp::export(.eocusum_adoc_sim)]]
+int eocusum_adoc_sim(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS, int side, int type, int m) {
+  if (type == 1) {                                                  // conditional steady-state ARL (EO-CUSUM)
+    if (side == 1) {
+      return eocusum_adoc_sim11(r, k, h, df, coeff, coeff2, QS, m); // lower side (deterioration)
+    } else {
+      return eocusum_adoc_sim12(r, k, h, df, coeff, coeff2, QS, m); // upper side (improvement)
+    }
+  } else {                                                          // cyclical steady-state ARL (EO-CUSUM)
+    if (side == 1) {
+      return eocusum_adoc_sim21(r, k, h, df, coeff, coeff2, QS, m); // lower side (deterioration)
+    } else {
+      return eocusum_adoc_sim22(r, k, h, df, coeff, coeff2, QS, m); // upper side (improvement)
+    }
+  }
+}
 
 // conditional steady-state ARL (EO-CUSUM) -- m = #ic-observations with m >= 0
-// [[Rcpp::export(.eocusum_adoc_sim)]]
-int eocusum_adoc_sim(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS = 1, int side = 1, int m = 5) {
+// lower side (deterioration)
+int eocusum_adoc_sim11(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS, int m) {
   int success = 0, rl = 0;
   double z = 0;
-  if (side == 1) {                                         // lower side (deterioration)
-    double tn = 0, Q = 1;
-    while ( !success ) {
-      rl = 0;
-      tn = 0;
-      Q = 1;
-      do{
-        rl++;
-        if ( rl > m) Q = QS;
-        z = calceo2(df, coeff, coeff2, Q);
-        tn = fmin(0, tn + z + k);
+  double tn = 0, Q = 1;
+  while ( !success ) {
+    rl = 0;
+    tn = 0;
+    Q = 1;
+    do{
+      rl++;
+      if ( rl > m) Q = QS;
+      z = calceo2(df, coeff, coeff2, Q);
+      tn = fmin(0, tn + z + k);
       } while (-tn <= h);
       if ( rl > m ) {
         rl += -m;
         success = 1;
       }
     }
-    return rl;
-  }
-  else if (side == 2){                                    // upper side (improvement)
-    double qn = 0, Q = 1;
-    while ( !success ) {
-      rl = 0;
-      qn = 0;
-      Q = 1;
-      do{
-        rl++;
-        if ( rl > m) Q = QS;
-        z = calceo2(df, coeff, coeff2, Q);
-        qn = fmax(0, qn + z - k);
+  return rl;
+}
+
+// conditional steady-state ARL (EO-CUSUM) -- m = #ic-observations with m >= 0
+// upper side (improvement)
+int eocusum_adoc_sim12(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS , int m) {
+  int success = 0, rl = 0;
+  double z = 0;
+  double qn = 0, Q = 1;
+  while ( !success ) {
+    rl = 0;
+    qn = 0;
+    Q = 1;
+    do{
+      rl++;
+      if ( rl > m) Q = QS;
+      z = calceo2(df, coeff, coeff2, Q);
+      qn = fmax(0, qn + z - k);
       } while (qn <= h);
       if ( rl > m ) {
         rl += -m;
         success = 1;
       }
     }
-    return rl;
-  }
   return rl;
 }
 
 // cyclical steady-state ARL (EO-CUSUM) -- m = #ic-observations with m >= 0
-// [[Rcpp::export(.eocusum_adoc2_sim)]]
-int eocusum_adoc2_sim(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS = 1, int side = 1, int m = 5) {
+// lower side (deterioration)
+int eocusum_adoc_sim21(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS, int m) {
   int rl = 0;
   double z = 0;
-  if (side == 1) {                                         // lower side (deterioration)
-    double tn = 0, Q = 1;
-    do{
-      rl++;
-      if ( rl > m) Q = QS;
-      z = calceo2(df, coeff, coeff2, Q);
-      tn = fmin(0, tn + z + k);
-      if ( rl <= m ) {
-        if ( -tn > h) {
-          tn = 0;
-        }
+  double tn = 0, Q = 1;
+  do{
+    rl++;
+    if ( rl > m) Q = QS;
+    z = calceo2(df, coeff, coeff2, Q);
+    tn = fmin(0, tn + z + k);
+    if ( rl <= m ) {
+      if ( -tn > h) {
+        tn = 0;
       }
+    }
     } while (-tn <= h);
-    rl += -m ;
-    return rl;
-  }
-  else if (side == 2){                                    // upper side (improvement)
-    double qn = 0, Q = 1;
-    do{
-      rl++;
-      if ( rl > m) Q = QS;
-      z = calceo2(df, coeff, coeff2, Q);
-      qn = fmax(0, qn + z - k);
-      if ( rl <= m ) {
-        if ( qn > h) {
-          qn = 0;
-        }
+  rl += -m ;
+  return rl;
+}
+
+// cyclical steady-state ARL (EO-CUSUM) -- m = #ic-observations with m >= 0
+// upper side (improvement)
+int eocusum_adoc_sim22(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS, int m) {
+  int rl = 0;
+  double z = 0;
+  double qn = 0, Q = 1;
+  do{
+    rl++;
+    if ( rl > m) Q = QS;
+    z = calceo2(df, coeff, coeff2, Q);
+    qn = fmax(0, qn + z - k);
+    if ( rl <= m ) {
+      if ( qn > h) {
+        qn = 0;
       }
-    } while (qn <= h);
-    rl += -m;
-    return rl;
-  }
+    }
+  } while (qn <= h);
+  rl += -m;
   return rl;
 }

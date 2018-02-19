@@ -80,8 +80,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // eocusum_adoc_sim
-int eocusum_adoc_sim(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS, int side, int m);
-RcppExport SEXP _vlad_eocusum_adoc_sim(SEXP rSEXP, SEXP kSEXP, SEXP hSEXP, SEXP dfSEXP, SEXP coeffSEXP, SEXP coeff2SEXP, SEXP QSSEXP, SEXP sideSEXP, SEXP mSEXP) {
+int eocusum_adoc_sim(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS, int side, int type, int m);
+RcppExport SEXP _vlad_eocusum_adoc_sim(SEXP rSEXP, SEXP kSEXP, SEXP hSEXP, SEXP dfSEXP, SEXP coeffSEXP, SEXP coeff2SEXP, SEXP QSSEXP, SEXP sideSEXP, SEXP typeSEXP, SEXP mSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -93,27 +93,9 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type coeff2(coeff2SEXP);
     Rcpp::traits::input_parameter< double >::type QS(QSSEXP);
     Rcpp::traits::input_parameter< int >::type side(sideSEXP);
+    Rcpp::traits::input_parameter< int >::type type(typeSEXP);
     Rcpp::traits::input_parameter< int >::type m(mSEXP);
-    rcpp_result_gen = Rcpp::wrap(eocusum_adoc_sim(r, k, h, df, coeff, coeff2, QS, side, m));
-    return rcpp_result_gen;
-END_RCPP
-}
-// eocusum_adoc2_sim
-int eocusum_adoc2_sim(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS, int side, int m);
-RcppExport SEXP _vlad_eocusum_adoc2_sim(SEXP rSEXP, SEXP kSEXP, SEXP hSEXP, SEXP dfSEXP, SEXP coeffSEXP, SEXP coeff2SEXP, SEXP QSSEXP, SEXP sideSEXP, SEXP mSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type r(rSEXP);
-    Rcpp::traits::input_parameter< double >::type k(kSEXP);
-    Rcpp::traits::input_parameter< double >::type h(hSEXP);
-    Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type coeff(coeffSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type coeff2(coeff2SEXP);
-    Rcpp::traits::input_parameter< double >::type QS(QSSEXP);
-    Rcpp::traits::input_parameter< int >::type side(sideSEXP);
-    Rcpp::traits::input_parameter< int >::type m(mSEXP);
-    rcpp_result_gen = Rcpp::wrap(eocusum_adoc2_sim(r, k, h, df, coeff, coeff2, QS, side, m));
+    rcpp_result_gen = Rcpp::wrap(eocusum_adoc_sim(r, k, h, df, coeff, coeff2, QS, side, type, m));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -227,8 +209,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_vlad_calceo", (DL_FUNC) &_vlad_calceo, 3},
     {"_vlad_eocusum_arl_sim", (DL_FUNC) &_vlad_eocusum_arl_sim, 7},
     {"_vlad_eocusum_arloc_sim", (DL_FUNC) &_vlad_eocusum_arloc_sim, 8},
-    {"_vlad_eocusum_adoc_sim", (DL_FUNC) &_vlad_eocusum_adoc_sim, 9},
-    {"_vlad_eocusum_adoc2_sim", (DL_FUNC) &_vlad_eocusum_adoc2_sim, 9},
+    {"_vlad_eocusum_adoc_sim", (DL_FUNC) &_vlad_eocusum_adoc_sim, 10},
     {"_vlad_loglikelihood", (DL_FUNC) &_vlad_loglikelihood, 5},
     {"_vlad_racusum_arl_nonRA", (DL_FUNC) &_vlad_racusum_arl_nonRA, 5},
     {"_vlad_racusum_arl_sim", (DL_FUNC) &_vlad_racusum_arl_sim, 7},

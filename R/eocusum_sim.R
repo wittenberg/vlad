@@ -153,11 +153,13 @@ eocusum.arloc.sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = 1) {
 }
 
 #' @name eocusum.adoc.sim
-#' @title Compute conditional steady-state ARLs of EO-CUSUM control charts using simulation
-#' @description Compute conditional steady-state ARLs of EO-CUSUM control charts using simulation.
+#' @title Compute steady-state ARLs of EO-CUSUM control charts using simulation
+#' @description Compute steady-state ARLs of EO-CUSUM control charts using simulation.
 #'
 #' @inheritParams eocusum.arloc.sim
 #' @param m Integer. Simulated in-control observations.
+#' @param type character. Default argument is "cond" for computation of conditional steady-state.
+#' Other option is the cyclical steady-state "cycl".
 #'
 #' @return Returns a single value which is the Run Length.
 #'
@@ -167,46 +169,38 @@ eocusum.arloc.sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = 1) {
 #'
 #' @author Philipp Wittenberg
 #' @export
-eocusum.adoc.sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = 1, m = 50) {
-  .eocusum_adoc_sim(
-    as.integer(r),
-    as.numeric(k),
-    as.numeric(h),
-    as.data.frame(df),
-    as.vector(coeff),
-    as.vector(coeff2),
-    as.numeric(QS),
-    as.integer(side),
-    as.integer(m)
-  )
-}
-
-#' @name eocusum.adoc2.sim
-#' @title Compute cyclical steady-state ARLs of EO-CUSUM control charts using simulation
-#' @description Compute cyclical steady-state ARLs of EO-CUSUM control charts using simulation.
-#'
-#' @inheritParams eocusum.adoc.sim
-#'
-#' @return Returns a single value which is the Run Length.
-#'
-#' @details Describe the resampling algorithm for calulating out of control run length.
-#'
-#' @template eocusum.adoc2.sim
-#'
-#' @author Philipp Wittenberg
-#' @export
-eocusum.adoc2.sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = 1, m = 50) {
-  .eocusum_adoc2_sim(
-    as.integer(r),
-    as.numeric(k),
-    as.numeric(h),
-    as.data.frame(df),
-    as.vector(coeff),
-    as.vector(coeff2),
-    as.numeric(QS),
-    as.integer(side),
-    as.integer(m)
-  )
+eocusum.adoc.sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low", type = "cond", m = 50) {
+  r <- as.integer(r)
+  if (is.na(r) || r <= 0) {stop("number of simulation runs r must a positive integer")}
+  k <- as.numeric(k)
+  if (is.na(k) || k  < 0) {stop("reference value k must a positive numeric value")}
+  h <- as.numeric(h)
+  if (is.na(h) || h <= 0) {stop("control limit h must a positive numeric value")}
+  df <- as.data.frame(df)
+  if (class(df) != "data.frame") {stop("provide a dataframe for argument \"df\"")}
+  else if (ncol(df) != 2) {stop("provide a dataframe with two columns for argument \"df\"")}
+  else if (sapply(df, class)[1] != "integer") {stop("first column of dataframe must be of type integer")}
+  else if (sapply(df, class)[2] != "numeric") {stop("second column of dataframe must be of type numeric")}
+  coeff <- as.vector(coeff)
+  if (is.na(coeff)  || length(coeff)  != 2) {stop("model coefficients \"coeff\"  must a numeric vector with two elements")}
+  if (is.na(coeff2) || length(coeff2) != 2) {stop("model coefficients \"coeff2\" must a numeric vector with two elements")}
+  iside <- switch(as.character(side), low = 1, up = 2)
+  if (is.null(iside)) {
+    warning("no valid input, using side=low (deterioration) as default")
+    iside <- 1
+  }
+  QS <- as.numeric(QS)
+  if (is.na(QS) || QS < 0) {stop("QS must a positive numeric value")}
+  else if (QS < 1 && iside == 1) {stop("for detecting deterioration (side=\"low\"), QS must a positive numeric value >= 1")}
+  else if (QS > 1 && iside == 2) {stop("for detecting improvement, QS must a positive numeric value <= 1")}
+  itype <- switch(type, cond = 1, cycl = 2)
+  if (is.null(itype)) {
+    warning("no valid input, using type=cond (conditional steady-state) as default")
+    itype <- 1
+  }
+  m <- as.integer(m)
+  if (is.na(m) || m < 0) {stop("m must a positive integer")}
+  .eocusum_adoc_sim(r, k, h, df, coeff, coeff2, QS, iside, itype, m)
 }
 
 #' @name eocusum.arloc.h.sim
