@@ -13,7 +13,7 @@ gettherisk(parsonnetscore, coeff)
 from the binary logistic regression model.}
 }
 \value{
-output A description of the object the function outputs
+Returns a single value which is the expected risk based on a risk model.
 }
 \description{
 Compute Risk of death.
@@ -67,6 +67,10 @@ Steiner SH, Cook RJ, Farewell VT and Treasure T (2000).
 Steiner S (2014). “Risk-Adjusted Monitoring of Outcomes in Health Care.”
 In Lawless JF (ed.), \emph{Statistics in Action}, pp. 225-242. Informa UK Limited.
 doi: \href{https://doi.org/10.1201/b16597-15}{10.1201/b16597-15}.
+
+Parsonnet V, Dean D, Bernstein AD (1989). A method of uniform stratification of risk
+for evaluating the results of surgery in acquired adult heart disease.
+\emph{Circulation}, \strong{79}(6):I3-12.
 }
 \author{
 Philipp Wittenberg

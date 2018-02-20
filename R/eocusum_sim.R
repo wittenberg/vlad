@@ -1,4 +1,4 @@
-#' @name optimal.k
+#' @name optimal_k
 #' @title Compute optimal k
 #' @description Compute optimal k.
 #'
@@ -12,11 +12,11 @@
 #' @details Formula deterioration:  \deqn{ k{det} = \frac{Q{A} - 1 - log(Q{A})}{log(Q{A})}\bar{p} , Q{A} > 1    }
 #'          Formula improvement:    \deqn{ k{imp} = \frac{1 - Q{A} + log(Q{A})}{log(Q{A})}\bar{p} , Q{A} < 1    }
 #'
-#' @template optimal.k
+#' @template optimal_k
 #'
 #' @author Philipp Wittenberg
 #' @export
-optimal.k <- function(QA, parsonnetscores, coeff) {
+optimal_k <- function(QA, parsonnetscores, coeff) {
   QA <- as.numeric(QA)
   if (is.na(QA) || QA < 0) {stop("QS must a positive numeric value")}
   parsonnetscores <- as.vector(parsonnetscores)
@@ -34,7 +34,7 @@ optimal.k <- function(QA, parsonnetscores, coeff) {
 #' @param coeff NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
 #'  from the binary logistic regression model.
 #'
-#' @return output A description of the object the function outputs
+#' @return Returns a single value which is the expected risk based on a risk model.
 #'
 #' @template gettherisk
 #'
@@ -59,7 +59,7 @@ gettherisk <- function(parsonnetscore, coeff) {
 #' @param yemp boolean. If TRUE use observed outcome value, if FALSE use estimated binary logistc
 #'  regression model.
 #'
-#' @return Returns a single value which is the difference between expected and observed.
+#' @return Returns a single value which is the difference between expected risk and observed outcome.
 #'
 #' @template calceo
 #'
@@ -71,8 +71,8 @@ calceo <- function(df, coeff, yemp = TRUE) {
   df <- as.data.frame(df)
   if (class(df) != "data.frame") {stop("provide a dataframe for argument \"df\"")}
   else if (ncol(df) != 2) {stop("provide a dataframe with two columns for argument \"df\"")}
-  else if (sapply(df, class)[1] != "integer") {stop("first column of dataframe must be of type integer")}
-  else if (sapply(df, class)[2] != "numeric") {stop("second column of dataframe must be of type numeric")}
+  else if (vapply(df, class, "")[1] != "integer") {stop("first column of dataframe must be of type integer")}
+  else if (vapply(df, class, "")[2] != "numeric") {stop("second column of dataframe must be of type numeric")}
   coeff <- as.vector(coeff)
   if (is.na(coeff)  || length(coeff)  != 2) {stop("model coefficients \"coeff\"  must a numeric vector with two elements")}
   if (is.na(yemp) || is.logical(yemp) != "TRUE") {warning("argument \"yemp\" must be logical using TRUE as default value")}
@@ -80,7 +80,7 @@ calceo <- function(df, coeff, yemp = TRUE) {
   .calceo(df, coeff, yemp)
 }
 
-#' @name eocusum.arl.sim
+#' @name eocusum_arl_sim
 #' @title Compute ARLs of EO-CUSUM control charts using simulation
 #' @description Compute ARLs of EO-CUSUM control charts using simulation.
 #'
@@ -93,11 +93,11 @@ calceo <- function(df, coeff, yemp = TRUE) {
 #'
 #' @return Returns a single value which is the Run Length.
 #'
-#' @template eocusum.arl.sim
+#' @template eocusum_arl_sim
 #'
 #' @author Philipp Wittenberg
 #' @export
-eocusum.arl.sim <- function(r, k, h, df, coeff, yemp = TRUE, side = "low") {
+eocusum_arl_sim <- function(r, k, h, df, coeff, yemp = TRUE, side = "low") {
   r <- as.integer(r)
   if (is.na(r) || r <= 0) {stop("number of simulation runs r must a positive integer")}
   k <- as.numeric(k)
@@ -107,8 +107,8 @@ eocusum.arl.sim <- function(r, k, h, df, coeff, yemp = TRUE, side = "low") {
   df <- as.data.frame(df)
   if (class(df) != "data.frame") {stop("provide a dataframe for argument \"df\"")}
   else if (ncol(df) != 2) {stop("provide a dataframe with two columns for argument \"df\"")}
-  else if (sapply(df, class)[1] != "integer") {stop("first column of dataframe must be of type integer")}
-  else if (sapply(df, class)[2] != "numeric") {stop("second column of dataframe must be of type numeric")}
+  else if (vapply(df, class, "")[1] != "integer") {stop("first column of dataframe must be of type integer")}
+  else if (vapply(df, class, "")[2] != "numeric") {stop("second column of dataframe must be of type numeric")}
   coeff <- as.vector(coeff)
   if (is.na(coeff)  || length(coeff)  != 2) {stop("model coefficients \"coeff\"  must a numeric vector with two elements")}
   if (is.na(yemp) || is.logical(yemp) != "TRUE") {warning("argument \"yemp\" must be logical using TRUE as default value")}
@@ -121,22 +121,22 @@ eocusum.arl.sim <- function(r, k, h, df, coeff, yemp = TRUE, side = "low") {
   .eocusum_arl_sim(r, k, h, df, coeff, yemp, iside)
 }
 
-#' @name eocusum.arloc.sim
+#' @name eocusum_arloc_sim
 #' @title Compute Out of Control ARLs of EO-CUSUM control charts using simulation
 #' @description Compute Out of Control ARLs of EO-CUSUM control charts using simulation.
 #'
-#' @inheritParams eocusum.arl.sim
+#' @inheritParams eocusum_arl_sim
 #' @param coeff2 NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
 #'  from the binary logistic regression model of a resampled dataset.
 #' @param QS double. Defines the performance of a surgeon with the odds ratio ratio of death Q.
 #'
 #' @return Returns a single value which is the Run Length.
 #'
-#' @template eocusum.arloc.sim
+#' @template eocusum_arloc_sim
 #'
 #' @author Philipp Wittenberg
 #' @export
-eocusum.arloc.sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low") {
+eocusum_arloc_sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low") {
   r <- as.integer(r)
   if (is.na(r) || r <= 0) {stop("number of simulation runs r must a positive integer")}
   k <- as.numeric(k)
@@ -146,8 +146,8 @@ eocusum.arloc.sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low") 
   df <- as.data.frame(df)
   if (class(df) != "data.frame") {stop("provide a dataframe for argument \"df\"")}
   else if (ncol(df) != 2) {stop("provide a dataframe with two columns for argument \"df\"")}
-  else if (sapply(df, class)[1] != "integer") {stop("first column of dataframe must be of type integer")}
-  else if (sapply(df, class)[2] != "numeric") {stop("second column of dataframe must be of type numeric")}
+  else if (vapply(df, class, "")[1] != "integer") {stop("first column of dataframe must be of type integer")}
+  else if (vapply(df, class, "")[2] != "numeric") {stop("second column of dataframe must be of type numeric")}
   coeff <- as.vector(coeff)
   if (is.na(coeff)  || length(coeff)  != 2) {stop("model coefficients \"coeff\"  must a numeric vector with two elements")}
   if (is.na(coeff2) || length(coeff2) != 2) {stop("model coefficients \"coeff2\" must a numeric vector with two elements")}
@@ -163,22 +163,22 @@ eocusum.arloc.sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low") 
   .eocusum_arloc_sim(r, k, h, df, coeff, coeff2, QS, iside)
 }
 
-#' @name eocusum.adoc.sim
+#' @name eocusum_adoc_sim
 #' @title Compute steady-state ARLs of EO-CUSUM control charts using simulation
 #' @description Compute steady-state ARLs of EO-CUSUM control charts using simulation.
 #'
-#' @inheritParams eocusum.arloc.sim
+#' @inheritParams eocusum_arloc_sim
 #' @param m Integer. Simulated in-control observations.
 #' @param type character. Default argument is "cond" for computation of conditional steady-state.
 #' Other option is the cyclical steady-state "cycl".
 #'
 #' @return Returns a single value which is the Run Length.
 #'
-#' @template eocusum.adoc.sim
+#' @template eocusum_adoc_sim
 #'
 #' @author Philipp Wittenberg
 #' @export
-eocusum.adoc.sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low", type = "cond", m = 50) {
+eocusum_adoc_sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low", type = "cond", m = 50) {
   r <- as.integer(r)
   if (is.na(r) || r <= 0) {stop("number of simulation runs r must a positive integer")}
   k <- as.numeric(k)
@@ -188,8 +188,8 @@ eocusum.adoc.sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low", t
   df <- as.data.frame(df)
   if (class(df) != "data.frame") {stop("provide a dataframe for argument \"df\"")}
   else if (ncol(df) != 2) {stop("provide a dataframe with two columns for argument \"df\"")}
-  else if (sapply(df, class)[1] != "integer") {stop("first column of dataframe must be of type integer")}
-  else if (sapply(df, class)[2] != "numeric") {stop("second column of dataframe must be of type numeric")}
+  else if (vapply(df, class, "")[1] != "integer") {stop("first column of dataframe must be of type integer")}
+  else if (vapply(df, class, "")[2] != "numeric") {stop("second column of dataframe must be of type numeric")}
   coeff <- as.vector(coeff)
   if (is.na(coeff)  || length(coeff)  != 2) {stop("model coefficients \"coeff\"  must a numeric vector with two elements")}
   if (is.na(coeff2) || length(coeff2) != 2) {stop("model coefficients \"coeff2\" must a numeric vector with two elements")}
@@ -212,7 +212,7 @@ eocusum.adoc.sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low", t
   .eocusum_adoc_sim(r, k, h, df, coeff, coeff2, QS, iside, itype, m)
 }
 
-#' @name eocusum.arloc.h.sim
+#' @name eocusum_arloc_h_sim
 #' @title Compute alarm threshold of Out of Control EO-CUSUM control charts using simulation
 #' @description Compute alarm threshold (Out of Control ARL) of EO-CUSUM control charts using
 #'  simulation.
@@ -235,23 +235,23 @@ eocusum.adoc.sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low", t
 #' @return Returns a single value which is the distance d of the V-mask for a given ARL
 #'  and \eqn{\theta}{theta}.
 #'
-#' @details The function \code{eocusum.arloc.h.sim} determines the control limit for given in-control ARL (L0) by applying a
-#' multi-stage search procedure which includes secant rule and the parallel version of \code{\link{eocusum.arloc.sim}}
+#' @details The function \code{eocusum_arloc_h_sim} determines the control limit for given in-control ARL (L0) by applying a
+#' multi-stage search procedure which includes secant rule and the parallel version of \code{\link{eocusum_arloc_sim}}
 #' using \code{\link{mclapply}}.
 #'
-#' @template eocusum.arloc.h.sim
+#' @template eocusum_arloc_h_sim
 #'
 #' @author Philipp Wittenberg
 #' @export
-eocusum.arloc.h.sim <- function(L0, df, k, coeff, coeff2, m = 100, QS = 1, side = 1, nc = 1, verbose = TRUE) {
+eocusum_arloc_h_sim <- function(L0, df, k, coeff, coeff2, m = 100, QS = 1, side = 1, nc = 1, verbose = TRUE) {
   h2 <- 1
-  L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arloc.sim, h = h2, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
+  L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arloc_sim, h = h2, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
   if ( verbose ) cat(paste("(i)\t", h2, "\t", L2, "\n"))
   LL <- NULL
   while ( L2 < L0 & h2 < 6 ) {
     L1 <- L2
     h2 <- h2 + 1
-    L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arloc.sim, h = h2, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
+    L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arloc_sim, h = h2, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
     if ( verbose ) cat(paste("(ii)\t", h2, "\t", L2, "\n"))
     LL <- c(LL, L2)
   }
@@ -262,13 +262,13 @@ eocusum.arloc.h.sim <- function(L0, df, k, coeff, coeff2, m = 100, QS = 1, side 
     p <- beta[2] / beta[3]
     q <- (beta[1] - L0)/beta[3]
     h2 <- -p / 2 + 1*sqrt(p^2 / 4 - q)
-    L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arloc.sim, h = h2, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
+    L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arloc_sim, h = h2, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
     if ( verbose ) cat(paste("(iii)\t", h2, "\t", L2, "\n"))
     if ( L2 < L0 ) {
       while ( L2 < L0 ) {
         L1 <- L2
         h2 <- h2 + 1
-        L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arloc.sim, h = h2, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
+        L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arloc_sim, h = h2, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
         if ( verbose ) cat(paste("(iv)a\t", h2, "\t", L2, "\n"))
         }
       h1 <- h2 - 1
@@ -276,7 +276,7 @@ eocusum.arloc.h.sim <- function(L0, df, k, coeff, coeff2, m = 100, QS = 1, side 
       while ( L2 >= L0 ) {
         L1 <- L2
         h2 <- h2 - 1
-        L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arloc.sim, h = h2, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
+        L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arloc_sim, h = h2, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
         if ( verbose ) cat(paste("(iv)b\t", h2, "\t", L2, "\n"))
       }
       h1 <- h2 + 1
@@ -284,10 +284,12 @@ eocusum.arloc.h.sim <- function(L0, df, k, coeff, coeff2, m = 100, QS = 1, side 
     } else {
     h1 <- h2 - 1
   }
-  h.error <- 1; a.error <- 1; scaling <- 10^3;
+  h.error <- 1
+  a.error <- 1
+  scaling <- 10^3
   while ( a.error > 1e-4 & h.error > 1e-6 ) {
     h3 <- h1 + (L0 - L1) / (L2 - L1) * (h2 - h1)
-    L3 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arloc.sim, h = h3, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
+    L3 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arloc_sim, h = h3, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
     if ( verbose ) cat(paste("(v)\t", h3, "\t", L3, "\n"))
     h1 <- h2
     h2 <- h3
@@ -298,7 +300,7 @@ eocusum.arloc.h.sim <- function(L0, df, k, coeff, coeff2, m = 100, QS = 1, side 
     if ( h.error < 0.5 / scaling ) {
       if ( L3 < L0 ) {
         h3 <- ( round( h3 * scaling ) + 1 ) / scaling - 1e-6
-        L3 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arloc.sim, h = h3, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
+        L3 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arloc_sim, h = h3, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
         if ( verbose ) cat(paste("(vi)\t", h3, "\t", L3, "\n"))
       }
       break
@@ -306,14 +308,14 @@ eocusum.arloc.h.sim <- function(L0, df, k, coeff, coeff2, m = 100, QS = 1, side 
   }
   if ( L3 < L0 ) {
     h3 <- ( round( h3 * scaling ) + 1 ) / scaling - 1e-6
-    L3 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arloc.sim, h = h3, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
+    L3 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arloc_sim, h = h3, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
     if ( verbose ) cat(paste("(vii)\t", h3, "\t", L3, "\n"))
   }
   h <- h3
   h
 }
 
-#' @name eocusum.arl.h.sim
+#' @name eocusum_arl_h_sim
 #' @title Compute alarm threshold of EO-CUSUM control charts using simulation
 #' @description Compute alarm threshold of EO-CUSUM control charts using simulation.
 #'
@@ -330,23 +332,25 @@ eocusum.arloc.h.sim <- function(L0, df, k, coeff, coeff2, m = 100, QS = 1, side 
 #' @param nc integer. Number of cores.
 #' @param verbose boolean. If TRUE verbose output is included, if FALSE a quiet calculation of h is done.
 #'
-#' @return Returns a single value which is the distance d of the V-mask for a given ARL and \eqn{\theta}{theta}.
+#' @return Returns a single value which is the control limit h for a given ARL.
 #'
-#' @details The function \code{eocusum.arl.h.sim} determines the control limit for given in-control ARL (L0) by applying a
-#' multi-stage search procedure which includes secant rule and the parallel version of \code{\link{eocusum.arl.sim}}
+#' @template eocusum_arl_h_sim
+#'
+#' @details The function \code{eocusum_arl_h_sim} determines the control limit for given in-control ARL (L0) by applying a
+#' multi-stage search procedure which includes secant rule and the parallel version of \code{\link{eocusum_arl_sim}}
 #' using \code{\link{mclapply}}.
 #'
 #' @author Philipp Wittenberg
 #' @export
-eocusum.arl.h.sim <- function(L0, df, k, coeff, m = 100, yemp = TRUE, side = 1, nc = 1, verbose = TRUE) {
+eocusum_arl_h_sim <- function(L0, df, k, coeff, m = 100, yemp = TRUE, side = 1, nc = 1, verbose = TRUE) {
   h2 <- 1
-  L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arl.sim, k = k, h = h2, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
+  L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arl_sim, k = k, h = h2, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
   if ( verbose ) cat(paste("(i)\t", h2, "\t", L2, "\n"))
   LL <- NULL
   while ( L2 < L0 & h2 < 6 ) {
     L1 <- L2
     h2 <- h2 + 1
-    L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arl.sim, k = k, h = h2, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
+    L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arl_sim, k = k, h = h2, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
     if ( verbose ) cat(paste("(ii)\t", h2, "\t", L2, "\n"))
     LL <- c(LL, L2)
   }
@@ -357,13 +361,13 @@ eocusum.arl.h.sim <- function(L0, df, k, coeff, m = 100, yemp = TRUE, side = 1, 
     p <- beta[2] / beta[3]
     q <- (beta[1] - L0) / beta[3]
     h2 <- -p / 2 + 1 * sqrt(p^2 / 4 - q)
-    L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arl.sim, k = k, h = h2, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
+    L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arl_sim, k = k, h = h2, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
     if ( verbose ) cat(paste("(iii)\t", h2, "\t", L2, "\n"))
     if ( L2 < L0 ) {
       while ( L2 < L0 ) {
         L1 <- L2
         h2 <- h2 + 1
-        L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arl.sim, k = k, h = h2, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
+        L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arl_sim, k = k, h = h2, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
         if ( verbose ) cat(paste("(iv)a\t", h2, "\t", L2, "\n"))
         }
       h1 <- h2 - 1
@@ -371,7 +375,7 @@ eocusum.arl.h.sim <- function(L0, df, k, coeff, m = 100, yemp = TRUE, side = 1, 
       while ( L2 >= L0 ) {
         L1 <- L2
         h2 <- h2 - 1
-        L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arl.sim, k = k, h = h2, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
+        L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arl_sim, k = k, h = h2, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
         if ( verbose ) cat(paste("(iv)b\t", h2, "\t", L2, "\n"))
       }
       h1 <- h2 + 1
@@ -379,10 +383,12 @@ eocusum.arl.h.sim <- function(L0, df, k, coeff, m = 100, yemp = TRUE, side = 1, 
     } else {
     h1 <- h2 - 1
   }
-  h.error <- 1; a.error <- 1; scaling <- 10^3;
+  h.error <- 1
+  a.error <- 1
+  scaling <- 10^3
   while ( a.error > 1e-4 & h.error > 1e-6 ) {
     h3 <- h1 + (L0 - L1) / (L2 - L1) * (h2 - h1)
-    L3 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arl.sim, k = k, h = h3, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
+    L3 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arl_sim, k = k, h = h3, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
     if ( verbose ) cat(paste("(v)\t", h3, "\t", L3, "\n"))
     h1 <- h2
     h2 <- h3
@@ -393,7 +399,7 @@ eocusum.arl.h.sim <- function(L0, df, k, coeff, m = 100, yemp = TRUE, side = 1, 
     if ( h.error < 0.5 / scaling ) {
       if ( L3 < L0 ) {
         h3 <- ( round( h3 * scaling ) + 1 ) / scaling - 1e-6
-        L3 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arl.sim, k = k, h = h3, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
+        L3 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arl_sim, k = k, h = h3, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
         if ( verbose ) cat(paste("(vi)\t", h3, "\t", L3, "\n"))
       }
       break
@@ -401,7 +407,7 @@ eocusum.arl.h.sim <- function(L0, df, k, coeff, m = 100, yemp = TRUE, side = 1, 
   }
   if ( L3 < L0 ) {
     h3 <- ( round( h3 * scaling ) + 1 ) / scaling - 1e-6
-    L3 <- mean(do.call(c, parallel::mclapply(1:m, eocusum.arl.sim, k = k, h = h3, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
+    L3 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arl_sim, k = k, h = h3, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
     if ( verbose ) cat(paste("(vii)\t", h3, "\t", L3, "\n"))
   }
   h <- h3

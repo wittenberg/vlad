@@ -16,7 +16,7 @@ from the binary logistic regression model.}
 regression model.}
 }
 \value{
-Returns a single value which is the difference between expected and observed.
+Returns a single value which is the difference between expected risk and observed outcome.
 }
 \description{
 Compute Expected minus Observed value.

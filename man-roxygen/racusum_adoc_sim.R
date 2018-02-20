@@ -26,7 +26,7 @@
 #' m <- 10^4
 #' tau <- 10
 #' res <- sapply(0:(tau-1), function(i){
-#'  RLS <- do.call(c, parallel::mclapply( 1:m, racusum.adoc.sim, RQ=2, h=2.0353, df=df1, m=i,
+#'  RLS <- do.call(c, parallel::mclapply( 1:m, racusum_adoc_sim, RQ=2, h=2.0353, df=df1, m=i,
 #'                                        coeff=coeff1, coeff2=coeff1,
 #'                                        mc.cores=parallel::detectCores()) )
 #'  list(data.frame(cbind("ARL"=mean(RLS), "ARLSE"=sd(RLS)/sqrt(m))))

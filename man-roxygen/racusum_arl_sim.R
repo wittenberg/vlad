@@ -14,11 +14,11 @@
 #' m <- 10^4; h_vec <- 2.7; yemp <- FALSE
 #' no_cores <- parallel::detectCores()
 #' cl <- parallel::makeCluster(no_cores)
-#' parallel::clusterExport(cl, c("h_vec", "racusum.arl.sim", "coeff1", "S2I", "yemp"))
+#' parallel::clusterExport(cl, c("h_vec", "racusum_arl_sim", "coeff1", "S2I", "yemp"))
 #' time <- system.time( {
 #'   ARL <- array(NA, dim=c( length(h_vec), m))
 #'   for (h in h_vec) {
-#'     ARL[which(h_vec==h), ] <- parallel::parSapply(cl, 1:m, racusum.arl.sim, h=h, coeff=coeff1,
+#'     ARL[which(h_vec==h), ] <- parallel::parSapply(cl, 1:m, racusum_arl_sim, h=h, coeff=coeff1,
 #'                                                  df=S2I, yemp=yemp, USE.NAMES=FALSE) }
 #' } )
 #' simMean <- apply(ARL, c(1), mean)
@@ -31,11 +31,11 @@
 #' m <- 10^4; h_vec <- 2.7
 #' no_cores <- parallel::detectCores()
 #' cl <- parallel::makeCluster(no_cores)
-#' parallel::clusterExport(cl, c("h_vec", "racusum.arl.sim", "coeff1", "S2I"))
+#' parallel::clusterExport(cl, c("h_vec", "racusum_arl_sim", "coeff1", "S2I"))
 #' time <- system.time( {
 #'   ARL <- array(NA, dim=c( length(h_vec), m))
 #'   for (h in h_vec) {
-#'     ARL[which(h_vec==h), ] <- parallel::parSapply(cl, 1:m, racusum.arl.sim, h=h, coeff=coeff1,
+#'     ARL[which(h_vec==h), ] <- parallel::parSapply(cl, 1:m, racusum_arl_sim, h=h, coeff=coeff1,
 #'                                                  df=S2I, USE.NAMES=FALSE) }
 #' } )
 #' simMean <- apply(ARL, c(1), mean)

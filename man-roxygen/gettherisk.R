@@ -7,6 +7,11 @@
 #' In Lawless JF (ed.), \emph{Statistics in Action}, pp. 225-242. Informa UK Limited.
 #' doi: \href{https://doi.org/10.1201/b16597-15}{10.1201/b16597-15}.
 #'
+#' Parsonnet V, Dean D, Bernstein AD (1989). A method of uniform stratification of risk
+#' for evaluating the results of surgery in acquired adult heart disease.
+#' \emph{Circulation}, \strong{79}(6):I3-12.
+
+#'
 #' @examples
 #' library("vlad")
 #' # see Steiner et al. 2000 page 445 or Steiner (2014) p. 234

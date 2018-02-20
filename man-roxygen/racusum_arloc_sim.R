@@ -25,13 +25,13 @@
 #'
 #' ## Deterioration RA=2:
 #' ## 1. Determine critical value for given ARL
-#' h0 <- racusum.arloc.h.sim(L0=370, df=df1, coeff=coeff1, coeff2=coeff2, m=m, RA=2, nc=6)
+#' h0 <- racusum_arloc_h_sim(L0=370, df=df1, coeff=coeff1, coeff2=coeff2, m=m, RA=2, nc=6)
 #' ## 2. Compute Out of Control ARL
 #' RQ <- seq(1, 4, 0.1)
 #' rl <- array(NA, dim=c(m, length(RQ)))
 #' RLS <- sapply(RQ, function(i) {
 #'   cat("RQ: ", i, "\n" )
-#'   rl[, i] <- do.call(c, parallel::mclapply(1:m, racusum.arloc.sim, h=h0, df=df1, RA=2, RQ=i,
+#'   rl[, i] <- do.call(c, parallel::mclapply(1:m, racusum_arloc_sim, h=h0, df=df1, RA=2, RQ=i,
 #'                                            coeff=coeff1, coeff2=coeff2, mc.cores=6))
 #' })
 #' df3 <- data.frame(cbind(RQ, "ARL"=apply(RLS, 2, mean), "ARLSE"=apply(RLS, 2, mean)/sqrt(m) ))
@@ -39,13 +39,13 @@
 #'
 #' ## Improvement RA=1/2:
 #' ## 1. Determine critical value for given ARL
-#' h0 <- racusum.arloc.h.sim(L0=370, df=df1, coeff=coeff1, coeff2=coeff2, m=m, RA=1/2, nc=6)
+#' h0 <- racusum_arloc_h_sim(L0=370, df=df1, coeff=coeff1, coeff2=coeff2, m=m, RA=1/2, nc=6)
 #' ## 2. Compute Out of Control ARL
 #' RQ <- seq(0, 1, 1/30)
 #' rl <- array(NA, dim=c(m, length(RQ)))
 #' RLS <- sapply(RQ, function(i) {
 #'   cat("RQ: ", i, "\n" )
-#'   rl[, i] <- do.call(c, parallel::mclapply(1:m, racusum.arloc.sim, h=h0, df=df1, RA=1/2, RQ=i,
+#'   rl[, i] <- do.call(c, parallel::mclapply(1:m, racusum_arloc_sim, h=h0, df=df1, RA=1/2, RQ=i,
 #'                                            coeff=coeff1, coeff2=coeff2, mc.cores=6))
 #' })
 #' df4 <- data.frame(cbind(RQ, "ARL"=apply(RLS, 2, mean), "ARLSE"=apply(RLS, 2, mean)/sqrt(m) ))

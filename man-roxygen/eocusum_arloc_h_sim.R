@@ -17,20 +17,17 @@
 #' nc <- parallel::detectCores()
 #' ## Lower cusum (detecting deterioration)
 #' ## k = 0
-#' eocusum.arloc.h.sim(L0=370, df=df1, k=0, m=m, side=1, coeff=coeff1, coeff2=coeff2, nc=nc)
+#' eocusum_arloc_h_sim(L0=370, df=df1, k=0, m=m, side=1, coeff=coeff1, coeff2=coeff2, nc=nc)
 #' ## k = kopt
 #' QA <- 2
 #' # use package function optimal.k to determine k
-#' kopt <- optimal.k(QA=QA, parsonnetscores=df1$Parsonnet, coeff=coeff1)
-#' eocusum.arloc.h.sim(L0=370, df=df1, k=kopt, m=m, side=1, coeff=coeff1, coeff2=coeff2, nc=nc)
+#' kopt <- optimal_k(QA=QA, parsonnetscores=df1$Parsonnet, coeff=coeff1)
+#' eocusum_arloc_h_sim(L0=370, df=df1, k=kopt, m=m, side=1, coeff=coeff1, coeff2=coeff2, nc=nc)
 #' ## Upper cusum (detecting improvement)
 #' ## k = 0
-#' eocusum.arloc.h.sim(L0=370, df=df1, k=0, m=m, side=2, coeff=coeff1, coeff2=coeff2, nc=nc)
+#' eocusum_arloc_h_sim(L0=370, df=df1, k=0, m=m, side=2, coeff=coeff1, coeff2=coeff2, nc=nc)
 #' ## k = kopt
 #' QA <- 1/2
-#' # manually find optimal k
-#' pbar <- mean(sapply(df1[, 1], gettherisk, coef=coeff1))
-#' kopt <- pbar * ( 1 - QA + log(QA) ) / log(QA)
-#' all.equal(kopt, optimal.k(QA=1/2, parsonnetscores=df1$Parsonnet, coeff=coeff1) )
-#' eocusum.arloc.h.sim(L0=370, df=df1, k=kopt, m=m, side=2, coeff=coeff1, coeff2=coeff2, nc=nc)
+#' kopt <- optimal_k(QA=1/2, parsonnetscores=df1$Parsonnet, coeff=coeff1)
+#' eocusum_arloc_h_sim(L0=370, df=df1, k=kopt, m=m, side=2, coeff=coeff1, coeff2=coeff2, nc=nc)
 #' }

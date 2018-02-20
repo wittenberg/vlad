@@ -20,22 +20,22 @@
 #'
 #' # Deterioration:
 #' # 1. Determine critical value for given ARL
-#' racusum.arloc.h.sim(L0=370, df=df1, coeff=coeff1, coeff2=coeff2, m=m, RA=2, nc=6)
+#' racusum_arloc_h_sim(L0=370, df=df1, coeff=coeff1, coeff2=coeff2, m=m, RA=2, nc=6)
 #' # h=2.030933
 #'
 #' # 2. Determine ARL and Standard Error
-#' RLS <- do.call(c, parallel::mclapply(1:m, racusum.arloc.sim, h=2.035, df=df1, RA=2, coeff=coeff1,
+#' RLS <- do.call(c, parallel::mclapply(1:m, racusum_arloc_sim, h=2.035, df=df1, RA=2, coeff=coeff1,
 #'                                      coeff2=coeff2, mc.cores=6))
 #' data.frame(cbind("ARL"=mean(RLS), "ARLSE"=sd(RLS)/sqrt(m)))
 #' # ARL=371.125; ARLSE=11.36053
 #'
 #' # Improvement:
 #' # 1. Determine critical value for given ARL
-#' racusum.arloc.h.sim(L0=370, df=df1, coeff=coeff1, coeff2=coeff2, m=m, RA=1/2, nc=6)
+#' racusum_arloc_h_sim(L0=370, df=df1, coeff=coeff1, coeff2=coeff2, m=m, RA=1/2, nc=6)
 #' # h=1.710999
 #' #
 #' # 2. Determine ARL and Standard Error
-#' RLS <- do.call(c, parallel::mclapply(1:m, racusum.arloc.sim, h=1.760, df=df1, RA=1/2, coeff=coeff1,
+#' RLS <- do.call(c, parallel::mclapply(1:m, racusum_arloc_sim, h=1.760, df=df1, RA=1/2, coeff=coeff1,
 #'                                      coeff2=coeff2, mc.cores=6))
 #' data.frame(cbind("ARL"=mean(RLS), "ARLSE"=sd(RLS)/sqrt(m)))
 #' # ARL=399.613; ARLSE=10.7601
