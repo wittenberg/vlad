@@ -30,6 +30,10 @@ Returns a single value which is the Run Length.
 \description{
 Compute ARLs of EO-CUSUM control charts using simulation.
 }
+\examples{
+\dontrun{
+}
+}
 \references{
 Steiner SH, Cook RJ, Farewell VT and Treasure T (2000).
  “Monitoring surgical performance using risk-adjusted cumulative sum charts.”

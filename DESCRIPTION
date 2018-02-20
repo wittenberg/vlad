@@ -6,8 +6,8 @@ Authors@R: person("Philipp", "Wittenberg", email = "pwitten@hsu-hh.de",
                   role = c("aut", "cre"))
 Depends: R (>= 2.10)
 Maintainer: Philipp Wittenberg <pwitten@hsu-hh.de>
-URL: http://github.com/wittenberg/vlad
-BugReports: http://github.com/wittenberg/vlad/issues
+URL: https://github.com/wittenberg/vlad
+BugReports: https://github.com/wittenberg/vlad/issues
 Description: Contains functions to set up risk-adjusted quality control charts in health care. For the variable life adjusted display (VLAD) and RA-CUSUM based on log-likelihood ratio statistic parameters such as the Average Run Length (ARL) or control limits can be computed.
 License: GPL-3
 Encoding: UTF-8

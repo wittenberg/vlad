@@ -23,20 +23,24 @@
 #' # high risk patient (Parsonnet score=50) has a risk of death 54%
 #' gettherisk(50, coeff=coeff)
 #'
-#' \dontrun{
+
 #' # Get mortality and probability of death of a phase I dataset
 #' library("spcadjust")
 #' data("cardiacsurgery")
 #' cardiacsurgery <- dplyr::mutate(cardiacsurgery, phase=factor(ifelse(date < 2*365, "I", "II")))
 #' SI <- subset(cardiacsurgery, c(phase=="I"), c("Parsonnet", "status"))
-#' coeff1 <- coef(glm(status ~ Parsonnet, data=SI, family="binomial"))
+#' GLM1 <- glm(status ~ Parsonnet, data=SI, family="binomial")
+#' coeff1 <- coef(GLM1)
 #' mprob <- as.numeric(table(SI$Parsonnet) / length(SI$Parsonnet))
 #'
 #' # Use estimated model coefficients and parsonnet scores in gettherisk function
+#' # or predicted values from a GLM
 #' s <- sort(unique(SI$Parsonnet))
 #' mort <- sapply(s, gettherisk, coeff=coeff1)
+#' mort1 <- predict(GLM1, newdata=data.frame(Parsonnet=s), type="response")
+#' all.equal(as.numeric(mort), as.numeric(mort1))
 #' df1 <- data.frame(s, mprob, mort)
-#'
+#' \dontrun{
 #' # Plot mortality and probability to die of phase I data
 #' ggplot2::qplot(data=df1, s, mprob) + ggplot2::theme_classic()
 #' library(ggplot2)
@@ -51,3 +55,11 @@
 #'  geom_line(colour="red") + labs(x="Parsonnet score", y="Probability to die") +
 #'  theme_classic()
 #'}
+
+GLM <- glm(status ~ Parsonnet, data=SI, family="binomial")
+coeff1 <- coef(GLM)
+# Use estimated model coefficients and parsonnet scores in gettherisk function
+s <- sort(unique(SI$Parsonnet))
+mort <- predict(GLM1, newdata=data.frame(Parsonnet=s), type="response")
+mort1 <- sapply(s, gettherisk, coeff=coeff1, "numeric")
+all.equal(as.numeric(mort), as.numeric(mort1))

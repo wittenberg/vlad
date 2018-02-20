@@ -49,18 +49,18 @@ double calceo2(DataFrame df, NumericVector coeff, NumericVector coeff2, double Q
   double x, Qstar, xstar, rdm, x2;
   NumericVector col1, col2, rnd, rndm;
 
-  col1 = df[0];                  // Parsonnet score stored in the dataframe
-  col2 = df[1];                  // Surgical outcome stored in the dataframe
+  col1 = df[0];                                       // Parsonnet score stored in the dataframe
+  col2 = df[1];                                       // Surgical outcome stored in the dataframe
   rnd = runif(1);
   row = rnd[0] * df.nrows();
-  s = col1[row];                           // Step 1: s=Parsonnet score
-  x = gettherisk(col1[row], coeff);     // Step 2
-  Qstar = QS;                           // Step 3
+  s = col1[row];                                      // Step 1: s=Parsonnet score
+  x = gettherisk(col1[row], coeff);                   // Step 2
+  Qstar = QS;                                         // Step 3
   xstar = (Qstar*x) / (1 - x + Qstar * x);
   rndm = runif(1);
   rdm = as<double>(rndm);
-  y = (rdm < xstar ? 1 : 0);                   // Step 4: y=Surgical outcome
-  x2 = gettherisk(s, coeff2);          // Step 5: x=True probability of death
+  y = (rdm < xstar ? 1 : 0);                          // Step 4: y=Surgical outcome
+  x2 = gettherisk(s, coeff2);                         // Step 5: x=True probability of death
   return x2 - y;
 }
 
@@ -68,7 +68,7 @@ double calceo2(DataFrame df, NumericVector coeff, NumericVector coeff2, double Q
 int eocusum_arl_sim(int r, double k, double h, DataFrame df, NumericVector coeff, bool yemp, int side) {
   int rl = 0;
   double z = 0;
-  if (side == 1) {                                        // lower side (deterioration)
+  if (side == 1) {                                    // lower side (deterioration)
     double tn = 0;
     do{
       rl++;
@@ -77,7 +77,7 @@ int eocusum_arl_sim(int r, double k, double h, DataFrame df, NumericVector coeff
     } while (-tn <= h);
     return rl;
   }
-  else if (side == 2){                                   // upper side (improvement)
+  else if (side == 2){                                // upper side (improvement)
     double qn = 0;
     do{
       rl++;

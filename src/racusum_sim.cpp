@@ -6,12 +6,12 @@ double loglikelihood(DataFrame df, NumericVector coeff, double R0, double RA, bo
   double wt, pt;
   NumericVector col1, col2, rnd;
 
-  col1 = df[0];                             // Parsonnet score stored in the dataframe
-  col2 = df[1];                             // Surgical outcome stored in the dataframe
+  col1 = df[0];                                       // Parsonnet score stored in the dataframe
+  col2 = df[1];                                       // Surgical outcome stored in the dataframe
   rnd = runif(1);
   row = rnd[0] * df.nrows();
   s = col1[row];                                      // Step 1: s=Parsonnet score
-  pt = gettherisk(s, coeff);                       // Step 2
+  pt = gettherisk(s, coeff);                          // Step 2
   if (yemp == true) {
     y = col2[row];
   }
@@ -29,18 +29,18 @@ double loglikelihood2(DataFrame df, NumericVector coeff, NumericVector coeff2, d
   double wt, x, Qstar, xstar, rdm, pt;
   NumericVector col1, col2, rnd, rndm;
 
-  col1 = df[0];                             // Parsonnet score stored in the dataframe
-  col2 = df[1];                             // Surgical outcome stored in the dataframe
+  col1 = df[0];                                       // Parsonnet score stored in the dataframe
+  col2 = df[1];                                       // Surgical outcome stored in the dataframe
   rnd = runif(1);
   row = rnd[0] * df.nrows();
   s = col1[row];                                      // Step 1: s=Parsonnet score
-  x = gettherisk(s, coeff);                        // Step 2:
-  Qstar = RQ;                                      // Step 3:
+  x = gettherisk(s, coeff);                           // Step 2:
+  Qstar = RQ;                                         // Step 3:
   xstar = (Qstar*x) / (1-x+Qstar*x);
   rndm = runif(1);
   rdm = as<double>(rndm);
-  y = (rdm < xstar ? 1 : 0);                              // Step 4: y=Surgical outcome
-  pt = gettherisk(s, coeff2);                      // Step 5: x=True probability of death
+  y = (rdm < xstar ? 1 : 0);                          // Step 4: y=Surgical outcome
+  pt = gettherisk(s, coeff2);                         // Step 5: x=True probability of death
   wt = (  y == 1 ? log( ((1 - pt + R0*pt)*RA) / ((1 - pt + RA*pt)*R0) ) : log( (1 - pt + R0*pt) / (1 - pt + RA*pt) )  );
   return wt;
 }
@@ -50,7 +50,7 @@ double loglikelihood3(DataFrame df, double R0, double RA){
   int row, y;
   double wt;
 
-  col2 = df[1];                             // Surgical outcome stored in the dataframe
+  col2 = df[1];                                       // Surgical outcome stored in the dataframe
   rnd = runif(1);
   row = rnd[0] * df.nrows();
   y = col2[row];

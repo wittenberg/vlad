@@ -3,7 +3,6 @@ man-roxygen
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.travis.yml$
-NEWS\.md
 ^cran-comments\.md$
 ^revdep$
 ^\.lintr$
