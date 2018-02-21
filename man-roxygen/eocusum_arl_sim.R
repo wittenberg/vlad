@@ -6,6 +6,7 @@
 #' @examples
 #' \dontrun{
 #' require("vlad")
+#' require("spcadjust")
 #' # Set seed for reproducibility
 #' RNGkind("L'Ecuyer-CMRG")
 #' set.seed(1234)

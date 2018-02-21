@@ -17,17 +17,17 @@
 #' nc <- parallel::detectCores()
 #' ## Lower cusum (detecting deterioration)
 #' ## k = 0
-#' eocusum_arloc_h_sim(L0=370, df=df1, k=0, m=m, side=1, coeff=coeff1, coeff2=coeff2, nc=nc)
+#' eocusum_arloc_h_sim(L0=370, df=df1, k=0, m=m, side="low", coeff=coeff1, coeff2=coeff2, nc=nc)
 #' ## k = kopt
 #' QA <- 2
 #' # use package function optimal.k to determine k
 #' kopt <- optimal_k(QA=QA, parsonnetscores=df1$Parsonnet, coeff=coeff1)
-#' eocusum_arloc_h_sim(L0=370, df=df1, k=kopt, m=m, side=1, coeff=coeff1, coeff2=coeff2, nc=nc)
+#' eocusum_arloc_h_sim(L0=370, df=df1, k=kopt, m=m, side="low", coeff=coeff1, coeff2=coeff2, nc=nc)
 #' ## Upper cusum (detecting improvement)
 #' ## k = 0
-#' eocusum_arloc_h_sim(L0=370, df=df1, k=0, m=m, side=2, coeff=coeff1, coeff2=coeff2, nc=nc)
+#' eocusum_arloc_h_sim(L0=370, df=df1, k=0, m=m, side="up", coeff=coeff1, coeff2=coeff2, nc=nc)
 #' ## k = kopt
 #' QA <- 1/2
 #' kopt <- optimal_k(QA=1/2, parsonnetscores=df1$Parsonnet, coeff=coeff1)
-#' eocusum_arloc_h_sim(L0=370, df=df1, k=kopt, m=m, side=2, coeff=coeff1, coeff2=coeff2, nc=nc)
+#' eocusum_arloc_h_sim(L0=370, df=df1, k=kopt, m=m, side="up", coeff=coeff1, coeff2=coeff2, nc=nc)
 #' }

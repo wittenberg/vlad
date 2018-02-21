@@ -4,7 +4,7 @@
 \alias{eocusum_arl_h_sim}
 \title{Compute alarm threshold of EO-CUSUM control charts using simulation}
 \usage{
-eocusum_arl_h_sim(L0, df, k, coeff, m = 100, yemp = TRUE, side = 1,
+eocusum_arl_h_sim(L0, df, k, coeff, m = 100, yemp = TRUE, side = "low",
   nc = 1, verbose = TRUE)
 }
 \arguments{

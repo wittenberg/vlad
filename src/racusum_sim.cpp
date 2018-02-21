@@ -97,6 +97,7 @@ int racusum_arloc_sim(int r, NumericVector coeff, NumericVector coeff2, double h
 // [[Rcpp::export(.racusum_adoc_sim)]]
 int racusum_adoc_sim(int r, NumericVector coeff, NumericVector coeff2, double h, DataFrame df, double R0, double RA,  double RQ, int m, int type) {
   // conditional steady-state ARL (RA-CUSUM) -- m = #ic-observations with m >= 0
+  int rl = 0;
   if (type == 1) {
     int success = 0, rl = 0;
     double qn = 0, wt = 0, R = 1;
@@ -130,8 +131,9 @@ int racusum_adoc_sim(int r, NumericVector coeff, NumericVector coeff2, double h,
           qn = 0;
         }
       }
-    } while ( qn <= h );
+    } while (qn <= h);
     rl += -m;
     return rl;
   }
+  return rl;
 }

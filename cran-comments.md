@@ -11,3 +11,7 @@ This is a first submission of the package to CRAN.
 ## R CMD check results
 
 0 ERRORs | 0 WARNINGs | 0 NOTEs
+
+Possibly mis-spelled words in DESCRIPTION:
+  ARL (11:238)
+  CUSUM (11:149)

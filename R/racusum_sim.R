@@ -153,8 +153,6 @@ racusum_arloc_sim <- function(r, coeff, coeff2, h, df, R0 = 1, RA = 2, RQ = 1) {
 #' Other option is the cyclical steady-state "cycl".
 #' @return Returns a single value which is the Run Length.
 #'
-#' @details Describe the resampling algorithm for calulating out of control run length.
-#'
 #' @template racusum_adoc_sim
 #'
 #' @author Philipp Wittenberg

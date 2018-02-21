@@ -243,7 +243,12 @@ eocusum_adoc_sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low", t
 #'
 #' @author Philipp Wittenberg
 #' @export
-eocusum_arloc_h_sim <- function(L0, df, k, coeff, coeff2, m = 100, QS = 1, side = 1, nc = 1, verbose = TRUE) {
+eocusum_arloc_h_sim <- function(L0, df, k, coeff, coeff2, m = 100, QS = 1, side = "low", nc = 1, verbose = TRUE) {
+  side <- switch(as.character(side), low = 1, up = 2)
+  if (is.null(side)) {
+    warning("no valid input, using side=low (deterioration) as default")
+    side <- 1
+  }
   h2 <- 1
   L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arloc_sim, h = h2, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
   if ( verbose ) cat(paste("(i)\t", h2, "\t", L2, "\n"))
@@ -342,7 +347,12 @@ eocusum_arloc_h_sim <- function(L0, df, k, coeff, coeff2, m = 100, QS = 1, side 
 #'
 #' @author Philipp Wittenberg
 #' @export
-eocusum_arl_h_sim <- function(L0, df, k, coeff, m = 100, yemp = TRUE, side = 1, nc = 1, verbose = TRUE) {
+eocusum_arl_h_sim <- function(L0, df, k, coeff, m = 100, yemp = TRUE, side = "low", nc = 1, verbose = TRUE) {
+  side <- switch(as.character(side), low = 1, up = 2)
+  if (is.null(side)) {
+    warning("no valid input, using side=low (deterioration) as default")
+    side <- 1
+  }
   h2 <- 1
   L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arl_sim, k = k, h = h2, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
   if ( verbose ) cat(paste("(i)\t", h2, "\t", L2, "\n"))

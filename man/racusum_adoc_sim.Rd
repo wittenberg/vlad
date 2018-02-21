@@ -42,9 +42,6 @@ Returns a single value which is the Run Length.
 \description{
 Compute steady-state ARLs of RA-CUSUM control charts using simulation.
 }
-\details{
-Describe the resampling algorithm for calulating out of control run length.
-}
 \examples{
 \dontrun{
 library("vlad")

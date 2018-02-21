@@ -2,7 +2,6 @@
 #define RACUSUM_SIM_H
 
 #include "vlad.h"
-#include "misc.h"
 #include <math.h>
 #include <algorithm>
 
