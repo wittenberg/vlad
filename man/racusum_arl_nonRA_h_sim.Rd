@@ -8,7 +8,7 @@ racusum_arl_nonRA_h_sim(L0, df, R0 = 1, RA = 2, m = 100, nc = 1,
   verbose = TRUE)
 }
 \arguments{
-\item{L0}{double. Prespecified Average Run Length.}
+\item{L0}{double. Prespecified in-control Average Run Length.}
 
 \item{df}{DataFrame. First column are Parsonnet Score values within a range of zero to 100 representing
 the preoperative patient risk. The second column are binary (0/1) outcome values of each operation.}

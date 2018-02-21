@@ -307,7 +307,7 @@ racusum_arl_h_sim <- function(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRU
 #' @title Compute alarm threshold of Non RA-CUSUM control charts using simulation
 #' @description Compute alarm threshold of Non RA-CUSUM control charts using simulation.
 #'
-#' @param L0 double. Prespecified Average Run Length.
+#' @param L0 double. Prespecified in-control Average Run Length.
 #' @param R0 double. Odds ratio of death under the null hypotheses.
 #' @param RA double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
 #'  in performance with increased mortality risk by doubling the odds Ratio RA=2. Detecting
@@ -404,7 +404,7 @@ racusum_arl_nonRA_h_sim <- function(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, ver
 #' @description Compute alarm threshold (Out of Control ARL) of RA-CUSUM control charts using
 #' simulation.
 #'
-#' @param L0 double. Prespecified Average Run Length.
+#' @param L0 double. Prespecified in-control Average Run Length.
 #' @param R0 double. Odds ratio of death under the null hypotheses.
 #' @param RA double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
 #'  in performance with increased mortality risk by doubling the odds Ratio RA=2. Detecting

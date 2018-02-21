@@ -217,10 +217,10 @@ eocusum_adoc_sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low", t
 #' @description Compute alarm threshold (Out of Control ARL) of EO-CUSUM control charts using
 #'  simulation.
 
-#' @param L0 double. In-Control ARL.
+#' @param L0 double. Prespecified in-control Average Run Length.
 #' @param df DataFrame. First column are Parsonnet Score values within a range of zero to 100 representing
 #' the preoperative patient risk. The second column are binary (0/1) outcome values of each operation.
-#' @param k A double
+#' @param k double. Reference value of the CUSUM control chart.
 #' @param m integer. Number of simulation runs.
 #' @param QS double. Defines the performance of a surgeon with the odds ratio ratio of death Q.
 #' @param side character. Default is "low" to calculate ARL for the upper arm of the V-mask. If side = "up",
@@ -319,8 +319,8 @@ eocusum_arloc_h_sim <- function(L0, df, k, coeff, coeff2, m = 100, QS = 1, side 
 #' @title Compute alarm threshold of EO-CUSUM control charts using simulation
 #' @description Compute alarm threshold of EO-CUSUM control charts using simulation.
 #'
-#' @param L0 double. In-Control ARL.
-#' @param k A double
+#' @param L0 double. Prespecified in-control Average Run Length.
+#' @param k double. Reference value of the CUSUM control chart.
 #' @param m integer. Number of simulation runs.
 #' @param side character. Default is "low" to calculate ARL for the upper arm of the V-mask. If side = "up",
 #'  calculate the lower arm of the V-mask.
