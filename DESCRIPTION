@@ -2,8 +2,9 @@ Package: vlad
 Type: Package
 Title: Variable Life Adjusted Display
 Version: 0.0.1
-Authors@R: person("Philipp", "Wittenberg", email = "pwitten@hsu-hh.de",
-                  role = c("aut", "cre"))
+Authors@R: c(
+      person("Philipp", "Wittenberg", email = "pwitten@hsu-hh.de", role = c("aut", "cre")),
+      person("Sven", "Knoth", email = "<Sven.Knoth@gmx.de>", role = "aut"))
 Depends: R (>= 2.10)
 Maintainer: Philipp Wittenberg <pwitten@hsu-hh.de>
 URL: https://github.com/wittenberg/vlad
