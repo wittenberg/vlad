@@ -3,18 +3,21 @@ Type: Package
 Title: Variable Life Adjusted Display
 Version: 0.0.1
 Authors@R: c(
-      person("Philipp", "Wittenberg", email = "pwitten@hsu-hh.de", role = c("aut", "cre")),
+      person("Philipp", "Wittenberg", email = "pwitten@hsu-hh.de", role = 
+      c("aut", "cre")),
       person("Sven", "Knoth", email = "<Sven.Knoth@gmx.de>", role = "aut"))
 Depends: R (>= 2.10)
 Maintainer: Philipp Wittenberg <pwitten@hsu-hh.de>
 URL: https://github.com/wittenberg/vlad
 BugReports: https://github.com/wittenberg/vlad/issues
-Description: Contains functions to set up risk-adjusted quality control charts in health care. For the variable life adjusted display (VLAD) and RA-CUSUM based on log-likelihood ratio statistic parameters such as the Average Run Length (ARL) or control limits can be computed.
+Description: Contains functions to set up risk-adjusted quality control charts
+    in health care. For the variable life adjusted display (VLAD) and RA-CUSUM
+    based on log-likelihood ratio statistic parameters such as the Average Run
+    Length (ARL) or control limits can be computed.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports: Rcpp (>= 0.12.12)
-Suggests: dplyr, ggplot2, parallel, spcadjust (>= 1.1), tidyr,
-    testthat
+Suggests: dplyr, ggplot2, parallel, spcadjust (>= 1.1), tidyr, testthat
 LinkingTo: Rcpp, RcppArmadillo
 RoxygenNote: 6.0.1
