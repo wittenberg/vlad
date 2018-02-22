@@ -7,7 +7,7 @@
 #'  from the binary logistic regression model. For more information see details.
 #' @param parsonnetscores NumericVector. Vector of Parsonnet Scores.
 #'
-#' @return output A description of the object the function outputs
+#' @return Returns a single value which is the approximate optimal k for a set of given Parsonnet scores..
 #'
 #' @details Formula deterioration:  \deqn{ k{det} = \frac{Q{A} - 1 - log(Q{A})}{log(Q{A})}\bar{p} , Q{A} > 1    }
 #'          Formula improvement:    \deqn{ k{imp} = \frac{1 - Q{A} + log(Q{A})}{log(Q{A})}\bar{p} , Q{A} < 1    }
@@ -232,8 +232,7 @@ eocusum_adoc_sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low", t
 #' @param nc integer. Number of cores.
 #' @param verbose boolean. If TRUE verbose output is included, if FALSE a quiet calculation of h is done.
 #'
-#' @return Returns a single value which is the distance d of the V-mask for a given ARL
-#'  and \eqn{\theta}{theta}.
+#' @return Returns a single value which is the control limit h for a given ARL.
 #'
 #' @details The function \code{eocusum_arloc_h_sim} determines the control limit for given in-control ARL (L0) by applying a
 #' multi-stage search procedure which includes secant rule and the parallel version of \code{\link{eocusum_arloc_sim}}

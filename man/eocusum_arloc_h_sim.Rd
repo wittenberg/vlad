@@ -33,8 +33,7 @@ calculate the lower arm of the V-mask.}
 \item{verbose}{boolean. If TRUE verbose output is included, if FALSE a quiet calculation of h is done.}
 }
 \value{
-Returns a single value which is the distance d of the V-mask for a given ARL
- and \eqn{\theta}{theta}.
+Returns a single value which is the control limit h for a given ARL.
 }
 \description{
 Compute alarm threshold (Out of Control ARL) of EO-CUSUM control charts using
