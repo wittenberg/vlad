@@ -1,12 +1,40 @@
 library(vlad)
 context("calceo")
-coeff <- c("(Intercept)"=-3.68, "Parsonnet"=0.077)
+coeff <- c("(Intercept)" = -3.68, "Parsonnet" = 0.077)
+df <- data.frame(Parsonnet=c(0L, 0L, 50L, 50L),
+                 status = c(0, 1, 0, 1))
 
-test_that("patients with different Parsonnet scores, Steiner (2014) p.234", {
-  expect_equal(round(calceo(df=data.frame(as.integer(0), 0), coeff=coeff)*-1, 3), -0.025)
-  expect_equal(round(calceo(df=data.frame(as.integer(0), 1), coeff=coeff)*-1, 3), 0.975)
-  expect_equal(round(calceo(df=data.frame(as.integer(50), 0), coeff=coeff)*-1, 3), -0.542)
-  expect_equal(round(calceo(df=data.frame(as.integer(50), 1), coeff=coeff)*-1, 3), 0.458)
+test_that("Output results for different Parsonnet scores, Steiner (2014) p.234", {
+  expected_results <- list(-0.025, 0.975, -0.542, 0.458)
+  works <- lapply(1:nrow(df), function(i) round(calceo(df=df[i, ], coeff = coeff)*-1, 3))
+  expect_equal(works, expected_results)
 })
 
+test_that("Different input values for coeff", {
+  expect_error(calceo(df = df, coeff = coeff[1]),
+               "model coefficients \"coeff\"  must a numeric vector with two elements")
+  expect_error(calceo(df = df, coeff = rep(1, 3)),
+               "model coefficients \"coeff\"  must a numeric vector with two elements")
+  expect_error(calceo(df = df, coeff = NULL),
+               "model coefficients \"coeff\"  must a numeric vector with two elements")
+})
 
+test_that("Different input values for df", {
+  expect_error(calceo(df = NULL, NULL),
+               "provide a dataframe with two columns for argument \"df\"")
+  expect_error(calceo(df = NULL, coeff),
+               "provide a dataframe with two columns for argument \"df\"")
+  expect_error(calceo(df = data.frame(0L, as.character(1)), coeff),
+               "second column of dataframe must be of type numeric")
+  expect_error(calceo(df = data.frame(0L, as.integer(1)), coeff),
+               "second column of dataframe must be of type numeric")
+  expect_error(calceo(df = data.frame(as.character(0L), 1), coeff),
+               "first column of dataframe must be of type integer")
+})
+
+test_that("Different input values for yemp", {
+  expect_warning(calceo(df, coeff, yemp = as.character(TRUE)),
+                 "argument \"yemp\" must be logical using TRUE as default value")
+  expect_warning(calceo(df, coeff, yemp = as.numeric(TRUE)),
+                 "argument \"yemp\" must be logical using TRUE as default value")
+})
