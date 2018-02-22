@@ -23,9 +23,3 @@ test_that("patients with different Parsonnet scores, RA = 1/2, Steiner (2014) p.
   works <- lapply(1:nrow(df), function(i) round(loglikelihood(df=df[i, ], coeff = coeff, RA = RA), 3))
   expect_equal(works, expected_results)
 })
-
-
-
-
-
-
