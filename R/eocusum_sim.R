@@ -22,7 +22,7 @@ optimal_k <- function(QA, parsonnetscores, coeff) {
   parsonnetscores <- as.vector(parsonnetscores)
   if (is.na(parsonnetscores) || is.vector(parsonnetscores) != "TRUE") {stop("argument \"parsonnetscore\" must be an integer value")}
   coeff <- as.vector(coeff)
-  if (is.na(coeff)  || length(coeff)  != 2) {stop("model coefficients \"coeff\"  must a numeric vector with two elements")}
+  if (is.null(coeff) || is.na(coeff)  || length(coeff)  != 2) {stop("model coefficients \"coeff\" must a numeric vector with two elements")}
   .optimal_k(QA, parsonnetscores, coeff)
 }
 
@@ -45,7 +45,7 @@ gettherisk <- function(parsonnetscore, coeff) {
   parsonnetscore <- as.integer(parsonnetscore)
   if (is.na(parsonnetscore) || is.integer(parsonnetscore) != "TRUE") {stop("argument \"parsonnetscore\" must be an integer value")}
   coeff <- as.vector(coeff)
-  if (is.na(coeff)  || length(coeff)  != 2) {stop("model coefficients \"coeff\"  must a numeric vector with two elements")}
+  if (is.na(coeff)  || length(coeff)  != 2) {stop("model coefficients \"coeff\" must a numeric vector with two elements")}
   .gettherisk(parsonnetscore, coeff)
 }
 
@@ -74,7 +74,7 @@ calceo <- function(df, coeff, yemp = TRUE) {
   else if (vapply(df, class, "")[1] != "integer") {stop("first column of dataframe must be of type integer")}
   else if (vapply(df, class, "")[2] != "numeric") {stop("second column of dataframe must be of type numeric")}
   coeff <- as.vector(coeff)
-  if (is.null(coeff) || is.na(coeff) || length(coeff) != 2) {stop("model coefficients \"coeff\"  must a numeric vector with two elements")}
+  if (is.null(coeff) || is.na(coeff) || length(coeff) != 2) {stop("model coefficients \"coeff\" must a numeric vector with two elements")}
   if (is.na(yemp) || is.logical(yemp) != "TRUE") {warning("argument \"yemp\" must be logical using TRUE as default value")}
   yemp <- as.logical(yemp)
   .calceo(df, coeff, yemp)
@@ -110,7 +110,7 @@ eocusum_arl_sim <- function(r, k, h, df, coeff, yemp = TRUE, side = "low") {
   else if (vapply(df, class, "")[1] != "integer") {stop("first column of dataframe must be of type integer")}
   else if (vapply(df, class, "")[2] != "numeric") {stop("second column of dataframe must be of type numeric")}
   coeff <- as.vector(coeff)
-  if (is.null(coeff) || is.na(coeff) || length(coeff) != 2) {stop("model coefficients \"coeff\"  must a numeric vector with two elements")}
+  if (is.null(coeff) || is.na(coeff) || length(coeff) != 2) {stop("model coefficients \"coeff\" must a numeric vector with two elements")}
   if (is.na(yemp) || is.logical(yemp) != "TRUE") {warning("argument \"yemp\" must be logical using TRUE as default value")}
   yemp <- as.logical(yemp)
   iside <- switch(as.character(side), low = 1, up = 2)
@@ -149,8 +149,8 @@ eocusum_arloc_sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low") 
   else if (vapply(df, class, "")[1] != "integer") {stop("first column of dataframe must be of type integer")}
   else if (vapply(df, class, "")[2] != "numeric") {stop("second column of dataframe must be of type numeric")}
   coeff <- as.vector(coeff)
-  if (is.na(coeff)  || length(coeff)  != 2) {stop("model coefficients \"coeff\"  must a numeric vector with two elements")}
-  if (is.na(coeff2) || length(coeff2) != 2) {stop("model coefficients \"coeff2\" must a numeric vector with two elements")}
+  if (is.null(coeff) || is.na(coeff)  || length(coeff)  != 2) {stop("model coefficients \"coeff\" must a numeric vector with two elements")}
+  if (is.null(coeff2) || is.na(coeff2) || length(coeff2) != 2) {stop("model coefficients \"coeff2\" must a numeric vector with two elements")}
   iside <- switch(as.character(side), low = 1, up = 2)
   if (is.null(iside)) {
     warning("no valid input, using side=low (deterioration) as default")
@@ -191,8 +191,8 @@ eocusum_adoc_sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low", t
   else if (vapply(df, class, "")[1] != "integer") {stop("first column of dataframe must be of type integer")}
   else if (vapply(df, class, "")[2] != "numeric") {stop("second column of dataframe must be of type numeric")}
   coeff <- as.vector(coeff)
-  if (is.na(coeff)  || length(coeff)  != 2) {stop("model coefficients \"coeff\"  must a numeric vector with two elements")}
-  if (is.na(coeff2) || length(coeff2) != 2) {stop("model coefficients \"coeff2\" must a numeric vector with two elements")}
+  if (is.null(coeff) || is.na(coeff)  || length(coeff)  != 2) {stop("model coefficients \"coeff\" must a numeric vector with two elements")}
+  if (is.null(coeff2) || is.na(coeff2) || length(coeff2) != 2) {stop("model coefficients \"coeff2\" must a numeric vector with two elements")}
   iside <- switch(as.character(side), low = 1, up = 2)
   if (is.null(iside)) {
     warning("no valid input, using side=low (deterioration) as default")

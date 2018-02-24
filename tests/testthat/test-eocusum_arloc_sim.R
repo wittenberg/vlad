@@ -28,19 +28,28 @@ test_that("Different input values for df", {
                "first column of dataframe must be of type integer")
 })
 
-# test_that("Different input values for coeff", {
-#   expect_error(eocusum_arl_sim(r, k, h, df1, coeff = coeff1[1]),
-#                "model coefficients \"coeff\"  must a numeric vector with two elements")
-#   expect_error(eocusum_arl_sim(r, k, h, df1, coeff = rep(1, 3)),
-#                "model coefficients \"coeff\"  must a numeric vector with two elements")
-#   expect_error(eocusum_arl_sim(r, k, h, df1, coeff = NULL),
-#                "model coefficients \"coeff\"  must a numeric vector with two elements")
-# })
-#
+test_that("Different input values for coeff1", {
+  expect_error(eocusum_arloc_sim(r, k, h, df1, coeff = coeff1[1], coeff2),
+               "model coefficients \"coeff\" must a numeric vector with two elements")
+  expect_error(eocusum_arloc_sim(r, k, h, df1, coeff = rep(1, 3), coeff2),
+               "model coefficients \"coeff\" must a numeric vector with two elements")
+  expect_error(eocusum_arloc_sim(r, k, h, df1, coeff = NULL, coeff2),
+               "model coefficients \"coeff\" must a numeric vector with two elements")
+})
+
+test_that("Different input values for coeff2", {
+  expect_error(eocusum_arloc_sim(r, k, h, df1, coeff1, coeff2 = coeff2[1]),
+               "model coefficients \"coeff2\" must a numeric vector with two elements")
+  expect_error(eocusum_arloc_sim(r, k, h, df1, coeff1, coeff2 = rep(1, 3)),
+               "model coefficients \"coeff2\" must a numeric vector with two elements")
+  expect_error(eocusum_arloc_sim(r, k, h, df1, coeff1, coeff2 = NULL),
+               "model coefficients \"coeff2\" must a numeric vector with two elements")
+})
+
 # test_that("Different input values for yemp", {
-#   expect_warning(eocusum_arl_sim(r, k, h, df1, coeff1, yemp = as.character(TRUE)),
-#                  "argument \"yemp\" must be logical using TRUE as default value")
-#   expect_warning(eocusum_arl_sim(r, k, h, df1, coeff1, yemp = as.numeric(TRUE)),
+#   # expect_warning(eocusum_arloc_sim(r, k, h, df1, coeff1, coeff2, yemp = as.character(TRUE)),
+#   #                "argument \"yemp\" must be logical using TRUE as default value")
+#   expect_warning(eocusum_arloc_sim(r, k, h, df1, coeff1, coeff2, yemp = as.numeric(TRUE)),
 #                  "argument \"yemp\" must be logical using TRUE as default value")
 # })
 

@@ -12,11 +12,11 @@ test_that("Output results for different Parsonnet scores, Steiner (2014) p.234",
 
 test_that("Different input values for coeff", {
   expect_error(calceo(df, coeff = coeff[1]),
-               "model coefficients \"coeff\"  must a numeric vector with two elements")
+               "model coefficients \"coeff\" must a numeric vector with two elements")
   expect_error(calceo(df, coeff = rep(1, 3)),
-               "model coefficients \"coeff\"  must a numeric vector with two elements")
+               "model coefficients \"coeff\" must a numeric vector with two elements")
   expect_error(calceo(df, coeff = NULL),
-               "model coefficients \"coeff\"  must a numeric vector with two elements")
+               "model coefficients \"coeff\" must a numeric vector with two elements")
 })
 
 test_that("Different input values for df", {
