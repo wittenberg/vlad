@@ -110,7 +110,7 @@ eocusum_arl_sim <- function(r, k, h, df, coeff, yemp = TRUE, side = "low") {
   else if (vapply(df, class, "")[1] != "integer") {stop("first column of dataframe must be of type integer")}
   else if (vapply(df, class, "")[2] != "numeric") {stop("second column of dataframe must be of type numeric")}
   coeff <- as.vector(coeff)
-  if (is.na(coeff)  || length(coeff)  != 2) {stop("model coefficients \"coeff\"  must a numeric vector with two elements")}
+  if (is.null(coeff) || is.na(coeff) || length(coeff) != 2) {stop("model coefficients \"coeff\"  must a numeric vector with two elements")}
   if (is.na(yemp) || is.logical(yemp) != "TRUE") {warning("argument \"yemp\" must be logical using TRUE as default value")}
   yemp <- as.logical(yemp)
   iside <- switch(as.character(side), low = 1, up = 2)
