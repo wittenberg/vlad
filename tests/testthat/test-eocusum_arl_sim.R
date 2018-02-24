@@ -1,14 +1,11 @@
 library(vlad)
-require("spcadjust")
 context("eocusum_arl_sim")
 
-data("cardiacsurgery")
-df1 <- subset(cardiacsurgery, select=c(Parsonnet, status))
-coeff1 <- round(coef(glm(status~Parsonnet, data=df1, family="binomial")), 3)
-k <- optimal_k(QA=2, parsonnetscores=df1$Parsonnet, coeff=coeff1)
+df1 <- data.frame(Parsonnet=c(0L, 0L, 50L, 50L), status = c(0, 1, 0, 1))
+coeff1 <- c("(Intercept)" = -3.68, "Parsonnet" = 0.077)
+k <- 0.01
 r <- 1
 h <- 1
-m <- 1
 
 test_that("Input parameter of function", {
   expect_error(eocusum_arl_sim(r = 0, k, h, df1, coeff1),
