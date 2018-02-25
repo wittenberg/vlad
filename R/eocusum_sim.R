@@ -7,7 +7,7 @@
 #'  from the binary logistic regression model. For more information see details.
 #' @param parsonnetscores NumericVector. Vector of Parsonnet Scores.
 #'
-#' @return Returns a single value which is the approximate optimal k for a set of given Parsonnet scores..
+#' @return Returns a single value which is the approximate optimal k for a set of given Parsonnet scores.
 #'
 #' @details Formula deterioration:  \deqn{ k{det} = \frac{Q{A} - 1 - log(Q{A})}{log(Q{A})}\bar{p} , Q{A} > 1    }
 #'          Formula improvement:    \deqn{ k{imp} = \frac{1 - Q{A} + log(Q{A})}{log(Q{A})}\bar{p} , Q{A} < 1    }

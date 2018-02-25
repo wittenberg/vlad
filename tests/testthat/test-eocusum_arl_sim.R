@@ -17,23 +17,17 @@ test_that("Input parameter of function", {
 })
 
 test_that("Different input values for df", {
-  expect_error(eocusum_arl_sim(r, k, h, df = NULL, coeff1),
-               "provide a dataframe with two columns for argument \"df\"")
-  expect_error(eocusum_arl_sim(r, k, h, df = data.frame(0L, as.character(1)), coeff1),
-               "second column of dataframe must be of type numeric")
-  expect_error(eocusum_arl_sim(r, k, h, df = data.frame(0L, as.integer(1)), coeff1),
-               "second column of dataframe must be of type numeric")
-  expect_error(eocusum_arl_sim(r, k, h, df = data.frame(as.character(0L), 1), coeff1),
-               "first column of dataframe must be of type integer")
+  df2 <- list(data.frame(0L, as.integer(1)),  data.frame(0L, as.integer(1)))
+  lapply(df2, function(x) {
+    expect_error(do.call(x, eocusum_arl_sim(r, k, h, df = x, coeff1)),
+               "second column of dataframe must be of type numeric")})
 })
 
 test_that("Different input values for coeff", {
-  expect_error(eocusum_arl_sim(r, k, h, df1, coeff = coeff1[1]),
-               "model coefficients \"coeff\" must a numeric vector with two elements")
-  expect_error(eocusum_arl_sim(r, k, h, df1, coeff = rep(1, 3)),
-               "model coefficients \"coeff\" must a numeric vector with two elements")
-  expect_error(eocusum_arl_sim(r, k, h, df1, coeff = NULL),
-               "model coefficients \"coeff\" must a numeric vector with two elements")
+  coeff3 <- list(coeff1[1], rep(1, 3), NULL)
+  lapply(coeff3, function(x) {
+    expect_error(do.call(x, eocusum_arl_sim(r, k, h, df1, coeff = coeff3)),
+                 "model coefficients \"coeff\" must a numeric vector with two elements")})
 })
 
 test_that("Different input values for yemp", {

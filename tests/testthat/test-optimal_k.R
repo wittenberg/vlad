@@ -12,10 +12,8 @@ test_that("Output of optimal_k calculation", {
 })
 
 test_that("Different input values for coeff", {
-  expect_error(optimal_k(QA, df[, 1], coeff = coeff[1]),
-               "model coefficients \"coeff\" must a numeric vector with two elements")
-  expect_error(optimal_k(QA, df[, 1], coeff = rep(1, 3)),
-               "model coefficients \"coeff\" must a numeric vector with two elements")
-  expect_error(optimal_k(QA, df[, 1], coeff = NULL),
-               "model coefficients \"coeff\" must a numeric vector with two elements")
+  coeff3 <- list(coeff[1], rep(1, 3), NULL)
+  lapply(coeff3, function(x) {
+    expect_error(do.call(x, optimal_k(QA, df[, 1], coeff = coeff3)),
+                 "model coefficients \"coeff\" must a numeric vector with two elements")})
 })
