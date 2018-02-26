@@ -5,19 +5,20 @@
 #'
 #' @examples
 #' \dontrun{
-#' rm(list=ls())
-#' require(VLAD2)
-#' data("surgeons"); data("s5000")
-#' df1 <- subset(surgeons, select=c(parsonnet, record1))
-#' df2 <- subset(s5000, select=c(parsonnet, record1))
+#' library("vlad")
+#' library("spcadjust")
+#' ## Datasets
+#' data("cardiacsurgery")
+#' s5000 <- dplyr::sample_n(cardiacsurgery, size=5000, replace=TRUE)
+#' df1 <- subset(cardiacsurgery, select=c(Parsonnet, status))
+#' df2 <- subset(s5000, select=c(Parsonnet, status))
 #' ## estimate coefficients from logit model
-#' coeff1 <- round(coef(glm(record1~parsonnet, data=df1, family="binomial")), 3)
-#' coeff2 <- round(coef(glm(record1~parsonnet, data=df2, family="binomial")), 3)
+#' coeff1 <- round(coef(glm(status~Parsonnet, data=df1, family="binomial")), 3)
+#' coeff2 <- round(coef(glm(status~Parsonnet, data=df2, family="binomial")), 3)
 #'
 #' ## Serial simulation
 #' ## set seed for reproducibility
-#' RNGkind("L'Ecuyer-CMRG") # RNGkind("Mersenne-Twister")
-#' set.seed(1234)
+#' RNGkind("L'Ecuyer-CMRG")
 #' m <- 10^3
 #' RLS <- do.call(c, lapply(1:m, eocusum_arloc_sim, h=4.498, k=0, df=df1, side=1, coeff=coeff1,
 #'                          coeff2=coeff2))
@@ -26,20 +27,16 @@
 #' ## Parallel simulation (FORK)
 #' ## set seed for reproducibility
 #' RNGkind("L'Ecuyer-CMRG")
-#' set.seed(1234); parallel::mc.reset.stream()
-#' m <- 10^3
 #' RLS <- simplify2array(parallel::mclapply(1:m, eocusum_arloc_sim, h=4.498, k=0, df=df1, side=1,
 #'                                          coeff=coeff1, coeff2=coeff2,
 #'                                          mc.cores=parallel::detectCores()))
 #' data.frame(cbind("ARL"=mean(RLS), "ARLSE"=sd(RLS)/sqrt(m)))
-#' ## ARL=372.133; ARLSE=9.967791
 #'
 #' ## Parallel simulation (PSOCK)
 #' ## set seed for reproducibility
 #' RNGkind("L'Ecuyer-CMRG")
 #' no_cores <- parallel::detectCores()
 #' cl <- parallel::makeCluster(no_cores)
-#' parallel::clusterSetRNGStream(cl, iseed = 1234)
 #' side <- 1
 #' h_vec <- 4.498
 #' QS_vec <- 1
@@ -64,5 +61,4 @@
 #' ARLSE <- sqrt(apply(RLS, c(1, 2), var)/m)
 #' print(list(ARL, ARLSE, time))
 #' parallel::stopCluster(cl)
-#' ## ARL=371.361; ARLSE=9.899058
 #' }

@@ -3,7 +3,8 @@ note <- sprintf("R package version: %s", meta$Version)
 
 bibentry( bibtype="Manual",
           title= "{vlad}: Variable Life Adjusted Display",
-          author= c(person("Philipp", "Wittenberg")),
+          author= c(person("Philipp", "Wittenberg"),
+                    person("Sven", "Knoth")),
           year = year,
           note = note,
           url = "https://github.com/wittenberg/vlad",

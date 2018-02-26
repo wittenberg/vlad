@@ -14,14 +14,14 @@ test_that("Different input values for coeff", {
   coeff3 <- list(coeff[1], rep(1, 3), NULL)
   lapply(coeff3, function(x) {
     expect_error(do.call(x, calceo(df, coeff = coeff3)),
-                 "model coefficients \"coeff\" must a numeric vector with two elements")})
+                 "model coefficients 'coeff' must a numeric vector with two elements")})
 })
 
 test_that("Different input values for df", {
   expect_error(calceo(df = NULL, NULL),
-               "provide a dataframe with two columns for argument \"df\"")
+               "provide a dataframe with two columns for argument 'df'")
   expect_error(calceo(df = NULL, coeff),
-               "provide a dataframe with two columns for argument \"df\"")
+               "provide a dataframe with two columns for argument 'df'")
   expect_error(calceo(df = data.frame(0L, as.character(1)), coeff),
                "second column of dataframe must be of type numeric")
   expect_error(calceo(df = data.frame(0L, as.integer(1)), coeff),
@@ -32,7 +32,7 @@ test_that("Different input values for df", {
 
 test_that("Different input values for yemp", {
   expect_warning(calceo(df, coeff, yemp = as.character(TRUE)),
-                 "argument \"yemp\" must be logical using TRUE as default value")
+                 "argument 'yemp' must be logical using TRUE as default value")
   expect_warning(calceo(df, coeff, yemp = as.numeric(TRUE)),
-                 "argument \"yemp\" must be logical using TRUE as default value")
+                 "argument 'yemp' must be logical using TRUE as default value")
 })

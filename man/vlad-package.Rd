@@ -10,5 +10,5 @@ variable life adjusted display (VLAD) and RA-CUSUM based on log-likelihood ratio
 such as the Average Run Length (ARL) or control limits can be computed.
 }
 \author{
-Philipp Wittenberg <pwitten@hsu-hh.de>
+Philipp Wittenberg and Sven Knoth
 }

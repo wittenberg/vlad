@@ -4,7 +4,7 @@
 #' variable life adjusted display (VLAD) and RA-CUSUM based on log-likelihood ratio statistic parameters
 #' such as the Average Run Length (ARL) or control limits can be computed.
 #' @docType package
-#' @author Philipp Wittenberg <pwitten@hsu-hh.de>
+#' @author Philipp Wittenberg and Sven Knoth
 #' @importFrom Rcpp evalCpp
 #' @useDynLib vlad, .registration = TRUE
 #' @exportPattern "^[[:alpha:]]+"

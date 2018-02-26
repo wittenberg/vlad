@@ -36,8 +36,6 @@ require("vlad")
 require("spcadjust")
 # Set seed for reproducibility
 RNGkind("L'Ecuyer-CMRG")
-set.seed(1234)
-parallel::mc.reset.stream()
 # Datasets
 data("cardiacsurgery")
 df1 <- subset(cardiacsurgery, select=c(Parsonnet, status))

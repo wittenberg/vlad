@@ -48,7 +48,7 @@ using \code{\link{mclapply}}.
 }
 \examples{
 \dontrun{
-require("vald")
+require("vlad")
 # Set seed for reproducibility
 RNGkind("L'Ecuyer-CMRG")
 set.seed(1234)

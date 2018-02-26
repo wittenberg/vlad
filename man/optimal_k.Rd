@@ -15,7 +15,7 @@ optimal_k(QA, parsonnetscores, coeff)
 from the binary logistic regression model. For more information see details.}
 }
 \value{
-Returns a single value which is the approximate optimal k for a set of given Parsonnet scores..
+Returns a single value which is the approximate optimal k for a set of given Parsonnet scores.
 }
 \description{
 Compute optimal k.

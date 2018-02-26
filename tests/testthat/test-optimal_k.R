@@ -15,5 +15,5 @@ test_that("Different input values for coeff", {
   coeff3 <- list(coeff[1], rep(1, 3), NULL)
   lapply(coeff3, function(x) {
     expect_error(do.call(x, optimal_k(QA, df[, 1], coeff = coeff3)),
-                 "model coefficients \"coeff\" must a numeric vector with two elements")})
+                 "model coefficients 'coeff' must a numeric vector with two elements")})
 })

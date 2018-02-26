@@ -8,8 +8,6 @@
 #' library("vlad"); library("ggplot2")
 #' ## Set seed for reproducibility
 #' RNGkind("L'Ecuyer-CMRG")
-#' set.seed(1234)
-#' parallel::mc.reset.stream()
 #' ## Datasets
 #' data("cardiacsurgery")
 #' s5000 <- dplyr::sample_n(cardiacsurgery, size=5000, replace=TRUE)
@@ -41,7 +39,7 @@
 #' ## 1. Determine critical value for given ARL
 #' h0 <- racusum_arloc_h_sim(L0=370, df=df1, coeff=coeff1, coeff2=coeff2, m=m, RA=1/2, nc=6)
 #' ## 2. Compute Out of Control ARL
-#' RQ <- seq(0, 1, 1/30)
+#' RQ <- seq(1/4, 1, 1/40)
 #' rl <- array(NA, dim=c(m, length(RQ)))
 #' RLS <- sapply(RQ, function(i) {
 #'   cat("RQ: ", i, "\n" )
