@@ -1,7 +1,7 @@
 #include "racusum_sim.h"
 
-// [[Rcpp::export(.loglikelihood)]]
-double loglikelihood(DataFrame df, NumericVector coeff, double R0, double RA, bool yemp){
+// [[Rcpp::export(.llr_score)]]
+double llr_score(DataFrame df, NumericVector coeff, double R0, double RA, bool yemp){
   int y, row, s;
   double wt, pt;
   NumericVector col1, col2, rnd;
@@ -58,8 +58,8 @@ double loglikelihood3(DataFrame df, double R0, double RA){
   return wt;
 }
 
-// [[Rcpp::export(.racusum_arl_nonRA)]]
-int racusum_arl_nonRA(int r, double h, DataFrame df, double R0, double RA) {
+// [[Rcpp::export(.cusum_arl_sim)]]
+int cusum_arl_sim(int r, double h, DataFrame df, double R0, double RA) {
   double qn = 0, wt = 0;
   int rl = 0;
   do{
@@ -76,7 +76,7 @@ int racusum_arl_sim(int r, NumericVector coeff, double h, DataFrame df, double R
   int rl = 0;
   do{
     rl++;
-    wt = loglikelihood(df, coeff, R0, RA, yemp);
+    wt = llr_score(df, coeff, R0, RA, yemp);
     qn = fmax(0, qn + wt);
   } while (qn <= h);
   return rl;

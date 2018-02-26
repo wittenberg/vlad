@@ -99,9 +99,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// loglikelihood
-double loglikelihood(DataFrame df, NumericVector coeff, double R0, double RA, bool yemp);
-RcppExport SEXP _vlad_loglikelihood(SEXP dfSEXP, SEXP coeffSEXP, SEXP R0SEXP, SEXP RASEXP, SEXP yempSEXP) {
+// llr_score
+double llr_score(DataFrame df, NumericVector coeff, double R0, double RA, bool yemp);
+RcppExport SEXP _vlad_llr_score(SEXP dfSEXP, SEXP coeffSEXP, SEXP R0SEXP, SEXP RASEXP, SEXP yempSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -110,13 +110,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type R0(R0SEXP);
     Rcpp::traits::input_parameter< double >::type RA(RASEXP);
     Rcpp::traits::input_parameter< bool >::type yemp(yempSEXP);
-    rcpp_result_gen = Rcpp::wrap(loglikelihood(df, coeff, R0, RA, yemp));
+    rcpp_result_gen = Rcpp::wrap(llr_score(df, coeff, R0, RA, yemp));
     return rcpp_result_gen;
 END_RCPP
 }
-// racusum_arl_nonRA
-int racusum_arl_nonRA(int r, double h, DataFrame df, double R0, double RA);
-RcppExport SEXP _vlad_racusum_arl_nonRA(SEXP rSEXP, SEXP hSEXP, SEXP dfSEXP, SEXP R0SEXP, SEXP RASEXP) {
+// cusum_arl_sim
+int cusum_arl_sim(int r, double h, DataFrame df, double R0, double RA);
+RcppExport SEXP _vlad_cusum_arl_sim(SEXP rSEXP, SEXP hSEXP, SEXP dfSEXP, SEXP R0SEXP, SEXP RASEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -125,7 +125,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
     Rcpp::traits::input_parameter< double >::type R0(R0SEXP);
     Rcpp::traits::input_parameter< double >::type RA(RASEXP);
-    rcpp_result_gen = Rcpp::wrap(racusum_arl_nonRA(r, h, df, R0, RA));
+    rcpp_result_gen = Rcpp::wrap(cusum_arl_sim(r, h, df, R0, RA));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -192,8 +192,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_vlad_eocusum_arl_sim", (DL_FUNC) &_vlad_eocusum_arl_sim, 7},
     {"_vlad_eocusum_arloc_sim", (DL_FUNC) &_vlad_eocusum_arloc_sim, 8},
     {"_vlad_eocusum_adoc_sim", (DL_FUNC) &_vlad_eocusum_adoc_sim, 10},
-    {"_vlad_loglikelihood", (DL_FUNC) &_vlad_loglikelihood, 5},
-    {"_vlad_racusum_arl_nonRA", (DL_FUNC) &_vlad_racusum_arl_nonRA, 5},
+    {"_vlad_llr_score", (DL_FUNC) &_vlad_llr_score, 5},
+    {"_vlad_cusum_arl_sim", (DL_FUNC) &_vlad_cusum_arl_sim, 5},
     {"_vlad_racusum_arl_sim", (DL_FUNC) &_vlad_racusum_arl_sim, 7},
     {"_vlad_racusum_arloc_sim", (DL_FUNC) &_vlad_racusum_arloc_sim, 8},
     {"_vlad_racusum_adoc_sim", (DL_FUNC) &_vlad_racusum_adoc_sim, 10},

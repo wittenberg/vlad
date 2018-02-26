@@ -25,12 +25,12 @@
     .Call(`_vlad_eocusum_adoc_sim`, r, k, h, df, coeff, coeff2, QS, side, type, m)
 }
 
-.loglikelihood <- function(df, coeff, R0, RA, yemp) {
-    .Call(`_vlad_loglikelihood`, df, coeff, R0, RA, yemp)
+.llr_score <- function(df, coeff, R0, RA, yemp) {
+    .Call(`_vlad_llr_score`, df, coeff, R0, RA, yemp)
 }
 
-.racusum_arl_nonRA <- function(r, h, df, R0, RA) {
-    .Call(`_vlad_racusum_arl_nonRA`, r, h, df, R0, RA)
+.cusum_arl_sim <- function(r, h, df, R0, RA) {
+    .Call(`_vlad_cusum_arl_sim`, r, h, df, R0, RA)
 }
 
 .racusum_arl_sim <- function(r, coeff, h, df, R0, RA, yemp) {

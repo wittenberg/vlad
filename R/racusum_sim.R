@@ -1,4 +1,4 @@
-#' @name loglikelihood
+#' @name llr_score
 #' @title Compute the log-likelihood ratio score
 #' @description Compute the log-likelihood ratio score.
 #'
@@ -16,11 +16,11 @@
 #'
 #' @return Returns a single value which is the log-likelihood ratio score.
 #'
-#' @template loglikelihood
+#' @template llr_score
 #'
 #' @author Philipp Wittenberg
 #' @export
-loglikelihood <- function(df, coeff, R0 = 1, RA = 2, yemp = TRUE) {
+llr_score <- function(df, coeff, R0 = 1, RA = 2, yemp = TRUE) {
   df <- as.data.frame(df)
   if (class(df) != "data.frame") {stop("provide a dataframe for argument \"df\"")}
   else if (ncol(df) != 2) {stop("provide a dataframe with two columns for argument \"df\"")}
@@ -34,12 +34,12 @@ loglikelihood <- function(df, coeff, R0 = 1, RA = 2, yemp = TRUE) {
   if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses \"RA\" must a positive numeric value")}
   if (is.na(yemp) || is.logical(yemp) != "TRUE") {warning("argument \"yemp\" must be logical using TRUE as default value")}
   yemp <- as.logical(yemp)
-  .loglikelihood(df, coeff, R0, RA, yemp)
+  .llr_score(df, coeff, R0, RA, yemp)
 }
 
-#' @name racusum_arl_nonRA_sim
-#' @title Compute ARLs of Non RA-CUSUM control charts using simulation
-#' @description Compute ARLs of Non RA-CUSUM control charts using simulation.
+#' @name cusum_arl_sim
+#' @title Compute ARLs of the Bernoulli CUSUM control charts using simulation
+#' @description Compute ARLs of the Bernoulli CUSUM control charts using simulation.
 #'
 #' @param r Integer vector. Number of runs.
 #' @param h double. Control Chart limit for detecting deterioration/improvement.
@@ -52,7 +52,7 @@ loglikelihood <- function(df, coeff, R0 = 1, RA = 2, yemp = TRUE) {
 #'
 #' @author Philipp Wittenberg
 #' @export
-racusum_arl_nonRA_sim <- function(r, h, df, R0 = 1, RA = 2) {
+cusum_arl_sim <- function(r, h, df, R0 = 1, RA = 2) {
   r <- as.integer(r)
   if (is.na(r) || r <= 0) {stop("number of simulation runs r must a positive integer")}
   h <- as.numeric(h)
@@ -66,7 +66,7 @@ racusum_arl_nonRA_sim <- function(r, h, df, R0 = 1, RA = 2) {
   if (is.na(R0) || R0 <= 0) {stop("Odds ratio of death under the null hypotheses \"R0\" must a positive numeric value")}
   RA <- as.numeric(RA)
   if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses \"RA\" must a positive numeric value")}
-  .racusum_arl_nonRA(r, h, df, R0, RA)
+  .cusum_arl_sim(r, h, df, R0, RA)
 }
 
 #' @name racusum_arl_sim
@@ -74,7 +74,7 @@ racusum_arl_nonRA_sim <- function(r, h, df, R0 = 1, RA = 2) {
 #' @description Compute ARLs of RA-CUSUM control charts using simulation.
 #'
 #' @param r Integer vector. Number of runs.
-#' @inheritParams loglikelihood
+#' @inheritParams llr_score
 #' @param h double. Control Chart limit for detecting deterioration/improvement.
 #'
 #' @return Returns a single value which is the Run Length.
@@ -301,9 +301,9 @@ racusum_arl_h_sim <- function(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRU
   h
 }
 
-#' @name racusum_arl_nonRA_h_sim
-#' @title Compute alarm threshold of Non RA-CUSUM control charts using simulation
-#' @description Compute alarm threshold of Non RA-CUSUM control charts using simulation.
+#' @name cusum_arl_h_sim
+#' @title Compute alarm threshold of the Bernoulli CUSUM control charts using simulation
+#' @description Compute alarm threshold of the Bernoulli CUSUM control charts using simulation.
 #'
 #' @param L0 double. Prespecified in-control Average Run Length.
 #' @param R0 double. Odds ratio of death under the null hypotheses.
@@ -319,21 +319,21 @@ racusum_arl_h_sim <- function(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRU
 #'
 #' @return Returns a single value which is the control limit h for a given in-control ARL.
 #'
-#' @details The function \code{racusum_arl_nonRA_h_sim} determines the control limit for given in-control ARL (L0) by applying a
-#' multi-stage search procedure which includes secant rule and the parallel version of \code{\link{racusum_arl_nonRA_sim}}
+#' @details The function \code{cusum_arl_h_sim} determines the control limit for given in-control ARL (L0) by applying a
+#' multi-stage search procedure which includes secant rule and the parallel version of \code{\link{cusum_arl_sim}}
 #' using \code{\link{mclapply}}.
 #'
 #' @author Philipp Wittenberg
 #' @export
-racusum_arl_nonRA_h_sim <- function(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, verbose = TRUE) {
+cusum_arl_h_sim <- function(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, verbose = TRUE) {
   h2 <- 1
-  L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum_arl_nonRA_sim, h = h2, df = df, R0 = R0, RA = RA, mc.cores = nc)))
+  L2 <- mean(do.call(c, parallel::mclapply(1:m, cusum_arl_sim, h = h2, df = df, R0 = R0, RA = RA, mc.cores = nc)))
   if ( verbose ) cat(paste("(i)\t", h2, "\t", L2, "\n"))
   LL <- NULL
   while ( L2 < L0 & h2 < 6 ) {
     L1 <- L2
     h2 <- h2 + 1
-    L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum_arl_nonRA_sim, h = h2, df = df, R0 = R0, RA = RA, mc.cores = nc)))
+    L2 <- mean(do.call(c, parallel::mclapply(1:m, cusum_arl_sim, h = h2, df = df, R0 = R0, RA = RA, mc.cores = nc)))
     if ( verbose ) cat(paste("(ii)\t", h2, "\t", L2, "\n"))
     LL <- c(LL, L2)
   }
@@ -344,13 +344,13 @@ racusum_arl_nonRA_h_sim <- function(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, ver
     p <- beta[2] / beta[3]
     q <- (beta[1] - L0) / beta[3]
     h2 <- -p / 2 + 1 * sqrt(p^2 / 4 - q)
-    L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum_arl_nonRA_sim, h = h2, df = df, R0 = R0, RA = RA, mc.cores = nc)))
+    L2 <- mean(do.call(c, parallel::mclapply(1:m, cusum_arl_sim, h = h2, df = df, R0 = R0, RA = RA, mc.cores = nc)))
     if ( verbose ) cat(paste("(iii)\t", h2, "\t", L2, "\n"))
     if ( L2 < L0 ) {
       while ( L2 < L0 ) {
         L1 <- L2
         h2 <- h2 + 1
-        L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum_arl_nonRA_sim, h = h2, df = df, R0 = R0, RA = RA, mc.cores = nc)))
+        L2 <- mean(do.call(c, parallel::mclapply(1:m, cusum_arl_sim, h = h2, df = df, R0 = R0, RA = RA, mc.cores = nc)))
         if ( verbose ) cat(paste("(iv)a\t", h2, "\t", L2, "\n"))
         }
       h1 <- h2 - 1
@@ -358,7 +358,7 @@ racusum_arl_nonRA_h_sim <- function(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, ver
       while ( L2 >= L0 ) {
         L1 <- L2
         h2 <- h2 - 1
-        L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum_arl_nonRA_sim, h = h2, df = df, R0 = R0, RA = RA, mc.cores = nc)))
+        L2 <- mean(do.call(c, parallel::mclapply(1:m, cusum_arl_sim, h = h2, df = df, R0 = R0, RA = RA, mc.cores = nc)))
         if ( verbose ) cat(paste("(iv)b\t", h2, "\t", L2, "\n"))
       }
       h1 <- h2 + 1
@@ -371,7 +371,7 @@ racusum_arl_nonRA_h_sim <- function(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, ver
   scaling <- 10^3
   while ( a.error > 1e-4 & h.error > 1e-6 ) {
     h3 <- h1 + (L0 - L1) / (L2 - L1) * (h2 - h1)
-    L3 <- mean(do.call(c, parallel::mclapply(1:m, racusum_arl_nonRA_sim, h = h3, df = df, R0 = R0, RA = RA, mc.cores = nc)))
+    L3 <- mean(do.call(c, parallel::mclapply(1:m, cusum_arl_sim, h = h3, df = df, R0 = R0, RA = RA, mc.cores = nc)))
     if ( verbose ) cat(paste("(v)\t", h3, "\t", L3, "\n"))
     h1 <- h2
     h2 <- h3
@@ -382,7 +382,7 @@ racusum_arl_nonRA_h_sim <- function(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, ver
     if ( h.error < 0.5 / scaling ) {
       if ( L3 < L0 ) {
         h3 <- ( round( h3 * scaling ) + 1 ) / scaling - 1e-6
-        L3 <- mean(do.call(c, parallel::mclapply(1:m, racusum_arl_nonRA_sim, h = h3, df = df, R0 = R0, RA = RA, mc.cores = nc)))
+        L3 <- mean(do.call(c, parallel::mclapply(1:m, cusum_arl_sim, h = h3, df = df, R0 = R0, RA = RA, mc.cores = nc)))
         if ( verbose ) cat(paste("(vi)\t", h3, "\t", L3, "\n"))
       }
       break
@@ -390,7 +390,7 @@ racusum_arl_nonRA_h_sim <- function(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, ver
   }
   if ( L3 < L0 ) {
     h3 <- ( round( h3 * scaling ) + 1 ) / scaling - 1e-6
-    L3 <- mean(do.call(c, parallel::mclapply(1:m, racusum_arl_nonRA_sim, h = h3, df = df, R0 = R0, RA = RA, mc.cores = nc)))
+    L3 <- mean(do.call(c, parallel::mclapply(1:m, cusum_arl_sim, h = h3, df = df, R0 = R0, RA = RA, mc.cores = nc)))
     if ( verbose ) cat(paste("(vii)\t", h3, "\t", L3, "\n"))
   }
   h <- h3
