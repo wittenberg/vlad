@@ -21,18 +21,18 @@
 #' @author Philipp Wittenberg
 #' @export
 llr_score <- function(df, coeff, R0 = 1, RA = 2, yemp = TRUE) {
+  if (class(df) != "data.frame") {stop("Provide a dataframe for argument 'df'")}
+  else if (ncol(df) != 2) {stop("Provide a dataframe with two columns for argument 'df'")}
+  else if (vapply(df, class, "")[1] != "integer") {stop("First column of dataframe must be of type integer")}
+  else if (vapply(df, class, "")[2] != "numeric") {stop("Second column of dataframe must be of type numeric")}
   df <- as.data.frame(df)
-  if (class(df) != "data.frame") {stop("provide a dataframe for argument \"df\"")}
-  else if (ncol(df) != 2) {stop("provide a dataframe with two columns for argument \"df\"")}
-  else if (vapply(df, class, "")[1] != "integer") {stop("first column of dataframe must be of type integer")}
-  else if (vapply(df, class, "")[2] != "numeric") {stop("second column of dataframe must be of type numeric")}
+  if (is.null(coeff) || is.na(coeff) || length(coeff) != 2) {stop("Model coefficients 'coeff' must be a numeric vector with two elements")}
   coeff <- as.vector(coeff)
-  if (is.na(coeff)  || length(coeff)  != 2) {stop("model coefficients \"coeff\"  must a numeric vector with two elements")}
+  if (is.na(R0) || R0 <= 0) {stop("Odds ratio of death under the null hypotheses 'R0' must a positive numeric value")}
   R0 <- as.numeric(R0)
-  if (is.na(R0) || R0 <= 0) {stop("Odds ratio of death under the null hypotheses \"R0\" must a positive numeric value")}
+  if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")}
   RA <- as.numeric(RA)
-  if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses \"RA\" must a positive numeric value")}
-  if (is.na(yemp) || is.logical(yemp) != "TRUE") {warning("argument \"yemp\" must be logical using TRUE as default value")}
+  if (is.na(yemp) || is.logical(yemp) != "TRUE") {warning("Argument 'yemp' must be logical using TRUE as default value")}
   yemp <- as.logical(yemp)
   .llr_score(df, coeff, R0, RA, yemp)
 }
@@ -54,14 +54,14 @@ llr_score <- function(df, coeff, R0 = 1, RA = 2, yemp = TRUE) {
 #' @export
 cusum_arl_sim <- function(r, h, df, R0 = 1, RA = 2) {
   r <- as.integer(r)
-  if (is.na(r) || r <= 0) {stop("number of simulation runs r must a positive integer")}
+  if (is.na(r) || r <= 0) {stop("Number of simulation runs 'r' must be a positive integer")}
   h <- as.numeric(h)
-  if (is.na(h) || h <= 0) {stop("control limit h must a positive numeric value")}
+  if (is.na(h) || h <= 0) {stop("Control limit 'h' must be a positive numeric value")}
+  if (class(df) != "data.frame") {stop("Provide a dataframe for argument 'df'")}
+  else if (ncol(df) != 2) {stop("Provide a dataframe with two columns for argument 'df'")}
+  else if (vapply(df, class, "")[1] != "integer") {stop("First column of dataframe must be of type integer")}
+  else if (vapply(df, class, "")[2] != "numeric") {stop("Second column of dataframe must be of type numeric")}
   df <- as.data.frame(df)
-  if (class(df) != "data.frame") {stop("provide a dataframe for argument \"df\"")}
-  else if (ncol(df) != 2) {stop("provide a dataframe with two columns for argument \"df\"")}
-  else if (vapply(df, class, "")[1] != "integer") {stop("first column of dataframe must be of type integer")}
-  else if (vapply(df, class, "")[2] != "numeric") {stop("second column of dataframe must be of type numeric")}
   R0 <- as.numeric(R0)
   if (is.na(R0) || R0 <= 0) {stop("Odds ratio of death under the null hypotheses \"R0\" must a positive numeric value")}
   RA <- as.numeric(RA)
@@ -85,21 +85,21 @@ cusum_arl_sim <- function(r, h, df, R0 = 1, RA = 2) {
 #' @export
 racusum_arl_sim <- function(r, coeff, h, df, R0 = 1, RA = 2, yemp = TRUE) {
   r <- as.integer(r)
-  if (is.na(r) || r <= 0) {stop("number of simulation runs r must a positive integer")}
+  if (is.na(r) || r <= 0) {stop("Number of simulation runs 'r' must be a positive integer")}
+  if (is.null(coeff) || is.na(coeff) || length(coeff) != 2) {stop("Model coefficients 'coeff' must be a numeric vector with two elements")}
   coeff <- as.vector(coeff)
-  if (is.na(coeff)  || length(coeff)  != 2) {stop("model coefficients \"coeff\"  must a numeric vector with two elements")}
   h <- as.numeric(h)
-  if (is.na(h) || h <= 0) {stop("control limit h must a positive numeric value")}
+  if (is.na(h) || h <= 0) {stop("Control limit 'h' must be a positive numeric value")}
+  if (class(df) != "data.frame") {stop("Provide a dataframe for argument 'df'")}
+  else if (ncol(df) != 2) {stop("Provide a dataframe with two columns for argument 'df'")}
+  else if (vapply(df, class, "")[1] != "integer") {stop("First column of dataframe must be of type integer")}
+  else if (vapply(df, class, "")[2] != "numeric") {stop("Second column of dataframe must be of type numeric")}
   df <- as.data.frame(df)
-  if (class(df) != "data.frame") {stop("provide a dataframe for argument \"df\"")}
-  else if (ncol(df) != 2) {stop("provide a dataframe with two columns for argument \"df\"")}
-  else if (vapply(df, class, "")[1] != "integer") {stop("first column of dataframe must be of type integer")}
-  else if (vapply(df, class, "")[2] != "numeric") {stop("second column of dataframe must be of type numeric")}
   R0 <- as.numeric(R0)
-  if (is.na(R0) || R0 <= 0) {stop("Odds ratio of death under the null hypotheses \"R0\" must a positive numeric value")}
+  if (is.na(R0) || R0 <= 0) {stop("Odds ratio of death under the null hypotheses 'R0' must a positive numeric value")}
   RA <- as.numeric(RA)
-  if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses \"RA\" must a positive numeric value")}
-  if (is.na(yemp) || is.logical(yemp) != "TRUE") {warning("argument \"yemp\" must be logical using TRUE as default value")}
+  if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")}
+  if (is.na(yemp) || is.logical(yemp) != "TRUE") {warning("Argument 'yemp' must be logical using TRUE as default value")}
   yemp <- as.logical(yemp)
   .racusum_arl_sim(r, coeff, h, df, R0, RA, yemp)
 }
@@ -122,21 +122,21 @@ racusum_arl_sim <- function(r, coeff, h, df, R0 = 1, RA = 2, yemp = TRUE) {
 #' @export
 racusum_arloc_sim <- function(r, coeff, coeff2, h, df, R0 = 1, RA = 2, RQ = 1) {
   r <- as.integer(r)
-  if (is.na(r) || r <= 0) {stop("number of simulation runs r must a positive integer")}
+  if (is.na(r) || r <= 0) {stop("Number of simulation runs 'r' must be a positive integer")}
+  if (is.null(coeff) || is.na(coeff) || length(coeff) != 2) {stop("Model coefficients 'coeff' must be a numeric vector with two elements")}
   coeff <- as.vector(coeff)
-  if (is.na(coeff)  || length(coeff)  != 2) {stop("model coefficients \"coeff\"  must a numeric vector with two elements")}
+  if (is.null(coeff2) || is.na(coeff2) || length(coeff2) != 2) {stop("Model coefficients 'coeff2' must be a numeric vector with two elements")}
   coeff2 <- as.vector(coeff2)
-  if (is.na(coeff2)  || length(coeff2)  != 2) {stop("model coefficients \"coeff2\"  must a numeric vector with two elements")}
   h <- as.numeric(h)
-  if (is.na(h) || h <= 0) {stop("control limit h must a positive numeric value")}
+  if (is.na(h) || h <= 0) {stop("Control limit 'h' must be a positive numeric value")}
+  if (class(df) != "data.frame") {stop("Provide a dataframe for argument 'df'")}
+  else if (ncol(df) != 2) {stop("Provide a dataframe with two columns for argument 'df'")}
+  else if (vapply(df, class, "")[1] != "integer") {stop("First column of dataframe must be of type integer")}
+  else if (vapply(df, class, "")[2] != "numeric") {stop("Second column of dataframe must be of type numeric")}
   df <- as.data.frame(df)
-  if (class(df) != "data.frame") {stop("provide a dataframe for argument \"df\"")}
-  else if (ncol(df) != 2) {stop("provide a dataframe with two columns for argument \"df\"")}
-  else if (vapply(df, class, "")[1] != "integer") {stop("first column of dataframe must be of type integer")}
-  else if (vapply(df, class, "")[2] != "numeric") {stop("second column of dataframe must be of type numeric")}
-  if (is.na(R0) || R0 <= 0) {stop("Odds ratio of death under the null hypotheses \"R0\" must a positive numeric value")}
+  if (is.na(R0) || R0 <= 0) {stop("Odds ratio of death under the null hypotheses 'R0' must a positive numeric value")}
   RA <- as.numeric(RA)
-  if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses \"RA\" must a positive numeric value")}
+  if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")}
   RQ <- as.numeric(RQ)
   if (is.na(RQ) || RQ < 0) {stop("RQ must a positive numeric value")}
   .racusum_arloc_sim(r, coeff, coeff2, h, df, R0, RA, RQ)
@@ -160,22 +160,22 @@ racusum_arloc_sim <- function(r, coeff, coeff2, h, df, R0 = 1, RA = 2, RQ = 1) {
 #' @export
 racusum_adoc_sim <- function(r, coeff, coeff2, h, df, R0 = 1, RA = 2, RQ = 1, m = 50, type = "cond") {
   r <- as.integer(r)
-  if (is.na(r) || r <= 0) {stop("number of simulation runs r must a positive integer")}
+  if (is.na(r) || r <= 0) {stop("Number of simulation runs 'r' must be a positive integer")}
+  if (is.null(coeff) || is.na(coeff) || length(coeff) != 2) {stop("Model coefficients 'coeff' must be a numeric vector with two elements")}
   coeff <- as.vector(coeff)
-  if (is.na(coeff)  || length(coeff)  != 2) {stop("model coefficients \"coeff\"  must a numeric vector with two elements")}
+  if (is.null(coeff2) || is.na(coeff2) || length(coeff2) != 2) {stop("Model coefficients 'coeff2' must be a numeric vector with two elements")}
   coeff2 <- as.vector(coeff2)
-  if (is.na(coeff2)  || length(coeff2)  != 2) {stop("model coefficients \"coeff2\"  must a numeric vector with two elements")}
   h <- as.numeric(h)
-  if (is.na(h) || h <= 0) {stop("control limit h must a positive numeric value")}
+  if (is.na(h) || h <= 0) {stop("Control limit 'h' must be a positive numeric value")}
+  if (class(df) != "data.frame") {stop("Provide a dataframe for argument 'df'")}
+  else if (ncol(df) != 2) {stop("Provide a dataframe with two columns for argument 'df'")}
+  else if (vapply(df, class, "")[1] != "integer") {stop("First column of dataframe must be of type integer")}
+  else if (vapply(df, class, "")[2] != "numeric") {stop("Second column of dataframe must be of type numeric")}
   df <- as.data.frame(df)
-  if (class(df) != "data.frame") {stop("provide a dataframe for argument \"df\"")}
-  else if (ncol(df) != 2) {stop("provide a dataframe with two columns for argument \"df\"")}
-  else if (vapply(df, class, "")[1] != "integer") {stop("first column of dataframe must be of type integer")}
-  else if (vapply(df, class, "")[2] != "numeric") {stop("second column of dataframe must be of type numeric")}
   R0 <- as.numeric(R0)
-  if (is.na(R0) || R0 <= 0) {stop("Odds ratio of death under the null hypotheses \"R0\" must a positive numeric value")}
+  if (is.na(R0) || R0 <= 0) {stop("Odds ratio of death under the null hypotheses 'R0' must a positive numeric value")}
   RA <- as.numeric(RA)
-  if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses \"RA\" must a positive numeric value")}
+  if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")}
   RQ <- as.numeric(RQ)
   if (is.na(RQ) || RQ < 0) {stop("RQ must a positive numeric value")}
   m <- as.integer(m)
