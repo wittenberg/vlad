@@ -8,3 +8,4 @@ man-roxygen
 ^\.lintr$
 ^\.travis\.yml$
 ^codecov\.yml$
+^appveyor\.yml$
