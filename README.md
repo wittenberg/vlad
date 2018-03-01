@@ -124,26 +124,25 @@ nc <- parallel::detectCores()
 # verbose calculation 
 UCL_sim <- racusum_arl_h_sim(L0=740, df=S2I[, c("Parsonnet", "status")], coeff=coeff, m=m, RA=2, nc=nc,
                              verbose=TRUE)
-#> (i)   1   57.859 
-#> (ii)  2   294.3159 
-#> (ii)  3   1016.7771 
-#> (v)   2.616896935088      649.0479 
-#> (v)   2.71165152153418    723.545 
-#> (v)   2.73258101704436    741.1123 
-#> (v)   2.73125583458286    739.9203 
-#> (v)   2.73134443948402    739.9534 
-#> (vi)  2.731999    740.8007
+#> (i)   1   56.7527 
+#> (ii)  2   287.0251 
+#> (ii)  3   987.9766 
+#> (v)   2.64622859070849    654.4264 
+#> (v)   2.73699002053269    732.5169 
+#> (v)   2.74568732501297    739.2887 
+#> (v)   2.74660087719656    740.2449 
+#> (v)   2.74636690006859    740.062
 # quite calculation
 LCL_sim <- racusum_arl_h_sim(L0=740, df=S2I[, c("Parsonnet", "status")], coeff=coeff, m=m, RA=1/2, 
                              nc=nc, verbose=FALSE)
 round(cbind(UCL_sim, LCL_sim), 3)
 #>      UCL_sim LCL_sim
-#> [1,]   2.732   2.517
+#> [1,]   2.746   2.506
 ```
 
-### Author
+### Authors
 
-Philipp Wittenberg.
+Philipp Wittenberg and Sven Knoth
 
 ### License
 

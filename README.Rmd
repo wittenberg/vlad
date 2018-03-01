@@ -121,9 +121,9 @@ LCL_sim <- racusum_arl_h_sim(L0=740, df=S2I[, c("Parsonnet", "status")], coeff=c
 round(cbind(UCL_sim, LCL_sim), 3)
 ```
 
-### Author
+### Authors
 
-Philipp Wittenberg.
+Philipp Wittenberg and Sven Knoth
 
 ### License
 
