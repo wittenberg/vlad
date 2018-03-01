@@ -15,7 +15,6 @@
 #' \dontrun{
 #' library("vlad")
 #' library("spcadjust")
-#' set.seed(1234)
 #' ## Datasets
 #' data("cardiacsurgery")
 #' s5000 <- dplyr::sample_n(cardiacsurgery, size=5000, replace=TRUE)
@@ -30,16 +29,16 @@
 #' nc <- parallel::detectCores()
 #' # steady state
 #' RNGkind("L'Ecuyer-CMRG")
-#' set.seed(12345); parallel::mc.reset.stream()
 #' m <- 10^3
 #' tau <- 50
 #' kopt <- optimal_k(QA=2, parsonnetscores=df1$Parsonnet, coeff=coeff1)
-#' eocusum_arloc_h_sim(L0=370, df=df1, k=kopt, m=m, side=1, coeff=coeff1, coeff2=coeff2, nc=nc)
-#' res <- sapply(1:tau, function(i){
+#' # eocusum_arloc_h_sim(L0=370, df=df1, k=kopt, m=m, side="low", coeff=coeff1, coeff2=coeff2, nc=nc)
+#' res <- sapply(0:(tau-1), function(i){
 #'   RLS <- do.call(c, parallel::mclapply( 1:m, eocusum_adoc_sim, k=kopt, QS=2, h= 2.637854, df=df1,
-#'                                         m=i, coeff=coeff1, coeff2=coeff2, side=1, mc.cores=nc))
-#'   list(data.frame(cbind("ARL"=mean(RLS), "ARLSE"=sd(RLS)/sqrt(m))))
+#'                                         m=i, coeff=coeff1, coeff2=coeff2, side="low", mc.cores=nc))
+#'   list(data.frame(cbind(ARL=mean(RLS), ARLSE=sd(RLS)/sqrt(m))))
 #' } )
-#' a <- do.call(rbind, res)
-#' plot(a[, 1], type="l")
+#' RES <- data.frame(cbind(M=0:(tau-1), do.call(rbind, res)))
+#' ggplot2::qplot(x=M, y=ARL, data=RES, geom=c("line", "point")) +
+#' ggplot2::theme_classic()
 #' }

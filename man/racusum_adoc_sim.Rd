@@ -54,20 +54,19 @@ df1 <- subset(cardiacsurgery, select=c(Parsonnet, status))
 coeff1 <- round(coef(glm(status ~ Parsonnet, data=df1, family="binomial")), 3)
 
 # simulation of conditional steady state
-m <- 10^4
-tau <- 10
+m <- 10^3
+tau <- 50
 res <- sapply(0:(tau-1), function(i){
  RLS <- do.call(c, parallel::mclapply( 1:m, racusum_adoc_sim, RQ=2, h=2.0353, df=df1, m=i,
                                        coeff=coeff1, coeff2=coeff1,
                                        mc.cores=parallel::detectCores()) )
- list(data.frame(cbind("ARL"=mean(RLS), "ARLSE"=sd(RLS)/sqrt(m))))
+ list(data.frame(cbind(ARL=mean(RLS), ARLSE=sd(RLS)/sqrt(m))))
 } )
 
 # plot
-df3 <- data.frame(cbind("m"=1:tau, "Sim"=do.call(rbind, res)[,"ARL"]))
-df4 <- tidyr::gather(df3, "Method", CED, c(-m))
-ggplot2::qplot(data=df4, m, CED, colour=Method, geom=c("line", "point"),
-               ylab=c(expression(CED[m]))) + ggplot2::theme_classic()
+RES <- data.frame(cbind(M=0:(tau-1), do.call(rbind, res)))
+ggplot2::qplot(x=M, y=ARL, data=RES, geom=c("line", "point")) +
+ggplot2::theme_classic()
 }
 }
 \references{
