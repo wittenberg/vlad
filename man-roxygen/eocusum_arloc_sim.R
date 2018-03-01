@@ -20,14 +20,14 @@
 #' ## set seed for reproducibility
 #' RNGkind("L'Ecuyer-CMRG")
 #' m <- 10^3
-#' RLS <- do.call(c, lapply(1:m, eocusum_arloc_sim, h=4.498, k=0, df=df1, side=1, coeff=coeff1,
+#' RLS <- do.call(c, lapply(1:m, eocusum_arloc_sim, h=4.498, k=0, df=df1, side="low", coeff=coeff1,
 #'                          coeff2=coeff2))
 #' data.frame(cbind("ARL"=mean(RLS), "ARLSE"=sd(RLS)/sqrt(m)))
 #' ## ARL=366.697; ARLSE=9.457748
 #' ## Parallel simulation (FORK)
 #' ## set seed for reproducibility
 #' RNGkind("L'Ecuyer-CMRG")
-#' RLS <- simplify2array(parallel::mclapply(1:m, eocusum_arloc_sim, h=4.498, k=0, df=df1, side=1,
+#' RLS <- simplify2array(parallel::mclapply(1:m, eocusum_arloc_sim, h=4.498, k=0, df=df1, side="low",
 #'                                          coeff=coeff1, coeff2=coeff2,
 #'                                          mc.cores=parallel::detectCores()))
 #' data.frame(cbind("ARL"=mean(RLS), "ARLSE"=sd(RLS)/sqrt(m)))

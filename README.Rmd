@@ -104,7 +104,7 @@ p1
 ### Compute thresholds of a risk-adjusted CUSUM chart for surgeon 2 
 
  
-Upper and lower control limits of the risk-adjusted CUSUM chart based on log-likelihood ratio statistic can be computed with the function `racusum_arl_sim`. The implemention uses parallel simulation and multi-stage search procedure.  
+Upper and lower control limits of the risk-adjusted CUSUM chart based on log-likelihood ratio statistic can be computed with the function `racusum_arl_h_sim`. The implemention uses parallel simulation and a multi-stage search procedure.  
 ```{r}
 # set a random number generator for parallel computations
 RNGkind("L'Ecuyer-CMRG")

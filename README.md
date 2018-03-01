@@ -112,7 +112,7 @@ p1
 
 ### Compute thresholds of a risk-adjusted CUSUM chart for surgeon 2
 
-Upper and lower control limits of the risk-adjusted CUSUM chart based on log-likelihood ratio statistic can be computed with the function `racusum_arl_sim`. The implemention uses parallel simulation and multi-stage search procedure.
+Upper and lower control limits of the risk-adjusted CUSUM chart based on log-likelihood ratio statistic can be computed with the function `racusum_arl_h_sim`. The implemention uses parallel simulation and a multi-stage search procedure.
 
 ``` r
 # set a random number generator for parallel computations
@@ -124,20 +124,20 @@ nc <- parallel::detectCores()
 # verbose calculation 
 UCL_sim <- racusum_arl_h_sim(L0=740, df=S2I[, c("Parsonnet", "status")], coeff=coeff, m=m, RA=2, nc=nc,
                              verbose=TRUE)
-#> (i)   1   56.7527 
-#> (ii)  2   287.0251 
-#> (ii)  3   987.9766 
-#> (v)   2.64622859070849    654.4264 
-#> (v)   2.73699002053269    732.5169 
-#> (v)   2.74568732501297    739.2887 
-#> (v)   2.74660087719656    740.2449 
-#> (v)   2.74636690006859    740.062
+#> (i)   1   57.3739 
+#> (ii)  2   295.5921 
+#> (ii)  3   988.0394 
+#> (v)   2.64179310107787    651.8087 
+#> (v)   2.73574862651   730.5491 
+#> (v)   2.74702573807289    742.8744 
+#> (v)   2.74439578752593    739.8493 
+#> (v)   2.74452680254938    740.0133
 # quite calculation
 LCL_sim <- racusum_arl_h_sim(L0=740, df=S2I[, c("Parsonnet", "status")], coeff=coeff, m=m, RA=1/2, 
                              nc=nc, verbose=FALSE)
 round(cbind(UCL_sim, LCL_sim), 3)
 #>      UCL_sim LCL_sim
-#> [1,]   2.746   2.506
+#> [1,]   2.745   2.502
 ```
 
 ### Authors
