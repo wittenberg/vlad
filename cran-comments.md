@@ -1,3 +1,13 @@
+## Resubmission
+This is a resubmission. In this version I have:
+
+* Corrected the typographical errors in the DESCRIPTION.
+
+* Added references for implemented methods in the DESCRIPTION.
+
+
+
+
 ## Release summary
 
 This is a first submission of the package to CRAN.

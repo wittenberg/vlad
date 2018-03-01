@@ -28,8 +28,8 @@
 #' RNGkind("L'Ecuyer-CMRG")
 #' m <- 10^3
 #' kopt <- optimal_k(QA=2, parsonnetscores=df1$Parsonnet, coeff=coeff1)
-#' RLS <- simplify2array(parallel::mclapply(1:m, eocusum_arloc_sim, h=2.626, k=kopt, df=df1, side="low",
-#'                                          coeff=coeff1, coeff2=coeff2,
+#' RLS <- simplify2array(parallel::mclapply(1:m, eocusum_arloc_sim, h=2.626, k=kopt, df=df1,
+#'                                          side="low", coeff=coeff1, coeff2=coeff2,
 #'                                          mc.cores=parallel::detectCores()))
 #' data.frame(cbind(ARL=mean(RLS), ARLSE=sd(RLS)/sqrt(m)))
 #'

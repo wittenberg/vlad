@@ -11,17 +11,17 @@ Authors@R: c(
             email = "<Sven.Knoth@gmx.de>", 
             role = "aut"))
 Depends: R (>= 2.10)
-Author: Philipp Wittenberg <https://orcid.org/0000-0001-7151-8243> [aut, cre],
-        Sven Knoth [aut]
 Maintainer: Philipp Wittenberg <pwitten@hsu-hh.de>
 URL: https://github.com/wittenberg/vlad
 BugReports: https://github.com/wittenberg/vlad/issues
-Description: The package contains functions to set up risk-adjusted quality control charts
-    in health care. For the variable life adjusted display (VLAD) proposed by Lovegrove et al. (1997)
-    <doi:10.1016/S0140-6736(97)06507-0> and the risk-adjusted cumulative sum chart based
-    on log-likelihood ratio statistic of Steiner et al. (2000) <doi:10.1093/biostatistics/1.4.441>
-    the average run length and control limits can be computed.
+Description: Contains functions to set up risk-adjusted quality control charts
+    in health care. For the variable life adjusted display (VLAD) proposed by 
+    Lovegrove et al. (1997) <doi:10.1016/S0140-6736(97)06507-0> and the 
+    risk-adjusted cumulative sum chart based on log-likelihood ratio statistic
+    introduced by Steiner et al. (2000) <doi:10.1093/biostatistics/1.4.441> the
+    average run length and control limits can be computed.
 License: GPL-3
+NeedsCompilation:	yes
 Encoding: UTF-8
 LazyData: true
 Imports: Rcpp (>= 0.12.12)
