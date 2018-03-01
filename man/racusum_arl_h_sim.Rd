@@ -5,7 +5,7 @@
 \title{Compute alarm threshold of RA-CUSUM control charts using simulation}
 \usage{
 racusum_arl_h_sim(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRUE,
-  nc = 1, verbose = TRUE)
+  nc = 1, verbose = FALSE)
 }
 \arguments{
 \item{L0}{double. Prespecified in-control Average Run Length.}
@@ -50,7 +50,7 @@ data("cardiacsurgery")
 cardiacsurgery <- dplyr::mutate(cardiacsurgery, phase=factor(ifelse(date < 2*365, "I", "II")))
 S2 <- subset(cardiacsurgery, c(surgeon==2), c("phase", "Parsonnet", "status"))
 # subset phase I (In-control) of surgeons 2
-S2I <- subset(S2, c(phase=="I"))
+S2I <- subset(S2, c(phase=="I"), c("Parsonnet", "status"))
 # estimate coefficients from logit model
 coeff1 <- round(coef(glm(status~Parsonnet, data=S2I, family="binomial")), 3)
 

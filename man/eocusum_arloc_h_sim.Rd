@@ -5,7 +5,7 @@
 \title{Compute alarm threshold of Out of Control EO-CUSUM control charts using simulation}
 \usage{
 eocusum_arloc_h_sim(L0, df, k, coeff, coeff2, m = 100, QS = 1,
-  side = "low", nc = 1, verbose = TRUE)
+  side = "low", nc = 1, verbose = FALSE)
 }
 \arguments{
 \item{L0}{double. Prespecified in-control Average Run Length.}
@@ -48,7 +48,6 @@ using \code{\link{mclapply}}.
 \dontrun{
 library("vlad")
 library("spcadjust")
-set.seed(1234)
 ## Datasets
 data("cardiacsurgery")
 s5000 <- dplyr::sample_n(cardiacsurgery, size=5000, replace=TRUE)
@@ -66,7 +65,7 @@ nc <- parallel::detectCores()
 eocusum_arloc_h_sim(L0=370, df=df1, k=0, m=m, side="low", coeff=coeff1, coeff2=coeff2, nc=nc)
 ## k = kopt
 QA <- 2
-# use package function optimal.k to determine k
+# use package function optimal_k to determine k
 kopt <- optimal_k(QA=QA, parsonnetscores=df1$Parsonnet, coeff=coeff1)
 eocusum_arloc_h_sim(L0=370, df=df1, k=kopt, m=m, side="low", coeff=coeff1, coeff2=coeff2, nc=nc)
 ## Upper cusum (detecting improvement)
@@ -74,7 +73,7 @@ eocusum_arloc_h_sim(L0=370, df=df1, k=kopt, m=m, side="low", coeff=coeff1, coeff
 eocusum_arloc_h_sim(L0=370, df=df1, k=0, m=m, side="up", coeff=coeff1, coeff2=coeff2, nc=nc)
 ## k = kopt
 QA <- 1/2
-kopt <- optimal_k(QA=1/2, parsonnetscores=df1$Parsonnet, coeff=coeff1)
+kopt <- optimal_k(QA=QA, parsonnetscores=df1$Parsonnet, coeff=coeff1)
 eocusum_arloc_h_sim(L0=370, df=df1, k=kopt, m=m, side="up", coeff=coeff1, coeff2=coeff2, nc=nc)
 }
 }

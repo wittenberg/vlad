@@ -5,7 +5,7 @@
 \title{Compute alarm threshold (Out of Control ARL) of RA-CUSUM control charts using simulation}
 \usage{
 racusum_arloc_h_sim(L0, df, coeff, coeff2, R0 = 1, RA = 2, RQ = 1,
-  m = 100, nc = 1, verbose = TRUE)
+  m = 100, nc = 1, verbose = FALSE)
 }
 \arguments{
 \item{L0}{double. Prespecified in-control Average Run Length.}

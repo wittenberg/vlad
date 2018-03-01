@@ -5,7 +5,7 @@
 \title{Compute alarm threshold of the Bernoulli CUSUM control charts using simulation}
 \usage{
 cusum_arl_h_sim(L0, df, R0 = 1, RA = 2, m = 100, nc = 1,
-  verbose = TRUE)
+  verbose = FALSE)
 }
 \arguments{
 \item{L0}{double. Prespecified in-control Average Run Length.}

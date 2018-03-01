@@ -214,30 +214,19 @@ racusum_adoc_sim <- function(r, coeff, coeff2, h, df, R0 = 1, RA = 2, RQ = 1, m 
 #' using \code{\link{mclapply}}.
 #'
 #' @author Philipp Wittenberg
-#' @examples
-#' \dontrun{
-#' library("vlad")
-#' library("spcadjust")
-#' data("cardiacsurgery")
-#' cardiacsurgery <- dplyr::mutate(cardiacsurgery, phase=factor(ifelse(date < 2*365, "I", "II")))
-#' S2 <- subset(cardiacsurgery, c(surgeon==2), c("phase", "Parsonnet", "status"))
-#' # subset phase I (In-control) of surgeons 2
-#' S2I <- subset(S2, c(phase=="I"))
-#' # estimate coefficients from logit model
-#' coeff1 <- round(coef(glm(status~Parsonnet, data=S2I, family="binomial")), 3)
 #'
-#' racusum_arl_h_sim(L0=740, df=S2I, coeff=coeff1, m=10^2, nc=4)
-#'}
+#' @template racusum_arl_h_sim
+#'
 #' @export
-racusum_arl_h_sim <- function(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRUE, nc = 1, verbose = TRUE) {
+racusum_arl_h_sim <- function(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRUE, nc = 1, verbose = FALSE) {
   h2 <- 1
-  L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum_arl_h_sim, h = h2, df = df, coeff = coeff, R0 = R0, RA = RA, yemp = yemp, mc.cores = nc)))
+  L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum_arl_sim, h = h2, df = df, coeff = coeff, R0 = R0, RA = RA, yemp = yemp, mc.cores = nc)))
   if ( verbose ) cat(paste("(i)\t", h2, "\t", L2, "\n"))
   LL <- NULL
   while ( L2 < L0 & h2 < 6 ) {
     L1 <- L2
     h2 <- h2 + 1
-    L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum_arl_h_sim, h = h2, df = df, coeff = coeff, R0 = R0, RA = RA, yemp = yemp, mc.cores = nc)))
+    L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum_arl_sim, h = h2, df = df, coeff = coeff, R0 = R0, RA = RA, yemp = yemp, mc.cores = nc)))
     if ( verbose ) cat(paste("(ii)\t", h2, "\t", L2, "\n"))
     LL <- c(LL, L2)
   }
@@ -248,13 +237,13 @@ racusum_arl_h_sim <- function(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRU
     p <- beta[2] / beta[3]
     q <- (beta[1] - L0) / beta[3]
     h2 <- -p / 2 + 1 * sqrt(p^2 / 4 - q)
-    L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum_arl_h_sim, h = h2, df = df, coeff = coeff, R0 = R0, RA = RA, yemp = yemp, mc.cores = nc)))
+    L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum_arl_sim, h = h2, df = df, coeff = coeff, R0 = R0, RA = RA, yemp = yemp, mc.cores = nc)))
     if ( verbose ) cat(paste("(iii)\t", h2, "\t", L2, "\n"))
     if ( L2 < L0 ) {
       while ( L2 < L0 ) {
         L1 <- L2
         h2 <- h2 + 1
-        L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum_arl_h_sim, h = h2, df = df, coeff = coeff, R0 = R0, RA = RA, yemp = yemp, mc.cores = nc)))
+        L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum_arl_sim, h = h2, df = df, coeff = coeff, R0 = R0, RA = RA, yemp = yemp, mc.cores = nc)))
         if ( verbose ) cat(paste("(iv)a\t", h2, "\t", L2, "\n"))
         }
       h1 <- h2 - 1
@@ -262,7 +251,7 @@ racusum_arl_h_sim <- function(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRU
       while ( L2 >= L0 ) {
         L1 <- L2
         h2 <- h2 - 1
-        L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum_arl_h_sim, h = h2, df = df, coeff = coeff, R0 = R0, RA = RA, yemp = yemp, mc.cores = nc)))
+        L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum_arl_sim, h = h2, df = df, coeff = coeff, R0 = R0, RA = RA, yemp = yemp, mc.cores = nc)))
         if ( verbose ) cat(paste("(iv)b\t", h2, "\t", L2, "\n"))
       }
       h1 <- h2 + 1
@@ -275,7 +264,7 @@ racusum_arl_h_sim <- function(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRU
   scaling <- 10^3
   while ( a.error > 1e-4 & h.error > 1e-6 ) {
     h3 <- h1 + (L0 - L1) / (L2 - L1) * (h2 - h1)
-    L3 <- mean(do.call(c, parallel::mclapply(1:m, racusum_arl_h_sim, h = h3, df = df, coeff = coeff, R0 = R0, RA = RA, yemp = yemp, mc.cores = nc)))
+    L3 <- mean(do.call(c, parallel::mclapply(1:m, racusum_arl_sim, h = h3, df = df, coeff = coeff, R0 = R0, RA = RA, yemp = yemp, mc.cores = nc)))
     if ( verbose ) cat(paste("(v)\t", h3, "\t", L3, "\n"))
     h1 <- h2
     h2 <- h3
@@ -286,7 +275,7 @@ racusum_arl_h_sim <- function(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRU
     if ( h.error < 0.5 / scaling ) {
       if ( L3 < L0 ) {
         h3 <- ( round( h3 * scaling ) + 1 ) / scaling - 1e-6
-        L3 <- mean(do.call(c, parallel::mclapply(1:m, racusum_arl_h_sim, h = h3, df = df, coeff = coeff, R0 = R0, RA = RA, yemp = yemp, mc.cores = nc)))
+        L3 <- mean(do.call(c, parallel::mclapply(1:m, racusum_arl_sim, h = h3, df = df, coeff = coeff, R0 = R0, RA = RA, yemp = yemp, mc.cores = nc)))
         if ( verbose ) cat(paste("(vi)\t", h3, "\t", L3, "\n"))
       }
       break
@@ -294,7 +283,7 @@ racusum_arl_h_sim <- function(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRU
   }
   if ( L3 < L0 ) {
     h3 <- ( round( h3 * scaling ) + 1 ) / scaling - 1e-6
-    L3 <- mean(do.call(c, parallel::mclapply(1:m, racusum_arl_h_sim, h = h3, df = df, coeff = coeff, R0 = R0, RA = RA, yemp = yemp, mc.cores = nc)))
+    L3 <- mean(do.call(c, parallel::mclapply(1:m, racusum_arl_sim, h = h3, df = df, coeff = coeff, R0 = R0, RA = RA, yemp = yemp, mc.cores = nc)))
     if ( verbose ) cat(paste("(vii)\t", h3, "\t", L3, "\n"))
   }
   h <- h3
@@ -325,7 +314,7 @@ racusum_arl_h_sim <- function(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRU
 #'
 #' @author Philipp Wittenberg
 #' @export
-cusum_arl_h_sim <- function(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, verbose = TRUE) {
+cusum_arl_h_sim <- function(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, verbose = FALSE) {
   h2 <- 1
   L2 <- mean(do.call(c, parallel::mclapply(1:m, cusum_arl_sim, h = h2, df = df, R0 = R0, RA = RA, mc.cores = nc)))
   if ( verbose ) cat(paste("(i)\t", h2, "\t", L2, "\n"))
@@ -429,7 +418,7 @@ cusum_arl_h_sim <- function(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, verbose = T
 #'
 #' @author Philipp Wittenberg
 #' @export
-racusum_arloc_h_sim <- function(L0, df, coeff, coeff2, R0 = 1, RA = 2, RQ = 1, m = 100, nc = 1, verbose = TRUE) {
+racusum_arloc_h_sim <- function(L0, df, coeff, coeff2, R0 = 1, RA = 2, RQ = 1, m = 100, nc = 1, verbose = FALSE) {
   h2 <- 1
   L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum_arloc_sim, h = h2, df = df, coeff = coeff, coeff2 = coeff2, R0 = R0, RA = RA, RQ = RQ, mc.cores = nc)))
   if ( verbose ) cat(paste("(i)\t", h2, "\t", L2, "\n"))
