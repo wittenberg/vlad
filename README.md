@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-vlad [![Build Status](https://travis-ci.org/wittenberg/vlad.svg)](https://travis-ci.org/wittenberg/vlad) [![Licence](https://img.shields.io/badge/licence-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html) [![Coverage Status](https://codecov.io/gh/wittenberg/vlad/graph/badge.svg)](https://codecov.io/github/wittenberg/vlad?branch=master)
-==============================================================================================================================================================================================================================================================================================================================================================
+vlad [![Build Status](https://travis-ci.org/wittenberg/vlad.svg)](https://travis-ci.org/wittenberg/vlad) [![Coverage Status](https://codecov.io/gh/wittenberg/vlad/graph/badge.svg)](https://codecov.io/github/wittenberg/vlad?branch=master)
+=============================================================================================================================================================================================================================================
 
 An R-package which contains functions to set up risk-adjusted quality control charts in health care.
 
@@ -124,20 +124,22 @@ nc <- parallel::detectCores()
 # verbose calculation 
 UCL_sim <- racusum_arl_h_sim(L0=740, df=S2I[, c("Parsonnet", "status")], coeff=coeff, m=m, RA=2, nc=nc,
                              verbose=TRUE)
-#> (i)   1   57.3739 
-#> (ii)  2   295.5921 
-#> (ii)  3   988.0394 
-#> (v)   2.64179310107787    651.8087 
-#> (v)   2.73574862651   730.5491 
-#> (v)   2.74702573807289    742.8744 
-#> (v)   2.74439578752593    739.8493 
-#> (v)   2.74452680254938    740.0133
+#> (i)   1   57.7536 
+#> (ii)  2   294.0231 
+#> (ii)  3   1001.1577 
+#> (v)   2.63068176836489    656.7365 
+#> (v)   2.71996410226231    729.0806 
+#> (v)   2.73344010813922    738.9591 
+#> (v)   2.73486007822752    740.8064 
+#> (v)   2.73424022012152    739.5062 
+#> (v)   2.7344756346214     739.9085 
+#> (vi)  2.734999    740.9792
 # quite calculation
 LCL_sim <- racusum_arl_h_sim(L0=740, df=S2I[, c("Parsonnet", "status")], coeff=coeff, m=m, RA=1/2, 
                              nc=nc, verbose=FALSE)
 round(cbind(UCL_sim, LCL_sim), 3)
 #>      UCL_sim LCL_sim
-#> [1,]   2.745   2.502
+#> [1,]   2.735   2.511
 ```
 
 ### Authors
@@ -146,4 +148,4 @@ Philipp Wittenberg and Sven Knoth
 
 ### License
 
-GPL (&gt;= 3)
+GPL (&gt;= 2)

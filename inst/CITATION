@@ -1,13 +1,9 @@
-year <- sub("-.*", "", meta$Date)
-note <- sprintf("R package version: %s", meta$Version)
-
-bibentry( bibtype="Manual",
-          title= "{vlad}: Variable Life Adjusted Display",
-          author= c(person("Philipp", "Wittenberg"),
-                    person("Sven", "Knoth")),
-          year = year,
-          note = note,
-          url = "https://github.com/wittenberg/vlad",
-          mheader="To cite package 'vlad' in publications use:",
-          mfooter= "Please cite it when using it for data analysis or other tasks."
+bibentry(
+  bibtype = "Manual",
+  title = "{vlad}: Variable Life Adjusted Display",
+  author = "Philipp Wittenberg and Sven Knoth",
+  year = sub("-.*", "", meta$Date),
+  note = sprintf("R package version: %s", meta$Version),
+  url = "https://github.com/wittenberg/vlad",
+  key = "vlad"
 )
