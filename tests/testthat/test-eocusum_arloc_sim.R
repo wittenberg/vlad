@@ -24,7 +24,7 @@ test_that("Different input values for df", {
 
   dftest2 <- list(data.frame(0L, 1, 1), data.frame(0L), data.frame(NA))
   lapply(dftest2, function(x) {
-    expect_error(do.call(x, eocusum_arloc_sim(r, k, h, df = x, coeff1, coef2)),
+    expect_error(do.call(x, eocusum_arloc_sim(r, k, h, df = x, coeff1, coeff2)),
                  "Provide a dataframe with two columns for argument 'df'")})
 
   dftest3 <- list(data.frame(0, 1), data.frame("0", 1), data.frame(NA, 1))

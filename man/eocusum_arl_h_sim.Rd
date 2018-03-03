@@ -4,16 +4,16 @@
 \alias{eocusum_arl_h_sim}
 \title{Compute alarm threshold of EO-CUSUM control charts using simulation}
 \usage{
-eocusum_arl_h_sim(L0, df, k, coeff, m = 100, yemp = TRUE, side = "low",
+eocusum_arl_h_sim(L0, k, df, coeff, m = 100, yemp = TRUE, side = "low",
   nc = 1, verbose = FALSE)
 }
 \arguments{
 \item{L0}{double. Prespecified in-control Average Run Length.}
 
+\item{k}{double. Reference value of the CUSUM control chart.}
+
 \item{df}{DataFrame. First column are Parsonnet Score values within a range of zero to 100 representing
 the preoperative patient risk. The second column are binary (0/1) outcome values of each operation.}
-
-\item{k}{double. Reference value of the CUSUM control chart.}
 
 \item{coeff}{NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta} from the binary
 logistic regression model. For more information see details.}

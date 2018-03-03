@@ -244,12 +244,29 @@ eocusum_adoc_sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low", t
 #'
 #' @author Philipp Wittenberg
 #' @export
-eocusum_arloc_h_sim <- function(L0, df, k, coeff, coeff2, m = 100, QS = 1, side = "low", nc = 1, verbose = FALSE) {
+eocusum_arloc_h_sim <- function(L0, k, df, coeff, coeff2, m = 100, QS = 1, side = "low", nc = 1, verbose = FALSE) {
+  L0 <- as.integer(L0)
+  if (is.na(L0) || L0 <= 0) {stop("Given in-control ARL 'L0' must be a positive integer")}
+  k <- as.numeric(k)
+  if (is.na(k) || k  < 0) {stop("Reference value 'k' must be a positive numeric value")}
+  if (class(df) != "data.frame") {stop("Provide a dataframe for argument 'df'")}
+  else if (ncol(df) != 2) {stop("Provide a dataframe with two columns for argument 'df'")}
+  else if (vapply(df, class, "")[1] != "integer") {stop("First column of dataframe must be of type integer")}
+  else if (vapply(df, class, "")[2] != "numeric") {stop("Second column of dataframe must be of type numeric")}
+  df <- as.data.frame(df)
+  if (is.null(coeff) || is.na(coeff)  || length(coeff)  != 2) {stop("Model coefficients 'coeff' must be a numeric vector with two elements")}
+  coeff <- as.vector(coeff)
+  if (is.null(coeff2) || is.na(coeff2) || length(coeff2) != 2) {stop("Model coefficients 'coeff2' must be a numeric vector with two elements")}
+  coeff2 <- as.vector(coeff2)
   side <- switch(as.character(side), low = 1, up = 2)
   if (is.null(side)) {
     warning("no valid input, using side=low (deterioration) as default")
     side <- 1
   }
+  QS <- as.numeric(QS)
+  if (is.na(QS) || QS < 0) {stop("QS must a positive numeric value")}
+  else if (QS < 1 && side == 1) {stop("For detecting deterioration (side='low') QS must a positive numeric value >= 1")}
+  else if (QS > 1 && side == 2) {stop("For detecting improvement (side='up') QS must a positive numeric value <= 1")}
   h2 <- 1
   L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arloc_sim, h = h2, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
   if ( verbose ) cat(paste("(i)\t", h2, "\t", L2, "\n"))
@@ -348,11 +365,22 @@ eocusum_arloc_h_sim <- function(L0, df, k, coeff, coeff2, m = 100, QS = 1, side 
 #'
 #' @author Philipp Wittenberg
 #' @export
-eocusum_arl_h_sim <- function(L0, df, k, coeff, m = 100, yemp = TRUE, side = "low", nc = 1, verbose = FALSE) {
-  # side <- switch(as.character(side), low = 1, up = 2)
+eocusum_arl_h_sim <- function(L0, k, df, coeff, m = 100, yemp = TRUE, side = "low", nc = 1, verbose = FALSE) {
+  L0 <- as.integer(L0)
+  if (is.na(L0) || L0 <= 0) {stop("Given in-control ARL 'L0' must be a positive integer")}
+  k <- as.numeric(k)
+  if (is.na(k) || k  < 0) {stop("Reference value 'k' must be a positive numeric value")}
+  if (class(df) != "data.frame") {stop("Provide a dataframe for argument 'df'")}
+  else if (ncol(df) != 2) {stop("Provide a dataframe with two columns for argument 'df'")}
+  else if (vapply(df, class, "")[1] != "integer") {stop("First column of dataframe must be of type integer")}
+  else if (vapply(df, class, "")[2] != "numeric") {stop("Second column of dataframe must be of type numeric")}
+  df <- as.data.frame(df)
+  if (is.null(coeff) || is.na(coeff)  || length(coeff)  != 2) {stop("Model coefficients 'coeff' must be a numeric vector with two elements")}
+  coeff <- as.vector(coeff)
+  side <- switch(as.character(side), low = 1, up = 2)
   if (is.null(side)) {
     warning("no valid input, using side=low (deterioration) as default")
-    side <- "low"
+    side <- 1
   }
   h2 <- 1
   L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arl_sim, k = k, h = h2, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
