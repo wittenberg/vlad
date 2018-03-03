@@ -17,8 +17,8 @@
 #' @author Philipp Wittenberg
 #' @export
 optimal_k <- function(QA, parsonnetscores, coeff) {
+  if (is.null(QA) || is.na(QA) || QA <= 0) {stop("QA must a positive numeric value")}
   QA <- as.numeric(QA)
-  if (is.na(QA) || QA < 0) {stop("QS must a positive numeric value")}
   if (is.null(parsonnetscores) || is.na(parsonnetscores) || is.vector(parsonnetscores) != "TRUE") {stop("Argument 'parsonnetscore' must be an integer value")}
   parsonnetscores <- as.vector(parsonnetscores)
   if (is.null(coeff) || is.na(coeff)  || length(coeff)  != 2) {stop("Model coefficients 'coeff' must be a numeric vector with two elements")}

@@ -18,3 +18,10 @@ test_that("Different input values for coeff", {
     expect_error(do.call(x, optimal_k(QA, parsonnetscores, coeff = x)),
                  "Model coefficients 'coeff' must be a numeric vector with two elements")})
 })
+
+test_that("Different input values for QA", {
+  QAtest <- list(-1, NA, 0)
+  lapply(QAtest, function(x) {
+    expect_error(do.call(x, optimal_k(QA = QAtest, parsonnetscores, coeff)),
+                 "QA must a positive numeric value")})
+})
