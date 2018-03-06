@@ -9,7 +9,8 @@ Authors@R: c(
             comment = c(ORCID = "0000-0001-7151-8243")),
             person("Sven", "Knoth", 
             email = "<Sven.Knoth@gmx.de>", 
-            role = "aut"))
+            role = "aut",
+            comment = c(ORCID = "0000-0002-9666-5554")))
 Depends: R (>= 2.10)
 Maintainer: Philipp Wittenberg <pwitten@hsu-hh.de>
 BugReports: https://github.com/wittenberg/vlad/issues
@@ -24,7 +25,6 @@ NeedsCompilation:	yes
 Encoding: UTF-8
 LazyData: true
 Imports: Rcpp (>= 0.12.12)
-Suggests: dplyr, ggplot2, knitr, parallel, spcadjust (>= 1.1), tidyr, testthat
+Suggests: dplyr, ggplot2, parallel, rmarkdown, spcadjust (>= 1.1), tidyr, testthat
 LinkingTo: Rcpp, RcppArmadillo
-VignetteBuilder: knitr
 RoxygenNote: 6.0.1
