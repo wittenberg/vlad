@@ -24,7 +24,7 @@ double llr_score(DataFrame df, NumericVector coeff, double R0, double RA, bool y
   return wt;
 }
 
-double loglikelihood2(DataFrame df, NumericVector coeff, NumericVector coeff2, double R0, double RA, double RQ){
+double llr_score_oc(DataFrame df, NumericVector coeff, NumericVector coeff2, double R0, double RA, double RQ){
   int y, row, s;
   double wt, x, Qstar, xstar, rdm, pt;
   NumericVector col1, col2, rnd, rndm;
@@ -45,7 +45,7 @@ double loglikelihood2(DataFrame df, NumericVector coeff, NumericVector coeff2, d
   return wt;
 }
 
-double loglikelihood3(DataFrame df, double R0, double RA){
+double llr_score_noadjust(DataFrame df, double R0, double RA){
   NumericVector col2, rnd;
   int row, y;
   double wt;
@@ -64,7 +64,7 @@ int cusum_arl_sim(int r, double h, DataFrame df, double R0, double RA) {
   int rl = 0;
   do{
     rl++;
-    wt = loglikelihood3(df, R0, RA);
+    wt = llr_score_noadjust(df, R0, RA);
     qn = fmax(0, qn + wt);
   } while (qn <= h);
   return rl;
@@ -88,7 +88,7 @@ int racusum_arloc_sim(int r, NumericVector coeff, NumericVector coeff2, double h
   int rl = 0;
   do{
     rl++;
-    wt = loglikelihood2(df, coeff, coeff2, R0, RA, RQ);
+    wt = llr_score_oc(df, coeff, coeff2, R0, RA, RQ);
     qn = fmax(0, qn + wt);
   } while (qn <= h);
   return rl;
@@ -108,7 +108,7 @@ int racusum_adoc_sim(int r, NumericVector coeff, NumericVector coeff2, double h,
       do {
         rl++;
         if ( rl > m) R = RQ;
-        wt = loglikelihood2(df, coeff, coeff2, R0, RA, R);
+        wt = llr_score_oc(df, coeff, coeff2, R0, RA, R);
         qn = fmax(0, qn + wt);
       } while ( qn <= h );
       if ( rl > m ) {
@@ -124,7 +124,7 @@ int racusum_adoc_sim(int r, NumericVector coeff, NumericVector coeff2, double h,
     do {
       rl++;
       if ( rl > m ) R = RQ;
-      wt = loglikelihood2(df, coeff, coeff2, R0, RA, R);
+      wt = llr_score_oc(df, coeff, coeff2, R0, RA, R);
       qn = fmax(0, qn + wt);
       if ( rl <= m ) {
         if ( qn > h ) {
