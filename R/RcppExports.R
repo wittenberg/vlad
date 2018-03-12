@@ -5,8 +5,8 @@
     .Call(`_vlad_gettherisk`, parsonnetscore, coeff)
 }
 
-.optimal_k <- function(QA, parsonnetscores, coeff) {
-    .Call(`_vlad_optimal_k`, QA, parsonnetscores, coeff)
+.optimal_k <- function(QA, df, coeff, yemp) {
+    .Call(`_vlad_optimal_k`, QA, df, coeff, yemp)
 }
 
 .calceo <- function(df, coeff, yemp) {

@@ -4,15 +4,18 @@
 \alias{optimal_k}
 \title{Compute optimal k}
 \usage{
-optimal_k(QA, parsonnetscores, coeff)
+optimal_k(QA, df, coeff, yemp = TRUE)
 }
 \arguments{
 \item{QA}{double. Defines the performance of a surgeon with the odds ratio ratio of death Q.}
 
-\item{parsonnetscores}{NumericVector. Vector of Parsonnet Scores.}
+\item{df}{DataFrame. First column Parsonnet Score and second column outcome of each operation.}
 
 \item{coeff}{NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
 from the binary logistic regression model. For more information see details.}
+
+\item{yemp}{boolean. If TRUE use observed outcome value, if FALSE use estimated binary logistc
+regression model.}
 }
 \value{
 Returns a single value which is the approximate optimal k for a set of given Parsonnet scores.
@@ -30,14 +33,14 @@ data("cardiacsurgery")
 cardiacsurgery <- dplyr::mutate(cardiacsurgery, phase=factor(ifelse(date < 2*365, "I", "II")))
 S2I <- subset(cardiacsurgery, c(surgeon==2 & phase=="I"), c("Parsonnet", "status"))
 coeff <- coef(glm(status ~ Parsonnet, data=S2I, family="binomial"))
-kopt <- optimal_k(QA=2, parsonnetscores=S2I$Parsonnet, coeff=coeff)
+kopt <- optimal_k(QA=2, df=S2I, coeff=coeff, yemp=FALSE)
 kopt ## (Deterioration)
 # manually find optimal k for detecting improvement
 QA <- 2
 pbar <- mean(sapply(S2I[, 1], gettherisk, coef=coeff))
 kopt <- pbar * ( QA - 1 - log(QA) ) / log(QA)
-all.equal(kopt, optimal_k(QA=2, parsonnetscores=S2I$Parsonnet, coeff=coeff) )
-kopt <- optimal_k(QA=1/2, parsonnetscores=S2I$Parsonnet, coeff=coeff)
+all.equal(kopt, optimal_k(QA=2, df=S2I, coeff=coeff, yemp=FALSE) )
+kopt <- optimal_k(QA=1/2, df=S2I, coeff=coeff, yemp=FALSE)
 kopt ##(Improvement)
 ## k_opt = 0.02555328
 ### k = kopt
@@ -45,7 +48,7 @@ QA <- 1/2
 # manually find optimal k for detecting improvement
 pbar <- mean(sapply(S2I[, 1], gettherisk, coef=coeff))
 kopt <- pbar * ( 1 - QA + log(QA) ) / log(QA)
-all.equal(kopt, optimal_k(QA=1/2, parsonnetscores=S2I$Parsonnet, coeff=coeff) )
+all.equal(kopt, optimal_k(QA=1/2, df=S2I, coeff=coeff, yemp=FALSE) )
 }
 \author{
 Philipp Wittenberg

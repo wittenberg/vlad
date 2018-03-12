@@ -3,9 +3,11 @@
 #' @description Compute optimal k.
 #'
 #' @param QA double. Defines the performance of a surgeon with the odds ratio ratio of death Q.
+#' @param df DataFrame. First column Parsonnet Score and second column outcome of each operation.
 #' @param coeff NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
 #'  from the binary logistic regression model. For more information see details.
-#' @param parsonnetscores NumericVector. Vector of Parsonnet Scores.
+#' @param yemp boolean. If TRUE use observed outcome value, if FALSE use estimated binary logistc
+#'  regression model.
 #'
 #' @return Returns a single value which is the approximate optimal k for a set of given Parsonnet scores.
 #'
@@ -16,14 +18,16 @@
 #'
 #' @author Philipp Wittenberg
 #' @export
-optimal_k <- function(QA, parsonnetscores, coeff) {
+optimal_k <- function(QA, df, coeff, yemp = TRUE) {
   if (is.null(QA) || is.na(QA) || QA <= 0) {stop("QA must a positive numeric value")}
   QA <- as.numeric(QA)
-  if (is.null(parsonnetscores) || is.na(parsonnetscores) || is.vector(parsonnetscores) != "TRUE") {stop("Argument 'parsonnetscore' must be an integer value")}
-  parsonnetscores <- as.vector(parsonnetscores)
+  #if (is.null(parsonnetscores) || is.na(parsonnetscores) || is.vector(parsonnetscores) != "TRUE") {stop("Argument 'parsonnetscore' must be an integer value")}
+  #parsonnetscores <- as.vector(parsonnetscores)
   if (is.null(coeff) || is.na(coeff)  || length(coeff)  != 2) {stop("Model coefficients 'coeff' must be a numeric vector with two elements")}
   coeff <- as.vector(coeff)
-  .optimal_k(QA, parsonnetscores, coeff)
+  if (is.na(yemp) || is.logical(yemp) != "TRUE") {warning("Argument 'yemp' must be logical using TRUE as default value")}
+  yemp <- as.logical(yemp)
+  .optimal_k(QA, df, coeff, yemp)
 }
 
 #' @name gettherisk

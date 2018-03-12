@@ -9,7 +9,9 @@ using namespace Rcpp;
 
 double gettherisk(int parsonnetscore, NumericVector coeff);
 
-double optimal_k(double QA, IntegerVector parsonnetscores, NumericVector coeff);
+//double optimal_k(double QA, IntegerVector parsonnetscores, NumericVector coeff);
+double optimal_k(double QA, DataFrame df, NumericVector coeff, bool yemp = true);
+// Rcpp::Nullable<Rcpp::NumericVector> coeff = R_NilValue
 
 double calceo(DataFrame df, NumericVector coeff, bool yemp = true);
 

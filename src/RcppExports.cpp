@@ -19,15 +19,16 @@ BEGIN_RCPP
 END_RCPP
 }
 // optimal_k
-double optimal_k(double QA, IntegerVector parsonnetscores, NumericVector coeff);
-RcppExport SEXP _vlad_optimal_k(SEXP QASEXP, SEXP parsonnetscoresSEXP, SEXP coeffSEXP) {
+double optimal_k(double QA, DataFrame df, NumericVector coeff, bool yemp);
+RcppExport SEXP _vlad_optimal_k(SEXP QASEXP, SEXP dfSEXP, SEXP coeffSEXP, SEXP yempSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< double >::type QA(QASEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type parsonnetscores(parsonnetscoresSEXP);
+    Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type coeff(coeffSEXP);
-    rcpp_result_gen = Rcpp::wrap(optimal_k(QA, parsonnetscores, coeff));
+    Rcpp::traits::input_parameter< bool >::type yemp(yempSEXP);
+    rcpp_result_gen = Rcpp::wrap(optimal_k(QA, df, coeff, yemp));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -187,7 +188,7 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_vlad_gettherisk", (DL_FUNC) &_vlad_gettherisk, 2},
-    {"_vlad_optimal_k", (DL_FUNC) &_vlad_optimal_k, 3},
+    {"_vlad_optimal_k", (DL_FUNC) &_vlad_optimal_k, 4},
     {"_vlad_calceo", (DL_FUNC) &_vlad_calceo, 3},
     {"_vlad_eocusum_arl_sim", (DL_FUNC) &_vlad_eocusum_arl_sim, 7},
     {"_vlad_eocusum_arloc_sim", (DL_FUNC) &_vlad_eocusum_arloc_sim, 8},

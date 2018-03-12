@@ -10,13 +10,21 @@ double gettherisk(int parsonnetscore, NumericVector coeff) {
 }
 
 // [[Rcpp::export(.optimal_k)]]
-double optimal_k(double QA, IntegerVector parsonnetscores, NumericVector coeff) {
+double optimal_k(double QA, DataFrame df, NumericVector coeff, bool yemp) {
   int n;
   double optk = 0, sum = 0, pbar;
+  IntegerVector parsonnetscores = df[0];
+  NumericVector outcome = df[1];
 
-  n = parsonnetscores.size();
-  for (int i=0; i < n; ++i) {sum += gettherisk(parsonnetscores[i], coeff);}
-  pbar = sum/n;
+  n = df.nrows();
+  if (yemp == true) {
+    for (int i=0; i < n; ++i) {sum += outcome[i];}
+    pbar = sum/n;
+  } else if (yemp == false) {
+  //} else if (yemp == false & coeff.isNotNull()) { NULL not working yet
+    for (int i=0; i < n; ++i) {sum += gettherisk(parsonnetscores[i], coeff);}
+    pbar = sum/n;
+  }
   if (QA > 1) {optk = pbar * ( QA - 1 - log(QA) ) / log(QA);}                     // Detrerioration
   else if ( (QA > 0) & (QA < 1) ){optk = pbar * ( 1 - QA + log(QA) ) / log(QA);}  // Improvement
   return optk;
