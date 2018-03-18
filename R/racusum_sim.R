@@ -328,6 +328,17 @@ racusum_arl_h_sim <- function(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRU
 #' @author Philipp Wittenberg
 #' @export
 cusum_arl_h_sim <- function(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, verbose = FALSE) {
+  L0 <- as.integer(L0)
+  if (is.na(L0) || L0 <= 0) {stop("Given in-control ARL 'L0' must be a positive integer")}
+  if (class(df) != "data.frame") {stop("Provide a dataframe for argument 'df'")}
+  else if (ncol(df) != 2) {stop("Provide a dataframe with two columns for argument 'df'")}
+  else if (vapply(df, class, "")[1] != "integer") {stop("First column of dataframe must be of type integer")}
+  else if (vapply(df, class, "")[2] != "numeric") {stop("Second column of dataframe must be of type numeric")}
+  df <- as.data.frame(df)
+  R0 <- as.numeric(R0)
+  if (is.na(R0) || R0 <= 0) {stop("Odds ratio of death under the null hypotheses 'R0' must a positive numeric value")}
+  RA <- as.numeric(RA)
+  if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")}
   h2 <- 1
   L2 <- mean(do.call(c, parallel::mclapply(1:m, cusum_arl_sim, h = h2, df = df, R0 = R0, RA = RA, mc.cores = nc)))
   if ( verbose ) cat(paste("(i)\t", h2, "\t", L2, "\n"))
