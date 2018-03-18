@@ -48,3 +48,24 @@ test_that("Different input values for coeff2", {
     expect_error(do.call(x, racusum_adoc_sim(r, coeff1, coeff2 = x, h, df1)),
                  "Model coefficients 'coeff2' must be a numeric vector with two elements")})
 })
+
+test_that("Different input values for R0", {
+  R0test <- list(-1, 0, "0", NA)
+  lapply(R0test, function(x) {
+    expect_error(do.call(x, racusum_adoc_sim(r, coeff1, coeff2, h, df1, R0 = x)),
+                 "Odds ratio of death under the null hypotheses 'R0' must a positive numeric value")})
+})
+
+test_that("Different input values for RA", {
+  RAtest <- list(-1, 0, "0", NA)
+  lapply(RAtest, function(x) {
+    expect_error(do.call(x, racusum_adoc_sim(r, coeff1, coeff2, h, df1, RA = x)),
+                 "Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")})
+})
+
+test_that("Different input values for RQ", {
+  RQtest <- list(-1, 0, "0", NA)
+  lapply(RQtest, function(x) {
+    expect_error(do.call(x, racusum_adoc_sim(r, coeff1, coeff2, h, df1, RQ = x)),
+                 "RQ must a positive numeric value")})
+})

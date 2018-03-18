@@ -63,9 +63,9 @@ cusum_arl_sim <- function(r, h, df, R0 = 1, RA = 2) {
   else if (vapply(df, class, "")[2] != "numeric") {stop("Second column of dataframe must be of type numeric")}
   df <- as.data.frame(df)
   R0 <- as.numeric(R0)
-  if (is.na(R0) || R0 <= 0) {stop("Odds ratio of death under the null hypotheses \"R0\" must a positive numeric value")}
+  if (is.na(R0) || R0 <= 0) {stop("Odds ratio of death under the null hypotheses 'R0' must a positive numeric value")}
   RA <- as.numeric(RA)
-  if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses \"RA\" must a positive numeric value")}
+  if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")}
   .cusum_arl_sim(r, h, df, R0, RA)
 }
 
@@ -138,7 +138,7 @@ racusum_arloc_sim <- function(r, coeff, coeff2, h, df, R0 = 1, RA = 2, RQ = 1) {
   RA <- as.numeric(RA)
   if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")}
   RQ <- as.numeric(RQ)
-  if (is.na(RQ) || RQ < 0) {stop("RQ must a positive numeric value")}
+  if (is.na(RQ) || RQ <= 0) {stop("RQ must a positive numeric value")}
   .racusum_arloc_sim(r, coeff, coeff2, h, df, R0, RA, RQ)
 }
 
@@ -177,7 +177,7 @@ racusum_adoc_sim <- function(r, coeff, coeff2, h, df, R0 = 1, RA = 2, RQ = 1, m 
   RA <- as.numeric(RA)
   if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")}
   RQ <- as.numeric(RQ)
-  if (is.na(RQ) || RQ < 0) {stop("RQ must a positive numeric value")}
+  if (is.na(RQ) || RQ <= 0) {stop("RQ must a positive numeric value")}
   m <- as.integer(m)
   if (is.na(m) || m < 0) {stop("m must a positive integer")}
   itype <- switch(type, cond = 1, cycl = 2)
@@ -219,6 +219,19 @@ racusum_adoc_sim <- function(r, coeff, coeff2, h, df, R0 = 1, RA = 2, RQ = 1, m 
 #'
 #' @export
 racusum_arl_h_sim <- function(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRUE, nc = 1, verbose = FALSE) {
+  L0 <- as.integer(L0)
+  if (is.na(L0) || L0 <= 0) {stop("Given in-control ARL 'L0' must be a positive integer")}
+  if (class(df) != "data.frame") {stop("Provide a dataframe for argument 'df'")}
+  else if (ncol(df) != 2) {stop("Provide a dataframe with two columns for argument 'df'")}
+  else if (vapply(df, class, "")[1] != "integer") {stop("First column of dataframe must be of type integer")}
+  else if (vapply(df, class, "")[2] != "numeric") {stop("Second column of dataframe must be of type numeric")}
+  df <- as.data.frame(df)
+  if (is.null(coeff) || is.na(coeff)  || length(coeff)  != 2) {stop("Model coefficients 'coeff' must be a numeric vector with two elements")}
+  coeff <- as.vector(coeff)
+  R0 <- as.numeric(R0)
+  if (is.na(R0) || R0 <= 0) {stop("Odds ratio of death under the null hypotheses 'R0' must a positive numeric value")}
+  RA <- as.numeric(RA)
+  if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")}
   h2 <- 1
   L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum_arl_sim, h = h2, df = df, coeff = coeff, R0 = R0, RA = RA, yemp = yemp, mc.cores = nc)))
   if ( verbose ) cat(paste("(i)\t", h2, "\t", L2, "\n"))
@@ -419,6 +432,21 @@ cusum_arl_h_sim <- function(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, verbose = F
 #' @author Philipp Wittenberg
 #' @export
 racusum_arloc_h_sim <- function(L0, df, coeff, coeff2, R0 = 1, RA = 2, RQ = 1, m = 100, nc = 1, verbose = FALSE) {
+  L0 <- as.integer(L0)
+  if (is.na(L0) || L0 <= 0) {stop("Given in-control ARL 'L0' must be a positive integer")}
+  if (class(df) != "data.frame") {stop("Provide a dataframe for argument 'df'")}
+  else if (ncol(df) != 2) {stop("Provide a dataframe with two columns for argument 'df'")}
+  else if (vapply(df, class, "")[1] != "integer") {stop("First column of dataframe must be of type integer")}
+  else if (vapply(df, class, "")[2] != "numeric") {stop("Second column of dataframe must be of type numeric")}
+  df <- as.data.frame(df)
+  if (is.null(coeff) || is.na(coeff)  || length(coeff)  != 2) {stop("Model coefficients 'coeff' must be a numeric vector with two elements")}
+  coeff <- as.vector(coeff)
+  R0 <- as.numeric(R0)
+  if (is.na(R0) || R0 <= 0) {stop("Odds ratio of death under the null hypotheses 'R0' must a positive numeric value")}
+  RA <- as.numeric(RA)
+  if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")}
+  RQ <- as.numeric(RQ)
+  if (is.na(RQ) || RQ <= 0) {stop("RQ must a positive numeric value")}
   h2 <- 1
   L2 <- mean(do.call(c, parallel::mclapply(1:m, racusum_arloc_sim, h = h2, df = df, coeff = coeff, coeff2 = coeff2, R0 = R0, RA = RA, RQ = RQ, mc.cores = nc)))
   if ( verbose ) cat(paste("(i)\t", h2, "\t", L2, "\n"))

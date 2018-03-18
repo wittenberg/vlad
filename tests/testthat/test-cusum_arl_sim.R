@@ -32,3 +32,17 @@ test_that("Different input values for df", {
     expect_error(do.call(x, cusum_arl_sim(r, h, df = x)),
                  "Second column of dataframe must be of type numeric")})
 })
+
+test_that("Different input values for R0", {
+  R0test <- list(-1, 0, "0", NA)
+  lapply(R0test, function(x) {
+    expect_error(do.call(x, cusum_arl_sim(r, h, df1, R0 = x)),
+                 "Odds ratio of death under the null hypotheses 'R0' must a positive numeric value")})
+})
+
+test_that("Different input values for RA", {
+  RAtest <- list(-1, 0, "0", NA)
+  lapply(RAtest, function(x) {
+    expect_error(do.call(x, cusum_arl_sim(r, h, df1, RA = x)),
+                 "Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")})
+})

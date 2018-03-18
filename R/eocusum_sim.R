@@ -162,7 +162,7 @@ eocusum_arloc_sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low") 
     iside <- 1
   }
   QS <- as.numeric(QS)
-  if (is.na(QS) || QS < 0) {stop("QS must a positive numeric value")}
+  if (is.na(QS) || QS <= 0) {stop("QS must a positive numeric value")}
   else if (QS < 1 && iside == 1) {stop("For detecting deterioration (side='low') QS must a positive numeric value >= 1")}
   else if (QS > 1 && iside == 2) {stop("For detecting improvement (side='up') QS must a positive numeric value <= 1")}
   .eocusum_arloc_sim(r, k, h, df, coeff, coeff2, QS, iside)
@@ -205,7 +205,7 @@ eocusum_adoc_sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low", t
     iside <- 1
   }
   QS <- as.numeric(QS)
-  if (is.na(QS) || QS < 0) {stop("QS must a positive numeric value")}
+  if (is.na(QS) || QS <= 0) {stop("QS must a positive numeric value")}
   else if (QS < 1 && iside == 1) {stop("For detecting deterioration (side='low') QS must a positive numeric value >= 1")}
   else if (QS > 1 && iside == 2) {stop("For detecting improvement (side='up') QS must a positive numeric value <= 1")}
   itype <- switch(type, cond = 1, cycl = 2)
@@ -268,7 +268,7 @@ eocusum_arloc_h_sim <- function(L0, k, df, coeff, coeff2, m = 100, QS = 1, side 
     side <- 1
   }
   QS <- as.numeric(QS)
-  if (is.na(QS) || QS < 0) {stop("QS must a positive numeric value")}
+  if (is.na(QS) || QS <= 0) {stop("QS must a positive numeric value")}
   else if (QS < 1 && side == 1) {stop("For detecting deterioration (side='low') QS must a positive numeric value >= 1")}
   else if (QS > 1 && side == 2) {stop("For detecting improvement (side='up') QS must a positive numeric value <= 1")}
   h2 <- 1
