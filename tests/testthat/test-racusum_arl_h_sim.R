@@ -51,3 +51,19 @@ test_that("Different input values for RA", {
     expect_error(do.call(x, racusum_arl_h_sim(L0, df1, coeff1, RA = x)),
                  "Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")})
 })
+
+# test_that("Testing iterative search procedure I", {
+#   skip_on_cran()
+#   set.seed(1234)
+#   expected_results <- 2.755999
+#   R0 <- 1; RA <- 2
+#   library("spcadjust")
+#   data("cardiacsurgery")
+#   cardiacsurgery <- dplyr::mutate(cardiacsurgery, phase=factor(ifelse(date < 2*365, "I", "II")))
+#   S2 <- subset(cardiacsurgery, c(surgeon==2), c("phase", "Parsonnet", "status"))
+#   S2I <- subset(S2, c(phase=="I"), c("Parsonnet", "status"))
+#   coeff1 <- round(coef(glm(status~Parsonnet, data=S2I, family="binomial")), 3)
+#   works <- vlad::racusum_arl_h_sim(L0=740, df=S2I, coeff=coeff1, m=10^2, nc=4)
+#   expect_equal(works, expected_results, tolerance=0.3)
+# })
+
