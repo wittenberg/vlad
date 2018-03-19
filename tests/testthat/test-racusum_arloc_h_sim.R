@@ -67,3 +67,18 @@ test_that("Different input values for RQ", {
                  "RQ must a positive numeric value")})
 })
 
+test_that("Testing iterative search procedure I", {
+  skip_on_cran()
+  set.seed(1234)
+  expected_results <- 2.010269
+  R0 <- 1; RA <- 2
+  library("spcadjust")
+  data("cardiacsurgery")
+  s5000 <- dplyr::sample_n(cardiacsurgery, size=5000, replace=TRUE)
+  df1 <- subset(cardiacsurgery, select=c(Parsonnet, status))
+  df2 <- subset(s5000, select=c(Parsonnet, status))
+  coeff1 <- round(coef(glm(status~Parsonnet, data=df1, family="binomial")), 3)
+  coeff2 <- round(coef(glm(status~Parsonnet, data=df2, family="binomial")), 3)
+  works <- racusum_arloc_h_sim(L0=370, df=df1, coeff=coeff1, coeff2=coeff2, nc=1)
+  expect_equal(works, expected_results, tolerance=0.3)
+})

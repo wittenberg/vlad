@@ -52,10 +52,25 @@ test_that("Different input values for RA", {
                  "Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")})
 })
 
-# test_that("Testing iterative search procedure I", {
+test_that("Testing iterative search procedure I", {
+  skip_on_cran()
+  set.seed(1234)
+  expected_results <- 2.755999
+  R0 <- 1; RA <- 2
+  library("spcadjust")
+  data("cardiacsurgery")
+  cardiacsurgery <- dplyr::mutate(cardiacsurgery, phase=factor(ifelse(date < 2*365, "I", "II")))
+  S2 <- subset(cardiacsurgery, c(surgeon==2), c("phase", "Parsonnet", "status"))
+  S2I <- subset(S2, c(phase=="I"), c("Parsonnet", "status"))
+  coeff1 <- round(coef(glm(status~Parsonnet, data=S2I, family="binomial")), 3)
+  works <- racusum_arl_h_sim(L0=740, df=S2I, coeff=coeff1)
+  expect_equal(works, expected_results, tolerance=0.3)
+})
+
+# test_that("Testing iterative search procedure II", {
 #   skip_on_cran()
-#   set.seed(1234)
-#   expected_results <- 2.755999
+#   set.seed(123)
+#   expected_results <- 5.987258
 #   R0 <- 1; RA <- 2
 #   library("spcadjust")
 #   data("cardiacsurgery")
@@ -63,7 +78,6 @@ test_that("Different input values for RA", {
 #   S2 <- subset(cardiacsurgery, c(surgeon==2), c("phase", "Parsonnet", "status"))
 #   S2I <- subset(S2, c(phase=="I"), c("Parsonnet", "status"))
 #   coeff1 <- round(coef(glm(status~Parsonnet, data=S2I, family="binomial")), 3)
-#   works <- vlad::racusum_arl_h_sim(L0=740, df=S2I, coeff=coeff1, m=10^2, nc=4)
-#   expect_equal(works, expected_results, tolerance=0.3)
+#   works <- racusum_arl_h_sim(L0=21000, df=S2I, coeff=coeff1, verbose=TRUE)
+#   expect_equal(as.numeric(works), expected_results, tolerance=0.9)
 # })
-
