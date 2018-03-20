@@ -69,3 +69,17 @@ test_that("Different input values for RQ", {
     expect_error(do.call(x, racusum_adoc_sim(r, coeff1, coeff2, h, df1, RQ = x)),
                  "RQ must a positive numeric value")})
 })
+
+test_that("Testing calculation of average delay", {
+  skip_on_cran()
+  set.seed(1234)
+  expected_results <- 60.22
+  library("spcadjust")
+  data("cardiacsurgery")
+  df1 <- subset(cardiacsurgery, select=c(Parsonnet, status))
+  coeff1 <- round(coef(glm(status ~ Parsonnet, data=df1, family="binomial")), 3)
+  works <- mean(do.call(c, parallel::mclapply(1:10^3, racusum_adoc_sim, RQ=2, h=2.0353, df=df1, m=100,
+                                            coeff=coeff1, coeff2=coeff1,
+                                            mc.cores=1) ))
+  expect_equal(works, expected_results, tolerance=2)
+})
