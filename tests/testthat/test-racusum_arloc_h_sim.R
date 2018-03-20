@@ -79,6 +79,6 @@ test_that("Testing iterative search procedure I", {
   df2 <- subset(s5000, select=c(Parsonnet, status))
   coeff1 <- round(coef(glm(status~Parsonnet, data=df1, family="binomial")), 3)
   coeff2 <- round(coef(glm(status~Parsonnet, data=df2, family="binomial")), 3)
-  works <- racusum_arloc_h_sim(L0=370, df=df1, coeff=coeff1, coeff2=coeff2, nc=1)
+  works <- racusum_arloc_h_sim(L0=370, df=df1, coeff=coeff1, coeff2=coeff2, nc=1, verbose=TRUE)
   expect_equal(works, expected_results, tolerance=0.3)
 })
