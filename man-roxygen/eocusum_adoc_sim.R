@@ -31,7 +31,7 @@
 #' RNGkind("L'Ecuyer-CMRG")
 #' m <- 10^3
 #' tau <- 50
-#' kopt <- optimal_k(QA=2, parsonnetscores=df1$Parsonnet, coeff=coeff1)
+#' kopt <- optimal_k(QA=2, df=df1, coeff=coeff1)
 #' # eocusum_arloc_h_sim(L0=370, df=df1, k=kopt, m=m, side="low", coeff=coeff1, coeff2=coeff2, nc=nc)
 #' res <- sapply(0:(tau-1), function(i){
 #'   RLS <- do.call(c, parallel::mclapply( 1:m, eocusum_adoc_sim, k=kopt, QS=2, h= 2.637854, df=df1,

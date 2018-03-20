@@ -19,7 +19,7 @@
 #' ## Serial simulation
 #' RNGkind("L'Ecuyer-CMRG")
 #' m <- 10^3
-#' kopt <- optimal_k(QA=2, parsonnetscores=df1$Parsonnet, coeff=coeff1)
+#' kopt <- optimal_k(QA=2, df=df1, coeff=coeff1)
 #' #eocusum_arloc_h_sim(L0=370, df=df1, k=kopt, m=m, side="low", coeff=coeff1, coeff2=coeff2, nc=nc)
 #' RLS <- do.call(c, lapply(1:m, eocusum_arloc_sim, h=2.626, k=kopt, df=df1, side="low", coeff=coeff1,
 #'                          coeff2=coeff2))
@@ -27,7 +27,7 @@
 #' ## Parallel simulation (FORK)
 #' RNGkind("L'Ecuyer-CMRG")
 #' m <- 10^3
-#' kopt <- optimal_k(QA=2, parsonnetscores=df1$Parsonnet, coeff=coeff1)
+#' kopt <- optimal_k(QA=2, df=df1, coeff=coeff1)
 #' RLS <- simplify2array(parallel::mclapply(1:m, eocusum_arloc_sim, h=2.626, k=kopt, df=df1,
 #'                                          side="low", coeff=coeff1, coeff2=coeff2,
 #'                                          mc.cores=parallel::detectCores()))
@@ -41,7 +41,7 @@
 #' h_vec <- 2.626
 #' QS_vec <- 1
 #' m <- 10^3
-#' k <- optimal_k(QA=2, parsonnetscores=df1$Parsonnet, coeff=coeff1)
+#' k <- optimal_k(QA=2, df=df1, coeff=coeff1)
 #' parallel::clusterExport(cl, c("h_vec", "eocusum_arloc_sim", "df1", "coeff1", "coeff2",
 #'                               "QS_vec", "side", "k"))
 #' time <- system.time( {
