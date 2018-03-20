@@ -381,10 +381,9 @@ eocusum_arl_h_sim <- function(L0, k, df, coeff, m = 100, yemp = TRUE, side = "lo
   df <- as.data.frame(df)
   if (is.null(coeff) || is.na(coeff)  || length(coeff)  != 2) {stop("Model coefficients 'coeff' must be a numeric vector with two elements")}
   coeff <- as.vector(coeff)
-  side <- switch(as.character(side), low = 1, up = 2)
   if (is.null(side)) {
     warning("no valid input, using side=low (deterioration) as default")
-    side <- 1
+    side <- c("low")
   }
   h2 <- 1
   L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arl_sim, k = k, h = h2, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))

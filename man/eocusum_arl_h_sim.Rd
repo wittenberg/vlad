@@ -55,7 +55,7 @@ m <- 10^3
 nc <- parallel::detectCores()
 ## Detect deterioration
 QA <- 2
-kopt <- optimal_k(QA=QA, parsonnetscores=df1$Parsonnet, coeff=coeff1)
+kopt <- optimal_k(QA=QA, df=df1, coeff=coeff1)
 h <- eocusum_arl_h_sim(L0=370, df=df1, k=kopt, m=m, coeff=coeff1, side="low", nc=nc)
 ## V-Mask parameters
 d <- h/kopt

@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-vlad [![Build Status](https://travis-ci.org/wittenberg/vlad.svg)](https://travis-ci.org/wittenberg/vlad) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/vlad)](http://cran.r-project.org/package=vlad) [![Coverage Status](https://codecov.io/gh/wittenberg/vlad/graph/badge.svg)](https://codecov.io/github/wittenberg/vlad?branch=master)
-========================================================================================================================================================================================================================================================================================================================================================
+vlad [![Build Status](https://travis-ci.org/wittenberg/vlad.svg)](https://travis-ci.org/wittenberg/vlad) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/vlad)](http://cran.r-project.org/package=vlad) [![Coverage Status](https://codecov.io/gh/wittenberg/vlad/graph/badge.svg)](https://codecov.io/github/wittenberg/vlad?branch=master) [![](https://cranlogs.r-pkg.org/badges/vlad)](https://cran.rstudio.com/web/packages/vlad/index.html)
+=============================================================================================================================================================================================================================================================================================================================================================================================================================================================
 
 An R-package which contains functions to set up risk-adjusted quality control charts in health care.
 
@@ -124,21 +124,19 @@ nc <- parallel::detectCores()
 # verbose calculation 
 UCL_sim <- racusum_arl_h_sim(L0=740, df=S2I[, c("Parsonnet", "status")], coeff=coeff, m=m, RA=2, nc=nc,
                              verbose=TRUE)
-#> (i)   1   58.3586 
-#> (ii)  2   290.8426 
-#> (ii)  3   998.1452 
-#> (v)   2.63502862848235    652.5507 
-#> (v)   2.72738105584812    730.8317 
-#> (v)   2.73819740668443    740.8368 
-#> (v)   2.73729275581839    739.7855 
-#> (v)   2.7374773345407     739.9847 
-#> (vi)  2.737999    740.7067
+#> (i)   1   58.2858 
+#> (ii)  2   294.2436 
+#> (ii)  3   989.1991 
+#> (v)   2.64141718426576    651.7057 
+#> (v)   2.7352288520118     730.184 
+#> (v)   2.74696273680028    740.265 
+#> (v)   2.74665428729438    740.0862
 # quite calculation
 LCL_sim <- racusum_arl_h_sim(L0=740, df=S2I[, c("Parsonnet", "status")], coeff=coeff, m=m, RA=1/2, 
                              nc=nc, verbose=FALSE)
 round(cbind(UCL_sim, LCL_sim), 3)
 #>      UCL_sim LCL_sim
-#> [1,]   2.738   2.521
+#> [1,]   2.747   2.518
 ```
 
 ### Authors
