@@ -69,6 +69,7 @@ test_that("Different input values for RQ", {
 
 test_that("Testing iterative search procedure I", {
   skip_on_cran()
+  skip_if(SKIP==TRUE, "skip this test now")
   set.seed(1234)
   expected_results <- 2.010269
   R0 <- 1; RA <- 2

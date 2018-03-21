@@ -1,4 +1,5 @@
 context("eocusum_arl_h_sim")
+if (FALSE) skip("No internet connection")
 
 df1 <- data.frame(Parsonnet=c(0L, 0L, 50L, 50L), status = c(0, 1, 0, 1))
 coeff1 <- c("(Intercept)" = -3.68, "Parsonnet" = 0.077)
@@ -46,6 +47,7 @@ test_that("Different input values for coeff", {
 
 test_that("Iterative search procedure I (deteroration)", {
   skip_on_cran()
+  skip('skip')
   set.seed(1234)
   df1 <- subset(cardiacsurgery, select=c(Parsonnet, status))
   coeff1 <- round(coef(glm(status~Parsonnet, data=df1, family="binomial")), 3)
@@ -59,6 +61,7 @@ test_that("Iterative search procedure I (deteroration)", {
 
 test_that("Iterative search procedure II (improvement)", {
   skip_on_cran()
+  skip_if(SKIP==TRUE, "skip this test now")
   set.seed(1234)
   df1 <- subset(cardiacsurgery, select=c(Parsonnet, status))
   coeff1 <- round(coef(glm(status~Parsonnet, data=df1, family="binomial")), 3)

@@ -60,6 +60,7 @@ test_that("Different input values for RA", {
 
 test_that("Testing iterative search procedure I", {
   skip_on_cran()
+  skip('skip')
   set.seed(1234)
   expected_results <- 2.755999
   coeff1 <- round(coef(glm(status~Parsonnet, data=S2I, family="binomial")), 3)
@@ -69,6 +70,7 @@ test_that("Testing iterative search procedure I", {
 
 test_that("Testing iterative search procedure II", {
   skip_on_cran()
+  skip_if(SKIP==TRUE, "skip this test now")
   set.seed(123)
   expected_results <- 5.987258
   coeff1 <- round(coef(glm(status~Parsonnet, data=S2I, family="binomial")), 3)

@@ -87,6 +87,7 @@ test_that("Testing calculation of average delay (conditional)", {
 
 test_that("Testing calculation of average delay (cyclical)", {
   skip_on_cran()
+  skip_if(SKIP==TRUE, "skip this test now")
   set.seed(1234)
   expected_results <- 61.185
   coeff1 <- round(coef(glm(status ~ Parsonnet, data=df1, family="binomial")), 3)
