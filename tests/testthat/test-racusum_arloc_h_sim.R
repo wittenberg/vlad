@@ -67,7 +67,7 @@ test_that("Different input values for RQ", {
                  "RQ must a positive numeric value")})
 })
 
-test_that("Testing iterative search procedure I", {
+test_that("Iterative search procedure I", {
   skip_on_cran()
   skip_if(SKIP==TRUE, "skip this test now")
   set.seed(1234)

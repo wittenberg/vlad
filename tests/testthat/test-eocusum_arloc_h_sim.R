@@ -1,5 +1,9 @@
 context("eocusum_arloc_h_sim")
 
+library("spcadjust")
+data("cardiacsurgery")
+s5000 <- dplyr::sample_n(cardiacsurgery, size=5000, replace=TRUE)
+
 df1 <- data.frame(Parsonnet=c(0L, 0L, 50L, 50L), status = c(0, 1, 0, 1))
 coeff1 <- c("(Intercept)" = -3.68, "Parsonnet" = 0.077)
 coeff2 <- coeff1
@@ -61,3 +65,18 @@ test_that("Input parameter QS", {
                "For detecting improvement (side='up') QS must a positive numeric value <= 1",
                fixed = TRUE)
 })
+
+test_that("Iterative search procedure I", {
+  skip_on_cran()
+  skip_if(SKIP==TRUE, "skip this test now")
+  set.seed(1234)
+  expected_results <- 2.17
+  df1 <- subset(cardiacsurgery, select=c(Parsonnet, status))
+  df2 <- subset(s5000, select=c(Parsonnet, status))
+  coeff1 <- round(coef(glm(status~Parsonnet, data=df1, family="binomial")), 3)
+  coeff2 <- round(coef(glm(status~Parsonnet, data=df2, family="binomial")), 3)
+  m <- 10^3
+  works <- eocusum_arloc_h_sim(L0=100, df=df1, k=0, m=m, side="low", coeff=coeff1, coeff2=coeff2, nc=1, verbose=TRUE)
+  expect_equal(works, expected_results, tolerance=0.2)
+})
+

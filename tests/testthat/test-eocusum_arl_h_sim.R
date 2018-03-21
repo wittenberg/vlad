@@ -47,7 +47,7 @@ test_that("Different input values for coeff", {
 
 test_that("Iterative search procedure I (deteroration)", {
   skip_on_cran()
-  skip('skip')
+  skip_if(SKIP==TRUE, "skip this test now")
   set.seed(1234)
   df1 <- subset(cardiacsurgery, select=c(Parsonnet, status))
   coeff1 <- round(coef(glm(status~Parsonnet, data=df1, family="binomial")), 3)

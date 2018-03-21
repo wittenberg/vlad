@@ -262,10 +262,9 @@ eocusum_arloc_h_sim <- function(L0, k, df, coeff, coeff2, m = 100, QS = 1, side 
   coeff <- as.vector(coeff)
   if (is.null(coeff2) || is.na(coeff2) || length(coeff2) != 2) {stop("Model coefficients 'coeff2' must be a numeric vector with two elements")}
   coeff2 <- as.vector(coeff2)
-  side <- switch(as.character(side), low = 1, up = 2)
   if (is.null(side)) {
     warning("no valid input, using side=low (deterioration) as default")
-    side <- 1
+    side <- c("low")
   }
   QS <- as.numeric(QS)
   if (is.na(QS) || QS <= 0) {stop("QS must a positive numeric value")}

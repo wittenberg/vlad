@@ -77,6 +77,7 @@ test_that("Different input values for RQ", {
 test_that("Testing calculation of average delay (conditional)", {
   skip_on_cran()
   set.seed(1234)
+  skip_if(SKIP==TRUE, "skip this test now")
   expected_results <- 60.22
   coeff1 <- round(coef(glm(status ~ Parsonnet, data=df1, family="binomial")), 3)
   works <- mean(do.call(c, parallel::mclapply(1:10^3, racusum_adoc_sim, RQ=2, h=2.0353, df=df1, m=100,

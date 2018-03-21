@@ -58,9 +58,9 @@ test_that("Different input values for RA", {
                  "Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")})
 })
 
-test_that("Testing iterative search procedure I", {
+test_that("Iterative search procedure I", {
   skip_on_cran()
-  skip('skip')
+  skip_if(SKIP==TRUE, "skip this test now")
   set.seed(1234)
   expected_results <- 2.755999
   coeff1 <- round(coef(glm(status~Parsonnet, data=S2I, family="binomial")), 3)
@@ -68,7 +68,7 @@ test_that("Testing iterative search procedure I", {
   expect_equal(works, expected_results, tolerance=0.3)
 })
 
-test_that("Testing iterative search procedure II", {
+test_that("Iterative search procedure II", {
   skip_on_cran()
   skip_if(SKIP==TRUE, "skip this test now")
   set.seed(123)
