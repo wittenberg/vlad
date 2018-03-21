@@ -56,7 +56,7 @@ test_that("Different input values for coeff2", {
 test_that("Input parameter QS", {
   QStest <- list(-1, 0, "0", NA)
   lapply(QStest, function(x) {
-    expect_error(do.call(x, eocusum_arloc_h_sim(L0, k,df1, coeff1, coeff2, QS = x)),
+  expect_error(do.call(x, eocusum_arloc_h_sim(L0, k,df1, coeff1, coeff2, QS = x)),
                  "QS must a positive numeric value")})
   expect_error(eocusum_arloc_h_sim(L0, k, df1, coeff1, coeff2, QS = 1/2, side = "low"),
                "For detecting deterioration (side='low') QS must a positive numeric value >= 1",
@@ -65,6 +65,7 @@ test_that("Input parameter QS", {
                "For detecting improvement (side='up') QS must a positive numeric value <= 1",
                fixed = TRUE)
 })
+
 
 test_that("Iterative search procedure I", {
   skip_on_cran()

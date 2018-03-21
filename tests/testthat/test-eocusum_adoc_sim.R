@@ -64,3 +64,9 @@ test_that("Input parameter QS", {
                "For detecting improvement (side='up') QS must a positive numeric value <= 1",
                fixed = TRUE)
 })
+
+test_that("Input value for side", {
+  sidetest <- "A"
+  expect_warning(eocusum_adoc_sim(r, k, h, df1, coeff1, coeff2, side = sidetest),
+                 "No valid input, using side='low' (deterioration) as default", fixed=TRUE)
+})

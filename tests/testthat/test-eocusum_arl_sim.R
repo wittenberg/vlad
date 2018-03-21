@@ -52,3 +52,9 @@ test_that("Different input values for yemp", {
   expect_warning(eocusum_arl_sim(r, k, h, df1, coeff1, yemp = NA),
                  "Argument 'yemp' must be logical using TRUE as default value")
 })
+
+test_that("Input value for side", {
+  sidetest <- "A"
+  expect_warning(eocusum_arl_sim(r, k, h, df1, coeff1, side = sidetest),
+                 "No valid input, using side='low' (deterioration) as default", fixed=TRUE)
+})

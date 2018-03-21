@@ -119,7 +119,7 @@ eocusum_arl_sim <- function(r, k, h, df, coeff, yemp = TRUE, side = "low") {
   yemp <- as.logical(yemp)
   iside <- switch(as.character(side), low = 1, up = 2)
   if (is.null(iside)) {
-    warning("No valid input, u sing side='low' (deterioration) as default")
+    warning("No valid input, using side='low' (deterioration) as default")
     iside <- 1
   }
   .eocusum_arl_sim(r, k, h, df, coeff, yemp, iside)
@@ -158,7 +158,7 @@ eocusum_arloc_sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low") 
   coeff2 <- as.vector(coeff2)
   iside <- switch(as.character(side), low = 1, up = 2)
   if (is.null(iside)) {
-    warning("No valid input, u sing side='low' (deterioration) as default")
+    warning("No valid input, using side='low' (deterioration) as default")
     iside <- 1
   }
   QS <- as.numeric(QS)
@@ -210,7 +210,7 @@ eocusum_adoc_sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low", t
   else if (QS > 1 && iside == 2) {stop("For detecting improvement (side='up') QS must a positive numeric value <= 1")}
   itype <- switch(type, cond = 1, cycl = 2)
   if (is.null(itype)) {
-    warning("No valid input, using type=cond (conditional steady-state) as default")
+    warning("No valid input, using type='cond' (conditional steady-state) as default")
     itype <- 1
   }
   m <- as.integer(m)
@@ -263,7 +263,7 @@ eocusum_arloc_h_sim <- function(L0, k, df, coeff, coeff2, m = 100, QS = 1, side 
   if (is.null(coeff2) || is.na(coeff2) || length(coeff2) != 2) {stop("Model coefficients 'coeff2' must be a numeric vector with two elements")}
   coeff2 <- as.vector(coeff2)
   if (is.null(side)) {
-    warning("no valid input, using side=low (deterioration) as default")
+    warning("No valid input, using side='low' (deterioration) as default")
     side <- c("low")
   }
   QS <- as.numeric(QS)
@@ -381,7 +381,7 @@ eocusum_arl_h_sim <- function(L0, k, df, coeff, m = 100, yemp = TRUE, side = "lo
   if (is.null(coeff) || is.na(coeff)  || length(coeff)  != 2) {stop("Model coefficients 'coeff' must be a numeric vector with two elements")}
   coeff <- as.vector(coeff)
   if (is.null(side)) {
-    warning("no valid input, using side=low (deterioration) as default")
+    warning("No valid input, using side='low' (deterioration) as default")
     side <- c("low")
   }
   h2 <- 1
