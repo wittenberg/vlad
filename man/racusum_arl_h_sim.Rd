@@ -4,8 +4,8 @@
 \alias{racusum_arl_h_sim}
 \title{Compute alarm threshold of RA-CUSUM control charts using simulation}
 \usage{
-racusum_arl_h_sim(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRUE,
-  nc = 1, verbose = FALSE)
+racusum_arl_h_sim(L0, df, coeff, R0 = 1, RA = 2, m = 100,
+  yemp = TRUE, nc = 1, verbose = FALSE)
 }
 \arguments{
 \item{L0}{double. Prespecified in-control Average Run Length.}
@@ -44,18 +44,33 @@ using \code{\link{mclapply}}.
 }
 \examples{
 \dontrun{
-library("vlad")
-library("spcadjust")
-data("cardiacsurgery")
-cardiacsurgery <- dplyr::mutate(cardiacsurgery, phase=factor(ifelse(date < 2*365, "I", "II")))
-S2 <- subset(cardiacsurgery, c(surgeon==2), c("phase", "Parsonnet", "status"))
-# subset phase I (In-control) of surgeons 2
-S2I <- subset(S2, c(phase=="I"), c("Parsonnet", "status"))
-# estimate coefficients from logit model
-coeff1 <- round(coef(glm(status~Parsonnet, data=S2I, family="binomial")), 3)
+library("dplyr")
+data("cardiacsurgery", package = "spcadjust")
 
-racusum_arl_h_sim(L0=740, df=S2I, coeff=coeff1, m=10^2, nc=4)
+## preprocess data to 30 day mortality and subset phase I (In-control) of surgeons 2
+S2I <- cardiacsurgery \%>\% rename(s = Parsonnet) \%>\%
+  mutate(y = ifelse(status == 1 & time <= 30, 1, 0),
+         phase = factor(ifelse(date < 2*365, "I", "II"))) \%>\%
+  filter(phase == "I", surgeon == 2) \%>\% select(s, y)
+
+## estimate coefficients from logit model
+coeff1 <- round(coef(glm(y ~ s, data = S2I, family = "binomial")), 3)
+
+## control limit for detecting deterioration RA = 2:
+racusum_arl_h_sim(L0 = 740, df = S2I, coeff = coeff1, m = 10^3, nc = 4)
 }
+}
+\references{
+Steiner SH, Cook RJ, Farewell VT and Treasure T (2000).
+ “Monitoring surgical performance using risk-adjusted cumulative sum charts.”
+ \emph{Biostatistics}, \strong{1}(4), pp. 441-452.
+ doi: \href{https://doi.org/10.1093/biostatistics/1.4.441}{10.1093/biostatistics/1.4.441}.
+
+Wittenberg P, Gan FF, Knoth S (2018).
+“A simple signaling rule for variable life‐adjusted display derived from
+an equivalent risk‐adjusted CUSUM chart.”
+\emph{Statistics in Medicine}, \strong{37}(16), pp 2455-2473.
+doi: \href{https://doi.org/10.1002/sim.7647}{10.1002/sim.7647}.
 }
 \author{
 Philipp Wittenberg

@@ -13,7 +13,6 @@
 #'  doi: \href{https://doi.org/10.1201/b16597-15}{10.1201/b16597-15}.
 #'
 #' @examples
-#' library("vlad")
 #' # see Steiner (2014) p. 234
 #' coeff <- c("(Intercept)"=-3.68, "Parsonnet"=0.077)
 #' # penalty reward for death (E-O scores multiplied with -1 to get O-E scores)
@@ -24,8 +23,7 @@
 #' calceo(df=data.frame(as.integer(50), 0), coeff=coeff)*-1
 #'
 #' # Plot a VLAD/CRAM chart
-#' library("spcadjust")
-#' data("cardiacsurgery")
+#' data("cardiacsurgery", package="spcadjust")
 #' cardiacsurgery <- dplyr::mutate(cardiacsurgery, phase=factor(ifelse(date < 2*365, "I", "II")))
 #' S2 <- subset(cardiacsurgery, c(surgeon==2), c("phase", "Parsonnet", "status"))
 #' S2I <- subset(S2, c(phase=="I"))

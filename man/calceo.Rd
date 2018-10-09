@@ -22,7 +22,6 @@ Returns a single value which is the difference between expected risk and observe
 Compute Expected minus Observed value.
 }
 \examples{
-library("vlad")
 # see Steiner (2014) p. 234
 coeff <- c("(Intercept)"=-3.68, "Parsonnet"=0.077)
 # penalty reward for death (E-O scores multiplied with -1 to get O-E scores)
@@ -33,8 +32,7 @@ calceo(df=data.frame(as.integer(0), 0), coeff=coeff)*-1
 calceo(df=data.frame(as.integer(50), 0), coeff=coeff)*-1
 
 # Plot a VLAD/CRAM chart
-library("spcadjust")
-data("cardiacsurgery")
+data("cardiacsurgery", package="spcadjust")
 cardiacsurgery <- dplyr::mutate(cardiacsurgery, phase=factor(ifelse(date < 2*365, "I", "II")))
 S2 <- subset(cardiacsurgery, c(surgeon==2), c("phase", "Parsonnet", "status"))
 S2I <- subset(S2, c(phase=="I"))
@@ -68,5 +66,6 @@ Steiner S (2014). “Risk-Adjusted Monitoring of Outcomes in Health Care.”
 \author{
 Philipp Wittenberg
 }
+\concept{VLAD functions}
 \keyword{keyword1}
 \keyword{keyword2}

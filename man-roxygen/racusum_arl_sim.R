@@ -3,12 +3,16 @@
 #'  \emph{Biostatistics}, \strong{1}(4), pp. 441-452.
 #'  doi: \href{https://doi.org/10.1093/biostatistics/1.4.441}{10.1093/biostatistics/1.4.441}.
 #'
+#' Wittenberg P, Gan FF, Knoth S (2018).
+#' “A simple signaling rule for variable life‐adjusted display derived from
+#' an equivalent risk‐adjusted CUSUM chart.”
+#' \emph{Statistics in Medicine}, \strong{37}(16), pp 2455-2473.
+#' doi: \href{https://doi.org/10.1002/sim.7647}{10.1002/sim.7647}.
+#'
 #' @examples
 #' \dontrun{
-#' library("vlad")
-#' library("spcadjust")
 #' set.seed(1234)
-#' data("cardiacsurgery")
+#' data("cardiacsurgery", package="spcadjust")
 #' df1 <- subset(cardiacsurgery, select=c(Parsonnet, status))
 #' coeff1 <- round(coef(glm(status ~ Parsonnet, data=df1, family="binomial")), 3)
 #'
