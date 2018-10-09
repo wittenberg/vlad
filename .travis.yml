@@ -1,11 +1,24 @@
-language: r
-r:
-  - oldrel
-  - release
-  - devel
+language: R
+sudo: false
+dist: trusty
+cache: packages
+latex: false
+
+warnings_are_errors: false
 
 r_packages:
   - covr
 
+jobs:
+  include:
+  - r: oldrel
+  - r: release
+  - r: devel
+
+env:
+  global:
+  - _R_CHECK_FORCE_SUGGESTS_=false
+  - TRAVIS_CXXFLAGS="-Wall -Wextra -pedantic -Werror"
+
 after_success:
-  - Rscript -e 'library(covr); codecov()'
+  - Rscript -e 'library(covr);codecov()'
