@@ -4,6 +4,6 @@ bibentry(
   author = "Philipp Wittenberg and Sven Knoth",
   year = sub("-.*", "", meta$Date),
   note = sprintf("R package version: %s", meta$Version),
-  url = "https://github.com/wittenberg/vlad",
+  url = "https://CRAN.R-project.org/package=vlad",
   key = "vlad"
 )
