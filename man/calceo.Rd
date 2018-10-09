@@ -7,16 +7,17 @@
 calceo(df, coeff, yemp = TRUE)
 }
 \arguments{
-\item{df}{DataFrame. First column Parsonnet Score and second column outcome of each operation.}
+\item{df}{Data Frame. First column Parsonnet Score and second column outcome of each operation.}
 
-\item{coeff}{NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
+\item{coeff}{Numeric Vector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
 from the binary logistic regression model.}
 
-\item{yemp}{boolean. If TRUE use observed outcome value, if FALSE use estimated binary logistc
-regression model.}
+\item{yemp}{Logical. If \code{TRUE} use observed outcome value, if \code{FALSE} use estimated
+binary logistc regression model.}
 }
 \value{
-Returns a single value which is the difference between expected risk and observed outcome.
+Returns a single value which is the difference between expected risk and observed
+outcome.
 }
 \description{
 Compute Expected minus Observed value.
@@ -66,6 +67,3 @@ Steiner S (2014). “Risk-Adjusted Monitoring of Outcomes in Health Care.”
 \author{
 Philipp Wittenberg
 }
-\concept{VLAD functions}
-\keyword{keyword1}
-\keyword{keyword2}

@@ -9,32 +9,33 @@ racusum_adoc_sim(r, coeff, coeff2, h, df, R0 = 1, RA = 2, RQ = 1,
   m = 50, type = "cond")
 }
 \arguments{
-\item{r}{Integer vector. Number of runs.}
+\item{r}{Integer Vector. Number of runs.}
 
-\item{coeff}{NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
+\item{coeff}{Numeric Vector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
 from the binary logistic regression model.}
 
-\item{coeff2}{NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
+\item{coeff2}{Numeric Vector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
 from the binary logistic regression model of a resampled dataset.}
 
-\item{h}{double. Control Chart limit for detecting deterioration/improvement.}
+\item{h}{Double. Control Chart limit for detecting deterioration/improvement.}
 
-\item{df}{DataFrame. First column are Parsonnet Score values within a range of zero to 100 representing
-the preoperative patient risk. The second column are binary (0/1) outcome values of each operation.}
+\item{df}{Data Frame. First column are Parsonnet Score values within a range of \code{0} to
+\code{100} representing the preoperative patient risk. The second column are binary (\code{0/1})
+ outcome values of each operation.}
 
-\item{R0}{double. Odds ratio of death under the null hypotheses.}
+\item{R0}{Double. Odds ratio of death under the null hypotheses.}
 
-\item{RA}{double. Odds ratio of death under the alternative hypotheses.
-Detecting deterioration in performance with increased mortality risk by doubling the odds Ratio
-RA=2. Detecting improvement in performance with decreased mortality risk by halving the odds
-ratio of death RA=1/2.}
+\item{RA}{Double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
+in performance with increased mortality risk by doubling the odds Ratio \code{RA = 2}. Detecting
+ improvement in performance with decreased mortality risk by halving the odds ratio of death
+ \code{RA = 1/2}.}
 
-\item{RQ}{double. Defines the performance of a surgeon with the odds ratio ratio of death Q.}
+\item{RQ}{Double. Defines the performance of a surgeon with the odds ratio ratio of death \code{Q}.}
 
 \item{m}{Integer. Simulated in-control observations.}
 
-\item{type}{character. Default argument is "cond" for computation of conditional steady-state.
-Other option is the cyclical steady-state "cycl".}
+\item{type}{Character. Default argument is \code{"cond"} for computation of conditional
+steady-state. Other option is the cyclical steady-state \code{"cycl"}.}
 }
 \value{
 Returns a single value which is the Run Length.

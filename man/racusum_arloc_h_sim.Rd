@@ -8,43 +8,45 @@ racusum_arloc_h_sim(L0, df, coeff, coeff2, R0 = 1, RA = 2, RQ = 1,
   m = 100, nc = 1, verbose = FALSE)
 }
 \arguments{
-\item{L0}{double. Prespecified in-control Average Run Length.}
+\item{L0}{Double. Prespecified in-control Average Run Length.}
 
-\item{df}{DataFrame. First column are Parsonnet Score values within a range of zero to 100 representing
-the preoperative patient risk. The second column are binary (0/1) outcome values of each operation.}
+\item{df}{Data Frame. First column are Parsonnet Score values within a range of \code{0} to
+\code{100} representing the preoperative patient risk. The second column are binary (\code{0/1})
+ outcome values of each operation.}
 
-\item{coeff}{NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
+\item{coeff}{Numeric Vector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
 from the binary logistic regression model.}
 
-\item{coeff2}{NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
+\item{coeff2}{Numeric Vector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
 from the binary logistic regression model of a resampled dataset.}
 
-\item{R0}{double. Odds ratio of death under the null hypotheses.}
+\item{R0}{Double. Odds ratio of death under the null hypotheses.}
 
-\item{RA}{double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
-in performance with increased mortality risk by doubling the odds Ratio RA=2. Detecting
-improvement in performance with decreased mortality risk by halving the odds ratio of death
-RA=1/2.}
+\item{RA}{Double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
+in performance with increased mortality risk by doubling the odds Ratio \code{RA = 2}.
+Detecting improvement in performance with decreased mortality risk by halving the odds ratio of
+ death \code{RA = 1/2}.}
 
-\item{RQ}{double. Defines the performance of a surgeon with the odds ratio ratio of death Q.}
+\item{RQ}{Double. Defines the performance of a surgeon with the odds ratio ratio of death \code{Q}.}
 
-\item{m}{integer. Number of simulation runs.}
+\item{m}{Integer. Number of simulation runs.}
 
-\item{nc}{integer. Number of cores.}
+\item{nc}{Integer. Number of cores.}
 
-\item{verbose}{boolean. If TRUE verbose output is included, if FALSE a quiet calculation of h is done.}
+\item{verbose}{Logical. If \code{TRUE} verbose output is included, if \code{FALSE} a quiet
+calculation of \code{h} is done.}
 }
 \value{
-Returns a single value which is the control limit h for a given in-control ARL.
+Returns a single value which is the control limit \code{h} for a given in-control ARL.
 }
 \description{
 Compute alarm threshold (Out of Control ARL) of RA-CUSUM control charts using
 simulation.
 }
 \details{
-The function \code{racusum_arloc_h_sim} determines the control limit for given in-control ARL (L0) by applying a
-multi-stage search procedure which includes secant rule and the parallel version of \code{\link{racusum_arloc_sim}}
-using \code{\link{mclapply}}.
+The function \code{racusum_arloc_h_sim} determines the control limit \code{h} for given
+ in-control ARL (\code{L0}) by applying a multi-stage search procedure which includes secant
+ rule and the parallel version of \code{\link{racusum_arloc_sim}} using \code{\link{mclapply}}.
 }
 \examples{
 \dontrun{

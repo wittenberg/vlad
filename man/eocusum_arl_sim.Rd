@@ -7,22 +7,23 @@
 eocusum_arl_sim(r, k, h, df, coeff, yemp = TRUE, side = "low")
 }
 \arguments{
-\item{r}{int. Number of of simulation runs.}
+\item{r}{Integer. Number of of simulation runs.}
 
-\item{k}{double. Reference value of the CUSUM control chart.}
+\item{k}{Double. Reference value of the CUSUM control chart. Either \code{0} or a positive
+value. Can be determined with function \code{\link{optimal_k}}.}
 
-\item{h}{double. Decision interval (alarm limit, threshold) of the CUSUM control chart.}
+\item{h}{Double. Decision interval (alarm limit, threshold) of the CUSUM control chart.}
 
-\item{df}{DataFrame. First column Parsonnet Score and second column outcome of each operation.}
+\item{df}{Data Frame. First column Parsonnet Score and second column outcome of each operation.}
 
-\item{coeff}{NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
+\item{coeff}{Numeric Vector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
 from the binary logistic regression model.}
 
-\item{yemp}{boolean. If TRUE use observed outcome value, if FALSE use estimated binary logistc
-regression model.}
+\item{yemp}{Logical. If \code{TRUE} use observed outcome value, if \code{FALSE} use estimated
+binary logistc regression model.}
 
-\item{side}{character. Default is "low" to calculate ARL for the upper arm of the V-mask. If side = "up",
-calculate the lower arm of the V-mask.}
+\item{side}{Character. Default is \code{"low"} to calculate ARL for the upper arm of the V-mask.
+If side = \code{"up"}, calculate the lower arm of the V-mask.}
 }
 \value{
 Returns a single value which is the Run Length.

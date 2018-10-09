@@ -7,18 +7,20 @@
 optimal_k(QA, df, coeff, yemp = TRUE)
 }
 \arguments{
-\item{QA}{double. Defines the performance of a surgeon with the odds ratio ratio of death Q.}
+\item{QA}{Double. Defines the performance of a surgeon with the odds ratio ratio of death
+\code{Q}.}
 
-\item{df}{DataFrame. First column Parsonnet Score and second column outcome of each operation.}
+\item{df}{Data Frame. First column Parsonnet Score and second column outcome of each operation.}
 
-\item{coeff}{NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
+\item{coeff}{Numeric Vector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
 from the binary logistic regression model. For more information see details.}
 
-\item{yemp}{boolean. If TRUE use observed outcome value, if FALSE use estimated binary logistc
-regression model.}
+\item{yemp}{Logical. If \code{TRUE} use observed outcome value, if \code{FALSE} use estimated
+binary logistc regression model.}
 }
 \value{
-Returns a single value which is the approximate optimal k for a set of given Parsonnet scores.
+Returns a single value which is the approximate optimal \code{k} for a set of given
+Parsonnet scores.
 }
 \description{
 Compute optimal k.

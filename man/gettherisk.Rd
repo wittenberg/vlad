@@ -7,9 +7,9 @@
 gettherisk(parsonnetscore, coeff)
 }
 \arguments{
-\item{parsonnetscore}{int. Parsonnet Score.}
+\item{parsonnetscore}{Integer. Parsonnet Score.}
 
-\item{coeff}{NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
+\item{coeff}{Numeric Vector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
 from the binary logistic regression model.}
 }
 \value{

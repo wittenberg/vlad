@@ -7,25 +7,26 @@
 racusum_arl_sim(r, coeff, h, df, R0 = 1, RA = 2, yemp = TRUE)
 }
 \arguments{
-\item{r}{Integer vector. Number of runs.}
+\item{r}{Integer Vector. Number of runs.}
 
-\item{coeff}{NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
+\item{coeff}{Numeric Vector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
 from the binary logistic regression model.}
 
-\item{h}{double. Control Chart limit for detecting deterioration/improvement.}
+\item{h}{Double. Control Chart limit for detecting deterioration/improvement.}
 
-\item{df}{DataFrame. First column are Parsonnet Score values within a range of zero to 100 representing
-the preoperative patient risk. The second column are binary (0/1) outcome values of each operation.}
+\item{df}{Data Frame. First column are Parsonnet Score values within a range of \code{0} to
+\code{100} representing the preoperative patient risk. The second column are binary (\code{0/1})
+ outcome values of each operation.}
 
-\item{R0}{double. Odds ratio of death under the null hypotheses.}
+\item{R0}{Double. Odds ratio of death under the null hypotheses.}
 
-\item{RA}{double. Odds ratio of death under the alternative hypotheses.
-Detecting deterioration in performance with increased mortality risk by doubling the odds Ratio
-RA=2. Detecting improvement in performance with decreased mortality risk by halving the odds
-ratio of death RA=1/2.}
+\item{RA}{Double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
+in performance with increased mortality risk by doubling the odds Ratio \code{RA = 2}. Detecting
+ improvement in performance with decreased mortality risk by halving the odds ratio of death
+ \code{RA = 1/2}.}
 
-\item{yemp}{boolean. If TRUE use observed outcome value, if FALSE use estimated binary logistc
-regression model.}
+\item{yemp}{Logical. If \code{TRUE} use observed outcome value, if \code{FALSE} use estimated
+binary logistc regression model.}
 }
 \value{
 Returns a single value which is the Run Length.
