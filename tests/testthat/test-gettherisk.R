@@ -26,3 +26,9 @@ test_that("Different input values for parsonnetscore", {
     expect_error(do.call(x, gettherisk(parsonnetscore = x, coeff)),
                  "Argument 'parsonnetscore' must be an integer value")})
 })
+
+test_that("Different Parsonnet scores, Rigdon and Fricker (2015) p. 221, 225", {
+  coeff <- c("(Intercept)" = -3.67, "Parsonnet" = 0.077)
+  expect_equal(round(gettherisk(19L, coeff), 5), 0.09912)
+  expect_equal(round(gettherisk(0L, coeff), 5), 0.02484)
+})

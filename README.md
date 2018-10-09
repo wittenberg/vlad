@@ -26,13 +26,14 @@ control charts in health care.
 ## Installation
 
 You can install the released version of **vlad** from
-[CRAN](https://CRAN.R-project.org) with:
+[CRAN](https://cran.r-project.org/web/packages/vlad/index.html) with:
 
 ``` r
 install.packages("vlad")
 ```
 
-And the development version from [GitHub](https://github.com/) with:
+And the development version from
+[GitHub](https://github.com/wittenberg/vlad) with:
 
 ``` r
 # install.packages("devtools")
@@ -145,20 +146,21 @@ m <- 10^4
 nc <- parallel::detectCores()
 # verbose calculation 
 UCL_sim <- racusum_arl_h_sim(L0 = 740, df = S2I[, c("s", "y")], coeff = coeff, m = m, RA = 2, nc = nc, verbose = TRUE)
-#> (i)   1   74.9197 
-#> (ii)  2   376.838 
-#> (ii)  3   1299.7591 
-#> (v)   2.39349192471599    629.8289 
-#> (v)   2.49323315419471    710.098 
-#> (v)   2.53038894943687    743.4503 
-#> (v)   2.52654517733347    739.6178 
-#> (v)   2.52692850145557    739.9946 
-#> (vi)  2.527999    740.7494
+#> (i)   1   74.5419 
+#> (ii)  2   379.4145 
+#> (ii)  3   1296.9331 
+#> (v)   2.39300075224633    628.8405 
+#> (v)   2.49399533425588    710.8109 
+#> (v)   2.52995881563129    742.8299 
+#> (v)   2.52678029487973    740.437 
+#> (v)   2.52619982199393    740.0806 
+#> (v)   2.52606854782278    739.9307 
+#> (vi)  2.526999    740.703
 # quite calculation
 LCL_sim <- racusum_arl_h_sim(L0 = 740, df = S2I[, c("s", "y")], coeff = coeff, m = m, RA = 1/2, nc = nc, verbose = FALSE)
 round(cbind(UCL_sim, LCL_sim), 3)
 #>      UCL_sim LCL_sim
-#> [1,]   2.528   2.271
+#> [1,]   2.527    2.27
 ```
 
 ### References

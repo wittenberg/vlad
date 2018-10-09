@@ -2,7 +2,7 @@ context("llr_score")
 
 coeff <- c("(Intercept)" = -3.68, "Parsonnet" = 0.077)
 df <- data.frame(Parsonnet = c(0L, 0L, 50L, 50L),
-                status = c(0, 1, 0, 1))
+                 status = c(0, 1, 0, 1))
 
 R0 <- 1
 RA <- 2
@@ -18,11 +18,24 @@ test_that("patients with different Parsonnet scores, RA = 2, Steiner (2014) p. 2
   expect_equal(works, expected_results)
 })
 
+test_that("patients with different Parsonnet scores, RA = 2, Rigdon and Fricker p. 225, 226", {
+  coeff <- c("(Intercept)" = -3.67, "Parsonnet" = 0.077)
+  df <- data.frame(Parsonnet = c(19L, 19L, 0L, 0L), status = c(0, 1, 0, 1))
+  expected_results <- list(-0.0954, 0.5986, -0.0245, 0.6686)
+  works <- lapply(seq_along(df$Parsonnet), function(i) round(llr_score(df = df[i, ], coeff, R0, RA), 4))
+  expect_equal(works, expected_results, tolerance=10^-2)
+})
+
 RA <- 1/2
 test_that("patients with different Parsonnet scores, RA = 1/2, Steiner (2014) p. 234", {
   expected_results <- list(0.012, -0.681, 0.316, -0.377)
   works <- lapply(seq_along(df$Parsonnet), function(i) round(llr_score(df = df[i, ], coeff, R0, RA), 3))
   expect_equal(works, expected_results)
+})
+
+test_that("patients with different Parsonnet scores, RA = 1/2, Rigdon and Fricker p. 226", {
+  coeff <- c("(Intercept)" = -3.67, "Parsonnet" = 0.077)
+  expect_equal(round(llr_score(df = data.frame(19L, 0), coeff, R0, RA), 5), 0.05083)
 })
 
 test_that("Different input values for df", {
