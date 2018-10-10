@@ -25,7 +25,7 @@
 #' library(ggplot2)
 #' data("cardiacsurgery", package = "spcadjust")
 #'
-#' ## preprocess data to 30 day mortality and subset phase I (In-control) of surgeons 2
+#' ## preprocess data to 30 day mortality and subset phase I (In-control)
 #' SALL <- cardiacsurgery %>% rename(s = Parsonnet) %>%
 #'   mutate(y = ifelse(status == 1 & time <= 30, 1, 0),
 #'          phase = factor(ifelse(date < 2*365, "I", "II")))
@@ -36,6 +36,7 @@
 #' ## estimate coefficients from logit model
 #' coeff1 <- round(coef(glm(y ~ s, data = SI, family = "binomial")), 3)
 #'
+#' ## subset phase II of surgeons 2
 #' S2II <- filter(SALL, phase == "II", surgeon == 2) %>% select(s, y)
 #' n <- nrow(S2II)
 #'
@@ -59,7 +60,7 @@
 #'   ggplot(aes(x = n, y = value, colour = CUSUM, group = CUSUM)) +
 #'   geom_hline(yintercept = 0, colour = "darkgreen", linetype = "dashed") +
 #'   geom_line(size = 0.5) +
-#'   facet_wrap( ~ type, ncol=1, scales="free") +
+#'   facet_wrap( ~ type, ncol = 1, scales = "free") +
 #'   labs(x = "Patient number n", y = "CUSUM values") + theme_classic() +
 #'   scale_y_continuous(sec.axis = dup_axis(name = NULL, labels = NULL)) +
 #'   scale_x_continuous(sec.axis = dup_axis(name = NULL, labels = NULL)) +
