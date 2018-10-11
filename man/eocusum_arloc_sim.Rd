@@ -37,8 +37,8 @@ Compute Out of Control ARLs of EO-CUSUM control charts using simulation.
 \examples{
 \dontrun{
 ## Datasets
-data("cardiacsurgery", package="spcadjust")
-s5000 <- dplyr::sample_n(cardiacsurgery, size=5000, replace=TRUE)
+data("cardiacsurgery", package = "spcadjust")
+s5000 <- dplyr::sample_n(cardiacsurgery, size = 5000, replace = TRUE)
 df1 <- subset(cardiacsurgery, select=c(Parsonnet, status))
 df2 <- subset(s5000, select=c(Parsonnet, status))
 ## estimate coefficients from logit model

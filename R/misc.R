@@ -84,3 +84,56 @@ eocusum_scores <- function(z, k, reset = FALSE, h1 = NULL, h2 = NULL) {
   }
   return(list("s1" = s1[-1], "s1l" = s1l[-1]))
 }
+
+#' @name rockettails
+#' @title Rockettails for VLAD
+#' @description Rockettails for VLAD.
+#'
+#' @param alpha double.
+#' @param s double. Parsonnet score.
+#' @param coeff NumericVector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
+#'  from the binary logistic regression model. For more information see details.
+#'
+#' @return ....
+#'
+#' @keywords keyword1 keyword2
+#' @author Philipp Wittenberg
+#' @examples
+#' \dontrun{
+#' library("dplyr")
+#' library("tidyr")
+#' library("ggplot2")
+#' data("cardiacsurgery", package = "spcadjust")
+#' SALL <- cardiacsurgery %>% rename(s = Parsonnet) %>%
+#'   mutate(y = ifelse(status == 1 & time <= 30, 1, 0),
+#'          phase = factor(ifelse(date < 2*365, "I", "II")))
+#'
+#' SALLI <- filter(SALL, phase == "I")
+#' coeff1 <- round(coef(glm(y ~ s, data = SALLI, family = "binomial")), 3)
+#'
+#' S2 <- filter(SALL, surgeon == 2)
+#' S2I <- filter(S2, phase == "I") %>% select(s, y)
+#' S2II <- filter(S2, phase == "II") %>% select(s, y)
+#'
+#' rt <- rockettails(alpha = 0.05, s = S2II[, "s"] , coeff = coeff1)
+#' EO <- sapply(1:nrow(S2II), function(i) calceo(df = S2II[i, c("s", "y")], coeff = coeff1, yemp = TRUE))
+#' df1 <- data.frame(cbind("n" = 1:nrow(S2II), "cEO" = cumsum(EO), rt)) %>%
+#'   gather(key = variable, value = value, c(-n))
+#'
+#' ggplot(df1, aes(x = n, y = value, group = variable)) +
+#'   geom_line() +
+#'   geom_point(data = filter(df1, variable == "cEO"), col = "red") +
+#'   geom_hline(yintercept = 0, linetype = "dashed", col = "darkgreen") +
+#'   theme_bw() + labs(x = "Patient number n", y = "CUSUM E-O") +
+#'   geom_hline(yintercept=0, linetype="dashed", col="darkgreen") +
+#'   scale_y_continuous(sec.axis=dup_axis(name=NULL, labels=NULL)) +
+#'   scale_x_continuous(sec.axis=dup_axis(name=NULL, labels=NULL))
+#' }
+#' @export
+rockettails <- function(alpha, s, coeff){
+  y <- sapply(1:length(s), function(i) gettherisk(s[i], coeff = coeff))
+  r <- sapply(1:length(s), function(i) y[i]*(1-y[i]))
+  cbind("upper tail" = sqrt(cumsum(r))*stats::qnorm(1-alpha/2, lower.tail = TRUE),
+        "lower tail" = sqrt(cumsum(r))*stats::qnorm(1-alpha/2, lower.tail = FALSE)
+  )
+}
