@@ -24,5 +24,5 @@
 #' coeff1 <- round(coef(glm(y ~ s, data = S2I, family = "binomial")), 3)
 #'
 #' ## control limit for detecting deterioration RA = 2:
-#' racusum_arl_h_sim(L0 = 740, df = S2I, coeff = coeff1, m = 10^3, nc = 4)
+#' racusum_crit_sim(L0 = 740, df = S2I, coeff = coeff1, m = 10^3, nc = 4)
 #'}

@@ -256,7 +256,7 @@ racusum_arl_h_sim <- function(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRU
 #'
 #' @return Returns a single value which is the control limit \code{h} for a given in-control ARL.
 #'
-#' @details The function \code{racusum_arl_h_sim} determines the control limit \code{h} for given
+#' @details The function \code{racusum_crit_sim} determines the control limit \code{h} for given
 #'  in-control ARL (\code{L0}) by applying a multi-stage search procedure which includes secant
 #'  rule and the parallel version of \code{\link{racusum_arl_sim}} using \code{\link{mclapply}}.
 #'

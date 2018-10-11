@@ -40,7 +40,7 @@ Returns a single value which is the control limit \code{h} for a given in-contro
 Compute alarm threshold of RA-CUSUM control charts using simulation.
 }
 \details{
-The function \code{racusum_arl_h_sim} determines the control limit \code{h} for given
+The function \code{racusum_crit_sim} determines the control limit \code{h} for given
  in-control ARL (\code{L0}) by applying a multi-stage search procedure which includes secant
  rule and the parallel version of \code{\link{racusum_arl_sim}} using \code{\link{mclapply}}.
 }
@@ -59,7 +59,7 @@ S2I <- cardiacsurgery \%>\% rename(s = Parsonnet) \%>\%
 coeff1 <- round(coef(glm(y ~ s, data = S2I, family = "binomial")), 3)
 
 ## control limit for detecting deterioration RA = 2:
-racusum_arl_h_sim(L0 = 740, df = S2I, coeff = coeff1, m = 10^3, nc = 4)
+racusum_crit_sim(L0 = 740, df = S2I, coeff = coeff1, m = 10^3, nc = 4)
 }
 }
 \references{
