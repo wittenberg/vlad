@@ -371,15 +371,57 @@ eocusum_arloc_h_sim <- function(L0, k, df, coeff, coeff2, m = 100, QS = 1, side 
 #'
 #' @return Returns a single value which is the control limit \code{h} for a given ARL.
 #'
-#' @template eocusum_arl_h_sim
-#'
 #' @details The function \code{eocusum_arl_h_sim} determines the control limit for given in-control
 #'  ARL (\code{L0}) by applying a multi-stage search procedure which includes secant rule and the
 #'   parallel version of \code{\link{eocusum_arl_sim}} using \code{\link{mclapply}}.
 #'
 #' @author Philipp Wittenberg
+#'
 #' @export
+#' @examples
+#'\donttest{
+#'
+#'# This function is deprecated. See eocusum_crit_sim() instead.
+#'
+#'  }
 eocusum_arl_h_sim <- function(L0, k, df, coeff, m = 100, yemp = TRUE, side = "low", nc = 1, verbose = FALSE) {
+
+  .Deprecated("eocusum_arl_h_sim")
+  eocusum_crit_sim(L0 = L0, k = k, df = df, coeff = coeff, m = m, yemp = yemp, side = side, nc = nc, verbose = verbose)
+}
+
+#' @name eocusum_crit_sim
+#' @title Compute alarm threshold of EO-CUSUM control charts using simulation
+#' @description Compute alarm threshold of EO-CUSUM control charts using simulation.
+#'
+#' @param L0 Double. Prespecified in-control Average Run Length.
+#' @param k Double. Reference value of the CUSUM control chart. Either \code{0} or a positive
+#' value. Can be determined with function \code{\link{optimal_k}}.
+#' @param m Integer. Number of simulation runs.
+#' @param side Character. Default is \code{"low"} to calculate ARL for the upper arm of the V-mask.
+#'  If side = \code{"up"}, calculate the lower arm of the V-mask.
+#' @param df Data Frame. First column are Parsonnet Score values within a range of \code{0} to
+#' \code{100} representing the preoperative patient risk. The second column are binary (0/1)
+#' outcome values of each operation.
+#' @param coeff Numeric Vector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
+#' from the binary logistic regression model. For more information see details.
+#' @param yemp Logical. If \code{TRUE} use observed outcome value, if \code{FALSE} use estimated
+#'  binary logistc regression model.
+#' @param nc Integer. Number of cores.
+#' @param verbose Logical. If \code{TRUE} verbose output is included, if \code{FALSE} a quiet
+#' calculation of \code{h} is done.
+#'
+#' @return Returns a single value which is the control limit \code{h} for a given ARL.
+#'
+#' @template eocusum_crit_sim
+#'
+#' @details The function \code{eocusum_crit_sim} determines the control limit for given in-control
+#'  ARL (\code{L0}) by applying a multi-stage search procedure which includes secant rule and the
+#'   parallel version of \code{\link{eocusum_arl_sim}} using \code{\link{mclapply}}.
+#'
+#' @author Philipp Wittenberg
+#' @export
+eocusum_crit_sim <- function(L0, k, df, coeff, m = 100, yemp = TRUE, side = "low", nc = 1, verbose = FALSE) {
   L0 <- as.integer(L0)
   if (is.na(L0) || L0 <= 0) {stop("Given in-control ARL 'L0' must be a positive integer")}
   k <- as.numeric(k)

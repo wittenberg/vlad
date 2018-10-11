@@ -34,7 +34,7 @@
 #' kopt <- optimal_k(QA = 2, df = S2I, coeff = coeff, yemp = FALSE)
 #'
 #' ## compute threshold for prespecified in-control ARL
-#' h <- eocusum_arl_h_sim(L0 = 370, df = S2I, k = kopt, m = m, coeff = coeff1, side = "low",
+#' h <- eocusum_crit_sim(L0 = 370, df = S2I, k = kopt, m = m, coeff = coeff1, side = "low",
 #' nc = nc)
 #'
 #' ## parameters to set up a tabular CUSUM or V-Mask
