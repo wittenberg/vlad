@@ -190,6 +190,7 @@ racusum_adoc_sim <- function(r, coeff, coeff2, h, df, R0 = 1, RA = 2, RQ = 1, m 
   .racusum_adoc_sim(r, coeff, coeff2, h, df, R0, RA, RQ, m, itype)
 }
 
+
 #' @name racusum_arl_h_sim
 #' @title Compute alarm threshold of RA-CUSUM control charts using simulation
 #' @description Compute alarm threshold of RA-CUSUM control charts using simulation.
@@ -219,10 +220,52 @@ racusum_adoc_sim <- function(r, coeff, coeff2, h, df, R0 = 1, RA = 2, RQ = 1, m 
 #'
 #' @author Philipp Wittenberg
 #'
-#' @template racusum_arl_h_sim
+#' @export
+#' @examples
+#'\donttest{
+#'
+#'# This function is deprecated. See racusum_crit_sim() instead.
+#'
+#'  }
+racusum_arl_h_sim <- function(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRUE, nc = 1, verbose = FALSE) {
+
+  .Deprecated("racusum_arl_h_sim")
+  racusum_crit_sim(L0 = L0, df = df, coeff = coeff, R0 = R0, RA = RA, m = m, yemp = yemp, nc = nc, verbose = verbose)
+}
+
+#' @name racusum_crit_sim
+#' @title Compute alarm threshold of RA-CUSUM control charts using simulation
+#' @description Compute alarm threshold of RA-CUSUM control charts using simulation.
+#'
+#' @param L0 Double. Prespecified in-control Average Run Length.
+#' @param R0 Double. Odds ratio of death under the null hypotheses.
+#' @param RA Double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
+#'  in performance with increased mortality risk by doubling the odds Ratio \code{RA = 2}.
+#'  Detecting improvement in performance with decreased mortality risk by halving the odds ratio of
+#'   death \code{RA = 1/2}.
+#' @param m Integer. Number of simulation runs.
+#' @param df Data Frame. First column are Parsonnet Score values within a range of \code{0} to
+#' \code{100} representing the preoperative patient risk. The second column are binary (\code{0/1})
+#'  outcome values of each operation.
+#' @param coeff Numeric Vector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
+#'  from the binary logistic regression model.
+#' @param yemp Logical. If \code{TRUE}, use emirical outcome values, else use model.
+#' @param nc Integer. Number of cores used for parallel processing.
+#' @param verbose Logical. If \code{TRUE} verbose output is included, if \code{FALSE} a quiet
+#' calculation of \code{h} is done.
+#'
+#' @return Returns a single value which is the control limit \code{h} for a given in-control ARL.
+#'
+#' @details The function \code{racusum_arl_h_sim} determines the control limit \code{h} for given
+#'  in-control ARL (\code{L0}) by applying a multi-stage search procedure which includes secant
+#'  rule and the parallel version of \code{\link{racusum_arl_sim}} using \code{\link{mclapply}}.
+#'
+#' @author Philipp Wittenberg
+#'
+#' @template racusum_crit_sim
 #'
 #' @export
-racusum_arl_h_sim <- function(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRUE, nc = 1, verbose = FALSE) {
+racusum_crit_sim <- function(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRUE, nc = 1, verbose = FALSE) {
   L0 <- as.integer(L0)
   if (is.na(L0) || L0 <= 0) {stop("Given in-control ARL 'L0' must be a positive integer")}
   if (class(df) != "data.frame") {stop("Provide a dataframe for argument 'df'")}
