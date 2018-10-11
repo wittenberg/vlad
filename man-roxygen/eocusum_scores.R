@@ -31,12 +31,12 @@
 #'
 #' ## CUSUM statistic without reset
 #' z <- sapply(1:n, function(i) calceo(df = S2II[i, c("s", "y")], coeff = coeff1))
-#' cv <- eo_cusum_scores(z = z, k = kopt)
+#' cv <- eocusum_scores(z = z, k = kopt)
 #' s1 <- cv$s1; s1l <- cv$s1l
 #' dm1 <- data.frame(cbind("n" = 1:length(s1), "Cup" = s1, "Clow" = s1l, "h1" = 2, "h2" = -2))
 #'
 #' ## CUSUM statistic reset after signal
-#' cv <- eo_cusum_scores(z = z, k = kopt, reset = TRUE, h1 = 2, h2 = 2)
+#' cv <- eocusum_scores(z = z, k = kopt, reset = TRUE, h1 = 2, h2 = 2)
 #' s1 <- cv$s1; s1l <- cv$s1l
 #' dm2 <- data.frame(cbind("n" = 1:length(s1), "Cup" = s1, "Clow" = s1l, "h1" = 2, "h2" = -2))
 #'

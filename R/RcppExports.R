@@ -29,8 +29,8 @@
     .Call(`_vlad_llr_score`, df, coeff, R0, RA, yemp)
 }
 
-.cusum_arl_sim <- function(r, h, df, R0, RA) {
-    .Call(`_vlad_cusum_arl_sim`, r, h, df, R0, RA)
+.bcusum_arl_sim <- function(r, h, df, R0, RA) {
+    .Call(`_vlad_bcusum_arl_sim`, r, h, df, R0, RA)
 }
 
 .racusum_arl_sim <- function(r, coeff, h, df, R0, RA, yemp) {

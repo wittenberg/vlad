@@ -1,4 +1,4 @@
-#' @name llr_cusum_scores
+#' @name racusum_scores
 #' @title Compute CUSUM scores based on the log-likelihood ratio statistic
 #' @description Compute CUSUM scores based on the log-likelihood ratio statistic.
 #'
@@ -13,11 +13,11 @@
 #'
 #' @return Returns a list with two components for the CUSUM scores.
 #'
-#' @template llr_cusum_scores
+#' @template racusum_scores
 #'
 #' @author Philipp Wittenberg
 #' @export
-llr_cusum_scores <- function(wt1, wt2, reset = FALSE, h1 = NULL, h2 = NULL) {
+racusum_scores <- function(wt1, wt2, reset = FALSE, h1 = NULL, h2 = NULL) {
   n <- length(wt1)
   s1 <- rep(0, n)
   s1l <- s1
@@ -42,7 +42,7 @@ llr_cusum_scores <- function(wt1, wt2, reset = FALSE, h1 = NULL, h2 = NULL) {
   return(list("s1" = s1[-1], "s1l" = s1l[-1]))
 }
 
-#' @name eo_cusum_scores
+#' @name eocusum_scores
 #' @title Compute CUSUM scores based on E-O
 #' @description Compute CUSUM scores based on E-O.
 #'
@@ -56,11 +56,11 @@ llr_cusum_scores <- function(wt1, wt2, reset = FALSE, h1 = NULL, h2 = NULL) {
 #'
 #' @return Returns a list with two components for the CUSUM scores.
 #'
-#' @template eo_cusum_scores
+#' @template eocusum_scores
 #'
 #' @author Philipp Wittenberg
 #' @export
-eo_cusum_scores <- function(z, k, reset = FALSE, h1 = NULL, h2 = NULL) {
+eocusum_scores <- function(z, k, reset = FALSE, h1 = NULL, h2 = NULL) {
   n <- length(z)
   s1 <- rep(0, n)
   s1l <- s1

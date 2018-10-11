@@ -17,7 +17,7 @@
 #' coeff <- c("(Intercept)" = -3.67, "Parsonnet" = 0.077)
 #' wt1 <- round(llr_score(df = data.frame(19L, 0), coeff = coeff, R0 = 1, RA = 2), 4)
 #' wt2 <- round(llr_score(df = data.frame(19L, 0), coeff = coeff, R0 = 1, RA = 1/2), 5)
-#' all.equal(llr_cusum_scores(wt1 = wt1, wt2 = wt2), list(s1 = 0, s1l = 0.05083))
+#' all.equal(racusum_scores(wt1 = wt1, wt2 = wt2), list(s1 = 0, s1l = 0.05083))
 #'
 #' \dontrun{
 #' library("dplyr")
@@ -43,12 +43,12 @@
 #' ## CUSUM statistic without reset
 #' wt1 <- sapply(1:n, function(i) llr_score(S2II[i, c("s", "y")], coeff = coeff, RA = 2))
 #' wt2 <- sapply(1:n, function(i) llr_score(S2II[i, c("s", "y")], coeff = coeff, RA = 1/2))
-#' cv <- llr_cusum_scores(wt1 = wt1, wt2 = wt2)
+#' cv <- racusum_scores(wt1 = wt1, wt2 = wt2)
 #' s1 <- cv$s1; s1l <- cv$s1l
 #' dm1 <- data.frame(cbind("n" = 1:length(s1), "Cup" = s1, "Clow" = -s1l, "h1" = 2, "h2" = -2))
 #'
 #' ## CUSUM statistic reset after signal
-#' cv <- llr_cusum_scores(wt1 = wt1, wt2 = wt2, reset = TRUE, h1 = 2, h2 = 2)
+#' cv <- racusum_scores(wt1 = wt1, wt2 = wt2, reset = TRUE, h1 = 2, h2 = 2)
 #' s1 <- cv$s1; s1l <- cv$s1l
 #' dm2 <- data.frame(cbind("n" = 1:length(s1), "Cup" = s1, "Clow" = -s1l, "h1" = 2, "h2" = -2))
 #'

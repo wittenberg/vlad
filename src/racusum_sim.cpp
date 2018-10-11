@@ -58,8 +58,8 @@ double llr_score_noadjust(DataFrame df, double R0, double RA){
   return wt;
 }
 
-// [[Rcpp::export(.cusum_arl_sim)]]
-int cusum_arl_sim(int r, double h, DataFrame df, double R0, double RA) {
+// [[Rcpp::export(.bcusum_arl_sim)]]
+int bcusum_arl_sim(int r, double h, DataFrame df, double R0, double RA) {
   double qn = 0, wt = 0;
   int rl = 0;
   do{
