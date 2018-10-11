@@ -123,26 +123,26 @@ int eocusum_arloc_sim(int r, double k, double h, DataFrame df, NumericVector coe
   return rl;
 }
 
-// [[Rcpp::export(.eocusum_adoc_sim)]]
-int eocusum_adoc_sim(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS, int side, int type, int m) {
+// [[Rcpp::export(.eocusum_ad_sim)]]
+int eocusum_ad_sim(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS, int side, int type, int m) {
   if (type == 1) {                                                  // conditional steady-state ARL (EO-CUSUM)
     if (side == 1) {
-      return eocusum_adoc_sim11(r, k, h, df, coeff, coeff2, QS, m); // lower side (deterioration)
+      return eocusum_ad_sim11(r, k, h, df, coeff, coeff2, QS, m); // lower side (deterioration)
     } else {
-      return eocusum_adoc_sim12(r, k, h, df, coeff, coeff2, QS, m); // upper side (improvement)
+      return eocusum_ad_sim12(r, k, h, df, coeff, coeff2, QS, m); // upper side (improvement)
     }
   } else {                                                          // cyclical steady-state ARL (EO-CUSUM)
     if (side == 1) {
-      return eocusum_adoc_sim21(r, k, h, df, coeff, coeff2, QS, m); // lower side (deterioration)
+      return eocusum_ad_sim21(r, k, h, df, coeff, coeff2, QS, m); // lower side (deterioration)
     } else {
-      return eocusum_adoc_sim22(r, k, h, df, coeff, coeff2, QS, m); // upper side (improvement)
+      return eocusum_ad_sim22(r, k, h, df, coeff, coeff2, QS, m); // upper side (improvement)
     }
   }
 }
 
 // conditional steady-state ARL (EO-CUSUM) -- m = #ic-observations with m >= 0
 // lower side (deterioration)
-int eocusum_adoc_sim11(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS, int m) {
+int eocusum_ad_sim11(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS, int m) {
   int success = 0, rl = 0;
   double z = 0;
   double tn = 0, Q = 1;
@@ -166,7 +166,7 @@ int eocusum_adoc_sim11(int r, double k, double h, DataFrame df, NumericVector co
 
 // conditional steady-state ARL (EO-CUSUM) -- m = #ic-observations with m >= 0
 // upper side (improvement)
-int eocusum_adoc_sim12(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS , int m) {
+int eocusum_ad_sim12(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS , int m) {
   int success = 0, rl = 0;
   double z = 0;
   double qn = 0, Q = 1;
@@ -190,7 +190,7 @@ int eocusum_adoc_sim12(int r, double k, double h, DataFrame df, NumericVector co
 
 // cyclical steady-state ARL (EO-CUSUM) -- m = #ic-observations with m >= 0
 // lower side (deterioration)
-int eocusum_adoc_sim21(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS, int m) {
+int eocusum_ad_sim21(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS, int m) {
   int rl = 0;
   double z = 0;
   double tn = 0, Q = 1;
@@ -211,7 +211,7 @@ int eocusum_adoc_sim21(int r, double k, double h, DataFrame df, NumericVector co
 
 // cyclical steady-state ARL (EO-CUSUM) -- m = #ic-observations with m >= 0
 // upper side (improvement)
-int eocusum_adoc_sim22(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS, int m) {
+int eocusum_ad_sim22(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS, int m) {
   int rl = 0;
   double z = 0;
   double qn = 0, Q = 1;

@@ -171,6 +171,8 @@ eocusum_arloc_sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low") 
   .eocusum_arloc_sim(r, k, h, df, coeff, coeff2, QS, iside)
 }
 
+
+
 #' @name eocusum_adoc_sim
 #' @title Compute steady-state ARLs of EO-CUSUM control charts using simulation
 #' @description Compute steady-state ARLs of EO-CUSUM control charts using simulation.
@@ -182,11 +184,37 @@ eocusum_arloc_sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low") 
 #'
 #' @return Returns a single value which is the Run Length.
 #'
-#' @template eocusum_adoc_sim
+#' @author Philipp Wittenberg
+#'
+#' @export
+#' @examples
+#'\donttest{
+#'
+#'# This function is deprecated. See eocusum_ad_sim() instead.
+#'
+#'  }
+eocusum_adoc_sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low", type = "cond", m = 50) {
+
+  .Deprecated("eocusum_adoc_sim")
+  eocusum_ad_sim(r = r, k = k, h = h, df = df, coeff = coeff, coeff2 = coeff2, QS = QS, side = side, type = type, m = m)
+}
+
+#' @name eocusum_ad_sim
+#' @title Compute steady-state ARLs of EO-CUSUM control charts using simulation
+#' @description Compute steady-state ARLs of EO-CUSUM control charts using simulation.
+#'
+#' @inheritParams eocusum_arloc_sim
+#' @param m Integer. Simulated in-control observations.
+#' @param type Character. Default argument is \code{"cond"} for computation of conditional
+#' steady-state. Other option is the cyclical steady-state \code{"cycl"}.
+#'
+#' @return Returns a single value which is the Run Length.
+#'
+#' @template eocusum_ad_sim
 #'
 #' @author Philipp Wittenberg
 #' @export
-eocusum_adoc_sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low", type = "cond", m = 50) {
+eocusum_ad_sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low", type = "cond", m = 50) {
   r <- as.integer(r)
   if (is.na(r) || r <= 0) {stop("Number of simulation runs 'r' must be a positive integer")}
   k <- as.numeric(k)
@@ -218,7 +246,7 @@ eocusum_adoc_sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low", t
   }
   m <- as.integer(m)
   if (is.na(m) || m < 0) {stop("m must be a positive integer")}
-  .eocusum_adoc_sim(r, k, h, df, coeff, coeff2, QS, iside, itype, m)
+  .eocusum_ad_sim(r, k, h, df, coeff, coeff2, QS, iside, itype, m)
 }
 
 #' @name eocusum_arloc_h_sim

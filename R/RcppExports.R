@@ -21,8 +21,8 @@
     .Call(`_vlad_eocusum_arloc_sim`, r, k, h, df, coeff, coeff2, QS, side)
 }
 
-.eocusum_adoc_sim <- function(r, k, h, df, coeff, coeff2, QS, side, type, m) {
-    .Call(`_vlad_eocusum_adoc_sim`, r, k, h, df, coeff, coeff2, QS, side, type, m)
+.eocusum_ad_sim <- function(r, k, h, df, coeff, coeff2, QS, side, type, m) {
+    .Call(`_vlad_eocusum_ad_sim`, r, k, h, df, coeff, coeff2, QS, side, type, m)
 }
 
 .llr_score <- function(df, coeff, R0, RA, yemp) {

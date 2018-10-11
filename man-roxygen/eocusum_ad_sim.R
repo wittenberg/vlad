@@ -42,11 +42,11 @@
 #' # eocusum_arloc_h_sim(L0 = 370, df = df1, k = kopt, m = m, side = "low", coeff = coeff1,
 #'  coeff2 = coeff2, nc = nc)
 #' res <- sapply(0:(tau-1), function(i){
-#'   RLS <- do.call(c, parallel::mclapply( 1:m, eocusum_adoc_sim, k = kopt, QS = 2, h = 2.637854,
-#'   df=df1, m = i, coeff = coeff1, coeff2 = coeff2, side = "low", mc.cores = nc))
-#'   list(data.frame(cbind(ARL=mean(RLS), ARLSE=sd(RLS)/sqrt(m))))
+#'   RLS <- do.call(c, parallel::mclapply( 1:m, eocusum_ad_sim, k = kopt, QS = 2, h = 2.637854,
+#'   df = df1, m = i, coeff = coeff1, coeff2 = coeff2, side = "low", mc.cores = nc))
+#'   list(data.frame(cbind(ARL = mean(RLS), ARLSE = sd(RLS)/sqrt(m))))
 #' } )
-#' RES <- data.frame(cbind(M=0:(tau-1), do.call(rbind, res)))
-#' ggplot2::qplot(x=M, y=ARL, data=RES, geom=c("line", "point")) +
+#' RES <- data.frame(cbind(M = 0:(tau-1), do.call(rbind, res)))
+#' ggplot2::qplot(x = M, y = ARL, data = RES, geom = c("line", "point")) +
 #' ggplot2::theme_classic()
 #' }
