@@ -3,14 +3,15 @@
 
 # vlad
 
-[![Build
-Status](https://travis-ci.org/wittenberg/vlad.svg)](https://travis-ci.org/wittenberg/vlad)
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/vlad)](http://cran.r-project.org/package=vlad)
-[![Coverage
-Status](https://codecov.io/gh/wittenberg/vlad/graph/badge.svg)](https://codecov.io/github/wittenberg/vlad?branch=master)
-[![Downloads](https://cranlogs.r-pkg.org/badges/vlad)](https://CRAN.R-project.org/package=vlad)
-[![Total
-Downloads](https://cranlogs.r-pkg.org/badges/grand-total/vlad?color=orange)](https://CRAN.R-project.org/package=vlad)
+<!-- [![Build Status](https://travis-ci.org/wittenberg/vlad.svg)](https://travis-ci.org/wittenberg/vlad)  -->
+
+<!-- [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/vlad)](http://cran.r-project.org/package=vlad)  -->
+
+<!-- [![Coverage Status](https://codecov.io/gh/wittenberg/vlad/graph/badge.svg)](https://codecov.io/github/wittenberg/vlad?branch=master)  -->
+
+<!-- [![Downloads](https://cranlogs.r-pkg.org/badges/vlad)](https://CRAN.R-project.org/package=vlad) -->
+
+<!-- [![Total Downloads](https://cranlogs.r-pkg.org/badges/grand-total/vlad?color=orange)](https://CRAN.R-project.org/package=vlad) -->
 
 An R-package which contains functions to set up risk-adjusted quality
 control charts in health care.
@@ -146,21 +147,19 @@ m <- 10^4
 nc <- parallel::detectCores()
 # verbose calculation 
 UCL_sim <- racusum_arl_h_sim(L0 = 740, df = S2I[, c("s", "y")], coeff = coeff, m = m, RA = 2, nc = nc, verbose = TRUE)
-#> (i)   1   74.5419 
-#> (ii)  2   379.4145 
-#> (ii)  3   1296.9331 
-#> (v)   2.39300075224633    628.8405 
-#> (v)   2.49399533425588    710.8109 
-#> (v)   2.52995881563129    742.8299 
-#> (v)   2.52678029487973    740.437 
-#> (v)   2.52619982199393    740.0806 
-#> (v)   2.52606854782278    739.9307 
-#> (vi)  2.526999    740.703
+#> (i)   1   74.672 
+#> (ii)  2   378.8196 
+#> (ii)  3   1299.1255 
+#> (v)   2.3924568993853     628.2552 
+#> (v)   2.49365348279281    710.7591 
+#> (v)   2.5295194136853     739.5776 
+#> (v)   2.53004510965174    740.0594 
+#> (v)   2.52998029782026    740.0594
 # quite calculation
 LCL_sim <- racusum_arl_h_sim(L0 = 740, df = S2I[, c("s", "y")], coeff = coeff, m = m, RA = 1/2, nc = nc, verbose = FALSE)
 round(cbind(UCL_sim, LCL_sim), 3)
 #>      UCL_sim LCL_sim
-#> [1,]   2.527    2.27
+#> [1,]    2.53   2.271
 ```
 
 ### References
