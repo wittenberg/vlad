@@ -83,8 +83,10 @@ time <- system.time( {
       cat(h, " ", QS, "\\n")
       RLS[which(QS_vec==QS), which(h==h_vec), ] <- parallel::parSapply(cl, 1:m, eocusum_arloc_sim,
                                                                        side = side, QS = QS, h = h,
-                                                                       k = k, df = df1, coeff = coeff1,
-                                                                       coeff2 = coeff2, USE.NAMES = FALSE)
+                                                                       k = k, df = df1,
+                                                                       coeff = coeff1,
+                                                                       coeff2 = coeff2,
+                                                                       USE.NAMES = FALSE)
     }
   }
 } )
