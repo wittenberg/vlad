@@ -38,7 +38,8 @@ S2I <- filter(S2, phase == "I") \%>\% select(s, y)
 S2II <- filter(S2, phase == "II") \%>\% select(s, y)
 
 rt <- rockettails(alpha = 0.05, s = S2II[, "s"] , coeff = coeff1)
-EO <- sapply(1:nrow(S2II), function(i) calceo(df = S2II[i, c("s", "y")], coeff = coeff1, yemp = TRUE))
+EO <- sapply(1:nrow(S2II), function(i) calceo(df = S2II[i, c("s", "y")], coeff = coeff1,
+             yemp = TRUE))
 df1 <- data.frame(cbind("n" = 1:nrow(S2II), "cEO" = cumsum(EO), rt)) \%>\%
   gather(key = variable, value = value, c(-n))
 
