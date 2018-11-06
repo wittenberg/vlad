@@ -47,7 +47,9 @@ racusum_scores <- function(wt1, wt2, reset = FALSE, h1 = NULL, h2 = NULL) {
 #' @description Compute CUSUM scores based on E-O.
 #'
 #' @param z NumericVector. \code{E-O} values.
-#' @param k Double. Reference value \code{k} can be determined from function
+#' @param k1 Double. Reference value \code{k} for detecting improvement can be determined from function
+#' \code{\link{optimal_k}}.
+#' @param k2 Double. Reference value \code{k} for detecting deteroration can be determined from function
 #' \code{\link{optimal_k}}.
 #' @param reset Logical. If \code{FALSE} CUSUM statistic is not reset. If \code{TRUE} CUSUM
 #' statistic is reset to \code{0} after a signal is issued.
@@ -60,7 +62,7 @@ racusum_scores <- function(wt1, wt2, reset = FALSE, h1 = NULL, h2 = NULL) {
 #'
 #' @author Philipp Wittenberg
 #' @export
-eocusum_scores <- function(z, k, reset = FALSE, h1 = NULL, h2 = NULL) {
+eocusum_scores <- function(z, k1, k2, reset = FALSE, h1 = NULL, h2 = NULL) {
   n <- length(z)
   s1 <- rep(0, n)
   s1l <- s1
@@ -73,13 +75,13 @@ eocusum_scores <- function(z, k, reset = FALSE, h1 = NULL, h2 = NULL) {
         o1 <- s1[i]
         o2 <- s1l[i]
       }
-      s1[i+1]  <- max(0, o1 + z[i] - k)
-      s1l[i+1] <- min(0, o2 + z[i] + k)
+      s1[i+1]  <- max(0, o1 + z[i] - k1)
+      s1l[i+1] <- min(0, o2 + z[i] + k2)
     } else {
       o1 <- s1[i]
       o2 <- s1l[i]
-      s1[i+1]  <- max(0, o1 + z[i] - k)
-      s1l[i+1] <- min(0, o2 + z[i] + k)
+      s1[i+1]  <- max(0, o1 + z[i] - k1)
+      s1l[i+1] <- min(0, o2 + z[i] + k2)
     }
   }
   return(list("s1" = s1[-1], "s1l" = s1l[-1]))

@@ -4,12 +4,15 @@
 \alias{eocusum_scores}
 \title{Compute CUSUM scores based on E-O}
 \usage{
-eocusum_scores(z, k, reset = FALSE, h1 = NULL, h2 = NULL)
+eocusum_scores(z, k1, k2, reset = FALSE, h1 = NULL, h2 = NULL)
 }
 \arguments{
 \item{z}{NumericVector. \code{E-O} values.}
 
-\item{k}{Double. Reference value \code{k} can be determined from function
+\item{k1}{Double. Reference value \code{k} for detecting improvement can be determined from function
+\code{\link{optimal_k}}.}
+
+\item{k2}{Double. Reference value \code{k} for detecting deteroration can be determined from function
 \code{\link{optimal_k}}.}
 
 \item{reset}{Logical. If \code{FALSE} CUSUM statistic is not reset. If \code{TRUE} CUSUM
