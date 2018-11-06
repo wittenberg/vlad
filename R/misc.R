@@ -138,3 +138,59 @@ rockettails <- function(alpha, s, coeff){
         "lower tail" = sqrt(cumsum(r))*stats::qnorm(1-alpha/2, lower.tail = FALSE)
   )
 }
+
+#' @name plot_racusum
+#' @title Plot a two-sided risk-adjusted CUSUM chart
+#' @description Plot a two-sided risk-adjusted CUSUM chart.
+#'
+#' @param data Dataframe. TODO
+#' @param coeff Numeric Vector. TODO
+#' @param signal Logical. TODO
+#' @inheritParams racusum_scores
+#'
+#' @return Returns a ggplot object for a two-sided risk-adjusted CUSUM chart.
+#'
+#' @importFrom tidyr gather
+#' @import dplyr
+#' @import ggplot2
+#'
+#' @template plot_racusum
+#'
+#' @author Philipp Wittenberg
+#' @export
+plot_racusum <- function(data, coeff, h1, h2, reset = FALSE, signal = FALSE) {
+  ## calculate CUSUM weights
+  wt1 <- sapply(1:nrow(data), function(i) llr_score(data[i, c("s", "y")], coeff = coeff, RA = 2))
+  wt2 <- sapply(1:nrow(data), function(i) llr_score(data[i, c("s", "y")], coeff = coeff, RA = 1/2))
+  ## CUSUM statistics with/without reset
+  cv <- racusum_scores(wt1 = wt1, wt2 = wt2, reset = reset, h1 = h1, h2 = h2)
+  ## CUSUM values and limits; determine signals
+  dm1 <- data.frame(cbind("n"    = 1:length(wt1),
+                          "Cup"  = cv$s1,
+                          "Clow" = -cv$s1l,
+                          "UCL"   = h1,
+                          "LCL"   = -h2)) %>%
+    mutate("n" = row_number()) %>%
+    gather("CUSUM", value, -n) %>%
+    mutate(signal = ifelse(CUSUM == "Clow" & value < -h2, "AlarmL",
+                           ifelse(CUSUM == "Cup" & value > h1, "AlarmU", "No Alarm")))
+
+  dm1$CUSUM <- factor(dm1$CUSUM, levels = c("UCL", "Cup", "Clow", "LCL"))
+  labl <- list("UCL", expression(C[up]), expression(C[low]), "LCL")
+
+  ## plot
+  p <- ggplot(dm1, aes(x = n, y = value, colour = CUSUM, group = CUSUM)) +
+    geom_hline(yintercept = 0, colour = "darkgreen", linetype = "dashed") +
+    geom_line(size = 0.5) +
+    labs(x = "Patient number n", y = "CUSUM values") +
+    theme_classic() +
+    scale_y_continuous(sec.axis = dup_axis(name = NULL, labels = NULL)) +
+    scale_x_continuous(sec.axis = dup_axis(name = NULL, labels = NULL)) +
+    scale_color_manual(values = c("red", "orange", "blue", "red"), labels = labl,
+                       guide_legend(title = ""))
+  ## add alarm signals as points
+  if (signal == TRUE) {
+    p + geom_point(data = filter(dm1, signal == "AlarmU" | signal == "AlarmL"),
+                     colour = "red")
+  } else p
+}
