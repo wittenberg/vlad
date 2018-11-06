@@ -53,16 +53,15 @@ ggplot2::qplot(data=df2, n, value, colour=phase, geom=c("line", "point"),
 Lovegrove J, Valencia O, Treasure T, Sherlaw-Johnson C and Gallivan S (1997).
  “Monitoring the results of cardiac surgery by variable life-adjusted display.”
  \emph{The Lancet}, \strong{350}(9085), pp. 1128–1130.
- doi: \href{https://doi.org/10.1016/S0140-6736(97)06507-0}{10.1016/S0140-6736(97)06507-0}.
+ doi: \doi{10.1016/S0140-6736(97)06507-0}.
 
 Poloniecki J, Valencia O and Littlejohns P (1998).
  “Cumulative risk adjusted mortality chart for detecting changes in death rate: observational
  study of heart surgery.” \emph{BMJ}, \strong{316}(7146), pp. 1697–1700.
- doi: \href{https://doi.org/10.1136/bmj.316.7146.1697}{10.1136/bmj.316.7146.1697}.
+ doi: \doi{10.1136/bmj.316.7146.1697}.
 
 Steiner S (2014). “Risk-Adjusted Monitoring of Outcomes in Health Care.”
  In Lawless JF (ed.), \emph{Statistics in Action}, pp. 225-242. Informa UK Limited.
- doi: \href{https://doi.org/10.1201/b16597-15}{10.1201/b16597-15}.
 }
 \author{
 Philipp Wittenberg
