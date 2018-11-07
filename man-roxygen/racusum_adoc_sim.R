@@ -1,21 +1,21 @@
 #' @references Steiner SH, Cook RJ, Farewell VT and Treasure T (2000).
 #' “Monitoring surgical performance using risk-adjusted cumulative sum charts.”
 #' \emph{Biostatistics}, \strong{1}(4), pp. 441-452.
-#' doi: \href{https://doi.org/10.1093/biostatistics/1.4.441}{10.1093/biostatistics/1.4.441}.
+#' doi: \doi{10.1093/biostatistics/1.4.441}.
 #'
 #' Wittenberg P, Gan FF, Knoth S (2018).
 #' “A simple signaling rule for variable life‐adjusted display derived from
 #' an equivalent risk‐adjusted CUSUM chart.”
 #' \emph{Statistics in Medicine}, \strong{37}(16), pp 2455-2473.
-#' doi: \href{https://doi.org/10.1002/sim.7647}{10.1002/sim.7647}.
+#' doi: \doi{10.1002/sim.7647}.
 #'
 #' Taylor HM (1968). “The Economic Design of Cumulative Sum Control Charts.”
 #' \emph{Technometrics}, \strong{10}(3), pp. 479-488.
-#' doi: \href{https://doi.org/10.1080/00401706.1968.10490595}{10.1080/00401706.1968.10490595}.
+#' doi: \doi{10.1080/00401706.1968.10490595}.
 #'
 #' Crosier R (1986). “A new two-sided cumulative quality control scheme.”
 #' \emph{Technometrics}, \strong{28}(3), pp. 187-194.
-#' doi: \href{https://doi.org/10.2307/1269074}{10.2307/1269074}.
+#' doi: \doi{10.2307/1269074}.
 #'
 #' @examples
 #' \dontrun{

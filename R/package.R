@@ -8,7 +8,6 @@
 #' ratio statistic introduced by Steiner et al. (2000) <doi:10.1093/biostatistics/1.4.441>
 #'   average run length and control limits can be computed.
 #' @docType package
-#' @author Philipp Wittenberg and Sven Knoth
 #' @importFrom Rcpp evalCpp
 #' @useDynLib vlad, .registration = TRUE
 #' @exportPattern "^[[:alpha:]]+"

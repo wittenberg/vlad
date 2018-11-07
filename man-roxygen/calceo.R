@@ -6,7 +6,6 @@
 #' Poloniecki J, Valencia O and Littlejohns P (1998).
 #'  “Cumulative risk adjusted mortality chart for detecting changes in death rate: observational
 #'  study of heart surgery.” \emph{BMJ}, \strong{316}(7146), pp. 1697–1700.
-#'  doi: \doi{10.1136/bmj.316.7146.1697}.
 #'
 #' Steiner S (2014). “Risk-Adjusted Monitoring of Outcomes in Health Care.”
 #'  In Lawless JF (ed.), \emph{Statistics in Action}, pp. 225-242. Informa UK Limited.
