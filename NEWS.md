@@ -12,6 +12,8 @@
 `racusum_adoc_sim()`    | `racusum_ad_sim()`
 
 ## Improvements
+* Include Markov Chain approximation for risk-adjusted CUSUM chart based on log-likelihood ratio statistic in racusum_arl_mc() and racusum_crit_mc()
+* Include plot function plot_racusum()
 * Add option of calculation of optimal k based on mean outcome in function optimal_k()
 * Add function for calculation of CUSUM scores for log-likelihood ratio CUSUM llr_cusum_scores()
 and E-O CUSUM eo_cusum_scores()

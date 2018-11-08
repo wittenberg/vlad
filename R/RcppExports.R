@@ -25,6 +25,14 @@
     .Call(`_vlad_eocusum_ad_sim`, r, k, h, df, coeff, coeff2, QS, side, type, m)
 }
 
+.racusum_arl_mc <- function(pmix, RA, RQ, h, scaling, rounding, method) {
+    .Call(`_vlad_racusum_arl_mc`, pmix, RA, RQ, h, scaling, rounding, method)
+}
+
+.racusum_crit_mc <- function(pmix, L0, RA, R, scaling, rounding, method, verbose) {
+    .Call(`_vlad_racusum_crit_mc`, pmix, L0, RA, R, scaling, rounding, method, verbose)
+}
+
 .llr_score <- function(df, coeff, R0, RA, yemp) {
     .Call(`_vlad_llr_score`, df, coeff, R0, RA, yemp)
 }

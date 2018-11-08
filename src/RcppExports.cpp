@@ -101,6 +101,41 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// racusum_arl_mc
+double racusum_arl_mc(NumericMatrix pmix, double RA, double RQ, double h, double scaling, bool rounding, int method);
+RcppExport SEXP _vlad_racusum_arl_mc(SEXP pmixSEXP, SEXP RASEXP, SEXP RQSEXP, SEXP hSEXP, SEXP scalingSEXP, SEXP roundingSEXP, SEXP methodSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type pmix(pmixSEXP);
+    Rcpp::traits::input_parameter< double >::type RA(RASEXP);
+    Rcpp::traits::input_parameter< double >::type RQ(RQSEXP);
+    Rcpp::traits::input_parameter< double >::type h(hSEXP);
+    Rcpp::traits::input_parameter< double >::type scaling(scalingSEXP);
+    Rcpp::traits::input_parameter< bool >::type rounding(roundingSEXP);
+    Rcpp::traits::input_parameter< int >::type method(methodSEXP);
+    rcpp_result_gen = Rcpp::wrap(racusum_arl_mc(pmix, RA, RQ, h, scaling, rounding, method));
+    return rcpp_result_gen;
+END_RCPP
+}
+// racusum_crit_mc
+double racusum_crit_mc(NumericMatrix pmix, double L0, double RA, double R, double scaling, bool rounding, int method, bool verbose);
+RcppExport SEXP _vlad_racusum_crit_mc(SEXP pmixSEXP, SEXP L0SEXP, SEXP RASEXP, SEXP RSEXP, SEXP scalingSEXP, SEXP roundingSEXP, SEXP methodSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type pmix(pmixSEXP);
+    Rcpp::traits::input_parameter< double >::type L0(L0SEXP);
+    Rcpp::traits::input_parameter< double >::type RA(RASEXP);
+    Rcpp::traits::input_parameter< double >::type R(RSEXP);
+    Rcpp::traits::input_parameter< double >::type scaling(scalingSEXP);
+    Rcpp::traits::input_parameter< bool >::type rounding(roundingSEXP);
+    Rcpp::traits::input_parameter< int >::type method(methodSEXP);
+    Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
+    rcpp_result_gen = Rcpp::wrap(racusum_crit_mc(pmix, L0, RA, R, scaling, rounding, method, verbose));
+    return rcpp_result_gen;
+END_RCPP
+}
 // llr_score
 double llr_score(DataFrame df, NumericVector coeff, double R0, double RA, bool yemp);
 RcppExport SEXP _vlad_llr_score(SEXP dfSEXP, SEXP coeffSEXP, SEXP R0SEXP, SEXP RASEXP, SEXP yempSEXP) {
@@ -194,6 +229,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_vlad_eocusum_arl_sim", (DL_FUNC) &_vlad_eocusum_arl_sim, 7},
     {"_vlad_eocusum_arloc_sim", (DL_FUNC) &_vlad_eocusum_arloc_sim, 8},
     {"_vlad_eocusum_ad_sim", (DL_FUNC) &_vlad_eocusum_ad_sim, 10},
+    {"_vlad_racusum_arl_mc", (DL_FUNC) &_vlad_racusum_arl_mc, 7},
+    {"_vlad_racusum_crit_mc", (DL_FUNC) &_vlad_racusum_crit_mc, 8},
     {"_vlad_llr_score", (DL_FUNC) &_vlad_llr_score, 5},
     {"_vlad_bcusum_arl_sim", (DL_FUNC) &_vlad_bcusum_arl_sim, 5},
     {"_vlad_racusum_arl_sim", (DL_FUNC) &_vlad_racusum_arl_sim, 7},
