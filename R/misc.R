@@ -196,3 +196,145 @@ plot_racusum <- function(data, coeff, h1, h2, reset = FALSE, signal = FALSE) {
                      colour = "red")
   } else p
 }
+
+#' @name search_delta
+#' @title Search Box-Cox transformation parameter
+#' @description Search Box-Cox transformation parameter.
+#'
+#' @param s Integer vector. Parsonnet Score values within a range of \code{0} to \code{100}
+#' representing the preoperative patient risk.
+#' @param y Double. Binary (\code{0/1}) outcome values of each operation.
+#' @param type Character. If \code{type = "ML"} Maximum Likelihood used to search the Box-Cox
+#'  transformation parameter, \code{type = "Pearson"} uses a Pearson measure.
+#' @param dmin Double. Minimum value for the grid search.
+#' @param dmax Double. Maximum value for the grid search.
+#' @return Returns a single value for the Box-Cox transformation parameter.
+
+#' @author Philipp Wittenberg
+#' @examples
+#' \dontrun{
+#' ## load data
+#' data("cardiacsurgery", package = "spcadjust")
+#'
+#' ## preprocess data to 30 day mortality and subset data to
+#' ## phase I (In-control) and phase II (monitoring)
+#' SALL <- cardiacsurgery %>% rename(s = Parsonnet) %>%
+#'   mutate(y = ifelse(status == 1 & time <= 30, 1, 0),
+#'          phase = factor(ifelse(date < 2*365, "I", "II")))
+#'
+#' ## subset phase I (In-control)
+#' SI <- filter(SALL, phase == "I") %>% select(s, y)
+#'
+#' ## search delta
+#' dML <- search_delta(SI$s, SI$y, type = "ML")
+#' dQQ <- search_delta(SI$s, SI$y, type = "Pearson")
+#'
+#' ## show Log-likelihood (ell()) and Pearson measure (QQ()) for each delta
+#' delta <- c(-2, -1, 0, dML, dQQ, 0.5, 1, 2)
+#' r <- sapply(delta, function(i) rbind(i, ell(SI$s, SI$y, i), QQ(SI$s, SI$y, i)))
+#' rownames(r) <- c("d", "l", "S")
+#' t(r)
+#' data.frame(t(r)) %>% filter(l == max(l) | S == min(S))
+#' }
+#' @export
+search_delta <- function(s, y, type = "ML", dmin = -2, dmax = 2) {
+  switch(type,
+         ML = {
+           fmax  <- Vectorize(function(delta) - as.numeric( stats::logLik( stats::glm(y ~ trafo(delta, s), family = stats::binomial(link = "logit")) ) ) )
+           delta <- stats::optimize(fmax, c(dmin, dmax), tol = 1e-9)$minimum
+           delta
+         },
+         Pearson={
+          fmin  <- Vectorize(function(delta) QQ(s, y, delta))
+          delta <- stats::optimize(fmin, c(dmin, dmax, tol = 1e-9))$minimum
+          delta
+        }
+  )
+  delta
+}
+
+#' @name ell
+#' @title Estimated log-likelihood.
+#' @description Estimated log-likelihood.
+#'
+#' @param s Integer vector. Parsonnet Score values within a range of \code{0} to \code{100}
+#' representing the preoperative patient risk.
+#' @param y Double. Binary (\code{0/1}) outcome values of each operation.
+#' @param delta Double. Box-Cox transformation parameter.
+#' @return Returns a single value which is estimated log-likelihood.
+
+#' @author Philipp Wittenberg
+#' @examples
+#' \dontrun{
+#' ## load data
+#' data("cardiacsurgery", package = "spcadjust")
+#'
+#' ## preprocess data to 30 day mortality and subset data to
+#' ## phase I (In-control) and phase II (monitoring)
+#' SALL <- cardiacsurgery %>% rename(s = Parsonnet) %>%
+#'   mutate(y = ifelse(status == 1 & time <= 30, 1, 0),
+#'          phase = factor(ifelse(date < 2*365, "I", "II")))
+#'
+#' ## subset phase I (In-control)
+#' SI <- filter(SALL, phase == "I") %>% select(s, y)
+#'
+#' dML <- search_delta(SI$s, SI$y, type = "ML")
+#' ell(SI$s, SI$y, dML)
+#' }
+#' @export
+ell <- function(s, y, delta) {
+  stats::logLik(stats::glm(y ~ trafo(delta, s), family = stats::binomial(link = "logit")))
+}
+
+#' @name QQ
+#' @title Pearson measure
+#' @description Pearson measure.
+#'
+#' @param s Integer vector. Parsonnet Score values within a range of \code{0} to \code{100}
+#' representing the preoperative patient risk.
+#' @param y Numeric Vector. Binary (\code{0/1}) outcome values of each operation.
+#' @param delta Double. Box-Cox transformation parameter.
+#' @return Returns a single value.
+
+#' @author Philipp Wittenberg
+#' @examples
+#' \dontrun{
+#' ## load data
+#' data("cardiacsurgery", package = "spcadjust")
+#'
+#' ## preprocess data to 30 day mortality and subset data to
+#' ## phase I (In-control) and phase II (monitoring)
+#' SALL <- cardiacsurgery %>% rename(s = Parsonnet) %>%
+#'   mutate(y = ifelse(status == 1 & time <= 30, 1, 0),
+#'          phase = factor(ifelse(date < 2*365, "I", "II")))
+#'
+#' ## subset phase I (In-control)
+#' SI <- filter(SALL, phase == "I") %>% select(s, y)
+#'
+#' dQQ <- search_delta(SI$s, SI$y, type = "Pearson")
+#' QQ(SI$s, SI$y, dQQ)
+#' }
+#' @export
+QQ <- function(s, y, delta) {
+  GLM <- stats::glm(y ~ trafo(delta, s), family = stats::binomial(link = "logit"))
+  alpha <- stats::coef(GLM)[1]
+  beta  <- stats::coef(GLM)[2]
+  pi.of.s <- function(s) 1 / (1 + exp(-alpha - beta * trafo(delta, s)))
+  s_ <- sort(unique(s))
+  pi.hat <- pi.of.s(s_)
+  ybar <- tapply(y, s, mean)
+  nn <- tapply(y, s, length)
+  QQ <- sum(nn * (pi.hat - ybar)^2 / pi.hat / (1 - pi.hat))
+  QQ
+}
+
+#' @name trafo
+#' @title trafo
+#' @description trafo.
+#'
+#' @param delta Numeric. TODO
+#' @param x Numceric Vector. TODO
+#' @return TODO
+
+#' @author Philipp Wittenberg
+trafo <- Vectorize(function(delta, x) ifelse( abs(delta)<1e-9, log(1+x), ((1+x)^delta-1)/delta ) )
