@@ -24,7 +24,6 @@ RQ <- 1
 test_that("Iterative search procedure I, deterioration R1 = 2", {
   skip_on_cran()
   skip_if(SKIP == TRUE, "skip this test now")
-  set.seed(123)
   RA <- 2
   tol <- 0.01
   L0 <- 4*10^4
