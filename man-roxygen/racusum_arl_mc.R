@@ -31,8 +31,8 @@
 #' pmix  <- data.frame(fi, pi, pi)
 #'
 #' ## Average Run Length for detecting deterioration R1=2:
-#' racusum_arl_mc(pmix = pmix, R1 = 2, R = 1, UCL = 4.5, method = "Toep")
+#' racusum_arl_mc(pmix = pmix, RA = 2, RQ = 1, h = 4.5, method = "Toep")
 #'
 #' ## Average Run Length for detecting improvement R1=1/2:
-#' racusum_arl_mc(pmix = pmix, R1 = 1/2, R = 1, UCL = 4, method = "Toep")
+#' racusum_arl_mc(pmix = pmix, RA = 1/2, RQ = 1, h = 4, method = "Toep")
 #'

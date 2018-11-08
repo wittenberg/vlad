@@ -1,7 +1,7 @@
 #include "racusum_mc.h"
 
 // [[Rcpp::export(.racusum_arl_mc)]]
-double racusum_arl_mc(NumericMatrix pmix, double RA, double RQ, double h, double scaling, bool rounding, int method){
+double racusum_arl_mc(NumericMatrix pmix, double RA, double RQ, double h, double scaling, int rounding, int method){
 
   NumericVector mp, mr1, mr2, z1, z2, pf, p1, p2;
 
@@ -29,7 +29,7 @@ double racusum_arl_mc(NumericMatrix pmix, double RA, double RQ, double h, double
     Rcpp::Rcout << "Select a positive value for RA (RA > 0)." << "\n" << std::endl;
   }
   // paired rounding implementation
-  if (rounding == TRUE) {
+  if (rounding == 1) {
     arma::vec sz, iza, izb, pp, pa, pb, zz, ppp, zzz;
 
     sz = join_cols(as<arma::vec>(z1), as<arma::vec>(z2)) * scaling;
@@ -405,7 +405,7 @@ double racusum_arl_mc(NumericMatrix pmix, double RA, double RQ, double h, double
 }
 
 // [[Rcpp::export(.racusum_crit_mc)]]
-double racusum_crit_mc(NumericMatrix pmix, double L0, double RA, double R, double scaling, bool rounding, int method, bool verbose) {
+double racusum_crit_mc(NumericMatrix pmix, double L0, double RA, double R, double scaling, int rounding, int method, bool verbose) {
   double h2 = 1;
   double h1, h3, h, L1, L3;
   double L2 = racusum_arl_mc(pmix, RA, 1, h2, scaling, rounding, method);

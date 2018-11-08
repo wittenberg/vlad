@@ -31,6 +31,6 @@
 #' pmix  <- data.frame(fi, pi1, pi1)
 #'
 #' ## control limit for detecting deterioration R1=2:
-#' racusum_crit_mc(pmix = pmix, L0 = 740, R1 = 2, R = 1)
+#' racusum_crit_mc(pmix = pmix, L0 = 740, RA = 2, RQ = 1)
 #' ## control limit for detecting improvement R1=1/2:
-#' racusum_crit_mc(pmix = pmix, L0 = 740, R1 = 0.5, R = 1)
+#' racusum_crit_mc(pmix = pmix, L0 = 740, RA = 0.5, RQ = 1)

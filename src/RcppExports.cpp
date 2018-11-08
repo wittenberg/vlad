@@ -102,7 +102,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // racusum_arl_mc
-double racusum_arl_mc(NumericMatrix pmix, double RA, double RQ, double h, double scaling, bool rounding, int method);
+double racusum_arl_mc(NumericMatrix pmix, double RA, double RQ, double h, double scaling, int rounding, int method);
 RcppExport SEXP _vlad_racusum_arl_mc(SEXP pmixSEXP, SEXP RASEXP, SEXP RQSEXP, SEXP hSEXP, SEXP scalingSEXP, SEXP roundingSEXP, SEXP methodSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -112,14 +112,14 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type RQ(RQSEXP);
     Rcpp::traits::input_parameter< double >::type h(hSEXP);
     Rcpp::traits::input_parameter< double >::type scaling(scalingSEXP);
-    Rcpp::traits::input_parameter< bool >::type rounding(roundingSEXP);
+    Rcpp::traits::input_parameter< int >::type rounding(roundingSEXP);
     Rcpp::traits::input_parameter< int >::type method(methodSEXP);
     rcpp_result_gen = Rcpp::wrap(racusum_arl_mc(pmix, RA, RQ, h, scaling, rounding, method));
     return rcpp_result_gen;
 END_RCPP
 }
 // racusum_crit_mc
-double racusum_crit_mc(NumericMatrix pmix, double L0, double RA, double R, double scaling, bool rounding, int method, bool verbose);
+double racusum_crit_mc(NumericMatrix pmix, double L0, double RA, double R, double scaling, int rounding, int method, bool verbose);
 RcppExport SEXP _vlad_racusum_crit_mc(SEXP pmixSEXP, SEXP L0SEXP, SEXP RASEXP, SEXP RSEXP, SEXP scalingSEXP, SEXP roundingSEXP, SEXP methodSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -129,7 +129,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type RA(RASEXP);
     Rcpp::traits::input_parameter< double >::type R(RSEXP);
     Rcpp::traits::input_parameter< double >::type scaling(scalingSEXP);
-    Rcpp::traits::input_parameter< bool >::type rounding(roundingSEXP);
+    Rcpp::traits::input_parameter< int >::type rounding(roundingSEXP);
     Rcpp::traits::input_parameter< int >::type method(methodSEXP);
     Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
     rcpp_result_gen = Rcpp::wrap(racusum_crit_mc(pmix, L0, RA, R, scaling, rounding, method, verbose));

@@ -14,8 +14,8 @@
 #' @param scaling Double. The \code{scaling} parameter controls the quality of the approximation,
 #' larger values achieve higher accuracy but increase the computation burden (larger transition
 #' probability matrix).
-#' @param rounding Logical. If \code{TRUE} a paired rounding implementation similar to
-#' \emph{Webster and Pettitt (2007)} is used, if \code{FALSE} a simple rounding method of
+#' @param rounding Character. If \code{rounding = "p"} a paired rounding implementation similar to
+#' \emph{Webster and Pettitt (2007)} is used, if \code{rounding = "s"} a simple rounding method of
 #' \emph{Steiner et al. (2000)} is used.
 #' @param method Character. If \code{method = "Toep"} a combination of Sequential Probability Ratio
 #'  Test and Toeplitz matrix structure is used to calculate the ARL. \code{"ToepInv"} computes the
@@ -24,10 +24,11 @@
 #'
 #' @return Returns a single value which is the Run Length.
 #'
+#' @template racusum_arl_mc
 #'
 #' @author Philipp Wittenberg
 #' @export
-racusum_arl_mc <- function(pmix, RA, RQ, h, scaling = 600, rounding = TRUE, method = "Toep") {
+racusum_arl_mc <- function(pmix, RA, RQ, h, scaling = 600, rounding = "p", method = "Toep") {
   pmix <- as.matrix(pmix)
   RA <- as.numeric(RA)
   if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")}
@@ -35,8 +36,8 @@ racusum_arl_mc <- function(pmix, RA, RQ, h, scaling = 600, rounding = TRUE, meth
   if (is.na(RQ) || RQ <= 0) {stop("Odds ratio of death under the null hypotheses 'RQ' must a positive numeric value")}
   UCL <- as.numeric(h)
   if (is.na(h) || h <= 0) {stop("Control limit 'h' must be a positive numeric value")}
-  rounding <- as.logical(rounding)
-  if (is.na(rounding) || is.logical(rounding) != "TRUE") {warning("Argument 'rounding' must be logical using TRUE as default value")}
+  irounding <- switch(rounding, p = 1, s = 2)
+  as.integer(irounding)
   as.numeric(scaling)
   imethod <- switch(method, Toep = 1, ToepInv = 2, BE = 3, Steiner = 4)
   as.integer(imethod)
@@ -44,7 +45,7 @@ racusum_arl_mc <- function(pmix, RA, RQ, h, scaling = 600, rounding = TRUE, meth
     warning("no valid input, using method=toeplitz as default")
     imethod <- 1
   }
-  .racusum_arl_mc(pmix, RA, RQ, h, scaling, rounding, imethod)
+  .racusum_arl_mc(pmix, RA, RQ, h, scaling, irounding, imethod)
 }
 
 #' @name racusum_crit_mc
@@ -60,6 +61,7 @@ racusum_arl_mc <- function(pmix, RA, RQ, h, scaling = 600, rounding = TRUE, meth
 #'
 #' @return Returns a single value which is the control limit \code{h} for a given In-control ARL.
 #'
+#' @template racusum_crit_mc
 #'
 #' @details
 #' Determines the control limit for given in-control ARL (\code{"L0"}) using
@@ -83,7 +85,9 @@ racusum_arl_mc <- function(pmix, RA, RQ, h, scaling = 600, rounding = TRUE, meth
 #'
 #' @author Philipp Wittenberg
 #' @export
-racusum_crit_mc <- function(pmix, L0, RA, RQ, scaling = 600, rounding = TRUE, method = "Toep", verbose = FALSE) {
+racusum_crit_mc <- function(pmix, L0, RA, RQ, scaling = 600, rounding = "p", method = "Toep", verbose = FALSE) {
+  irounding <- switch(rounding, p = 1, s = 2)
+  as.integer(irounding)
   imethod <- switch(method, Toep = 1, ToepInv = 2, BE = 3)
   if (is.null(imethod)) {
     warning("no valid input, using method=toeplitz as default")
@@ -95,8 +99,7 @@ racusum_crit_mc <- function(pmix, L0, RA, RQ, scaling = 600, rounding = TRUE, me
     as.numeric(RA),
     as.numeric(RQ),
     as.numeric(scaling),
-    as.logical(rounding),
-    as.integer(imethod),
+    irounding, imethod,
     as.logical(verbose)
   )
 }
