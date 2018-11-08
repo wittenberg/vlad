@@ -27,6 +27,13 @@ test_that("Input parameter for h", {
                "Control limit 'h' must be a positive numeric value")
 })
 
+test_that("Different input values for scaling", {
+  scatest <- list(-1, 0, "0", NA)
+  lapply(scatest, function(x) {
+    expect_error(do.call(x, racusum_arl_mc(pmix, RA, RQ, h, rounding, method, scaling = x)),
+                 "Parameter 'scaling' must a positive integer value")})
+})
+
 # test_that("Different input values for rounding", {
 #   expect_warning(racusum_arl_mc(pmix, RA, RQ, h, scaling, method, rounding = NA),
 #                  "Argument 'rounding' must be logical using TRUE as default value")

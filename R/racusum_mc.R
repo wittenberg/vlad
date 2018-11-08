@@ -38,8 +38,10 @@ racusum_arl_mc <- function(pmix, RA, RQ, h, scaling = 600, rounding = "p", metho
   if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")}
   RQ <- as.numeric(RQ)
   if (is.na(RQ) || RQ <= 0) {stop("True performance of a surgeon 'RQ' must a positive numeric value")}
-  UCL <- as.numeric(h)
+  h <- as.numeric(h)
   if (is.na(h) || h <= 0) {stop("Control limit 'h' must be a positive numeric value")}
+  as.integer(scaling)
+  if (is.na(scaling) || scaling <= 0) {stop("Parameter 'scaling' must a positive integer value")}
   irounding <- switch(rounding, p = 1, s = 2)
   as.integer(irounding)
   as.numeric(scaling)
@@ -73,6 +75,11 @@ racusum_arl_mc <- function(pmix, RA, RQ, h, scaling = 600, rounding = "p", metho
 #' @author Philipp Wittenberg
 #' @export
 racusum_crit_mc <- function(pmix, L0, RA, RQ, scaling = 600, rounding = "p", method = "Toep", verbose = FALSE) {
+  RA <- as.numeric(RA)
+  if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")}
+  RQ <- as.numeric(RQ)
+  if (is.na(RQ) || RQ <= 0) {stop("True performance of a surgeon 'RQ' must a positive numeric value")}
+  if (is.na(scaling) || scaling <= 0) {stop("Parameter 'scaling' must a positive integer value")}
   irounding <- switch(rounding, p = 1, s = 2)
   as.integer(irounding)
   imethod <- switch(method, Toep = 1, ToepInv = 2, BE = 3)
@@ -80,13 +87,8 @@ racusum_crit_mc <- function(pmix, L0, RA, RQ, scaling = 600, rounding = "p", met
     warning("no valid input, using method=toeplitz as default")
     imethod <- 1
   }
-  .racusum_crit_mc(
-    as.matrix(pmix),
-    as.numeric(L0),
-    as.numeric(RA),
-    as.numeric(RQ),
-    as.numeric(scaling),
-    irounding, imethod,
-    as.logical(verbose)
-  )
+  as.matrix(pmix)
+  as.numeric(L0)
+  as.logical(verbose)
+  .racusum_crit_mc(pmix, L0, RA, RQ, scaling, irounding, imethod, verbose)
 }
