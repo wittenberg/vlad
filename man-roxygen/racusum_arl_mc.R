@@ -33,10 +33,10 @@
 #' pmix1  <- data.frame(fi, pi1, pi1)
 #'
 #' ## Average Run Length for detecting deterioration RA = 2:
-#' racusum_arl_mc(pmix = pmix, RA = 2, RQ = 1, h = 4.5)
+#' racusum_arl_mc(pmix = pmix1, RA = 2, RQ = 1, h = 4.5)
 #'
 #' ## Average Run Length for detecting improvement RA = 1/2:
-#' racusum_arl_mc(pmix = pmix, RA = 1/2, RQ = 1, h = 4)
+#' racusum_arl_mc(pmix = pmix1, RA = 1/2, RQ = 1, h = 4)
 #'
 #' ## set up patient mix (model free)
 #' pmix2  <- data.frame(fi, pi1, pi2)
