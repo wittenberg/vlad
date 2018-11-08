@@ -13,6 +13,7 @@
 #'  doi: \doi{10.1080/03610910701208361}.
 #'
 #' @examples
+#' library(dplyr)
 #' data("cardiacsurgery", package = "spcadjust")
 #'
 #' ## preprocess data to 30 day mortality and subset phase I (In-control) of surgeons 2

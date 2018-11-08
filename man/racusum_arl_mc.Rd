@@ -19,7 +19,7 @@ in performance with increased mortality risk by doubling the odds Ratio \code{RA
 \code{RQ}. Use \code{RQ = 1} to compute the in-control ARL and other values to compute the
 out-of-control ARL.}
 
-\item{h}{Double. \code{UCL} is the control limit (>\code{0}).}
+\item{h}{Double. \code{h} is the control limit (>\code{0}).}
 
 \item{scaling}{Double. The \code{scaling} parameter controls the quality of the approximation,
 larger values achieve higher accuracy but increase the computation burden (larger transition
@@ -41,6 +41,7 @@ Returns a single value which is the Run Length.
 Compute ARLs of RA-CUSUM control charts using Markov chain approximation.
 }
 \examples{
+library(dplyr)
 data("cardiacsurgery", package = "spcadjust")
 
 ## preprocess data to 30 day mortality and subset phase I (In-control) of surgeons 2
