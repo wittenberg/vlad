@@ -1,8 +1,12 @@
 #' @name racusum_arl_mc
 #' @title Compute ARLs of RA-CUSUM control charts using Markov chain approximation
-#' @description Compute ARLs of RA-CUSUM control charts using Markov chain approximation.
+#' @description Computes the Average Run Length of a risk-adjusted cumulative sum control chart
+#' using Markov chain approximation.
 #'
-#' @param pmix Numeric Matrix. Patient mix defined
+#' @param pmix Numeric Matrix. A three column matrix. First column is the risk
+#' score distribution. Second column are the predicted probabilities from the ris kmodel. Third
+#'  column can be either the predicted probabilities from the risk model or average outcome per
+#'  risk score, see examples.
 #' @param RA Double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
 #' in performance with increased mortality risk by doubling the odds Ratio \code{RA = 2}. Detecting
 #'  improvement in performance with decreased mortality risk by halving the odds ratio of death
@@ -20,7 +24,7 @@
 #' @param method Character. If \code{method = "Toep"} a combination of Sequential Probability Ratio
 #'  Test and Toeplitz matrix structure is used to calculate the ARL. \code{"ToepInv"} computes the
 #'  inverted matrix using Toeplitz matrix structure. \code{"BE"} solves a linear equation system
-#'  using classical approach of \emph{Brook and Evans (1972)} to calculate the ARL.
+#'  using the classical approach of \emph{Brook and Evans (1972)} to calculate the ARL.
 #'
 #' @return Returns a single value which is the Run Length.
 #'
@@ -33,13 +37,13 @@ racusum_arl_mc <- function(pmix, RA, RQ, h, scaling = 600, rounding = "p", metho
   RA <- as.numeric(RA)
   if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")}
   RQ <- as.numeric(RQ)
-  if (is.na(RQ) || RQ <= 0) {stop("Odds ratio of death under the null hypotheses 'RQ' must a positive numeric value")}
+  if (is.na(RQ) || RQ <= 0) {stop("True performance of a surgeon 'RQ' must a positive numeric value")}
   UCL <- as.numeric(h)
   if (is.na(h) || h <= 0) {stop("Control limit 'h' must be a positive numeric value")}
   irounding <- switch(rounding, p = 1, s = 2)
   as.integer(irounding)
   as.numeric(scaling)
-  imethod <- switch(method, Toep = 1, ToepInv = 2, BE = 3, Steiner = 4)
+  imethod <- switch(method, Toep = 1, ToepInv = 2, BE = 3)
   as.integer(imethod)
   if (is.null(imethod)) {
     warning("no valid input, using method=toeplitz as default")
@@ -49,15 +53,14 @@ racusum_arl_mc <- function(pmix, RA, RQ, h, scaling = 600, rounding = "p", metho
 }
 
 #' @name racusum_crit_mc
-#' @title Compute alarm threshold of RA-CUSUM control charts using Markov chain approximation
-#' @description Compute alarm threshold of RA-CUSUM control charts using Markov chain
-#' approximation.
+#' @title Compute alarm threshold of RA-CUSUM control chart using Markov chain approximation
+#' @description Computes alarm threshold of a risk-adjusted cumulative sum control chart using
+#' Markov chain approximation.
 #'
-#' @param pmix Data Frame. TODO
 #' @param L0 Double. Prespecified Average Run Length.
 #' @inheritParams racusum_arl_mc
 #' @param verbose Logical. If \code{FALSE} a quiet calculation of \code{h} is done. If \code{TRUE}
-#'  verbose output of the search procedure (see details) is included.
+#'  verbose output of the search procedure is included.
 #'
 #' @return Returns a single value which is the control limit \code{h} for a given In-control ARL.
 #'
@@ -65,23 +68,7 @@ racusum_arl_mc <- function(pmix, RA, RQ, h, scaling = 600, rounding = "p", metho
 #'
 #' @details
 #' Determines the control limit for given in-control ARL (\code{"L0"}) using
-#' \code{\link{racusum_arl_mc}} by applying a multi-stage search procedure with the following
-#' steps:
-#' \describe{
-#'   \item{(i)}{Calculate ARL for an initial \code{h = 1}.}
-#'   \item{(ii)}{Calculate ARL by increasing \code{h} by 1 as long as resulting ARL is smaller than
-#'    \code{L0} and \code{h} smaller than \code{6}.}
-#'   \item{(iii)}{If, for \code{h = 6} the resulting ARL is still smaller than \code{L0}, use
-#'   linear interpolation the get a new pair of \code{h} and Arl.}
-#'   \item{(iv)a}{Calculate ARL by increasing \code{h} by \code{1} as long as resulting ARL is
-#'   smaller than \code{L0}.}
-#'   \item{(iv)b}{If, ARL if ARL is greater than ARL (iii), calculate ARL by decreasing \code{h} by
-#'    \code{1} as long as resulting ARL is greater or equal than \code{L0}.}
-#'   \item{(v)}{Use scant method with absolue error greater than 1e-4 and \code{h} error greater
-#'   than \code{1e-6}.}
-#'   \item{(vi)}{TODO ...}
-#'   \item{(vii)}{TODO ...}
-#' }
+#' \code{\link{racusum_arl_mc}} by applying a grid search and secant method.
 #'
 #' @author Philipp Wittenberg
 #' @export

@@ -8,7 +8,10 @@ racusum_arl_mc(pmix, RA, RQ, h, scaling = 600, rounding = "p",
   method = "Toep")
 }
 \arguments{
-\item{pmix}{Numeric Matrix. Patient mix defined}
+\item{pmix}{Numeric Matrix. A three column matrix. First column is the risk
+score distribution. Second column are the predicted probabilities from the ris kmodel. Third
+ column can be either the predicted probabilities from the risk model or average outcome per
+ risk score, see examples.}
 
 \item{RA}{Double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
 in performance with increased mortality risk by doubling the odds Ratio \code{RA = 2}. Detecting
@@ -32,13 +35,14 @@ probability matrix).}
 \item{method}{Character. If \code{method = "Toep"} a combination of Sequential Probability Ratio
 Test and Toeplitz matrix structure is used to calculate the ARL. \code{"ToepInv"} computes the
 inverted matrix using Toeplitz matrix structure. \code{"BE"} solves a linear equation system
-using classical approach of \emph{Brook and Evans (1972)} to calculate the ARL.}
+using the classical approach of \emph{Brook and Evans (1972)} to calculate the ARL.}
 }
 \value{
 Returns a single value which is the Run Length.
 }
 \description{
-Compute ARLs of RA-CUSUM control charts using Markov chain approximation.
+Computes the Average Run Length of a risk-adjusted cumulative sum control chart
+using Markov chain approximation.
 }
 \examples{
 library(dplyr)
@@ -54,17 +58,26 @@ SALLI <- cardiacsurgery \%>\% rename(s = Parsonnet) \%>\%
 mod1 <- glm(y ~ s, data = SALLI, family = "binomial")
 fi  <- as.numeric(table(SALLI$s) / length(SALLI$s))
 usi <- sort(unique(SALLI$s))
-pi <- predict(mod1, newdata = data.frame(s = usi), type = "response")
+pi1 <- predict(mod1, newdata = data.frame(s = usi), type = "response")
+pi2 <- tapply(SALLI$y, SALLI$s, mean)
 
-## set up patient mix
-pmix  <- data.frame(fi, pi, pi)
+## set up patient mix (risk model)
+pmix1  <- data.frame(fi, pi1, pi1)
 
-## Average Run Length for detecting deterioration R1=2:
-racusum_arl_mc(pmix = pmix, RA = 2, RQ = 1, h = 4.5, method = "Toep")
+## Average Run Length for detecting deterioration RA = 2:
+racusum_arl_mc(pmix = pmix, RA = 2, RQ = 1, h = 4.5)
 
-## Average Run Length for detecting improvement R1=1/2:
-racusum_arl_mc(pmix = pmix, RA = 1/2, RQ = 1, h = 4, method = "Toep")
+## Average Run Length for detecting improvement RA = 1/2:
+racusum_arl_mc(pmix = pmix, RA = 1/2, RQ = 1, h = 4)
 
+## set up patient mix (model free)
+pmix2  <- data.frame(fi, pi1, pi2)
+
+## Average Run Length for detecting deterioration RA = 2:
+racusum_arl_mc(pmix = pmix2, RA = 2, RQ = 1, h = 4.5)
+
+## Average Run Length for detecting improvement RA = 1/2:
+racusum_arl_mc(pmix = pmix2, RA = 1/2, RQ = 1, h = 4)
 }
 \references{
 Steiner SH, Cook RJ, Farewell VT and Treasure T (2000).

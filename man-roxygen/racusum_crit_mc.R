@@ -31,7 +31,7 @@
 #' ## set up patient mix
 #' pmix  <- data.frame(fi, pi1, pi1)
 #'
-#' ## control limit for detecting deterioration R1=2:
+#' ## control limit for detecting deterioration RA = 2:
 #' racusum_crit_mc(pmix = pmix, L0 = 740, RA = 2, RQ = 1)
-#' ## control limit for detecting improvement R1=1/2:
+#' ## control limit for detecting improvement RA = 1/2:
 #' racusum_crit_mc(pmix = pmix, L0 = 740, RA = 0.5, RQ = 1)

@@ -26,14 +26,23 @@
 #' mod1 <- glm(y ~ s, data = SALLI, family = "binomial")
 #' fi  <- as.numeric(table(SALLI$s) / length(SALLI$s))
 #' usi <- sort(unique(SALLI$s))
-#' pi <- predict(mod1, newdata = data.frame(s = usi), type = "response")
+#' pi1 <- predict(mod1, newdata = data.frame(s = usi), type = "response")
+#' pi2 <- tapply(SALLI$y, SALLI$s, mean)
 #'
-#' ## set up patient mix
-#' pmix  <- data.frame(fi, pi, pi)
+#' ## set up patient mix (risk model)
+#' pmix1  <- data.frame(fi, pi1, pi1)
 #'
-#' ## Average Run Length for detecting deterioration R1=2:
-#' racusum_arl_mc(pmix = pmix, RA = 2, RQ = 1, h = 4.5, method = "Toep")
+#' ## Average Run Length for detecting deterioration RA = 2:
+#' racusum_arl_mc(pmix = pmix, RA = 2, RQ = 1, h = 4.5)
 #'
-#' ## Average Run Length for detecting improvement R1=1/2:
-#' racusum_arl_mc(pmix = pmix, RA = 1/2, RQ = 1, h = 4, method = "Toep")
+#' ## Average Run Length for detecting improvement RA = 1/2:
+#' racusum_arl_mc(pmix = pmix, RA = 1/2, RQ = 1, h = 4)
 #'
+#' ## set up patient mix (model free)
+#' pmix2  <- data.frame(fi, pi1, pi2)
+#'
+#' ## Average Run Length for detecting deterioration RA = 2:
+#' racusum_arl_mc(pmix = pmix2, RA = 2, RQ = 1, h = 4.5)
+#'
+#' ## Average Run Length for detecting improvement RA = 1/2:
+#' racusum_arl_mc(pmix = pmix2, RA = 1/2, RQ = 1, h = 4)

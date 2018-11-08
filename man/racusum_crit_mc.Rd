@@ -2,13 +2,16 @@
 % Please edit documentation in R/racusum_mc.R
 \name{racusum_crit_mc}
 \alias{racusum_crit_mc}
-\title{Compute alarm threshold of RA-CUSUM control charts using Markov chain approximation}
+\title{Compute alarm threshold of RA-CUSUM control chart using Markov chain approximation}
 \usage{
 racusum_crit_mc(pmix, L0, RA, RQ, scaling = 600, rounding = "p",
   method = "Toep", verbose = FALSE)
 }
 \arguments{
-\item{pmix}{Data Frame. TODO}
+\item{pmix}{Numeric Matrix. A three column matrix. First column is the risk
+score distribution. Second column are the predicted probabilities from the ris kmodel. Third
+ column can be either the predicted probabilities from the risk model or average outcome per
+ risk score, see examples.}
 
 \item{L0}{Double. Prespecified Average Run Length.}
 
@@ -32,37 +35,21 @@ probability matrix).}
 \item{method}{Character. If \code{method = "Toep"} a combination of Sequential Probability Ratio
 Test and Toeplitz matrix structure is used to calculate the ARL. \code{"ToepInv"} computes the
 inverted matrix using Toeplitz matrix structure. \code{"BE"} solves a linear equation system
-using classical approach of \emph{Brook and Evans (1972)} to calculate the ARL.}
+using the classical approach of \emph{Brook and Evans (1972)} to calculate the ARL.}
 
 \item{verbose}{Logical. If \code{FALSE} a quiet calculation of \code{h} is done. If \code{TRUE}
-verbose output of the search procedure (see details) is included.}
+verbose output of the search procedure is included.}
 }
 \value{
 Returns a single value which is the control limit \code{h} for a given In-control ARL.
 }
 \description{
-Compute alarm threshold of RA-CUSUM control charts using Markov chain
-approximation.
+Computes alarm threshold of a risk-adjusted cumulative sum control chart using
+Markov chain approximation.
 }
 \details{
 Determines the control limit for given in-control ARL (\code{"L0"}) using
-\code{\link{racusum_arl_mc}} by applying a multi-stage search procedure with the following
-steps:
-\describe{
-  \item{(i)}{Calculate ARL for an initial \code{h = 1}.}
-  \item{(ii)}{Calculate ARL by increasing \code{h} by 1 as long as resulting ARL is smaller than
-   \code{L0} and \code{h} smaller than \code{6}.}
-  \item{(iii)}{If, for \code{h = 6} the resulting ARL is still smaller than \code{L0}, use
-  linear interpolation the get a new pair of \code{h} and Arl.}
-  \item{(iv)a}{Calculate ARL by increasing \code{h} by \code{1} as long as resulting ARL is
-  smaller than \code{L0}.}
-  \item{(iv)b}{If, ARL if ARL is greater than ARL (iii), calculate ARL by decreasing \code{h} by
-   \code{1} as long as resulting ARL is greater or equal than \code{L0}.}
-  \item{(v)}{Use scant method with absolue error greater than 1e-4 and \code{h} error greater
-  than \code{1e-6}.}
-  \item{(vi)}{TODO ...}
-  \item{(vii)}{TODO ...}
-}
+\code{\link{racusum_arl_mc}} by applying a grid search and secant method.
 }
 \examples{
 library(dplyr)
@@ -83,9 +70,9 @@ pi1 <- predict(mod1, newdata = data.frame(s = usi), type = "response")
 ## set up patient mix
 pmix  <- data.frame(fi, pi1, pi1)
 
-## control limit for detecting deterioration R1=2:
+## control limit for detecting deterioration RA = 2:
 racusum_crit_mc(pmix = pmix, L0 = 740, RA = 2, RQ = 1)
-## control limit for detecting improvement R1=1/2:
+## control limit for detecting improvement RA = 1/2:
 racusum_crit_mc(pmix = pmix, L0 = 740, RA = 0.5, RQ = 1)
 }
 \references{

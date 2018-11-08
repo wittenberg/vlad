@@ -11,7 +11,7 @@ double racusum_arl_mc(NumericMatrix pmix, double RA, double RQ, double h, double
   mr1 = pmix(_, 1);                                       // model
   mr2 = pmix(_, 2);                                       // either model or model-free
 
-  pf = RQ * mr2 / ( 1 - mr2 + RQ * mr2 );                   // actual probability to die
+  pf = RQ * mr2 / ( 1 - mr2 + RQ * mr2 );                 // actual probability to die
 
   if (RA > 1) {                                           // Deterioration
     z1 = rev( log( 1  / ( 1 + (RA-1) * mr1 ) ) );         // survival
