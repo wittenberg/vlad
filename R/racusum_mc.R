@@ -38,9 +38,9 @@ racusum_arl_mc <- function(pmix, RA, RQ, h, scaling = 600, rounding = "p", metho
   else if (ncol(pmix) != 3) {stop("Provide a matrix with three columns for argument 'pmix'")}
   else if (colSums(pmix)[1] != 1) {stop("Probabilities in first column of matrix 'pmix' should add to 1")}
   RA <- as.numeric(RA)
-  if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")}
+  #if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")}
   RQ <- as.numeric(RQ)
-  if (is.na(RQ) || RQ <= 0) {stop("True performance of a surgeon 'RQ' must a positive numeric value")}
+  #if (is.na(RQ) || RQ <= 0) {stop("True performance of a surgeon 'RQ' must a positive numeric value")}
   h <- as.numeric(h)
   if (is.na(h) || h <= 0) {stop("Control limit 'h' must be a positive numeric value")}
   as.integer(scaling)
@@ -84,9 +84,9 @@ racusum_crit_mc <- function(pmix, L0, RA, RQ, scaling = 600, rounding = "p", met
   L0 <- as.numeric(L0)
   if (is.na(L0) || L0 <= 0) {stop("In-control ARL 'L0' must be a positive numeric value")}
   RA <- as.numeric(RA)
-  if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")}
+  #if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")}
   RQ <- as.numeric(RQ)
-  if (is.na(RQ) || RQ <= 0) {stop("True performance of a surgeon 'RQ' must a positive numeric value")}
+  #if (is.na(RQ) || RQ <= 0) {stop("True performance of a surgeon 'RQ' must a positive numeric value")}
   as.integer(scaling)
   if (is.na(scaling) || scaling <= 0) {stop("Parameter 'scaling' must a positive integer value")}
   irounding <- switch(rounding, p = 1, s = 2)
