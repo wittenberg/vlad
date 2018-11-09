@@ -62,21 +62,22 @@ racusum_arl_mc <- function(pmix, RA, RQ, h, scaling = 600, rounding = "p", metho
 #' Markov chain approximation.
 #'
 #' @param L0 Double. Prespecified Average Run Length.
+#' @param jmax Integer. Number of digits for grid search.
 #' @inheritParams racusum_arl_mc
 #' @param verbose Logical. If \code{FALSE} a quiet calculation of \code{h} is done. If \code{TRUE}
 #'  verbose output of the search procedure is included.
 #'
 #' @return Returns a single value which is the control limit \code{h} for a given In-control ARL.
 #'
-#' @template racusum_crit_mc
-#'
 #' @details
 #' Determines the control limit for given in-control ARL (\code{"L0"}) using
-#' \code{\link{racusum_arl_mc}} by applying a grid search and secant method.
+#' \code{\link{racusum_arl_mc}} by applying a grid search..
+#'
+#' @template racusum_crit_mc
 #'
 #' @author Philipp Wittenberg
 #' @export
-racusum_crit_mc <- function(pmix, L0, RA, RQ, scaling = 600, rounding = "p", method = "Toep", verbose = FALSE) {
+racusum_crit_mc <- function(pmix, L0, RA, RQ, scaling = 600, rounding = "p", method = "Toep", jmax = 4, verbose = FALSE) {
   pmix <- as.matrix(pmix)
   if (class(pmix) != "matrix") {stop("Provide a matrix for argument 'pmix'")}
   else if (ncol(pmix) != 3) {stop("Provide a matrix with three columns for argument 'pmix'")}
@@ -96,6 +97,7 @@ racusum_crit_mc <- function(pmix, L0, RA, RQ, scaling = 600, rounding = "p", met
     warning("no valid input, using method=toeplitz as default")
     imethod <- 1
   }
+  jmax <- as.integer(jmax)
   verbose <- as.logical(verbose)
-  .racusum_crit_mc(pmix, L0, RA, RQ, scaling, irounding, imethod, verbose)
+  .racusum_crit_mc(pmix, L0, RA, RQ, scaling, irounding, imethod, jmax, verbose)
 }

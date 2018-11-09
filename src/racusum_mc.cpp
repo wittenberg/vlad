@@ -405,76 +405,24 @@ double racusum_arl_mc(NumericMatrix pmix, double RA, double RQ, double h, double
 }
 
 // [[Rcpp::export(.racusum_crit_mc)]]
-double racusum_crit_mc(NumericMatrix pmix, double L0, double RA, double R, double scaling, int rounding, int method, bool verbose) {
-  double h2 = 1;
-  double h1, h3, h, L1, L3;
-  double L2 = racusum_arl_mc(pmix, RA, 1, h2, scaling, rounding, method);
-  if ( verbose ) Rcpp::Rcout << "(i)\t" <<  h2 << "\t" << L2 << std::endl;
-  arma::vec LL;
-  do{
-    L1 = L2;
-    h2 = h2 + 1;
-    L2 = racusum_arl_mc(pmix, RA, 1, h2, scaling, rounding, method);
-    if ( verbose ) Rcpp::Rcout << "(ii)\t" <<  h2 << "\t" << L2 << std::endl;
-    LL.resize(LL.size()+1);
-    LL(LL.size()-1) = L2;
-  } while ( (L2 < L0) & (h2 < 6) );
-  if ( L2 < L0 ) {
-    std::vector<int> v(as<int>(Rcpp::wrap(LL.n_elem))); // 5 is also okay!
-    std::iota (std::begin(v), std::end(v), 1);
-    arma::mat X = arma::conv_to<arma::vec>::from(v);
-    arma::mat XQ = join_rows(join_rows(arma::ones(size(X)), X), square(X));
-    arma::colvec beta = arma::solve(XQ, LL);
-    double p = beta[1] / beta[2];
-    double q = (beta[0] - L0) / beta[2];
-    h2 = -p/2 + 1*sqrt( pow(p/2, 2) - q);
-    L2 = racusum_arl_mc(pmix, RA, 1, h2, scaling, rounding, method);
-    if ( verbose ) Rcpp::Rcout << "(iii)\t" <<  h2 << "\t" << L2 << std::endl;
-    if ( L2 < L0 ) {
-      do{
-        L1 = L2;
-        h2 = h2 + 1;
-        L2 = racusum_arl_mc(pmix, RA, 1, h2, scaling, rounding, method);
-        if ( verbose ) Rcpp::Rcout << "(iv)a\t" <<  h2 << "\t" << L2 << std::endl;
-      } while (L2 < L0);
-      h1 = h2 - 1;
-    } else {
-      do{
-        L1 = L2;
-        h2 = h2 - 1;
-        L2 = racusum_arl_mc(pmix, RA, 1, h2, scaling, rounding, method);
-        if ( verbose ) Rcpp::Rcout << "(iv)b\t" <<  h2 << "\t" << L2 << std::endl;
-      } while (L2 >= L0);
-      h1 = h2 + 1;
+double racusum_crit_mc2(NumericMatrix pmix, double L0, double RA, double R, double scaling, int rounding, int method, int jmax, bool verbose) {
+  double L1, h, h1;
+  for (int i = 1; i < 10; i++ ) {
+    L1 = racusum_arl_mc(pmix, RA, 1, double(i), scaling, rounding, method);
+    if ( verbose ) Rcpp::Rcout << "h = " <<  i << "\t" << "ARL = " << L1 << std::endl;
+      if ( L1 > L0 ) break;
+  }
+  h1 = h;
+
+  for (int j = 0; j <= jmax; j++ ) {
+    for (int dh = 1; dh <= 19; dh++ ) {
+      h = h1 + pow(-1, j) * dh / pow(10, j);
+      L1 = racusum_arl_mc(pmix, RA, 1, h, scaling, rounding, method);
+      if ( verbose ) Rcpp::Rcout << "h = " <<  h << "\t" << "ARL = " << L1 << std::endl;
+      if ( (j % 2 == 1 & L1 < L0) | (j % 2 == 0 & L1 > L0) ) break;
     }
-  } else {
-    h1 = h2 - 1;
+    h1 = h;
   }
-  double h_error = 1;
-  double a_error = 1;
-  while ( (a_error > 1e-4) & (h_error > 1e-6) ) {
-    h3 = h1 + (L0-L1) / (L2-L1)*(h2-h1);
-    L3 = racusum_arl_mc(pmix, RA, 1, h3, scaling, rounding, method);
-    if ( verbose ) Rcpp::Rcout << "(v)\t" <<  h3 << "\t" << L3 << std::endl;
-    h1 = h2;
-    h2 = h3;
-    L1 = L2;
-    L2 = L3;
-    double h_error = fabs(h2-h1);
-    if ( h_error < 0.5 / scaling ) {
-      if ( L3 < L0 ) {
-        h3 = ( round( h3 * scaling ) + 1 ) / scaling - 1e-6;
-        L3 = racusum_arl_mc(pmix, RA, 1, h3, scaling, rounding, method);
-        if ( verbose ) Rcpp::Rcout << "(vi)\t" <<  h3 << "\t" << L3 << std::endl;
-      }
-      break;
-    }
-  }
-  if ( L3 < L0 ) {
-    h3 = ( round( h3 * scaling ) + 1 ) / scaling - 1e-6;
-    L3 = racusum_arl_mc(pmix, RA, 1, h3, scaling, rounding, method);
-    if ( verbose ) Rcpp::Rcout << "(vii)\t" <<  h3 << "\t" << L3 << std::endl;
-  }
-  h = h3;
+  if ( L1 < L0 ) h = h + 1 / pow(10, jmax);
   return h;
 }

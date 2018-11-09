@@ -5,7 +5,7 @@
 \title{Compute alarm threshold of RA-CUSUM control chart using Markov chain approximation}
 \usage{
 racusum_crit_mc(pmix, L0, RA, RQ, scaling = 600, rounding = "p",
-  method = "Toep", verbose = FALSE)
+  method = "Toep", jmax = 4, verbose = FALSE)
 }
 \arguments{
 \item{pmix}{Numeric Matrix. A three column matrix. First column is the risk
@@ -37,6 +37,8 @@ Test and Toeplitz matrix structure is used to calculate the ARL. \code{"ToepInv"
 inverted matrix using Toeplitz matrix structure. \code{"BE"} solves a linear equation system
 using the classical approach of \emph{Brook and Evans (1972)} to calculate the ARL.}
 
+\item{jmax}{Integer. Number of digits for grid search.}
+
 \item{verbose}{Logical. If \code{FALSE} a quiet calculation of \code{h} is done. If \code{TRUE}
 verbose output of the search procedure is included.}
 }
@@ -49,7 +51,7 @@ Markov chain approximation.
 }
 \details{
 Determines the control limit for given in-control ARL (\code{"L0"}) using
-\code{\link{racusum_arl_mc}} by applying a grid search and secant method.
+\code{\link{racusum_arl_mc}} by applying a grid search..
 }
 \examples{
 library(dplyr)

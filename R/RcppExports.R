@@ -29,8 +29,8 @@
     .Call(`_vlad_racusum_arl_mc`, pmix, RA, RQ, h, scaling, rounding, method)
 }
 
-.racusum_crit_mc <- function(pmix, L0, RA, R, scaling, rounding, method, verbose) {
-    .Call(`_vlad_racusum_crit_mc`, pmix, L0, RA, R, scaling, rounding, method, verbose)
+.racusum_crit_mc <- function(pmix, L0, RA, R, scaling, rounding, method, jmax, verbose) {
+    .Call(`_vlad_racusum_crit_mc2`, pmix, L0, RA, R, scaling, rounding, method, jmax, verbose)
 }
 
 .llr_score <- function(df, coeff, R0, RA, yemp) {

@@ -118,9 +118,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// racusum_crit_mc
-double racusum_crit_mc(NumericMatrix pmix, double L0, double RA, double R, double scaling, int rounding, int method, bool verbose);
-RcppExport SEXP _vlad_racusum_crit_mc(SEXP pmixSEXP, SEXP L0SEXP, SEXP RASEXP, SEXP RSEXP, SEXP scalingSEXP, SEXP roundingSEXP, SEXP methodSEXP, SEXP verboseSEXP) {
+// racusum_crit_mc2
+double racusum_crit_mc2(NumericMatrix pmix, double L0, double RA, double R, double scaling, int rounding, int method, int jmax, bool verbose);
+RcppExport SEXP _vlad_racusum_crit_mc2(SEXP pmixSEXP, SEXP L0SEXP, SEXP RASEXP, SEXP RSEXP, SEXP scalingSEXP, SEXP roundingSEXP, SEXP methodSEXP, SEXP jmaxSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -131,8 +131,9 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type scaling(scalingSEXP);
     Rcpp::traits::input_parameter< int >::type rounding(roundingSEXP);
     Rcpp::traits::input_parameter< int >::type method(methodSEXP);
+    Rcpp::traits::input_parameter< int >::type jmax(jmaxSEXP);
     Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
-    rcpp_result_gen = Rcpp::wrap(racusum_crit_mc(pmix, L0, RA, R, scaling, rounding, method, verbose));
+    rcpp_result_gen = Rcpp::wrap(racusum_crit_mc2(pmix, L0, RA, R, scaling, rounding, method, jmax, verbose));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -230,7 +231,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_vlad_eocusum_arloc_sim", (DL_FUNC) &_vlad_eocusum_arloc_sim, 8},
     {"_vlad_eocusum_ad_sim", (DL_FUNC) &_vlad_eocusum_ad_sim, 10},
     {"_vlad_racusum_arl_mc", (DL_FUNC) &_vlad_racusum_arl_mc, 7},
-    {"_vlad_racusum_crit_mc", (DL_FUNC) &_vlad_racusum_crit_mc, 8},
+    {"_vlad_racusum_crit_mc2", (DL_FUNC) &_vlad_racusum_crit_mc2, 9},
     {"_vlad_llr_score", (DL_FUNC) &_vlad_llr_score, 5},
     {"_vlad_bcusum_arl_sim", (DL_FUNC) &_vlad_bcusum_arl_sim, 5},
     {"_vlad_racusum_arl_sim", (DL_FUNC) &_vlad_racusum_arl_sim, 7},
