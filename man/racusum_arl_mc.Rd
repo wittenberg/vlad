@@ -9,7 +9,7 @@ racusum_arl_mc(pmix, RA, RQ, h, scaling = 600, rounding = "p",
 }
 \arguments{
 \item{pmix}{Numeric Matrix. A three column matrix. First column is the risk
-score distribution. Second column are the predicted probabilities from the ris kmodel. Third
+score distribution. Second column are the predicted probabilities from the risk model. Third
  column can be either the predicted probabilities from the risk model or average outcome per
  risk score, see examples.}
 
@@ -45,6 +45,7 @@ Computes the Average Run Length of a risk-adjusted cumulative sum control chart
 using Markov chain approximation.
 }
 \examples{
+\dontrun{
 library(dplyr)
 data("cardiacsurgery", package = "spcadjust")
 
@@ -78,6 +79,12 @@ racusum_arl_mc(pmix = pmix2, RA = 2, RQ = 1, h = 4.5)
 
 ## Average Run Length for detecting improvement RA = 1/2:
 racusum_arl_mc(pmix = pmix2, RA = 1/2, RQ = 1, h = 4)
+
+## compare results with R-code function 'findarl()' from Steiner et al. (2000)
+source("https://uwaterloo.ca/statistics-and-actuarial-science/sites/ca.statistics-and-actuarial-science/files/uploads/files/findarl.r")
+all.equal(findarl(pmix = pmix1, R1 = 2, R = 1, CL = 4.5, scaling = 600),
+         racusum_arl_mc(pmix = pmix1, RA = 2, RQ = 1, h = 4.5, scaling = 600, rounding = "s"))
+}
 }
 \references{
 Steiner SH, Cook RJ, Farewell VT and Treasure T (2000).

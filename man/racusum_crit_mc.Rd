@@ -9,7 +9,7 @@ racusum_crit_mc(pmix, L0, RA, RQ, scaling = 600, rounding = "p",
 }
 \arguments{
 \item{pmix}{Numeric Matrix. A three column matrix. First column is the risk
-score distribution. Second column are the predicted probabilities from the ris kmodel. Third
+score distribution. Second column are the predicted probabilities from the risk model. Third
  column can be either the predicted probabilities from the risk model or average outcome per
  risk score, see examples.}
 

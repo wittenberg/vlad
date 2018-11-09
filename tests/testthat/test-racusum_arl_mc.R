@@ -8,6 +8,13 @@ scaling <- 600
 rounding <- "p"
 method <- "Toep"
 
+test_that("Different input values for pmix", {
+
+  pmix2 <- data.frame(cbind(c(0.2, 0.5, 0.4), c(0.1, 0.12, 0.14), c(0.1, 0.12, 0.14)))
+  expect_error(racusum_arl_mc(pmix = pmix2, RA, RQ, h),
+               "Probabilities in first column of matrix 'pmix' should add to 1")
+})
+
 test_that("Different input values for RA", {
   RAtest <- list(-1, 0, "0", NA)
   lapply(RAtest, function(x) {
@@ -33,11 +40,6 @@ test_that("Different input values for scaling", {
     expect_error(do.call(x, racusum_arl_mc(pmix, RA, RQ, h, rounding, method, scaling = x)),
                  "Parameter 'scaling' must a positive integer value")})
 })
-
-# test_that("Different input values for rounding", {
-#   expect_warning(racusum_arl_mc(pmix, RA, RQ, h, scaling, method, rounding = NA),
-#                  "Argument 'rounding' must be logical using TRUE as default value")
-# })
 
 test_that("Different Markov Chain algorithms, detecting deterioration", {
   skip_on_cran()
