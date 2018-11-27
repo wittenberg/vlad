@@ -407,14 +407,15 @@ double racusum_arl_mc(NumericMatrix pmix, double RA, double RQ, double h, double
 // [[Rcpp::export(.racusum_crit_mc)]]
 double racusum_crit_mc2(NumericMatrix pmix, double L0, double RA, double R, double scaling, int rounding, int method, int jmax, bool verbose) {
   double L1, h, h1;
-  for (int i = 1; i < 10; i++ ) {
+  int i;
+  for (i = 1; i < 10; i++ ) {
     L1 = racusum_arl_mc(pmix, RA, 1, double(i), scaling, rounding, method);
     if ( verbose ) Rcpp::Rcout << "h = " <<  i << "\t" << "ARL = " << L1 << std::endl;
       if ( L1 > L0 ) break;
   }
-  h1 = h;
+  h1 = i;
 
-  for (int j = 0; j <= jmax; j++ ) {
+  for (int j = 1; j <= jmax; j++ ) {
     for (int dh = 1; dh <= 19; dh++ ) {
       h = h1 + pow(-1, j) * dh / pow(10, j);
       L1 = racusum_arl_mc(pmix, RA, 1, h, scaling, rounding, method);
