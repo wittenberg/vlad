@@ -49,7 +49,7 @@
 #' racusum_arl_mc(pmix = pmix2, RA = 1/2, RQ = 1, h = 4)
 #'
 #' ## compare results with R-code function 'findarl()' from Steiner et al. (2000)
-#' source("https://uwaterloo.ca/statistics-and-actuarial-science/sites/ca.statistics-and-actuarial-science/files/uploads/files/findarl.r")
+#' source("https://bit.ly/2KC0SYD")
 #' all.equal(findarl(pmix = pmix1, R1 = 2, R = 1, CL = 4.5, scaling = 600),
 #'          racusum_arl_mc(pmix = pmix1, RA = 2, RQ = 1, h = 4.5, scaling = 600, rounding = "s"))
 #' }

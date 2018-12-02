@@ -53,3 +53,7 @@
     .Call(`_vlad_racusum_adoc_sim`, r, coeff, coeff2, h, df, R0, RA, RQ, m, type)
 }
 
+.racusum_arloc_d_sim <- function(r, pmix, h, R0, RA, RQ) {
+    .Call(`_vlad_racusum_arloc_d_sim`, r, pmix, h, R0, RA, RQ)
+}
+
