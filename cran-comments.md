@@ -1,3 +1,21 @@
+## Release summary
+
+This is the second submission of the package to CRAN.
+
+## Test environments
+
+* local x86_64-pc-linux-gnu (64-bit), R 3.5.1
+* ubuntu 14.04.5 (on travis-ci), R 3.4.4, R 3.5.1, R-devel.
+* win-builder (devel)
+
+## R CMD check results
+
+0 ERRORs | 0 WARNINGs | 1 NOTEs
+
+Possibly mis-spelled words in DESCRIPTION:
+  Wittenberg (21:16)
+
+
 ## Resubmission
 
 This is a resubmission. In this version We have:
