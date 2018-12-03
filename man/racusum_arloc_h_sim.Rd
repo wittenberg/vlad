@@ -5,7 +5,7 @@
 \title{Compute alarm threshold (Out of Control ARL) of RA-CUSUM control charts using simulation}
 \usage{
 racusum_arloc_h_sim(L0, df, coeff, coeff2, R0 = 1, RA = 2, RQ = 1,
-  m = 100, nc = 1, verbose = FALSE)
+  m = 100, nc = 1, jmax = 4, verbose = FALSE)
 }
 \arguments{
 \item{L0}{Double. Prespecified in-control Average Run Length.}
@@ -32,6 +32,8 @@ Detecting improvement in performance with decreased mortality risk by halving th
 \item{m}{Integer. Number of simulation runs.}
 
 \item{nc}{Integer. Number of cores.}
+
+\item{jmax}{Integer. Number of digits for grid search.}
 
 \item{verbose}{Logical. If \code{TRUE} verbose output is included, if \code{FALSE} a quiet
 calculation of \code{h} is done.}

@@ -5,7 +5,7 @@
 \title{Compute alarm threshold of Out of Control EO-CUSUM control charts using simulation}
 \usage{
 eocusum_arloc_h_sim(L0, k, df, coeff, coeff2, m = 100, QS = 1,
-  side = "low", nc = 1, verbose = FALSE)
+  side = "low", nc = 1, jmax = 4, verbose = FALSE)
 }
 \arguments{
 \item{L0}{Double. Prespecified in-control Average Run Length.}
@@ -32,6 +32,8 @@ from the binary logistic regression model of a resampled dataset.}
 If side = \code{"up"}, calculate the lower arm of the V-mask.}
 
 \item{nc}{Integer. Number of cores.}
+
+\item{jmax}{Integer. Number of digits for grid search.}
 
 \item{verbose}{Logical. If \code{TRUE} verbose output is included, if \code{FALSE} a quiet
 calculation of \code{h} is done.}

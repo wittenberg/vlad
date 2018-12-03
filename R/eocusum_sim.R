@@ -270,6 +270,7 @@ eocusum_ad_sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low", typ
 #' @param coeff2 Numeric Vector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
 #'  from the binary logistic regression model of a resampled dataset.
 #' @param nc Integer. Number of cores.
+#' @param jmax Integer. Number of digits for grid search.
 #' @param verbose Logical. If \code{TRUE} verbose output is included, if \code{FALSE} a quiet
 #' calculation of \code{h} is done.
 #'
@@ -283,7 +284,7 @@ eocusum_ad_sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low", typ
 #'
 #' @author Philipp Wittenberg
 #' @export
-eocusum_arloc_h_sim <- function(L0, k, df, coeff, coeff2, m = 100, QS = 1, side = "low", nc = 1, verbose = FALSE) {
+eocusum_arloc_h_sim <- function(L0, k, df, coeff, coeff2, m = 100, QS = 1, side = "low", nc = 1, jmax = 4, verbose = FALSE) {
   L0 <- as.integer(L0)
   if (is.na(L0) || L0 <= 0) {stop("Given in-control ARL 'L0' must be a positive integer")}
   k <- as.numeric(k)
@@ -305,74 +306,25 @@ eocusum_arloc_h_sim <- function(L0, k, df, coeff, coeff2, m = 100, QS = 1, side 
   if (is.na(QS) || QS <= 0) {stop("QS must a positive numeric value")}
   else if (QS < 1 && side == 1) {stop("For detecting deterioration (side='low') QS must a positive numeric value >= 1")}
   else if (QS > 1 && side == 2) {stop("For detecting improvement (side='up') QS must a positive numeric value <= 1")}
-  h2 <- 1
-  L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arloc_sim, h = h2, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
-  if ( verbose ) cat(paste("(i)\t", h2, "\t", L2, "\n"))
-  LL <- NULL
-  while ( L2 < L0 & h2 < 6 ) {
-    L1 <- L2
-    h2 <- h2 + 1
-    L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arloc_sim, h = h2, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
-    if ( verbose ) cat(paste("(ii)\t", h2, "\t", L2, "\n"))
-    LL <- c(LL, L2)
+  for ( h in 1:10 ) {
+    L1 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arloc_sim, h = h, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
+    if ( verbose ) cat(paste("h =", h, "\tARL =", L1, "\n"))
+    if ( L1 > L0 ) break
   }
-  if ( L2 < L0 ) {
-    x  <- 1:5
-    LM <- stats::lm(LL ~ I(x) + I(x^2) )
-    beta <- stats::coef(LM)
-    p <- beta[2] / beta[3]
-    q <- (beta[1] - L0)/beta[3]
-    h2 <- -p / 2 + 1*sqrt(p^2 / 4 - q)
-    L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arloc_sim, h = h2, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
-    if ( verbose ) cat(paste("(iii)\t", h2, "\t", L2, "\n"))
-    if ( L2 < L0 ) {
-      while ( L2 < L0 ) {
-        L1 <- L2
-        h2 <- h2 + 1
-        L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arloc_sim, h = h2, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
-        if ( verbose ) cat(paste("(iv)a\t", h2, "\t", L2, "\n"))
-      }
-      h1 <- h2 - 1
-    } else {
-      while ( L2 >= L0 ) {
-        L1 <- L2
-        h2 <- h2 - 1
-        L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arloc_sim, h = h2, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
-        if ( verbose ) cat(paste("(iv)b\t", h2, "\t", L2, "\n"))
-      }
-      h1 <- h2 + 1
+  h1 <- h
+
+  for ( j in 1:jmax ) {
+    for ( dh in 1:19 ) {
+      h <- h1 + (-1)^j*dh/10^j
+      L1 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arloc_sim, h = h, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
+      if ( verbose ) cat(paste("h =", h, "\tARL =", L1, "\n"))
+      if ( (j %% 2 == 1 & L1 < L0) | (j %% 2 == 0 & L1 > L0) ) break
     }
-  } else {
-    h1 <- h2 - 1
+    h1 <- h
   }
-  h.error <- 1
-  a.error <- 1
-  scaling <- 10^3
-  while ( a.error > 1e-4 & h.error > 1e-6 ) {
-    h3 <- h1 + (L0 - L1) / (L2 - L1) * (h2 - h1)
-    L3 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arloc_sim, h = h3, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
-    if ( verbose ) cat(paste("(v)\t", h3, "\t", L3, "\n"))
-    h1 <- h2
-    h2 <- h3
-    L1 <- L2
-    L2 <- L3
-    a.error <- min( c(abs(L2 - L0), abs(L2 - L1) ) )
-    h.error <- abs(h2 - h1)
-    if ( h.error < 0.5 / scaling ) {
-      if ( L3 < L0 ) {
-        h3 <- ( round( h3 * scaling ) + 1 ) / scaling - 1e-6
-        L3 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arloc_sim, h = h3, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
-        if ( verbose ) cat(paste("(vi)\t", h3, "\t", L3, "\n"))
-      }
-      break
-    }
-  }
-  if ( L3 < L0 ) {
-    h3 <- ( round( h3 * scaling ) + 1 ) / scaling - 1e-6
-    L3 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arloc_sim, h = h3, k = k, df = df, QS = QS, side = side, coeff = coeff, coeff2 = coeff2, mc.cores = nc)))
-    if ( verbose ) cat(paste("(vii)\t", h3, "\t", L3, "\n"))
-  }
-  h <- h3
+
+  if ( L1 < L0 ) h <- h + 1/10^jmax
+
   h
 }
 
@@ -394,6 +346,7 @@ eocusum_arloc_h_sim <- function(L0, k, df, coeff, coeff2, m = 100, QS = 1, side 
 #' @param yemp Logical. If \code{TRUE} use observed outcome value, if \code{FALSE} use estimated
 #'  binary logistc regression model.
 #' @param nc Integer. Number of cores.
+#' @param jmax Integer. Number of digits for grid search.
 #' @param verbose Logical. If \code{TRUE} verbose output is included, if \code{FALSE} a quiet
 #' calculation of \code{h} is done.
 #'
@@ -412,10 +365,10 @@ eocusum_arloc_h_sim <- function(L0, k, df, coeff, coeff2, m = 100, QS = 1, side 
 #'# This function is deprecated. See eocusum_crit_sim() instead.
 #'
 #'  }
-eocusum_arl_h_sim <- function(L0, k, df, coeff, m = 100, yemp = TRUE, side = "low", nc = 1, verbose = FALSE) {
+eocusum_arl_h_sim <- function(L0, k, df, coeff, m = 100, yemp = TRUE, side = "low", nc = 1, jmax = 4, verbose = FALSE) {
 
   .Deprecated("eocusum_arl_h_sim")
-  eocusum_crit_sim(L0 = L0, k = k, df = df, coeff = coeff, m = m, yemp = yemp, side = side, nc = nc, verbose = verbose)
+  eocusum_crit_sim(L0 = L0, k = k, df = df, coeff = coeff, m = m, yemp = yemp, side = side, nc = nc, jmax = jmax, verbose = verbose)
 }
 
 #' @name eocusum_crit_sim
@@ -436,6 +389,7 @@ eocusum_arl_h_sim <- function(L0, k, df, coeff, m = 100, yemp = TRUE, side = "lo
 #' @param yemp Logical. If \code{TRUE} use observed outcome value, if \code{FALSE} use estimated
 #'  binary logistc regression model.
 #' @param nc Integer. Number of cores.
+#' @param jmax Integer. Number of digits for grid search.
 #' @param verbose Logical. If \code{TRUE} verbose output is included, if \code{FALSE} a quiet
 #' calculation of \code{h} is done.
 #'
@@ -449,7 +403,7 @@ eocusum_arl_h_sim <- function(L0, k, df, coeff, m = 100, yemp = TRUE, side = "lo
 #'
 #' @author Philipp Wittenberg
 #' @export
-eocusum_crit_sim <- function(L0, k, df, coeff, m = 100, yemp = TRUE, side = "low", nc = 1, verbose = FALSE) {
+eocusum_crit_sim <- function(L0, k, df, coeff, m = 100, yemp = TRUE, side = "low", nc = 1, jmax = 4, verbose = FALSE) {
   L0 <- as.integer(L0)
   if (is.na(L0) || L0 <= 0) {stop("Given in-control ARL 'L0' must be a positive integer")}
   k <- as.numeric(k)
@@ -465,72 +419,24 @@ eocusum_crit_sim <- function(L0, k, df, coeff, m = 100, yemp = TRUE, side = "low
     warning("No valid input, using side='low' (deterioration) as default")
     side <- c("low")
   }
-  h2 <- 1
-  L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arl_sim, k = k, h = h2, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
-  LL <- NULL
-  while ( L2 < L0 & h2 < 6 ) {
-    L1 <- L2
-    h2 <- h2 + 1
-    L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arl_sim, k = k, h = h2, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
-    if ( verbose ) cat(paste("(ii)\t", h2, "\t", L2, "\n"))
-    LL <- c(LL, L2)
+  for ( h in 1:10 ) {
+    L1 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arl_sim, k = k, h = h, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
+    if ( verbose ) cat(paste("h =", h, "\tARL =", L1, "\n"))
+    if ( L1 > L0 ) break
   }
-  if ( L2 < L0 ) {
-    x  <- 1:5
-    LM <- stats::lm(LL ~ I(x) + I(x^2) )
-    beta <- stats::coef(LM)
-    p <- beta[2] / beta[3]
-    q <- (beta[1] - L0) / beta[3]
-    h2 <- -p / 2 + 1 * sqrt(p^2 / 4 - q)
-    L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arl_sim, k = k, h = h2, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
-    if ( verbose ) cat(paste("(iii)\t", h2, "\t", L2, "\n"))
-    if ( L2 < L0 ) {
-      while ( L2 < L0 ) {
-        L1 <- L2
-        h2 <- h2 + 1
-        L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arl_sim, k = k, h = h2, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
-        if ( verbose ) cat(paste("(iv)a\t", h2, "\t", L2, "\n"))
-      }
-      h1 <- h2 - 1
-    } else {
-      while ( L2 >= L0 ) {
-        L1 <- L2
-        h2 <- h2 - 1
-        L2 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arl_sim, k = k, h = h2, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
-        if ( verbose ) cat(paste("(iv)b\t", h2, "\t", L2, "\n"))
-      }
-      h1 <- h2 + 1
+  h1 <- h
+
+  for ( j in 1:jmax ) {
+    for ( dh in 1:19 ) {
+      h <- h1 + (-1)^j*dh/10^j
+      L1 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arl_sim, k = k, h = h, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
+      if ( verbose ) cat(paste("h =", h, "\tARL =", L1, "\n"))
+      if ( (j %% 2 == 1 & L1 < L0) | (j %% 2 == 0 & L1 > L0) ) break
     }
-  } else {
-    h1 <- h2 - 1
+    h1 <- h
   }
-  h.error <- 1
-  a.error <- 1
-  scaling <- 10^3
-  while ( a.error > 1e-4 & h.error > 1e-6 ) {
-    h3 <- h1 + (L0 - L1) / (L2 - L1) * (h2 - h1)
-    L3 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arl_sim, k = k, h = h3, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
-    if ( verbose ) cat(paste("(v)\t", h3, "\t", L3, "\n"))
-    h1 <- h2
-    h2 <- h3
-    L1 <- L2
-    L2 <- L3
-    a.error <- min( c(abs(L2 - L0), abs(L2 - L1) ) )
-    h.error <- abs(h2 - h1)
-    if ( h.error < 0.5 / scaling ) {
-      if ( L3 < L0 ) {
-        h3 <- ( round( h3 * scaling ) + 1 ) / scaling - 1e-6
-        L3 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arl_sim, k = k, h = h3, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
-        if ( verbose ) cat(paste("(vi)\t", h3, "\t", L3, "\n"))
-      }
-      break
-    }
-  }
-  if ( L3 < L0 ) {
-    h3 <- ( round( h3 * scaling ) + 1 ) / scaling - 1e-6
-    L3 <- mean(do.call(c, parallel::mclapply(1:m, eocusum_arl_sim, k = k, h = h3, df = df, yemp = yemp, side = side, coeff = coeff, mc.cores = nc)))
-    if ( verbose ) cat(paste("(vii)\t", h3, "\t", L3, "\n"))
-  }
-  h <- h3
+
+  if ( L1 < L0 ) h <- h + 1/10^jmax
+
   h
 }

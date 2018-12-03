@@ -5,7 +5,7 @@
 \title{Compute alarm threshold of EO-CUSUM control charts using simulation}
 \usage{
 eocusum_crit_sim(L0, k, df, coeff, m = 100, yemp = TRUE,
-  side = "low", nc = 1, verbose = FALSE)
+  side = "low", nc = 1, jmax = 4, verbose = FALSE)
 }
 \arguments{
 \item{L0}{Double. Prespecified in-control Average Run Length.}
@@ -29,6 +29,8 @@ binary logistc regression model.}
 If side = \code{"up"}, calculate the lower arm of the V-mask.}
 
 \item{nc}{Integer. Number of cores.}
+
+\item{jmax}{Integer. Number of digits for grid search.}
 
 \item{verbose}{Logical. If \code{TRUE} verbose output is included, if \code{FALSE} a quiet
 calculation of \code{h} is done.}

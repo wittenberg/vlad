@@ -5,7 +5,7 @@
 \title{Compute alarm threshold of the Bernoulli CUSUM control charts using simulation}
 \usage{
 bcusum_crit_sim(L0, df, R0 = 1, RA = 2, m = 100, nc = 1,
-  verbose = FALSE)
+  jmax = 4, verbose = FALSE)
 }
 \arguments{
 \item{L0}{Double. Prespecified in-control Average Run Length.}
@@ -24,6 +24,8 @@ death \code{RA = 1/2}.}
 \item{m}{Integer. Number of simulation runs.}
 
 \item{nc}{Integer. Number of cores.}
+
+\item{jmax}{Integer. Number of digits for grid search.}
 
 \item{verbose}{Logical. If \code{TRUE} verbose output is included, if \code{FALSE} a quiet
 calculation of \code{h} is done.}

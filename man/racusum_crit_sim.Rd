@@ -5,7 +5,7 @@
 \title{Compute alarm threshold of RA-CUSUM control charts using simulation}
 \usage{
 racusum_crit_sim(L0, df, coeff, R0 = 1, RA = 2, m = 100,
-  yemp = TRUE, nc = 1, verbose = FALSE)
+  yemp = TRUE, nc = 1, jmax = 4, verbose = FALSE)
 }
 \arguments{
 \item{L0}{Double. Prespecified in-control Average Run Length.}
@@ -29,6 +29,8 @@ Detecting improvement in performance with decreased mortality risk by halving th
 \item{yemp}{Logical. If \code{TRUE}, use emirical outcome values, else use model.}
 
 \item{nc}{Integer. Number of cores used for parallel processing.}
+
+\item{jmax}{Integer. Number of digits for grid search.}
 
 \item{verbose}{Logical. If \code{TRUE} verbose output is included, if \code{FALSE} a quiet
 calculation of \code{h} is done.}
