@@ -2,20 +2,21 @@
 % Please edit documentation in R/misc.R
 \name{trafo}
 \alias{trafo}
-\title{trafo}
+\title{Box-Cox transformation of data.}
 \usage{
 trafo(delta, x)
 }
 \arguments{
-\item{delta}{Numeric. TODO}
+\item{delta}{Numeric. Box-Cox transformation parameter.}
 
-\item{x}{Numceric Vector. TODO}
+\item{x}{Numceric Vector. Parsonnet Score values within a range of 0 to 100 representing the
+preoperative patient risk.}
 }
 \value{
-TODO
+Returns a transformed Numeric vector.
 }
 \description{
-trafo.
+Box-Cox transformation of data.
 }
 \author{
 Philipp Wittenberg

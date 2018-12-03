@@ -219,12 +219,13 @@ QQ <- function(s, y, delta) {
 }
 
 #' @name trafo
-#' @title trafo
-#' @description trafo.
+#' @title Box-Cox transformation of data.
+#' @description Box-Cox transformation of data.
 #'
-#' @param delta Numeric. TODO
-#' @param x Numceric Vector. TODO
-#' @return TODO
+#' @param delta Numeric. Box-Cox transformation parameter.
+#' @param x Numceric Vector. Parsonnet Score values within a range of 0 to 100 representing the
+#' preoperative patient risk.
+#' @return Returns a transformed Numeric vector.
 
 #' @author Philipp Wittenberg
 trafo <- Vectorize(function(delta, x) ifelse( abs(delta)<1e-9, log(1+x), ((1+x)^delta-1)/delta ) )
