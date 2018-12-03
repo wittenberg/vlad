@@ -1,4 +1,4 @@
-#' Variable Life Adjusted Display
+#' Variable Life Adjusted Display and other risk-adjusted quality control charts
 #'
 #' Contains functions to set up risk-adjusted quality control charts
 #' in health care. For the variable life adjusted display (VLAD) proposed by
