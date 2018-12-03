@@ -23,6 +23,7 @@ outcome.
 Compute Expected minus Observed value.
 }
 \examples{
+library("vlad")
 # see Steiner (2014) p. 234
 coeff <- c("(Intercept)"=-3.68, "Parsonnet"=0.077)
 # penalty reward for death (E-O scores multiplied with -1 to get O-E scores)
