@@ -146,20 +146,40 @@ m <- 10^4
 # assign cores
 nc <- parallel::detectCores()
 # verbose calculation 
-UCL_sim <- racusum_arl_h_sim(L0 = 740, df = S2I[, c("s", "y")], coeff = coeff, m = m, RA = 2, nc = nc, verbose = TRUE)
-#> (i)   1   74.672 
-#> (ii)  2   378.8196 
-#> (ii)  3   1299.1255 
-#> (v)   2.3924568993853     628.2552 
-#> (v)   2.49365348279281    710.7591 
-#> (v)   2.5295194136853     739.5776 
-#> (v)   2.53004510965174    740.0594 
-#> (v)   2.52998029782026    740.0594
+UCL_sim <- racusum_crit_sim(L0 = 740, df = S2I[, c("s", "y")], coeff = coeff, m = m, RA = 2, nc = nc, verbose = TRUE)
+#> h = 1    ARL = 73.748 
+#> h = 2    ARL = 371.8713 
+#> h = 3    ARL = 1272.2543 
+#> h = 2.9  ARL = 1139.8029 
+#> h = 2.8  ARL = 1014.7675 
+#> h = 2.7  ARL = 894.4185 
+#> h = 2.6  ARL = 794.149 
+#> h = 2.5  ARL = 699.988 
+#> h = 2.51     ARL = 711.0032 
+#> h = 2.52     ARL = 718.1516 
+#> h = 2.53     ARL = 728.3317 
+#> h = 2.54     ARL = 737.2428 
+#> h = 2.55     ARL = 747.9701 
+#> h = 2.549    ARL = 747.2548 
+#> h = 2.548    ARL = 746.1113 
+#> h = 2.547    ARL = 744.8156 
+#> h = 2.546    ARL = 744.311 
+#> h = 2.545    ARL = 742.484 
+#> h = 2.544    ARL = 741.7208 
+#> h = 2.543    ARL = 740.6374 
+#> h = 2.542    ARL = 738.9439 
+#> h = 2.5421   ARL = 739.1099 
+#> h = 2.5422   ARL = 739.4318 
+#> h = 2.5423   ARL = 739.7967 
+#> h = 2.5424   ARL = 739.7967 
+#> h = 2.5425   ARL = 739.953 
+#> h = 2.5426   ARL = 739.953 
+#> h = 2.5427   ARL = 740.1047
 # quite calculation
-LCL_sim <- racusum_arl_h_sim(L0 = 740, df = S2I[, c("s", "y")], coeff = coeff, m = m, RA = 1/2, nc = nc, verbose = FALSE)
+LCL_sim <- racusum_crit_sim(L0 = 740, df = S2I[, c("s", "y")], coeff = coeff, m = m, RA = 1/2, nc = nc, verbose = FALSE)
 round(cbind(UCL_sim, LCL_sim), 3)
 #>      UCL_sim LCL_sim
-#> [1,]    2.53   2.271
+#> [1,]   2.543   2.278
 ```
 
 ### References

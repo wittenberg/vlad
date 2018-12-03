@@ -121,9 +121,9 @@ m <- 10^4
 # assign cores
 nc <- parallel::detectCores()
 # verbose calculation 
-UCL_sim <- racusum_arl_h_sim(L0 = 740, df = S2I[, c("s", "y")], coeff = coeff, m = m, RA = 2, nc = nc, verbose = TRUE)
+UCL_sim <- racusum_crit_sim(L0 = 740, df = S2I[, c("s", "y")], coeff = coeff, m = m, RA = 2, nc = nc, verbose = TRUE)
 # quite calculation
-LCL_sim <- racusum_arl_h_sim(L0 = 740, df = S2I[, c("s", "y")], coeff = coeff, m = m, RA = 1/2, nc = nc, verbose = FALSE)
+LCL_sim <- racusum_crit_sim(L0 = 740, df = S2I[, c("s", "y")], coeff = coeff, m = m, RA = 1/2, nc = nc, verbose = FALSE)
 round(cbind(UCL_sim, LCL_sim), 3)
 ```
 
