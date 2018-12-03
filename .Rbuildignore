@@ -10,3 +10,4 @@ man-roxygen
 ^codecov\.yml$
 ^appveyor\.yml$
 ^README\.Rmd$
+^data-raw$
