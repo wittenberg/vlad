@@ -32,7 +32,8 @@ binary logistc regression model.}
 Returns a single value which is the Run Length.
 }
 \description{
-Compute ARLs of RA-CUSUM control charts using simulation.
+Computes the Average Run Length of a risk-adjusted cumulative sum control chart
+ using simulation.
 }
 \examples{
 \dontrun{

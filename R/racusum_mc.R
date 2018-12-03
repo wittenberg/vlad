@@ -71,7 +71,7 @@ racusum_arl_mc <- function(pmix, RA, RQ, h, scaling = 600, rounding = "p", metho
 #'
 #' @details
 #' Determines the control limit for given in-control ARL (\code{"L0"}) using
-#' \code{\link{racusum_arl_mc}} by applying a grid search..
+#' \code{\link{racusum_arl_mc}} by applying a grid search.
 #'
 #' @template racusum_crit_mc
 #'

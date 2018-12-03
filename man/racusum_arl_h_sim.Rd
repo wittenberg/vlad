@@ -39,7 +39,8 @@ calculation of \code{h} is done.}
 Returns a single value which is the control limit \code{h} for a given in-control ARL.
 }
 \description{
-Compute alarm threshold of RA-CUSUM control charts using simulation.
+Compute alarm threshold of risk-adjusted cumulative sum control charts using
+ simulation.
 }
 \details{
 The function \code{racusum_arl_h_sim} determines the control limit \code{h} for given

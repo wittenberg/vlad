@@ -42,8 +42,8 @@ calculation of \code{h} is done.}
 Returns a single value which is the control limit \code{h} for a given in-control ARL.
 }
 \description{
-Compute alarm threshold (Out of Control ARL) of RA-CUSUM control charts using
-simulation.
+Compute alarm threshold (Out of Control ARL) of risk-adjusted cumulative sum
+ control charts using simulation.
 }
 \details{
 The function \code{racusum_arloc_h_sim} determines the control limit \code{h} for given

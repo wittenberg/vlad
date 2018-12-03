@@ -41,7 +41,8 @@ steady-state. Other option is the cyclical steady-state \code{"cycl"}.}
 Returns a single value which is the Run Length.
 }
 \description{
-Compute steady-state ARLs of RA-CUSUM control charts using simulation.
+Compute steady-state ARLs of risk-adjusted cumulative sum control charts using
+ simulation.
 }
 \examples{
 \dontrun{

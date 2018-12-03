@@ -2,7 +2,7 @@
 % Please edit documentation in R/racusum_sim.R
 \name{cusum_arl_h_sim}
 \alias{cusum_arl_h_sim}
-\title{Compute alarm threshold of the Bernoulli CUSUM control charts using simulation}
+\title{Compute alarm threshold of Bernoulli CUSUM control charts using simulation}
 \usage{
 cusum_arl_h_sim(L0, df, R0 = 1, RA = 2, m = 100, nc = 1,
   jmax = 4, verbose = FALSE)
@@ -34,7 +34,8 @@ calculation of \code{h} is done.}
 Returns a single value which is the control limit \code{h} for a given in-control ARL.
 }
 \description{
-Compute alarm threshold of the Bernoulli CUSUM control charts using simulation.
+Compute alarm threshold of Bernoulli cumulative sum control charts using
+simulation.
 }
 \details{
 The function \code{cusum_arl_h_sim} determines the control limit for given in-control

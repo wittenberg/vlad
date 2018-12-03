@@ -72,8 +72,8 @@ bcusum_arl_sim <- function(r, h, df, R0 = 1, RA = 2) {
 }
 
 #' @name cusum_arl_sim
-#' @title Compute ARLs of the Bernoulli CUSUM control charts using simulation
-#' @description Compute ARLs of the Bernoulli CUSUM control charts using simulation.
+#' @title Compute ARLs of Bernoulli CUSUM control charts using simulation
+#' @description Compute ARLs of Bernoulli cumulative sum control charts using simulation.
 #'
 #' @param r Integer Vector. Number of runs.
 #' @param h Double. Control Chart limit for detecting deterioration/improvement.
@@ -100,7 +100,8 @@ cusum_arl_sim <- function(r, h, df, R0 = 1, RA = 2) {
 
 #' @name racusum_arl_sim
 #' @title Compute ARLs of RA-CUSUM control charts using simulation
-#' @description Compute ARLs of RA-CUSUM control charts using simulation.
+#' @description Computes the Average Run Length of a risk-adjusted cumulative sum control chart
+#'  using simulation.
 #'
 #' @param r Integer Vector. Number of runs.
 #' @inheritParams llr_score
@@ -135,7 +136,8 @@ racusum_arl_sim <- function(r, coeff, h, df, R0 = 1, RA = 2, yemp = TRUE) {
 
 #' @name racusum_arloc_sim
 #' @title Compute Out of Control ARLs of RA-CUSUM control charts using simulation
-#' @description Compute Out of Control ARLs of RA-CUSUM control charts using simulation.
+#' @description Compute Out of Control ARLs of risk-adjusted cumulative sum control charts using
+#'  simulation.
 #'
 #' @inheritParams racusum_arl_sim
 #' @param coeff2 Numeric Vector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
@@ -174,7 +176,8 @@ racusum_arloc_sim <- function(r, coeff, coeff2, h, df, R0 = 1, RA = 2, RQ = 1) {
 #' @name racusum_adoc_sim
 #' @title Compute steady-state ARLs of RA-CUSUM control charts using
 #' simulation
-#' @description Compute steady-state ARLs of RA-CUSUM control charts using simulation.
+#' @description Compute steady-state ARLs of risk-adjusted cumulative sum control charts using
+#'  simulation.
 #'
 #' @inheritParams racusum_arloc_sim
 #' @param m Integer. Simulated in-control observations.
@@ -220,7 +223,8 @@ racusum_adoc_sim <- function(r, coeff, coeff2, h, df, R0 = 1, RA = 2, RQ = 1, m 
 
 #' @name racusum_arl_h_sim
 #' @title Compute alarm threshold of RA-CUSUM control charts using simulation
-#' @description Compute alarm threshold of RA-CUSUM control charts using simulation.
+#' @description Compute alarm threshold of risk-adjusted cumulative sum control charts using
+#'  simulation.
 #'
 #' @param L0 Double. Prespecified in-control Average Run Length.
 #' @param R0 Double. Odds ratio of death under the null hypotheses.
@@ -263,7 +267,8 @@ racusum_arl_h_sim <- function(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRU
 
 #' @name racusum_crit_sim
 #' @title Compute alarm threshold of RA-CUSUM control charts using simulation
-#' @description Compute alarm threshold of RA-CUSUM control charts using simulation.
+#' @description Compute alarm threshold of risk-adjusted cumulative sum control charts using
+#'  simulation.
 #'
 #' @param L0 Double. Prespecified in-control Average Run Length.
 #' @param R0 Double. Odds ratio of death under the null hypotheses.
@@ -332,8 +337,9 @@ racusum_crit_sim <- function(L0, df, coeff, R0 = 1, RA = 2, m = 100, yemp = TRUE
 }
 
 #' @name cusum_arl_h_sim
-#' @title Compute alarm threshold of the Bernoulli CUSUM control charts using simulation
-#' @description Compute alarm threshold of the Bernoulli CUSUM control charts using simulation.
+#' @title Compute alarm threshold of Bernoulli CUSUM control charts using simulation
+#' @description Compute alarm threshold of Bernoulli cumulative sum control charts using
+#' simulation.
 #'
 #' @param L0 Double. Prespecified in-control Average Run Length.
 #' @param R0 Double. Odds ratio of death under the null hypotheses.
@@ -374,8 +380,9 @@ cusum_arl_h_sim <- function(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, jmax = 4, v
 
 
 #' @name bcusum_crit_sim
-#' @title Compute alarm threshold of the Bernoulli CUSUM control charts using simulation
-#' @description Compute alarm threshold of the Bernoulli CUSUM control charts using simulation.
+#' @title Compute alarm threshold of Bernoulli CUSUM control charts using simulation
+#' @description Compute alarm threshold of Bernoulli cumulative sum control charts using
+#'  simulation.
 #'
 #' @param L0 Double. Prespecified in-control Average Run Length.
 #' @param R0 Double. Odds ratio of death under the null hypotheses.
@@ -436,8 +443,8 @@ bcusum_crit_sim <- function(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, jmax = 4, v
 
 #' @name racusum_arloc_h_sim
 #' @title Compute alarm threshold (Out of Control ARL) of RA-CUSUM control charts using simulation
-#' @description Compute alarm threshold (Out of Control ARL) of RA-CUSUM control charts using
-#' simulation.
+#' @description Compute alarm threshold (Out of Control ARL) of risk-adjusted cumulative sum
+#'  control charts using simulation.
 #'
 #' @param L0 Double. Prespecified in-control Average Run Length.
 #' @param R0 Double. Odds ratio of death under the null hypotheses.

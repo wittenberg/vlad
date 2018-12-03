@@ -2,7 +2,7 @@
 % Please edit documentation in R/racusum_sim.R
 \name{cusum_arl_sim}
 \alias{cusum_arl_sim}
-\title{Compute ARLs of the Bernoulli CUSUM control charts using simulation}
+\title{Compute ARLs of Bernoulli CUSUM control charts using simulation}
 \usage{
 cusum_arl_sim(r, h, df, R0 = 1, RA = 2)
 }
@@ -20,7 +20,7 @@ cusum_arl_sim(r, h, df, R0 = 1, RA = 2)
 \item{RA}{Double. Odds ratio of death under the alternative hypotheses.}
 }
 \description{
-Compute ARLs of the Bernoulli CUSUM control charts using simulation.
+Compute ARLs of Bernoulli cumulative sum control charts using simulation.
 }
 \examples{
 \donttest{

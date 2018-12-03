@@ -51,7 +51,7 @@ Markov chain approximation.
 }
 \details{
 Determines the control limit for given in-control ARL (\code{"L0"}) using
-\code{\link{racusum_arl_mc}} by applying a grid search..
+\code{\link{racusum_arl_mc}} by applying a grid search.
 }
 \examples{
 library(dplyr)

@@ -34,7 +34,8 @@ in performance with increased mortality risk by doubling the odds Ratio \code{RA
 Returns a single value which is the Run Length.
 }
 \description{
-Compute Out of Control ARLs of RA-CUSUM control charts using simulation.
+Compute Out of Control ARLs of risk-adjusted cumulative sum control charts using
+ simulation.
 }
 \examples{
 \dontrun{
