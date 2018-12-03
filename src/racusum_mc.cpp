@@ -417,13 +417,13 @@ double racusum_crit_mc2(NumericMatrix pmix, double L0, double RA, double R, doub
 
   for (int j = 1; j <= jmax; j++ ) {
     for (int dh = 1; dh <= 19; dh++ ) {
-      h = h1 + pow(-1, j) * dh / pow(10, j);
+      h = h1 + pow(static_cast<double>(-1), j) * dh / pow(static_cast<double>(10), j);
       L1 = racusum_arl_mc(pmix, RA, 1, h, scaling, rounding, method);
       if ( verbose ) Rcpp::Rcout << "h = " <<  h << "\t" << "ARL = " << L1 << std::endl;
       if ( ((j % 2 == 1) & (L1 < L0) ) | ((j % 2 == 0) & (L1 > L0)) ) break;
     }
     h1 = h;
   }
-  if ( L1 < L0 ) h = h + 1 / pow(10, jmax);
+  if ( L1 < L0 ) h = h + 1 / pow(static_cast<double>(10), jmax);
   return h;
 }
