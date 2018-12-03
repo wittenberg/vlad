@@ -420,7 +420,7 @@ double racusum_crit_mc2(NumericMatrix pmix, double L0, double RA, double R, doub
       h = h1 + pow(-1, j) * dh / pow(10, j);
       L1 = racusum_arl_mc(pmix, RA, 1, h, scaling, rounding, method);
       if ( verbose ) Rcpp::Rcout << "h = " <<  h << "\t" << "ARL = " << L1 << std::endl;
-      if ( (j % 2 == 1 & L1 < L0) | (j % 2 == 0 & L1 > L0) ) break;
+      if ( ((j % 2 == 1) & (L1 < L0) ) | ((j % 2 == 0) & (L1 > L0)) ) break;
     }
     h1 = h;
   }
