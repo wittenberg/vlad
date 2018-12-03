@@ -61,7 +61,7 @@ bcusum_arl_sim <- function(r, h, df, R0 = 1, RA = 2) {
   if (is.na(h) || h <= 0) {stop("Control limit 'h' must be a positive numeric value")}
   if (class(df) != "data.frame") {stop("Provide a dataframe for argument 'df'")}
   else if (ncol(df) != 2) {stop("Provide a dataframe with two columns for argument 'df'")}
-  #else if (vapply(df, class, "")[1] != "integer") {stop("First column of dataframe must be of type integer")}
+  else if (vapply(df, class, "")[1] != "integer") {stop("First column of dataframe must be of type integer")}
   else if (vapply(df, class, "")[2] != "numeric") {stop("Second column of dataframe must be of type numeric")}
   df <- as.data.frame(df)
   R0 <- as.numeric(R0)
@@ -121,7 +121,7 @@ racusum_arl_sim <- function(r, coeff, h, df, R0 = 1, RA = 2, yemp = TRUE) {
   if (is.na(h) || h <= 0) {stop("Control limit 'h' must be a positive numeric value")}
   if (class(df) != "data.frame") {stop("Provide a dataframe for argument 'df'")}
   else if (ncol(df) != 2) {stop("Provide a dataframe with two columns for argument 'df'")}
-#  else if (vapply(df, class, "")[1] != "integer") {stop("First column of dataframe must be of type integer")}
+  else if (vapply(df, class, "")[1] != "integer") {stop("First column of dataframe must be of type integer")}
   else if (vapply(df, class, "")[2] != "numeric") {stop("Second column of dataframe must be of type numeric")}
   df <- as.data.frame(df)
   R0 <- as.numeric(R0)
@@ -160,7 +160,7 @@ racusum_arloc_sim <- function(r, coeff, coeff2, h, df, R0 = 1, RA = 2, RQ = 1) {
   if (is.na(h) || h <= 0) {stop("Control limit 'h' must be a positive numeric value")}
   if (class(df) != "data.frame") {stop("Provide a dataframe for argument 'df'")}
   else if (ncol(df) != 2) {stop("Provide a dataframe with two columns for argument 'df'")}
-#  else if (vapply(df, class, "")[1] != "integer") {stop("First column of dataframe must be of type integer")}
+  else if (vapply(df, class, "")[1] != "integer") {stop("First column of dataframe must be of type integer")}
   else if (vapply(df, class, "")[2] != "numeric") {stop("Second column of dataframe must be of type numeric")}
   df <- as.data.frame(df)
   if (is.na(R0) || R0 <= 0) {stop("Odds ratio of death under the null hypotheses 'R0' must a positive numeric value")}
@@ -198,7 +198,7 @@ racusum_adoc_sim <- function(r, coeff, coeff2, h, df, R0 = 1, RA = 2, RQ = 1, m 
   if (is.na(h) || h <= 0) {stop("Control limit 'h' must be a positive numeric value")}
   if (class(df) != "data.frame") {stop("Provide a dataframe for argument 'df'")}
   else if (ncol(df) != 2) {stop("Provide a dataframe with two columns for argument 'df'")}
-#  else if (vapply(df, class, "")[1] != "integer") {stop("First column of dataframe must be of type integer")}
+  else if (vapply(df, class, "")[1] != "integer") {stop("First column of dataframe must be of type integer")}
   else if (vapply(df, class, "")[2] != "numeric") {stop("Second column of dataframe must be of type numeric")}
   df <- as.data.frame(df)
   R0 <- as.numeric(R0)

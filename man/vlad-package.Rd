@@ -3,7 +3,7 @@
 \docType{package}
 \name{vlad-package}
 \alias{vlad-package}
-\title{Variable Life Adjusted Display and other risk-adjusted quality control charts}
+\title{Variable Life Adjusted Display and Other Risk-Adjusted Quality Control Charts}
 \description{
 Contains functions to set up risk-adjusted quality control charts
 in health care. For the variable life adjusted display (VLAD) proposed by

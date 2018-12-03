@@ -1,6 +1,6 @@
 Package: vlad
 Type: Package
-Title: Variable Life Adjusted Display and other risk-adjusted quality control charts
+Title: Variable Life Adjusted Display and Other Risk-Adjusted Quality Control Charts
 Version: 0.2.0
 Authors@R: c(
             person("Philipp", "Wittenberg", 
