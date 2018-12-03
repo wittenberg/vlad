@@ -6,7 +6,7 @@ This is the second submission of the package to CRAN.
 
 * local x86_64-pc-linux-gnu (64-bit), R 3.5.1
 * ubuntu 14.04.5 (on travis-ci), R 3.4.4, R 3.5.1, R-devel.
-* win-builder (devel)
+* win-builder (oldrelease, release, devel)
 
 ## R CMD check results
 
