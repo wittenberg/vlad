@@ -137,32 +137,3 @@ int racusum_adoc_sim(int r, NumericVector coeff, NumericVector coeff2, double h,
   }
   return rl;
 }
-
-// [[Rcpp::export(.racusum_arloc_d_sim)]]
-int racusum_arloc_d_sim(int r, DataFrame pmix, double h, double R0, double RA, double RQ) {
-  double qn = 0, wt = 0;
-  int rl = 0;
-  do{
-    rl++;
-    wt = loglikelihoodd2(pmix, R0, RA, RQ);
-    qn = fmax(0, qn + wt);
-  } while (qn <= h);
-  return rl;
-}
-
-double loglikelihoodd2(DataFrame pmix, double R0, double RA, double RQ){
-  int y, row;
-  double x, pistar, rdm, pt, wt;
-  NumericVector pi1, pi2, rnd, rndm;
-  pi1 = pmix[0];                // 1st Predicted probability
-  pi2 = pmix[1];                // 2st Predicted probability
-  rnd = runif(1);
-  row = rnd[0] * pmix.nrows();  // draw random row from data
-  pistar = (RQ * pi1[row]) / (1 - pi1[row] + RQ * pi1[row]);
-  rndm = runif(1);
-  rdm = as<double>(rndm);
-  y = (rdm < pistar ? 1 : 0);            // Surgical outcome
-  pt = pi2[row];                       // True probability of death
-  wt = (  y == 1 ? log( ((1 - pt + R0*pt)*RA) / ((1 - pt + RA*pt)*R0) ) : log( (1 - pt + R0*pt) / (1 - pt + RA*pt) )  );
-  return wt;
-}

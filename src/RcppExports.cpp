@@ -222,22 +222,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// racusum_arloc_d_sim
-int racusum_arloc_d_sim(int r, DataFrame pmix, double h, double R0, double RA, double RQ);
-RcppExport SEXP _vlad_racusum_arloc_d_sim(SEXP rSEXP, SEXP pmixSEXP, SEXP hSEXP, SEXP R0SEXP, SEXP RASEXP, SEXP RQSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type r(rSEXP);
-    Rcpp::traits::input_parameter< DataFrame >::type pmix(pmixSEXP);
-    Rcpp::traits::input_parameter< double >::type h(hSEXP);
-    Rcpp::traits::input_parameter< double >::type R0(R0SEXP);
-    Rcpp::traits::input_parameter< double >::type RA(RASEXP);
-    Rcpp::traits::input_parameter< double >::type RQ(RQSEXP);
-    rcpp_result_gen = Rcpp::wrap(racusum_arloc_d_sim(r, pmix, h, R0, RA, RQ));
-    return rcpp_result_gen;
-END_RCPP
-}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_vlad_gettherisk", (DL_FUNC) &_vlad_gettherisk, 2},
@@ -253,7 +237,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_vlad_racusum_arl_sim", (DL_FUNC) &_vlad_racusum_arl_sim, 7},
     {"_vlad_racusum_arloc_sim", (DL_FUNC) &_vlad_racusum_arloc_sim, 8},
     {"_vlad_racusum_adoc_sim", (DL_FUNC) &_vlad_racusum_adoc_sim, 10},
-    {"_vlad_racusum_arloc_d_sim", (DL_FUNC) &_vlad_racusum_arloc_d_sim, 6},
     {NULL, NULL, 0}
 };
 
