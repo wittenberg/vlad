@@ -129,7 +129,7 @@ round(cbind(UCL_sim, LCL_sim), 3)
 
 ### References
 
-Wittenberg et al. (2018). [A simple signaling rule for variable life‐adjusted display derived from an equivalent risk‐adjusted CUSUM chart](https://doi.org/10.1002/sim.7647)
+Wittenberg et al. (2018). [A simple signaling rule for variable life-adjusted display derived from an equivalent risk-adjusted CUSUM chart](https://doi.org/10.1002/sim.7647)
 
 Steiner et al. (2000). [Monitoring surgical performance using risk-adjusted cumulative sum charts](https://doi.org/10.1093/biostatistics/1.4.441) 
 

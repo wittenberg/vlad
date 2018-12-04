@@ -147,45 +147,40 @@ m <- 10^4
 nc <- parallel::detectCores()
 # verbose calculation 
 UCL_sim <- racusum_crit_sim(L0 = 740, df = S2I[, c("s", "y")], coeff = coeff, m = m, RA = 2, nc = nc, verbose = TRUE)
-#> h = 1    ARL = 73.748 
-#> h = 2    ARL = 371.8713 
-#> h = 3    ARL = 1272.2543 
-#> h = 2.9  ARL = 1139.8029 
-#> h = 2.8  ARL = 1014.7675 
-#> h = 2.7  ARL = 894.4185 
-#> h = 2.6  ARL = 794.149 
-#> h = 2.5  ARL = 699.988 
-#> h = 2.51     ARL = 711.0032 
-#> h = 2.52     ARL = 718.1516 
-#> h = 2.53     ARL = 728.3317 
-#> h = 2.54     ARL = 737.2428 
-#> h = 2.55     ARL = 747.9701 
-#> h = 2.549    ARL = 747.2548 
-#> h = 2.548    ARL = 746.1113 
-#> h = 2.547    ARL = 744.8156 
-#> h = 2.546    ARL = 744.311 
-#> h = 2.545    ARL = 742.484 
-#> h = 2.544    ARL = 741.7208 
-#> h = 2.543    ARL = 740.6374 
-#> h = 2.542    ARL = 738.9439 
-#> h = 2.5421   ARL = 739.1099 
-#> h = 2.5422   ARL = 739.4318 
-#> h = 2.5423   ARL = 739.7967 
-#> h = 2.5424   ARL = 739.7967 
-#> h = 2.5425   ARL = 739.953 
-#> h = 2.5426   ARL = 739.953 
-#> h = 2.5427   ARL = 740.1047
+#> h = 1    ARL = 75.006 
+#> h = 2    ARL = 383.3554 
+#> h = 3    ARL = 1312.8564 
+#> h = 2.9  ARL = 1181.3768 
+#> h = 2.8  ARL = 1052.3355 
+#> h = 2.7  ARL = 928.6587 
+#> h = 2.6  ARL = 822.3063 
+#> h = 2.5  ARL = 730.0184 
+#> h = 2.51     ARL = 739.8392 
+#> h = 2.52     ARL = 747.3412 
+#> h = 2.519    ARL = 746.4942 
+#> h = 2.518    ARL = 745.9933 
+#> h = 2.517    ARL = 745.6282 
+#> h = 2.516    ARL = 744.6935 
+#> h = 2.515    ARL = 744.0614 
+#> h = 2.514    ARL = 743.2221 
+#> h = 2.513    ARL = 742.2656 
+#> h = 2.512    ARL = 741.7172 
+#> h = 2.511    ARL = 741.3188 
+#> h = 2.51     ARL = 739.8392 
+#> h = 2.5101   ARL = 739.862 
+#> h = 2.5102   ARL = 739.862 
+#> h = 2.5103   ARL = 740.0315
 # quite calculation
 LCL_sim <- racusum_crit_sim(L0 = 740, df = S2I[, c("s", "y")], coeff = coeff, m = m, RA = 1/2, nc = nc, verbose = FALSE)
 round(cbind(UCL_sim, LCL_sim), 3)
 #>      UCL_sim LCL_sim
-#> [1,]   2.543   2.278
+#> [1,]    2.51   2.281
 ```
 
 ### References
 
 Wittenberg et al. (2018). [A simple signaling rule for variable
-life‐adjusted display derived from an equivalent risk‐adjusted CUSUM
+life-adjusted display derived from an equivalent risk-adjusted CUSUM
 chart](https://doi.org/10.1002/sim.7647)
 
 Steiner et al. (2000). [Monitoring surgical performance using
