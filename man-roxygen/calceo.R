@@ -1,13 +1,13 @@
 #' @references Lovegrove J, Valencia O, Treasure T, Sherlaw-Johnson C and Gallivan S (1997).
 #'  Monitoring the results of cardiac surgery by variable life-adjusted display.
-#'  \emph{The Lancet}, \strong{350}(9085), pp. 1128–1130.
+#'  \emph{The Lancet}, \strong{350}(9085), pp. 1128--1130.
 #'
 #' Poloniecki J, Valencia O and Littlejohns P (1998).
 #'  Cumulative risk adjusted mortality chart for detecting changes in death rate: observational
-#'  study of heart surgery. \emph{BMJ}, \strong{316}(7146), pp. 1697–1700.
+#'  study of heart surgery. \emph{BMJ}, \strong{316}(7146), pp. 1697--1700.
 #'
 #' Steiner S (2014). Risk-Adjusted Monitoring of Outcomes in Health Care.
-#'  In Lawless JF (ed.), \emph{Statistics in Action}, pp. 225-242. Informa UK Limited.
+#'  In Lawless JF (ed.), \emph{Statistics in Action}, pp. 225--242. Informa UK Limited.
 #'
 #' @examples
 #' \dontrun{

@@ -1,13 +1,13 @@
 #' @references Barnard GA (1959). Control charts and stochastic processes.
-#' \emph{J R Stat Soc Series B Stat Methodol}, \strong{21}(2), pp. 239-271.
+#' \emph{J R Stat Soc Series B Stat Methodol}, \strong{21}(2), pp. 239--271.
 #'
 #' Kemp KW (1961). The Average Run Length of the Cumulative Sum Chart
-#' when a V-mask is used. \emph{J R Stat Soc Series B Stat Methodol}, \strong{23}(1),pp. 149-153.
+#' when a V-mask is used. \emph{J R Stat Soc Series B Stat Methodol}, \strong{23}(1),pp. 149--153.
 #'
 #' Wittenberg P, Gan FF, Knoth S (2018).
 #' A simple signaling rule for variable life-adjusted display derived from
 #' an equivalent risk-adjusted CUSUM chart.
-#' \emph{Statistics in Medicine}, \strong{37}(16), pp 2455-2473.
+#' \emph{Statistics in Medicine}, \strong{37}(16), pp 2455--2473.
 #'
 #' @examples
 #' \dontrun{
