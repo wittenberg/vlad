@@ -23,6 +23,7 @@ outcome.
 Compute Expected minus Observed value.
 }
 \examples{
+\dontrun{
 library("vlad")
 # see Steiner (2014) p. 234
 coeff <- c("(Intercept)"=-3.68, "Parsonnet"=0.077)
@@ -49,6 +50,7 @@ ggplot2::qplot(data=df2, n, value, colour=phase, geom=c("line", "point"),
                xlab="Patient number", ylab="CUSUM E-O") +
   ggplot2::geom_hline(yintercept=0, linetype="dashed") +
   ggplot2::theme_classic()
+  }
 }
 \references{
 Lovegrove J, Valencia O, Treasure T, Sherlaw-Johnson C and Gallivan S (1997).
