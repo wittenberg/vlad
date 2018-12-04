@@ -10,6 +10,7 @@
 #'  In Lawless JF (ed.), \emph{Statistics in Action}, pp. 225-242. Informa UK Limited.
 #'
 #' @examples
+#' \dontrun{
 #' library("vlad")
 #' # see Steiner (2014) p. 234
 #' coeff <- c("(Intercept)"=-3.68, "Parsonnet"=0.077)
@@ -36,3 +37,4 @@
 #'                xlab="Patient number", ylab="CUSUM E-O") +
 #'   ggplot2::geom_hline(yintercept=0, linetype="dashed") +
 #'   ggplot2::theme_classic()
+#'   }
