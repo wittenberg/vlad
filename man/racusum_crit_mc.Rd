@@ -54,6 +54,7 @@ Determines the control limit for given in-control ARL (\code{"L0"}) using
 \code{\link{racusum_arl_mc}} by applying a grid search.
 }
 \examples{
+\dontrun{
 library(dplyr)
 data("cardiacsurgery", package = "spcadjust")
 
@@ -76,6 +77,7 @@ pmix  <- data.frame(fi, pi1, pi1)
 racusum_crit_mc(pmix = pmix, L0 = 740, RA = 2, RQ = 1)
 ## control limit for detecting improvement RA = 1/2:
 racusum_crit_mc(pmix = pmix, L0 = 740, RA = 0.5, RQ = 1)
+}
 }
 \references{
 Steiner SH, Cook RJ, Farewell VT and Treasure T (2000).

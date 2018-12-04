@@ -10,6 +10,7 @@
 #'  \emph{Communications in Statistics - Simulation and Computation} \strong{36}(3), pp. 471-482
 #'
 #' @examples
+#' \dontrun{
 #' library(dplyr)
 #' data("cardiacsurgery", package = "spcadjust")
 #'
@@ -32,3 +33,4 @@
 #' racusum_crit_mc(pmix = pmix, L0 = 740, RA = 2, RQ = 1)
 #' ## control limit for detecting improvement RA = 1/2:
 #' racusum_crit_mc(pmix = pmix, L0 = 740, RA = 0.5, RQ = 1)
+#' }
