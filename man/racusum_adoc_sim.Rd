@@ -83,11 +83,9 @@ doi: \doi{10.1002/sim.7647}.
 
 Taylor HM (1968). “The Economic Design of Cumulative Sum Control Charts.”
 \emph{Technometrics}, \strong{10}(3), pp. 479-488.
-doi: \doi{10.1080/00401706.1968.10490595}.
 
 Crosier R (1986). “A new two-sided cumulative quality control scheme.”
 \emph{Technometrics}, \strong{28}(3), pp. 187-194.
-doi: \doi{10.2307/1269074}.
 }
 \author{
 Philipp Wittenberg

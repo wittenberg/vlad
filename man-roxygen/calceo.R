@@ -1,7 +1,6 @@
 #' @references Lovegrove J, Valencia O, Treasure T, Sherlaw-Johnson C and Gallivan S (1997).
 #'  “Monitoring the results of cardiac surgery by variable life-adjusted display.”
 #'  \emph{The Lancet}, \strong{350}(9085), pp. 1128–1130.
-#'  doi: \doi{10.1016/S0140-6736(97)06507-0}.
 #'
 #' Poloniecki J, Valencia O and Littlejohns P (1998).
 #'  “Cumulative risk adjusted mortality chart for detecting changes in death rate: observational

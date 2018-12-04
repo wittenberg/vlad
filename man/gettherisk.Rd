@@ -76,7 +76,6 @@ ggplot(data = df1, aes(s, mort)) +
 Steiner SH, Cook RJ, Farewell VT and Treasure T (2000).
  “Monitoring surgical performance using risk-adjusted cumulative sum charts.”
  \emph{Biostatistics}, \strong{1}(4), pp. 441-452.
- doi: \doi{10.1093/biostatistics/1.4.441}.
 
 Steiner S (2014). “Risk-Adjusted Monitoring of Outcomes in Health Care.”
 In Lawless JF (ed.), \emph{Statistics in Action}, pp. 225-242. Informa UK Limited.
@@ -88,7 +87,6 @@ for evaluating the results of surgery in acquired adult heart disease.
 Rigdon SE and Fricker RD (2015). "Health Surveillance."
 In Chen DG and Wilson J (eds) \emph{Innovative Statistical Methods for Public Health Data},
 pp. 203-249. Springer, Cham.
-doi: \doi{10.1007/978-3-319-18536-1_10}.
 }
 \author{
 Philipp Wittenberg

@@ -1,7 +1,6 @@
 #' @references Steiner SH, Cook RJ, Farewell VT and Treasure T (2000).
 #'  “Monitoring surgical performance using risk-adjusted cumulative sum charts.”
 #'  \emph{Biostatistics}, \strong{1}(4), pp. 441-452.
-#'  doi: \doi{10.1093/biostatistics/1.4.441}.
 #'
 #' Parsonnet V, Dean D, Bernstein AD (1989). A method of uniform stratification of risk
 #' for evaluating the results of surgery in acquired adult heart disease.
@@ -10,7 +9,6 @@
 #' Rigdon SE and Fricker RD (2015). "Health Surveillance."
 #' In Chen DG and Wilson J (eds) \emph{Innovative Statistical Methods for Public Health Data},
 #' pp. 203--249. Springer, Cham.
-#' doi: \doi{10.1007/978-3-319-18536-1_10}.
 #'
 #' @examples
 #' # patient Cusum values with different odds ratios, see Rigdon and Fricker p. 225, 226
