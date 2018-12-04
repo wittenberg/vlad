@@ -37,6 +37,7 @@ Computes the Average Run Length of a risk-adjusted cumulative sum control chart
 }
 \examples{
 \dontrun{
+library(vlad)
 set.seed(1234)
 data("cardiacsurgery", package="spcadjust")
 df1 <- subset(cardiacsurgery, select=c(Parsonnet, status))

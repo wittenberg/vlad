@@ -5,6 +5,7 @@
 #'
 #' @examples
 #' library("dplyr")
+#' library(vlad)
 #' data("cardiacsurgery", package = "spcadjust")
 #'
 #' ## preprocess data to 30 day mortality and subset phase I (In-control) of surgeons 2

@@ -55,6 +55,7 @@ Determines the control limit for given in-control ARL (\code{"L0"}) using
 }
 \examples{
 \dontrun{
+library(vlad)
 library(dplyr)
 data("cardiacsurgery", package = "spcadjust")
 

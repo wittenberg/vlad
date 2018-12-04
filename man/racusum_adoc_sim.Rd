@@ -46,6 +46,7 @@ Compute steady-state ARLs of risk-adjusted cumulative sum control charts using
 }
 \examples{
 \dontrun{
+library(vlad)
 data("cardiacsurgery", package="spcadjust")
 # build data set
 df1 <- subset(cardiacsurgery, select=c(Parsonnet, status))

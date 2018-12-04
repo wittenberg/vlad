@@ -9,6 +9,7 @@
 #'
 #' @examples
 #' \dontrun{
+#' library(vlad)
 #' # Set seed for reproducibility
 #' RNGkind("L'Ecuyer-CMRG")
 #' set.seed(1234)

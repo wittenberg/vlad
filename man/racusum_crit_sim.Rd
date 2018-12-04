@@ -49,6 +49,7 @@ The function \code{racusum_crit_sim} determines the control limit \code{h} for g
 }
 \examples{
 \dontrun{
+library(vlad)
 library("dplyr")
 data("cardiacsurgery", package = "spcadjust")
 

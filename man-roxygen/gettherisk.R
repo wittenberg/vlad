@@ -14,6 +14,7 @@
 #' pp. 203--249. Springer, Cham.
 #'
 #' @examples
+#' library(vlad)
 #' ## see Steiner et al. 2000 p. 445 or Steiner (2014) p. 234
 #' coeff <- c("(Intercept)" = -3.68, "Parsonnet" = 0.077)
 #' ## low risk patient (Parsonnet score=0) has a risk of death 2.5%

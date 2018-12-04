@@ -52,6 +52,7 @@ The function \code{racusum_arloc_h_sim} determines the control limit \code{h} fo
 }
 \examples{
 \dontrun{
+library(vlad)
 # Set seed for reproducibility
 RNGkind("L'Ecuyer-CMRG")
 set.seed(1234)

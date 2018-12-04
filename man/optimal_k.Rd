@@ -31,6 +31,7 @@ Formula deterioration:  \deqn{ k{det} = \frac{Q{A} - 1 - log(Q{A})}{log(Q{A})}\b
 }
 \examples{
 library("dplyr")
+library(vlad)
 data("cardiacsurgery", package = "spcadjust")
 
 ## preprocess data to 30 day mortality and subset phase I (In-control) of surgeons 2

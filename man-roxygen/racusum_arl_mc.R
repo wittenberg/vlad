@@ -10,9 +10,10 @@
 #' Stability of approximations of average run length of risk-adjusted CUSUM schemes using
 #' the Markov approach: comparing two methods of calculating transition probabilities.
 #'  \emph{Communications in Statistics - Simulation and Computation} \strong{36}(3), pp. 471--482
-#' 
+#'
 #' @examples
 #' \dontrun{
+#' library(vlad)
 #' library(dplyr)
 #' data("cardiacsurgery", package = "spcadjust")
 #'

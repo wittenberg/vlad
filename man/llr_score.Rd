@@ -31,6 +31,7 @@ Returns a single value which is the log-likelihood ratio score.
 Compute the log-likelihood ratio score.
 }
 \examples{
+library(vlad)
 ## see Steiner et al. (2000) p. 446 or Steiner (2014) p. 234
 coeff <- c("(Intercept)" = -3.68, "Parsonnet" = 0.077)
 ## Log-likelihood ratio scores for detecting an increase in the failure rate:

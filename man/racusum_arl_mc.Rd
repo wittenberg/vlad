@@ -46,6 +46,7 @@ using Markov chain approximation.
 }
 \examples{
 \dontrun{
+library(vlad)
 library(dplyr)
 data("cardiacsurgery", package = "spcadjust")
 
