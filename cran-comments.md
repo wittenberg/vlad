@@ -13,6 +13,10 @@ This is the second submission of the package to CRAN.
 0 ERRORs | 0 WARNINGs | 1 NOTEs
 
 Possibly mis-spelled words in DESCRIPTION:
+  al (20:18, 21:30, 23:46)
+  doi (21:42)
+  et (20:15, 21:27, 23:43)
+  Lovegrove (20:5)
   Wittenberg (21:16)
 
 
