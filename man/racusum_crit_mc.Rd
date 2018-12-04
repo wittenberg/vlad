@@ -81,14 +81,16 @@ racusum_crit_mc(pmix = pmix, L0 = 740, RA = 0.5, RQ = 1)
 }
 \references{
 Steiner SH, Cook RJ, Farewell VT and Treasure T (2000).
- “Monitoring surgical performance using risk-adjusted cumulative sum charts.”
+ Monitoring surgical performance using risk-adjusted cumulative sum charts.
  \emph{Biostatistics}, \strong{1}(4), pp. 441-452.
 
 Brook D and Evans DA (1972)
- "An approach to the probability distribution of CUSUM run length"
+ An approach to the probability distribution of CUSUM run length.
  \emph{Biometrika}, \strong{59}(3), pp. 539-549
 
 Webster RA and Pettitt AN (2007)
+Stability of approximations of average run length of risk-adjusted CUSUM schemes using
+the Markov approach: comparing two methods of calculating transition probabilities.
  \emph{Communications in Statistics - Simulation and Computation} \strong{36}(3), pp. 471-482
 }
 \author{

@@ -1,12 +1,12 @@
 #' @references Lovegrove J, Valencia O, Treasure T, Sherlaw-Johnson C and Gallivan S (1997).
-#'  “Monitoring the results of cardiac surgery by variable life-adjusted display.”
+#'  Monitoring the results of cardiac surgery by variable life-adjusted display.
 #'  \emph{The Lancet}, \strong{350}(9085), pp. 1128–1130.
 #'
 #' Poloniecki J, Valencia O and Littlejohns P (1998).
-#'  “Cumulative risk adjusted mortality chart for detecting changes in death rate: observational
-#'  study of heart surgery.” \emph{BMJ}, \strong{316}(7146), pp. 1697–1700.
+#'  Cumulative risk adjusted mortality chart for detecting changes in death rate: observational
+#'  study of heart surgery. \emph{BMJ}, \strong{316}(7146), pp. 1697–1700.
 #'
-#' Steiner S (2014). “Risk-Adjusted Monitoring of Outcomes in Health Care.”
+#' Steiner S (2014). Risk-Adjusted Monitoring of Outcomes in Health Care.
 #'  In Lawless JF (ed.), \emph{Statistics in Action}, pp. 225-242. Informa UK Limited.
 #'
 #' @examples
@@ -30,7 +30,7 @@
 #' coeff <- coef(glm(status ~ Parsonnet, data=S2I, family="binomial"))
 #' EO <- sapply(1:nrow(S2), function(i) calceo(df=S2[i, c("Parsonnet", "status")], coeff=coeff))
 #'
-#' df1 <- data.frame(cbind(subset(S2, select=c("phase")), "n"=1:nrow(S2), "cEO"=cumsum(EO)))
+#' @export#' df1 <- data.frame(cbind(subset(S2, select=c("phase")), "n"=1:nrow(S2), "cEO"=cumsum(EO)))
 #' df2 <- tidyr::gather(df1, "variable", value, c(-n, -phase))
 #'
 #' ggplot2::qplot(data=df2, n, value, colour=phase, geom=c("line", "point"),

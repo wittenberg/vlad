@@ -171,8 +171,6 @@ eocusum_arloc_sim <- function(r, k, h, df, coeff, coeff2, QS = 1, side = "low") 
   .eocusum_arloc_sim(r, k, h, df, coeff, coeff2, QS, iside)
 }
 
-
-
 #' @name eocusum_adoc_sim
 #' @title Compute steady-state ARLs of EO-CUSUM control charts using simulation
 #' @description Compute steady-state ARLs of EO-CUSUM control charts using simulation.

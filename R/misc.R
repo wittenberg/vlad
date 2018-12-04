@@ -228,4 +228,5 @@ QQ <- function(s, y, delta) {
 #' @return Returns a transformed Numeric vector.
 
 #' @author Philipp Wittenberg
+#' @export
 trafo <- Vectorize(function(delta, x) ifelse( abs(delta)<1e-9, log(1+x), ((1+x)^delta-1)/delta ) )

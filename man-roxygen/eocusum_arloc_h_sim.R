@@ -1,6 +1,6 @@
 #' @references Wittenberg P, Gan FF, Knoth S (2018).
-#' “A simple signaling rule for variable life‐adjusted display derived from
-#' an equivalent risk‐adjusted CUSUM chart.”
+#' A simple signaling rule for variable life-adjusted display derived from
+#' an equivalent risk-adjusted CUSUM chart.
 #' \emph{Statistics in Medicine}, \strong{37}(16), pp 2455-2473.
 #'
 #' @examples
