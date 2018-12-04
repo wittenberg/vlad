@@ -29,8 +29,7 @@
 #' S2II <- subset(S2, c(phase=="II"))
 #' coeff <- coef(glm(status ~ Parsonnet, data=S2I, family="binomial"))
 #' EO <- sapply(1:nrow(S2), function(i) calceo(df=S2[i, c("Parsonnet", "status")], coeff=coeff))
-#'
-#' @export#' df1 <- data.frame(cbind(subset(S2, select=c("phase")), "n"=1:nrow(S2), "cEO"=cumsum(EO)))
+#' df1 <- data.frame(cbind(subset(S2, select=c("phase")), "n"=1:nrow(S2), "cEO"=cumsum(EO)))
 #' df2 <- tidyr::gather(df1, "variable", value, c(-n, -phase))
 #'
 #' ggplot2::qplot(data=df2, n, value, colour=phase, geom=c("line", "point"),
