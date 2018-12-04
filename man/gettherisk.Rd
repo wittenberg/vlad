@@ -75,18 +75,18 @@ ggplot(data = df1, aes(s, mort)) +
 \references{
 Steiner SH, Cook RJ, Farewell VT and Treasure T (2000).
 Monitoring surgical performance using risk-adjusted cumulative sum charts.
- \emph{Biostatistics}, \strong{1}(4), pp. 441-452.
+ \emph{Biostatistics}, \strong{1}(4), pp. 441--452.
 
 Steiner S (2014). Risk-Adjusted Monitoring of Outcomes in Health Care.
-In Lawless JF (ed.), \emph{Statistics in Action}, pp. 225-242. Informa UK Limited.
+In Lawless JF (ed.), \emph{Statistics in Action}, pp. 225--242. Informa UK Limited.
 
 Parsonnet V, Dean D, Bernstein AD (1989). A method of uniform stratification of risk
 for evaluating the results of surgery in acquired adult heart disease.
-\emph{Circulation}, \strong{79}(6):I3-12.
+\emph{Circulation}, \strong{79}(6):I3--12.
 
 Rigdon SE and Fricker RD (2015). Health Surveillance.
 In Chen DG and Wilson J (eds) \emph{Innovative Statistical Methods for Public Health Data},
-pp. 203-249. Springer, Cham.
+pp. 203--249. Springer, Cham.
 }
 \author{
 Philipp Wittenberg
