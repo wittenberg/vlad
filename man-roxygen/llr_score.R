@@ -10,6 +10,7 @@
 #' pp. 203--249. Springer, Cham.
 #'
 #' @examples
+#' \dontrun{
 #' library(vlad)
 #' ## see Steiner et al. (2000) p. 446 or Steiner (2014) p. 234
 #' coeff <- c("(Intercept)" = -3.68, "Parsonnet" = 0.077)
@@ -42,4 +43,4 @@
 #'
 #' ## detecting an decrease in the failure rate:
 #' round(llr_score(df = data.frame(19L, 0), coeff = coeff, RA = 1/2), 5)
-#'
+#' }

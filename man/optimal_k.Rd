@@ -30,6 +30,7 @@ Formula deterioration:  \deqn{ k{det} = \frac{Q{A} - 1 - log(Q{A})}{log(Q{A})}\b
          Formula improvement:    \deqn{ k{imp} = \frac{1 - Q{A} + log(Q{A})}{log(Q{A})}\bar{p} , Q{A} < 1    }
 }
 \examples{
+\dontrun{
 library("dplyr")
 library(vlad)
 data("cardiacsurgery", package = "spcadjust")
@@ -61,6 +62,7 @@ pbar <- mean(sapply(S2I[, 1], gettherisk, coef = coeff))
 kopt <- pbar * ( 1 - QA + log(QA) ) / log(QA)
 
 all.equal(kopt, optimal_k(QA = 1/2, df = S2I, coeff = coeff, yemp = FALSE))
+}
 }
 \references{
 Wittenberg P, Gan FF, Knoth S (2018).

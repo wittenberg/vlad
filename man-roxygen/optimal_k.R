@@ -4,6 +4,7 @@
 #' \emph{Statistics in Medicine}, \strong{37}(16), pp 2455--2473.
 #'
 #' @examples
+#' \dontrun{
 #' library("dplyr")
 #' library(vlad)
 #' data("cardiacsurgery", package = "spcadjust")
@@ -35,3 +36,4 @@
 #' kopt <- pbar * ( 1 - QA + log(QA) ) / log(QA)
 #'
 #' all.equal(kopt, optimal_k(QA = 1/2, df = S2I, coeff = coeff, yemp = FALSE))
+#' }

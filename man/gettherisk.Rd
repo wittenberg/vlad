@@ -19,6 +19,7 @@ Returns a single value which is the expected risk based on a risk model.
 Compute Risk of death.
 }
 \examples{
+\dontrun{
 library(vlad)
 ## see Steiner et al. 2000 p. 445 or Steiner (2014) p. 234
 coeff <- c("(Intercept)" = -3.68, "Parsonnet" = 0.077)
@@ -57,7 +58,6 @@ mort1 <- predict(GLM1, newdata = data.frame(s = usi), type = "response")
 all.equal(as.numeric(mort), as.numeric(mort1))
 df1 <- data.frame(s = usi, mprob, mort)
 
-\dontrun{
 ## Plot mortality and estimated probability to die of phase I data
 library(ggplot2)
 qplot(data = df1, s, mprob, geom = c("line", "point")) + theme_classic()

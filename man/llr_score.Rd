@@ -31,6 +31,7 @@ Returns a single value which is the log-likelihood ratio score.
 Compute the log-likelihood ratio score.
 }
 \examples{
+\dontrun{
 library(vlad)
 ## see Steiner et al. (2000) p. 446 or Steiner (2014) p. 234
 coeff <- c("(Intercept)" = -3.68, "Parsonnet" = 0.077)
@@ -63,7 +64,7 @@ lapply(seq_along(df$Parsonnet), function(i) round(llr_score(df = df[i, ], coeff 
 
 ## detecting an decrease in the failure rate:
 round(llr_score(df = data.frame(19L, 0), coeff = coeff, RA = 1/2), 5)
-
+}
 }
 \references{
 Steiner SH, Cook RJ, Farewell VT and Treasure T (2000).
