@@ -405,7 +405,7 @@ double racusum_arl_mc(NumericMatrix pmix, double RA, double RQ, double h, double
 }
 
 // [[Rcpp::export(.racusum_crit_mc)]]
-double racusum_crit_mc2(NumericMatrix pmix, double L0, double RA, double R, double scaling, int rounding, int method, int jmax, bool verbose) {
+double racusum_crit_mc(NumericMatrix pmix, double L0, double RA, double R, double scaling, int rounding, int method, int jmax, bool verbose) {
   double L1, h, h1;
   int i;
   for (i = 1; i < 10; i++ ) {

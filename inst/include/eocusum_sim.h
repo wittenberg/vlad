@@ -9,22 +9,14 @@ using namespace Rcpp;
 
 double gettherisk(int parsonnetscore, NumericVector coeff);
 
-//double optimal_k(double QA, IntegerVector parsonnetscores, NumericVector coeff);
-double optimal_k(double QA, DataFrame df, NumericVector coeff, bool yemp = true);
-// Rcpp::Nullable<Rcpp::NumericVector> coeff = R_NilValue
+double optimal_k(DataFrame pmix, double RA, bool yemp = FALSE);
 
-double calceo(DataFrame df, NumericVector coeff, bool yemp = true);
+int eocusum_arl_sim(int r, DataFrame pmix, double k, double h, double RQ = 1, bool yemp = FALSE, int side = 1);
 
-double calceo2(DataFrame df, NumericVector coeff, NumericVector coeff2, double QS = 1);
-
-int eocusum_arl_sim(int r, double k, double h, DataFrame df, NumericVector coeff, bool yemp = true, int side = 1);
-
-int eocusum_arloc_sim(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS = 1, int side = 1);
-
-int eocusum_ad_sim(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS = 1, int side = 1, int type= 1, int m = 5);
-int eocusum_ad_sim11(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS, int m);
-int eocusum_ad_sim12(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS, int m);
-int eocusum_ad_sim21(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS, int m);
-int eocusum_ad_sim22(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS, int m);
+int eocusum_ad_sim(int r, DataFrame pmix, double k, double h, double RQ, int side, int type, int m);
+int eocusum_ad_sim11(int r, DataFrame pmix, double k, double h, double RQ, int m);
+int eocusum_ad_sim12(int r, DataFrame pmix, double k, double h, double RQ, int m);
+int eocusum_ad_sim21(int r, DataFrame pmix, double k, double h, double RQ, int m);
+int eocusum_ad_sim22(int r, DataFrame pmix, double k, double h, double RQ, int m);
 
 #endif

@@ -1,6 +1,6 @@
 bibentry(
   bibtype = "Manual",
-  title = "{vlad}: Variable Life Adjusted Display",
+  title = "{vlad}: Variable Life Adjusted Display and Other Risk-Adjusted Quality Control Charts",
   author = "Philipp Wittenberg and Sven Knoth",
   year = sub("-.*", "", meta$Date),
   note = sprintf("R package version: %s", meta$Version),

@@ -10,18 +10,17 @@
 #' @examples
 #' \dontrun{
 #' library(vlad)
-#' library("dplyr")
+#' library(dplyr)
 #' data("cardiacsurgery", package = "spcadjust")
 #'
-#' ## preprocess data to 30 day mortality and subset phase I (In-control) of surgeons 2
-#' S2I <- cardiacsurgery %>% rename(s = Parsonnet) %>%
+#' ## preprocess data to 30 day mortality
+#' SALL <- cardiacsurgery %>% rename(s = Parsonnet) %>%
 #'   mutate(y = ifelse(status == 1 & time <= 30, 1, 0),
-#'          phase = factor(ifelse(date < 2*365, "I", "II"))) %>%
-#'   filter(phase == "I", surgeon == 2) %>% select(s, y)
-#'
-#' ## estimate coefficients from logit model
-#' coeff1 <- round(coef(glm(y ~ s, data = S2I, family = "binomial")), 3)
-#'
-#' ## control limit for detecting deterioration RA = 2:
-#' racusum_crit_sim(L0 = 740, df = S2I, coeff = coeff1, m = 10^3, nc = 4)
-#'}
+#'          phase = factor(ifelse(date < 2*365, "I", "II")))
+#' SI <- subset(SALL, phase == "I")
+#' y <- subset(SALL, select = y)
+#' GLM <- glm(y ~ s, data = SI, family = "binomial")
+#' pi1 <- predict(GLM, type = "response", newdata = data.frame(s = SALL$s))
+#' pmix <- data.frame(y, pi1, pi1)
+#' h <- racusum_crit_sim(pmix = pmix, L0 = 370, RA = 2, nc = 4, verbose = TRUE)
+#' }

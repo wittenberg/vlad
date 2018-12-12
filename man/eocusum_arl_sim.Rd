@@ -4,23 +4,19 @@
 \alias{eocusum_arl_sim}
 \title{Compute ARLs of EO-CUSUM control charts using simulation}
 \usage{
-eocusum_arl_sim(r, k, h, df, coeff, yemp = TRUE, side = "low")
+eocusum_arl_sim(r, pmix, k, h, RQ = 1, yemp = FALSE, side = "low")
 }
 \arguments{
 \item{r}{Integer. Number of of simulation runs.}
+
+\item{pmix}{Data Frame. A three column data frame. First column is the operation outcome.
+Second column are the predicted probabilities from the risk model. Third
+ column can be either the predicted probabilities from the risk model or TODO .............}
 
 \item{k}{Double. Reference value of the CUSUM control chart. Either \code{0} or a positive
 value. Can be determined with function \code{\link{optimal_k}}.}
 
 \item{h}{Double. Decision interval (alarm limit, threshold) of the CUSUM control chart.}
-
-\item{df}{Data Frame. First column Parsonnet Score and second column outcome of each operation.}
-
-\item{coeff}{Numeric Vector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
-from the binary logistic regression model.}
-
-\item{yemp}{Logical. If \code{TRUE} use observed outcome value, if \code{FALSE} use estimated
-binary logistc regression model.}
 
 \item{side}{Character. Default is \code{"low"} to calculate ARL for the upper arm of the V-mask.
 If side = \code{"up"}, calculate the lower arm of the V-mask.}

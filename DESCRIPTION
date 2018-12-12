@@ -1,7 +1,7 @@
 Package: vlad
 Type: Package
 Title: Variable Life Adjusted Display and Other Risk-Adjusted Quality Control Charts
-Version: 0.2.0
+Version: 0.2.0.9000
 Authors@R: c(
             person("Philipp", "Wittenberg", 
             email = "pwitten@hsu-hh.de", 
@@ -14,13 +14,7 @@ Authors@R: c(
 Depends: R (>= 2.10)
 Maintainer: Philipp Wittenberg <pwitten@hsu-hh.de>
 BugReports: https://github.com/wittenberg/vlad/issues
-Description: Contains functions to set up risk-adjusted quality control charts
-    in health care. For the variable life adjusted display (VLAD) proposed by 
-    Lovegrove et al. (1997) <doi:10.1016/S0140-6736(97)06507-0> signaling rules
-    derived in Wittenberg et al. (2018) <doi: 10.1002/sim.7647> are implemented. 
-    Additionally, for the risk-adjusted cumulative sum chart based on log-likelihood
-    ratio statistic introduced by Steiner et al. (2000) <doi:10.1093/biostatistics/1.4.441>
-    average run length and control limits can be computed.
+Description: Contains functions to set up risk-adjusted quality control charts in health care. For the variable life adjusted display (VLAD) proposed by Lovegrove et al. (1997) <doi:10.1016/S0140-6736(97)06507-0> signaling rules derived in Wittenberg et al. (2018) <doi: 10.1002/sim.7647> are implemented. Additionally, for the risk-adjusted cumulative sum chart based on log-likelihood ratio statistic introduced by Steiner et al. (2000) <doi:10.1093/biostatistics/1.4.441> average run length and control limits can be computed.
 License: GPL (>= 2)
 NeedsCompilation: yes
 SystemRequirements: C++11

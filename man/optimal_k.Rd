@@ -2,32 +2,31 @@
 % Please edit documentation in R/eocusum_sim.R
 \name{optimal_k}
 \alias{optimal_k}
-\title{Compute optimal k}
+\title{Compute approximate optimal k}
 \usage{
-optimal_k(QA, df, coeff, yemp = TRUE)
+optimal_k(pmix, RA, yemp = FALSE)
 }
 \arguments{
-\item{QA}{Double. Defines the performance of a surgeon with the odds ratio ratio of death
-\code{Q}.}
+\item{pmix}{Data Frame. A three column data frame. First column is the operation outcome.
+Second column are the predicted probabilities from the risk model. Third
+ column can be either the predicted probabilities from the risk model or TODO .............}
 
-\item{df}{Data Frame. First column Parsonnet Score and second column outcome of each operation.}
+\item{RA}{Double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
+in performance with increased mortality risk by doubling the odds Ratio \code{RA = 2}. Detecting
+ improvement in performance with decreased mortality risk by halving the odds ratio of death
+ \code{RA = 1/2}. Odds ratio of death under the null hypotheses is \code{1}.}
 
-\item{coeff}{Numeric Vector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
-from the binary logistic regression model. For more information see details.}
-
-\item{yemp}{Logical. If \code{TRUE} use observed outcome value, if \code{FALSE} use estimated
-binary logistc regression model.}
+\item{yemp}{Logical. If \code{TRUE}, use emirical outcome values, else use model.}
 }
 \value{
-Returns a single value which is the approximate optimal \code{k} for a set of given
-Parsonnet scores.
+Returns a single value which is the approximate optimal \code{k}.
 }
 \description{
-Compute optimal k.
+Compute approximate optimal k.
 }
 \details{
-Formula deterioration:  \deqn{ k{det} = \frac{Q{A} - 1 - log(Q{A})}{log(Q{A})}\bar{p} , Q{A} > 1    }
-         Formula improvement:    \deqn{ k{imp} = \frac{1 - Q{A} + log(Q{A})}{log(Q{A})}\bar{p} , Q{A} < 1    }
+Formula deterioration:  \deqn{ k{det} = \frac{R{A} - 1 - log(R{A})}{log(R{A})}\bar{p} , R{A} > 1    }
+         Formula improvement:    \deqn{ k{imp} = \frac{1 - R{A} + log(R{A})}{log(R{A})}\bar{p} , R{A} < 1    }
 }
 \examples{
 \dontrun{

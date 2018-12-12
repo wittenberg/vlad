@@ -4,31 +4,32 @@
 \alias{racusum_crit_sim}
 \title{Compute alarm threshold of RA-CUSUM control charts using simulation}
 \usage{
-racusum_crit_sim(L0, df, coeff, R0 = 1, RA = 2, m = 100,
-  yemp = TRUE, nc = 1, jmax = 4, verbose = FALSE)
+racusum_crit_sim(L0, pmix, RA = 2, RQ = 1, yemp = FALSE, m = 10000,
+  nc = 1, hmax = 30, jmax = 4, verbose = FALSE)
 }
 \arguments{
 \item{L0}{Double. Prespecified in-control Average Run Length.}
 
-\item{df}{Data Frame. First column are Parsonnet Score values within a range of \code{0} to
-\code{100} representing the preoperative patient risk. The second column are binary (\code{0/1})
- outcome values of each operation.}
-
-\item{coeff}{Numeric Vector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
-from the binary logistic regression model.}
-
-\item{R0}{Double. Odds ratio of death under the null hypotheses.}
+\item{pmix}{Data Frame. A three column data frame. First column is the operation outcome.
+Second column are the predicted probabilities from the risk model. Third
+ column can be either the predicted probabilities from the risk model or TODO .............}
 
 \item{RA}{Double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
-in performance with increased mortality risk by doubling the odds Ratio \code{RA = 2}.
-Detecting improvement in performance with decreased mortality risk by halving the odds ratio of
- death \code{RA = 1/2}.}
+in performance with increased mortality risk by doubling the odds Ratio \code{RA = 2}. Detecting
+ improvement in performance with decreased mortality risk by halving the odds ratio of death
+ \code{RA = 1/2}. Odds ratio of death under the null hypotheses is \code{1}.}
 
-\item{m}{Integer. Number of simulation runs.}
+\item{RQ}{Double. Defines the true performance of a surgeon with the odds ratio ratio of death
+\code{RQ}. Use \code{RQ = 1} to compute the in-control ARL and other values to compute the
+out-of-control ARL.}
 
 \item{yemp}{Logical. If \code{TRUE}, use emirical outcome values, else use model.}
 
+\item{m}{Integer. Number of simulation runs.}
+
 \item{nc}{Integer. Number of cores used for parallel processing.}
+
+\item{hmax}{Integer. Maximum value of \code{h} for the grid search.}
 
 \item{jmax}{Integer. Number of digits for grid search.}
 
@@ -43,27 +44,25 @@ Compute alarm threshold of risk-adjusted cumulative sum control charts using
  simulation.
 }
 \details{
-The function \code{racusum_crit_sim} determines the control limit \code{h} for given
- in-control ARL (\code{L0}) by applying a multi-stage search procedure which includes secant
- rule and the parallel version of \code{\link{racusum_arl_sim}} using \code{\link{mclapply}}.
+Determines the control limit ("\code{h}") for given in-control ARL (\code{"L0"})
+applying a grid search using \code{\link{racusum_arl_sim}} and \code{\link{parSapply}}.
 }
 \examples{
 \dontrun{
 library(vlad)
-library("dplyr")
+library(dplyr)
 data("cardiacsurgery", package = "spcadjust")
 
-## preprocess data to 30 day mortality and subset phase I (In-control) of surgeons 2
-S2I <- cardiacsurgery \%>\% rename(s = Parsonnet) \%>\%
+## preprocess data to 30 day mortality
+SALL <- cardiacsurgery \%>\% rename(s = Parsonnet) \%>\%
   mutate(y = ifelse(status == 1 & time <= 30, 1, 0),
-         phase = factor(ifelse(date < 2*365, "I", "II"))) \%>\%
-  filter(phase == "I", surgeon == 2) \%>\% select(s, y)
-
-## estimate coefficients from logit model
-coeff1 <- round(coef(glm(y ~ s, data = S2I, family = "binomial")), 3)
-
-## control limit for detecting deterioration RA = 2:
-racusum_crit_sim(L0 = 740, df = S2I, coeff = coeff1, m = 10^3, nc = 4)
+         phase = factor(ifelse(date < 2*365, "I", "II")))
+SI <- subset(SALL, phase == "I")
+y <- subset(SALL, select = y)
+GLM <- glm(y ~ s, data = SI, family = "binomial")
+pi1 <- predict(GLM, type = "response", newdata = data.frame(s = SALL$s))
+pmix <- data.frame(y, pi1, pi1)
+h <- racusum_crit_sim(pmix = pmix, L0 = 370, RA = 2, nc = 4, verbose = TRUE)
 }
 }
 \references{

@@ -10,215 +10,228 @@ double gettherisk(int parsonnetscore, NumericVector coeff) {
 }
 
 // [[Rcpp::export(.optimal_k)]]
-double optimal_k(double QA, DataFrame df, NumericVector coeff, bool yemp) {
+double optimal_k(DataFrame pmix, double RA, bool yemp) {
   int n;
   double optk = 0, sum = 0, pbar;
-  IntegerVector parsonnetscores = df[0];
-  NumericVector outcome = df[1];
+  NumericVector y, pt;
 
-  n = df.nrows();
+  y = pmix[0];
+  pt = pmix[1];
+  n = pmix.nrows();
+
   if (yemp == true) {
-    for (int i=0; i < n; ++i) {sum += outcome[i];}
+    for (int i=0; i < n; ++i) {sum += y[i];}
     pbar = sum/n;
   } else if (yemp == false) {
-  //} else if (yemp == false & coeff.isNotNull()) { NULL not working yet
-    for (int i=0; i < n; ++i) {sum += gettherisk(parsonnetscores[i], coeff);}
+    for (int i=0; i < n; ++i) {sum += pt[i];}
     pbar = sum/n;
   }
-  if (QA > 1) {optk = pbar * ( QA - 1 - log(QA) ) / log(QA);}                     // Detrerioration
-  else if ( (QA > 0) & (QA < 1) ){optk = pbar * ( 1 - QA + log(QA) ) / log(QA);}  // Improvement
+  if (RA >= 1) { optk = pbar * ( RA - 1 - log(RA) ) / log(RA); }   // Detrerioration
+  else if ( (RA > 0) & (RA < 1) ) {
+    optk = pbar * ( 1 - RA + log(RA) ) / log(RA); }                 // Improvement
   return optk;
 }
 
-// [[Rcpp::export(.calceo)]]
-double calceo(DataFrame df, NumericVector coeff, bool yemp) {
-  int y, row;
-  double x;
-  NumericVector col1, col2, rnd;
-
-  col1 = df[0];
-  col2 = df[1];
-  rnd = runif(1);
-  row = rnd[0] * df.nrows();
-  x = gettherisk(col1[row], coeff);
-  if (yemp == true) {
-    y = col2[row];
-  }
-  else {
-    NumericVector rndm = runif(1);
-    double rdm = as<double>(rndm);
-    y = (rdm < x ? 1 : 0);
-  }
-  return x - y;
-}
-
-double calceo2(DataFrame df, NumericVector coeff, NumericVector coeff2, double QS) {
-  int y, row, s;
-  double x, Qstar, xstar, rdm, x2;
-  NumericVector col1, col2, rnd, rndm;
-
-  col1 = df[0];                                       // Parsonnet score stored in the dataframe
-  col2 = df[1];                                       // Surgical outcome stored in the dataframe
-  rnd = runif(1);
-  row = rnd[0] * df.nrows();
-  s = col1[row];                                      // Step 1: s=Parsonnet score
-  x = gettherisk(col1[row], coeff);                   // Step 2
-  Qstar = QS;                                         // Step 3
-  xstar = (Qstar*x) / (1 - x + Qstar * x);
-  rndm = runif(1);
-  rdm = as<double>(rndm);
-  y = (rdm < xstar ? 1 : 0);                          // Step 4: y=Surgical outcome
-  x2 = gettherisk(s, coeff2);                         // Step 5: x=True probability of death
-  return x2 - y;
-}
-
 // [[Rcpp::export(.eocusum_arl_sim)]]
-int eocusum_arl_sim(int r, double k, double h, DataFrame df, NumericVector coeff, bool yemp, int side) {
-  int rl = 0;
-  double z = 0;
+int eocusum_arl_sim(int r, DataFrame pmix, double k, double h, double RQ, bool yemp, int side) {
+  double qn = 0, z = 0, x, pistar, rdm, pt;
+  int y, row, rl = 0;
+  NumericVector pi1, pi2, pi3, rnd, rndm;
+  pi1 = pmix[0];                        // Empirical data
+  pi2 = pmix[1];                        // 2st Predicted probability
+  pi3 = pmix[2];                        //
   if (side == 1) {                                    // lower side (deterioration)
     double tn = 0;
     do{
       rl++;
-      z = calceo(df, coeff, yemp);
+      rnd = runif(1);
+      row = rnd[0] * pmix.nrows();      // draw random row from data
+      x = pi2[row];                    // probability of death
+      pistar = (RQ * x) / (1 - x + RQ * x);
+      if (yemp == true & RQ == 1) {
+        y = pi1[row];
+        pt = pistar;
+      } else {                          // Surgical outcome empirical
+        rndm = runif(1);
+        rdm = as<double>(rndm);
+        y = (rdm < pistar ? 1 : 0);       // Surgical outcome
+        pt = pi3[row];
+      }
+      z = pt - y;
       tn = fmin(0, tn + z + k);
     } while (-tn <= h);
     return rl;
   }
-  else if (side == 2){                                // upper side (improvement)
+  else {                                // upper side (improvement)
     double qn = 0;
     do{
       rl++;
-      z = calceo(df, coeff, yemp);
+      rnd = runif(1);
+      row = rnd[0] * pmix.nrows();      // draw random row from data
+      x = pi2[row];                    // probability of death
+      pistar = (RQ * x) / (1 - x + RQ * x);
+      if (yemp == true) {
+        y = pi1[row];
+        pt = pistar;
+      } else {          // Surgical outcome empirical
+        rndm = runif(1);
+        rdm = as<double>(rndm);
+        y = (rdm < pistar ? 1 : 0);       // Surgical outcome
+        pt = pi3[row];
+      }
+      z = pt - y;
       qn = fmax(0, qn + z - k);
     } while (qn <= h);
     return rl;
   }
-  return rl;
-}
-
-
-// [[Rcpp::export(.eocusum_arloc_sim)]]
-int eocusum_arloc_sim(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS, int side) {
-  int rl = 0;
-  double z = 0;
-  if (side == 1) {                                         // lower side (deterioration)
-    double tn = 0;
-    do{
-      rl++;
-      z = calceo2(df, coeff, coeff2, QS);
-      tn = fmin(0, tn + z + k);
-    } while (-tn <= h);
-    return rl;
-  }
-  else if (side == 2){                                    // upper side (improvement)
-    double qn = 0;
-    do{
-      rl++;
-      z = calceo2(df, coeff, coeff2, QS);
-      qn = fmax(0, qn + z - k);
-    } while (qn <= h);
-    return rl;
-  }
-  return rl;
 }
 
 // [[Rcpp::export(.eocusum_ad_sim)]]
-int eocusum_ad_sim(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS, int side, int type, int m) {
+int eocusum_ad_sim(int r, DataFrame pmix, double k, double h, double RQ, int side, int type, int m) {
   if (type == 1) {                                                  // conditional steady-state ARL (EO-CUSUM)
     if (side == 1) {
-      return eocusum_ad_sim11(r, k, h, df, coeff, coeff2, QS, m); // lower side (deterioration)
+      return eocusum_ad_sim11(r, pmix, k, h, RQ, m); // lower side (deterioration)
     } else {
-      return eocusum_ad_sim12(r, k, h, df, coeff, coeff2, QS, m); // upper side (improvement)
+      return eocusum_ad_sim12(r, pmix, k, h, RQ, m); // upper side (improvement)
     }
   } else {                                                          // cyclical steady-state ARL (EO-CUSUM)
-    if (side == 1) {
-      return eocusum_ad_sim21(r, k, h, df, coeff, coeff2, QS, m); // lower side (deterioration)
+    if (side == 2) {
+      return eocusum_ad_sim21(r, pmix, k, h, RQ, m); // lower side (deterioration)
     } else {
-      return eocusum_ad_sim22(r, k, h, df, coeff, coeff2, QS, m); // upper side (improvement)
+      return eocusum_ad_sim22(r, pmix, k, h, RQ, m); // upper side (improvement)
     }
   }
 }
 
 // conditional steady-state ARL (EO-CUSUM) -- m = #ic-observations with m >= 0
 // lower side (deterioration)
-int eocusum_ad_sim11(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS, int m) {
-  int success = 0, rl = 0;
-  double z = 0;
-  double tn = 0, Q = 1;
+int eocusum_ad_sim11(int r, DataFrame pmix, double k, double h, double RQ, int m) {
+  NumericVector pi2, pi3, rnd, rndm;
+  int success = 0, rl = 0, y, row;
+  double z = 0, x, pistar, rdm, pt;
+  double tn = 0, R = 1;
+  pi2 = pmix[1];                                 // 2st Predicted probability
+  pi3 = pmix[2];                                 // 2st Predicted probability
   while ( !success ) {
     rl = 0;
     tn = 0;
-    Q = 1;
+    R = 1;
     do{
       rl++;
-      if ( rl > m) Q = QS;
-      z = calceo2(df, coeff, coeff2, Q);
+      if ( rl > m) R = RQ;
+      rnd = runif(1);
+      row = rnd[0] * pmix.nrows();                // draw random row from data
+      x = pi2[row];                               // probability of death
+      pistar = (R * x) / (1 - x + R * x);
+      rndm = runif(1);
+      rdm = as<double>(rndm);
+      y = (rdm < pistar ? 1 : 0);                 // Surgical outcome
+      pt = pi3[row];
+      z = pt - y;
       tn = fmin(0, tn + z + k);
-      } while (-tn <= h);
-      if ( rl > m ) {
-        rl += -m;
-        success = 1;
-      }
+    } while (-tn <= h);
+    if ( rl > m ) {
+      rl += -m;
+      success = 1;
     }
+  }
   return rl;
 }
 
 // conditional steady-state ARL (EO-CUSUM) -- m = #ic-observations with m >= 0
 // upper side (improvement)
-int eocusum_ad_sim12(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS , int m) {
-  int success = 0, rl = 0;
-  double z = 0;
-  double qn = 0, Q = 1;
+int eocusum_ad_sim12(int r, DataFrame pmix, double k, double h, double RQ, int m) {
+  NumericVector pi2, pi3, rnd, rndm;
+  int success = 0, rl = 0, y, row;
+  double z = 0, x, pistar, rdm, pt;
+  double qn = 0, R = 1;
+  pi2 = pmix[1];                                 // 2st Predicted probability
+  pi3 = pmix[2];                                 // 2st Predicted probability
   while ( !success ) {
     rl = 0;
     qn = 0;
-    Q = 1;
+    R = 1;
     do{
       rl++;
-      if ( rl > m) Q = QS;
-      z = calceo2(df, coeff, coeff2, Q);
+      if ( rl > m) R = RQ;
+      rnd = runif(1);
+      row = rnd[0] * pmix.nrows();                // draw random row from data
+      x = pi2[row];                               // probability of death
+      pistar = (R * x) / (1 - x + R * x);
+      rndm = runif(1);
+      rdm = as<double>(rndm);
+      y = (rdm < pistar ? 1 : 0);                 // Surgical outcome
+      pt = pi3[row];
+      z = pt - y;
       qn = fmax(0, qn + z - k);
-      } while (qn <= h);
-      if ( rl > m ) {
-        rl += -m;
-        success = 1;
-      }
+    } while (qn <= h);
+    if ( rl > m ) {
+      rl += -m;
+      success = 1;
     }
+  }
   return rl;
 }
 
 // cyclical steady-state ARL (EO-CUSUM) -- m = #ic-observations with m >= 0
 // lower side (deterioration)
-int eocusum_ad_sim21(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS, int m) {
-  int rl = 0;
-  double z = 0;
-  double tn = 0, Q = 1;
+int eocusum_ad_sim21(int r, DataFrame pmix, double k, double h, double RQ, int m) {
+  NumericVector pi2, pi3, rnd, rndm;
+  int rl = 0, y, row;
+  double z = 0, x, pistar, rdm, pt;
+  double tn = 0, R = 1;
+  pi2 = pmix[1];                                 // 2st Predicted probability
+  pi3 = pmix[2];                                 // 2st Predicted probability
+  rl = 0;
+  tn = 0;
+  R = 1;
   do{
     rl++;
-    if ( rl > m) Q = QS;
-    z = calceo2(df, coeff, coeff2, Q);
+    if ( rl > m) R = RQ;
+    rnd = runif(1);
+    row = rnd[0] * pmix.nrows();                // draw random row from data
+    x = pi2[row];                               // probability of death
+    pistar = (R * x) / (1 - x + R * x);
+    rndm = runif(1);
+    rdm = as<double>(rndm);
+    y = (rdm < pistar ? 1 : 0);                 // Surgical outcome
+    pt = pi3[row];
+    z = pt - y;
     tn = fmin(0, tn + z + k);
     if ( rl <= m ) {
       if ( -tn > h) {
         tn = 0;
       }
     }
-    } while (-tn <= h);
+  } while (-tn <= h);
   rl += -m ;
   return rl;
 }
 
 // cyclical steady-state ARL (EO-CUSUM) -- m = #ic-observations with m >= 0
 // upper side (improvement)
-int eocusum_ad_sim22(int r, double k, double h, DataFrame df, NumericVector coeff, NumericVector coeff2, double QS, int m) {
-  int rl = 0;
-  double z = 0;
-  double qn = 0, Q = 1;
+int eocusum_ad_sim22(int r, DataFrame pmix, double k, double h, double RQ, int m) {
+  NumericVector pi2, pi3, rnd, rndm;
+  int rl = 0, y, row;
+  double z = 0, x, pistar, rdm, pt;
+  double qn = 0, R = 1;
+  pi2 = pmix[1];                                 // 2st Predicted probability
+  pi3 = pmix[2];                                 // 2st Predicted probability
+  rl = 0;
+  qn = 0;
+  R = 1;
   do{
     rl++;
-    if ( rl > m) Q = QS;
-    z = calceo2(df, coeff, coeff2, Q);
+    if ( rl > m) R = RQ;
+    rnd = runif(1);
+    row = rnd[0] * pmix.nrows();                // draw random row from data
+    x = pi2[row];                               // probability of death
+    pistar = (R * x) / (1 - x + R * x);
+    rndm = runif(1);
+    rdm = as<double>(rndm);
+    y = (rdm < pistar ? 1 : 0);                 // Surgical outcome
+    pt = pi3[row];
+    z = pt - y;
     qn = fmax(0, qn + z - k);
     if ( rl <= m ) {
       if ( qn > h) {
@@ -226,6 +239,6 @@ int eocusum_ad_sim22(int r, double k, double h, DataFrame df, NumericVector coef
       }
     }
   } while (qn <= h);
-  rl += -m;
+  rl += -m ;
   return rl;
 }

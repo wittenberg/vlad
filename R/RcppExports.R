@@ -5,24 +5,16 @@
     .Call(`_vlad_gettherisk`, parsonnetscore, coeff)
 }
 
-.optimal_k <- function(QA, df, coeff, yemp) {
-    .Call(`_vlad_optimal_k`, QA, df, coeff, yemp)
+.optimal_k <- function(pmix, RA, yemp) {
+    .Call(`_vlad_optimal_k`, pmix, RA, yemp)
 }
 
-.calceo <- function(df, coeff, yemp) {
-    .Call(`_vlad_calceo`, df, coeff, yemp)
+.eocusum_arl_sim <- function(r, pmix, k, h, RQ, yemp, side) {
+    .Call(`_vlad_eocusum_arl_sim`, r, pmix, k, h, RQ, yemp, side)
 }
 
-.eocusum_arl_sim <- function(r, k, h, df, coeff, yemp, side) {
-    .Call(`_vlad_eocusum_arl_sim`, r, k, h, df, coeff, yemp, side)
-}
-
-.eocusum_arloc_sim <- function(r, k, h, df, coeff, coeff2, QS, side) {
-    .Call(`_vlad_eocusum_arloc_sim`, r, k, h, df, coeff, coeff2, QS, side)
-}
-
-.eocusum_ad_sim <- function(r, k, h, df, coeff, coeff2, QS, side, type, m) {
-    .Call(`_vlad_eocusum_ad_sim`, r, k, h, df, coeff, coeff2, QS, side, type, m)
+.eocusum_ad_sim <- function(r, pmix, k, h, RQ, side, type, m) {
+    .Call(`_vlad_eocusum_ad_sim`, r, pmix, k, h, RQ, side, type, m)
 }
 
 .racusum_arl_mc <- function(pmix, RA, RQ, h, scaling, rounding, method) {
@@ -30,7 +22,7 @@
 }
 
 .racusum_crit_mc <- function(pmix, L0, RA, R, scaling, rounding, method, jmax, verbose) {
-    .Call(`_vlad_racusum_crit_mc2`, pmix, L0, RA, R, scaling, rounding, method, jmax, verbose)
+    .Call(`_vlad_racusum_crit_mc`, pmix, L0, RA, R, scaling, rounding, method, jmax, verbose)
 }
 
 .llr_score <- function(df, coeff, R0, RA, yemp) {
@@ -41,15 +33,11 @@
     .Call(`_vlad_bcusum_arl_sim`, r, h, df, R0, RA)
 }
 
-.racusum_arl_sim <- function(r, coeff, h, df, R0, RA, yemp) {
-    .Call(`_vlad_racusum_arl_sim`, r, coeff, h, df, R0, RA, yemp)
+.racusum_ad_sim <- function(r, pmix, h, RA, RQ, m, type) {
+    .Call(`_vlad_racusum_ad_sim`, r, pmix, h, RA, RQ, m, type)
 }
 
-.racusum_arloc_sim <- function(r, coeff, coeff2, h, df, R0, RA, RQ) {
-    .Call(`_vlad_racusum_arloc_sim`, r, coeff, coeff2, h, df, R0, RA, RQ)
-}
-
-.racusum_adoc_sim <- function(r, coeff, coeff2, h, df, R0, RA, RQ, m, type) {
-    .Call(`_vlad_racusum_adoc_sim`, r, coeff, coeff2, h, df, R0, RA, RQ, m, type)
+.racusum_arl_sim <- function(r, pmix, h, RA, RQ, yemp) {
+    .Call(`_vlad_racusum_arl_sim`, r, pmix, h, RA, RQ, yemp)
 }
 

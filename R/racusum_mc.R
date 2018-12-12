@@ -98,6 +98,7 @@ racusum_crit_mc <- function(pmix, L0, RA, RQ, scaling = 600, rounding = "p", met
     imethod <- 1
   }
   jmax <- as.integer(jmax)
+  if (is.na(jmax) || jmax <= 0) {stop("Number of digits for grid search 'jmax' must be a positive integer")}
   verbose <- as.logical(verbose)
   .racusum_crit_mc(pmix, L0, RA, RQ, scaling, irounding, imethod, jmax, verbose)
 }

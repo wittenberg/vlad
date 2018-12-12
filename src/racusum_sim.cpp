@@ -24,26 +24,6 @@ double llr_score(DataFrame df, NumericVector coeff, double R0, double RA, bool y
   return wt;
 }
 
-double llr_score_oc(DataFrame df, NumericVector coeff, NumericVector coeff2, double R0, double RA, double RQ){
-  int y, row, s;
-  double wt, x, Qstar, xstar, rdm, pt;
-  NumericVector col1, col2, rnd, rndm;
-
-  col1 = df[0];                                       // Parsonnet score stored in the dataframe
-  col2 = df[1];                                       // Surgical outcome stored in the dataframe
-  rnd = runif(1);
-  row = rnd[0] * df.nrows();
-  s = col1[row];                                      // Step 1: s=Parsonnet score
-  x = gettherisk(s, coeff);                           // Step 2:
-  Qstar = RQ;                                         // Step 3:
-  xstar = (Qstar*x) / (1-x+Qstar*x);
-  rndm = runif(1);
-  rdm = as<double>(rndm);
-  y = (rdm < xstar ? 1 : 0);                          // Step 4: y=Surgical outcome
-  pt = gettherisk(s, coeff2);                         // Step 5: x=True probability of death
-  wt = (  y == 1 ? log( ((1 - pt + R0*pt)*RA) / ((1 - pt + RA*pt)*R0) ) : log( (1 - pt + R0*pt) / (1 - pt + RA*pt) )  );
-  return wt;
-}
 
 double llr_score_noadjust(DataFrame df, double R0, double RA){
   NumericVector col2, rnd;
@@ -70,34 +50,14 @@ int bcusum_arl_sim(int r, double h, DataFrame df, double R0, double RA) {
   return rl;
 }
 
-// [[Rcpp::export(.racusum_arl_sim)]]
-int racusum_arl_sim(int r, NumericVector coeff, double h, DataFrame df, double R0, double RA, bool yemp) {
-  double qn = 0, wt = 0;
-  int rl = 0;
-  do{
-    rl++;
-    wt = llr_score(df, coeff, R0, RA, yemp);
-    qn = fmax(0, qn + wt);
-  } while (qn <= h);
-  return rl;
-}
-
-// [[Rcpp::export(.racusum_arloc_sim)]]
-int racusum_arloc_sim(int r, NumericVector coeff, NumericVector coeff2, double h, DataFrame df, double R0, double RA, double RQ) {
-  double qn = 0, wt = 0;
-  int rl = 0;
-  do{
-    rl++;
-    wt = llr_score_oc(df, coeff, coeff2, R0, RA, RQ);
-    qn = fmax(0, qn + wt);
-  } while (qn <= h);
-  return rl;
-}
-
-// [[Rcpp::export(.racusum_adoc_sim)]]
-int racusum_adoc_sim(int r, NumericVector coeff, NumericVector coeff2, double h, DataFrame df, double R0, double RA,  double RQ, int m, int type) {
+// [[Rcpp::export(.racusum_ad_sim)]]
+int racusum_ad_sim(int r, DataFrame pmix, double h, double RA, double RQ, int m, int type) {
   // conditional steady-state ARL (RA-CUSUM) -- m = #ic-observations with m >= 0
-  int rl = 0;
+  int rl = 0, y, row;
+  NumericVector pi2, pi3, rnd, rndm;
+  double wt, x, pistar, rdm, pt, logRA = log(RA);
+  pi2 = pmix[1];                                 // 2st Predicted probability
+  pi3 = pmix[2];                                 // 2st Predicted probability
   if (type == 1) {
     int success = 0, rl = 0;
     double qn = 0, wt = 0, R = 1;
@@ -108,7 +68,15 @@ int racusum_adoc_sim(int r, NumericVector coeff, NumericVector coeff2, double h,
       do {
         rl++;
         if ( rl > m) R = RQ;
-        wt = llr_score_oc(df, coeff, coeff2, R0, RA, R);
+        rnd = runif(1);
+        row = rnd[0] * pmix.nrows();
+        x = pi2[row];                           // True probability of death
+        pistar = (R * x) / (1 - x + R * x);
+        rndm = runif(1);
+        rdm = as<double>(rndm);
+        y = (rdm < pistar ? 1 : 0);             // Step 4: y=Surgical outcome
+        pt = pi3[row];
+        wt = -log(1 - pt + RA * pt) + y * logRA;
         qn = fmax(0, qn + wt);
       } while ( qn <= h );
       if ( rl > m ) {
@@ -118,13 +86,21 @@ int racusum_adoc_sim(int r, NumericVector coeff, NumericVector coeff2, double h,
     }
     return rl;
   } else if (type == 2) {
-  // cyclical steady-state ARL (RA-CUSUM) -- m = #ic-observations with m >= 0
+    // cyclical steady-state ARL (RA-CUSUM) -- m = #ic-observations with m >= 0
     int rl = 0;
     double qn = 0, wt = 0, R = 1;
     do {
       rl++;
-      if ( rl > m ) R = RQ;
-      wt = llr_score_oc(df, coeff, coeff2, R0, RA, R);
+      if ( rl > m) R = RQ;
+      rnd = runif(1);
+      row = rnd[0] * pmix.nrows();
+      x = pi2[row];                           // True probability of death
+      pistar = (R * x) / (1 - x + R * x);
+      rndm = runif(1);
+      rdm = as<double>(rndm);
+      y = (rdm < pistar ? 1 : 0);             // Step 4: y=Surgical outcome
+      pt = pi3[row];
+      wt = -log(1 - pt + RA * pt) + y * logRA;
       qn = fmax(0, qn + wt);
       if ( rl <= m ) {
         if ( qn > h ) {
@@ -135,5 +111,34 @@ int racusum_adoc_sim(int r, NumericVector coeff, NumericVector coeff2, double h,
     rl += -m;
     return rl;
   }
+  return rl;
+}
+
+// [[Rcpp::export(.racusum_arl_sim)]]
+int racusum_arl_sim(int r, DataFrame pmix, double h, double RA, double RQ, bool yemp) {
+  double qn = 0, wt = 0, x, pistar, rdm, pt, logRA = log(RA);
+  int y, row, rl = 0;
+  NumericVector pi1, pi2, pi3, rnd, rndm;
+  pi1 = pmix[0];                        // Empirical data
+  pi2 = pmix[1];                        // 2st Predicted probability
+  pi3 = pmix[2];                        // 2st Predicted probability
+  do{                                   // In-/Out-of-Control ARL
+    rl++;
+    rnd = runif(1);
+    row = rnd[0] * pmix.nrows();      // draw random row from data
+    x = pi2[row];                     // True probability of death
+    pistar = (RQ * x) / (1 - x + RQ * x);
+    if (yemp == true & RQ == 1) {     // Only for In-control ARL (emp/model)
+      y = pi1[row];
+      pt = pistar;
+      } else {
+      rndm = runif(1);
+      rdm = as<double>(rndm);
+      y = (rdm < pistar ? 1 : 0);       // Surgical outcome
+      pt = pi3[row];
+    }
+    wt = -log(1 - pt + RA * pt) + y * logRA;
+    qn = fmax(0, qn + wt);
+  } while (qn <= h);
   return rl;
 }
