@@ -62,7 +62,6 @@ bcusum_arl_sim <- function(r, h, df, R0 = 1, RA = 2) {
   checkmate::assert_numeric(h, len = 1, lower = 0, add = arg_checks)
   checkmate::assert_numeric(R0, len = 1, lower = 0, add = arg_checks)
   checkmate::assert_numeric(RA, len = 1, lower = 0, add = arg_checks)
-  checkmate::assert_integerish(m, lower = 1, add = arg_checks)
   type <- tolower(type)
   checkmate::assert_choice(type, choices = c("cond", "cycl"), add = arg_checks)
   # Report if there are any error

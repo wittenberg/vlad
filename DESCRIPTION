@@ -21,6 +21,6 @@ SystemRequirements: C++11
 Encoding: UTF-8
 LazyData: true
 Imports: Rcpp (>= 0.12.12), checkmate
-Suggests: dplyr, ggplot2, parallel, rmarkdown, spcadjust (>= 1.1), testthat, tidyr
+Suggests: dplyr, ggplot2, rmarkdown, spcadjust (>= 1.1), testthat, tidyr
 LinkingTo: Rcpp, RcppArmadillo
 RoxygenNote: 6.1.1
