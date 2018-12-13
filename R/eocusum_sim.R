@@ -74,11 +74,13 @@ calceo <- function(df, coeff, yemp = TRUE) {
 #' @author Philipp Wittenberg
 #' @export
 optimal_k <- function(pmix, RA, yemp = FALSE) {
-  pmix <- as.data.frame(pmix)
-  if (is.null(RA) || is.na(RA) || RA <= 0) {stop("QA must be a positive numeric value")}
-  RA <- as.numeric(RA)
-  if (is.na(yemp) || is.logical(yemp) != "TRUE") {warning("Argument 'yemp' must be logical using TRUE as default value")}
-  yemp <- as.logical(yemp)
+  ### Check arguments
+  arg_checks <- checkmate::makeAssertCollection()
+  checkmate::assert_data_frame(pmix, ncols = 3, add = arg_checks)
+  checkmate::assert_numeric(RA, len = 1, lower = 0, add = arg_checks)
+  checkmate::assert_logical(yemp, len = 1, add = arg_checks)
+  # Report if there are any errors
+  if (!arg_checks$isEmpty()) checkmate::reportAssertions(arg_checks)
   .optimal_k(pmix, RA, yemp)
 }
 
@@ -103,26 +105,21 @@ optimal_k <- function(pmix, RA, yemp = FALSE) {
 #' @author Philipp Wittenberg
 #' @export
 eocusum_arl_sim <- function(r, pmix, k, h, RQ = 1, yemp = FALSE, side = "low") {
-  r <- as.integer(r)
-  if (is.na(r) || r <= 0) {stop("Number of simulation runs 'r' must be a positive integer")}
-  pmix <- as.data.frame(pmix)
-  if (class(pmix) != "data.frame") {stop("Provide a data frame for argument 'pmix'")}
-  else if (ncol(pmix) != 3) {stop("Provide a data frame with three columns for argument 'pmix'")}
-  k <- as.numeric(k)
-  if (is.na(k) || k  < 0) {stop("Reference value 'k' must be a positive numeric value")}
-  h <- as.numeric(h)
-  if (is.na(h) || h <= 0) {stop("Control limit 'h' must be a positive numeric value")}
-  RQ <- as.numeric(RQ)
-  if (is.na(RQ) || RQ <= 0) {stop("QS must a positive numeric value")}
-  else if (RQ < 1 && iside == 1) {stop("For detecting deterioration (side='low') RQ must a positive numeric value >= 1")}
-  else if (RQ > 1 && iside == 2) {stop("For detecting improvement (side='up') RQ must a positive numeric value <= 1")}
-  if (is.na(yemp) || is.logical(yemp) != "TRUE") {warning("Argument 'yemp' must be logical using TRUE as default value")}
-  yemp <- as.logical(yemp)
-  iside <- switch(as.character(side), low = 1, up = 2)
-  if (is.null(iside)) {
-    warning("No valid input, using side='low' (deterioration) as default")
-    iside <- 1
-  }
+  ### Check arguments
+  arg_checks <- checkmate::makeAssertCollection()
+  checkmate::assert_integerish(r, len = 1, lower = 1, add = arg_checks)
+  checkmate::assert_data_frame(pmix, ncols = 3, add = arg_checks)
+  checkmate::assert_numeric(k, len = 1, add = arg_checks)
+  checkmate::assert_numeric(h, len = 1, lower = 0, add = arg_checks)
+  checkmate::assert_numeric(RQ, len = 1, lower = 0, add = arg_checks)
+  checkmate::assert_logical(yemp, len = 1, add = arg_checks)
+  side <- tolower(side)
+  checkmate::assert_choice(side, choices = c("low", "up"), add = arg_checks)
+  # Report if there are any errors
+  if (!arg_checks$isEmpty()) checkmate::reportAssertions(arg_checks)
+  iside <- switch(side, low = 1, up = 2)
+  if (RQ < 1 && iside == 1) stop("For detecting deterioration (side='low') RQ must a positive numeric value >= 1")
+  if (RQ > 1 && iside == 2) stop("For detecting improvement (side='up') RQ must a positive numeric value <= 1")
   .eocusum_arl_sim(r, pmix, k, h, RQ, yemp, iside)
 }
 
@@ -140,32 +137,24 @@ eocusum_arl_sim <- function(r, pmix, k, h, RQ = 1, yemp = FALSE, side = "low") {
 #'
 #' @author Philipp Wittenberg
 #' @export
-eocusum_ad_sim <- function(r, k, h, pmix, RQ = 1, side = "low", type = "cond", m = 50) {
-  r <- as.integer(r)
-  if (is.na(r) || r <= 0) {stop("Number of simulation runs 'r' must be a positive integer")}
-  k <- as.numeric(k)
-  if (is.na(k) || k  < 0) {stop("Reference value 'k' must be a positive numeric value")}
-  h <- as.numeric(h)
-  if (is.na(h) || h <= 0) {stop("Control limit 'h' must be a positive numeric value")}
-  pmix <- as.data.frame(pmix)
-  if (class(pmix) != "data.frame") {stop("Provide a data frame for argument 'pmix'")}
-  else if (ncol(pmix) != 3) {stop("Provide a data frame with three columns for argument 'pmix'")}
+eocusum_ad_sim <- function(r, pmix, k, h, RQ = 1, side = "low", type = "cond", m = 50) {
+  arg_checks <- checkmate::makeAssertCollection()
+  checkmate::assert_integerish(r, len = 1, lower = 1, add = arg_checks)
+  checkmate::assert_data_frame(pmix, ncols = 3, add = arg_checks)
+  checkmate::assert_numeric(k, len = 1, add = arg_checks)
+  checkmate::assert_numeric(h, len = 1, lower = 0, add = arg_checks)
+  checkmate::assert_numeric(RQ, len = 1, lower = 0, add = arg_checks)
+  side <- tolower(side)
+  checkmate::assert_choice(side, choices = c("low", "up"), add = arg_checks)
   iside <- switch(as.character(side), low = 1, up = 2)
-  if (is.null(iside)) {
-    warning("No valid input, using side='low' (deterioration) as default")
-    iside <- 1
-  }
-  RQ <- as.numeric(RQ)
-  if (is.na(RQ) || RQ <= 0) {stop("QS must a positive numeric value")}
-  else if (RQ < 1 && iside == 1) {stop("For detecting deterioration (side='low') QS must a positive numeric value >= 1")}
-  else if (RQ > 1 && iside == 2) {stop("For detecting improvement (side='up') QS must a positive numeric value <= 1")}
+  if (RQ < 1 && iside == 1) stop("For detecting deterioration (side='low') RQ must a positive numeric value >= 1")
+  if (RQ > 1 && iside == 2) stop("For detecting improvement (side='up') RQ must a positive numeric value <= 1")
+  type <- tolower(type)
+  checkmate::assert_choice(type, choices = c("cond", "cycl"), add = arg_checks)
   itype <- switch(type, cond = 1, cycl = 2)
-  if (is.null(itype)) {
-    warning("No valid input, using type='cond' (conditional steady-state) as default")
-    itype <- 1
-  }
-  m <- as.integer(m)
-  if (is.na(m) || m < 0) {stop("m must be a positive integer")}
+  checkmate::assert_integerish(m, lower = 1, add = arg_checks)
+  # Report if there are any errors
+  if (!arg_checks$isEmpty()) checkmate::reportAssertions(arg_checks)
   .eocusum_ad_sim(r, pmix, k, h, RQ, iside, itype, m)
 }
 
@@ -193,40 +182,33 @@ eocusum_ad_sim <- function(r, k, h, pmix, RQ = 1, side = "low", type = "cond", m
 #'
 #' @export
 eocusum_crit_sim <- function(L0, pmix, k, RQ = 1, side = "low", yemp = FALSE, m = 1e4, nc = 1, hmax = 30, jmax = 4, verbose = FALSE) {
-  L0 <- as.integer(L0)
-  if (is.na(L0) || L0 <= 0) {stop("Given in-control ARL 'L0' must be a positive integer")}
-  pmix <- as.data.frame(pmix)
-  if (class(pmix) != "data.frame") {stop("Provide a data frame for argument 'pmix'")}
-  else if (ncol(pmix) != 3) {stop("Provide a data frame with three columns for argument 'pmix'")}
-  k <- as.numeric(k)
-  if (is.na(k) || k  < 0) {stop("Reference value 'k' must be a positive numeric value")}
-  RQ <- as.numeric(RQ)
-  if (is.na(RQ) || RQ <= 0) {stop("QS must be a positive numeric value")}
-  else if (RQ < 1 && iside == 1) {stop("For detecting deterioration (side='low') QS must a positive numeric value >= 1")}
-  else if (RQ > 1 && iside == 2) {stop("For detecting improvement (side='up') QS must a positive numeric value <= 1")}
-  iside <- switch(as.character(side), low = 1, up = 2)
-  if (is.null(iside)) {
-    warning("No valid input, using side='low' (deterioration) as default")
-    iside <- 1
-  }
-  if (is.na(yemp) || is.logical(yemp) != "TRUE") {warning("Argument 'yemp' must be logical using TRUE as default value")}
-  yemp <- as.logical(yemp)
-  m <- as.integer(m)
-  if (is.na(m) || m < 0) {stop("m must be a positive integer")}
-  nc <- as.integer(nc)
-  if (is.na(nc) || nc <= 0) {stop("Number of cores 'nc' must be a positive integer")}
-  hmax <- as.integer(hmax)
-  if (is.na(hmax) || hmax <= 0) {stop("Maximum value for grid search 'hmax' must be a positive integer")}
-  jmax <- as.integer(jmax)
-  if (is.na(jmax) || jmax <= 0) {stop("Number of digits for grid search 'jmax' must be a positive integer")}
-
-  verbose <- as.logical(verbose)
+  ### Check arguments
+  arg_checks <- checkmate::makeAssertCollection()
+  checkmate::assert_numeric(L0, len = 1, lower = 0, add = arg_checks)
+  checkmate::assert_data_frame(pmix, ncols = 3, add = arg_checks)
+  checkmate::assert_numeric(k, len = 1, add = arg_checks)
+  checkmate::assert_numeric(RQ, len = 1, lower = 0, add = arg_checks)
+  checkmate::assert_logical(yemp, len = 1, add = arg_checks)
+  checkmate::assert_integerish(m, lower = 1, add = arg_checks)
+  checkmate::assert_integerish(nc, lower = 1, add = arg_checks)
+  checkmate::assert_integerish(hmax, len = 1, lower = 1, add = arg_checks)
+  checkmate::assert_integerish(jmax, len = 1, lower = 1, add = arg_checks)
+  checkmate::assert_logical(verbose, len = 1, add = arg_checks)
+  side <- tolower(side)
+  checkmate::assert_choice(side, choices = c("low", "up"), add = arg_checks)
+  # iside <- switch(side, low = 1, up = 2)
+  # Report if there are any errors
+  if (!arg_checks$isEmpty()) checkmate::reportAssertions(arg_checks)
+  # iside <- switch(as.character(side), low = 1, up = 2)
+  if (RQ < 1 && side == "low") stop("For detecting deterioration (side='low') RQ must a positive numeric value >= 1")
+  if (RQ > 1 && side == "up") stop("For detecting improvement (side='up') RQ must a positive numeric value <= 1")
 
   cl <- parallel::makeCluster(getOption("cl.cores", nc))
 
   for ( h in 1:hmax ) {
-    parallel::clusterExport(cl, c("h", "eocusum_arl_sim", "pmix", "k", "RQ", "iside", "yemp"), envir = environment())
-    L1 <- mean(parallel::parSapply(cl, 1:m, eocusum_arl_sim, pmix = pmix, k = k, h = h, RQ = RQ, side = iside, yemp = yemp))
+    parallel::clusterExport(cl, c("h", "eocusum_arl_sim", "pmix", "k", "RQ", "side", "yemp"), envir = environment())
+    # iside <- switch(iside, 1 = "low", 2 = "up")
+    L1 <- mean(parallel::parSapply(cl, 1:m, eocusum_arl_sim, pmix = pmix, k = k, h = h, RQ = RQ, side = side, yemp = yemp))
     if ( verbose ) cat(paste("h =", h, "\tARL =", L1, "\n"))
     if ( L1 > L0 ) break
   }
@@ -235,8 +217,9 @@ eocusum_crit_sim <- function(L0, pmix, k, RQ = 1, side = "low", yemp = FALSE, m 
   for ( j in 1:jmax ) {
     for ( dh in 1:19 ) {
       h <- h1 + (-1)^j*dh/10^j
-      parallel::clusterExport(cl, c("h", "eocusum_arl_sim", "pmix", "k", "RQ", "iside", "yemp"), envir = environment())
-      L1 <- mean(parallel::parSapply(cl, 1:m, eocusum_arl_sim, pmix = pmix, k = k, h = h, RQ = RQ, side = iside, yemp = yemp))
+      parallel::clusterExport(cl, c("h", "eocusum_arl_sim", "pmix", "k", "RQ", "side", "yemp"), envir = environment())
+      # iside <- switch(iside, 1 = "low", 2 = "up")
+      L1 <- mean(parallel::parSapply(cl, 1:m, eocusum_arl_sim, pmix = pmix, k = k, h = h, RQ = RQ, side = side, yemp = yemp))
       if ( verbose ) cat(paste("h =", h, "\tARL =", L1, "\n"))
       if ( (j %% 2 == 1 & L1 < L0) | (j %% 2 == 0 & L1 > L0) ) break
     }

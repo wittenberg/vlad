@@ -55,19 +55,17 @@ llr_score <- function(df, coeff, R0 = 1, RA = 2, yemp = TRUE) {
 #' @author Philipp Wittenberg
 #' @export
 bcusum_arl_sim <- function(r, h, df, R0 = 1, RA = 2) {
-  r <- as.integer(r)
-  if (is.na(r) || r <= 0) {stop("Number of simulation runs 'r' must be a positive integer")}
-  h <- as.numeric(h)
-  if (is.na(h) || h <= 0) {stop("Control limit 'h' must be a positive numeric value")}
-  if (class(df) != "data.frame") {stop("Provide a dataframe for argument 'df'")}
-  else if (ncol(df) != 2) {stop("Provide a dataframe with two columns for argument 'df'")}
-  else if (vapply(df, class, "")[1] != "integer") {stop("First column of dataframe must be of type integer")}
-  else if (vapply(df, class, "")[2] != "numeric") {stop("Second column of dataframe must be of type numeric")}
-  df <- as.data.frame(df)
-  R0 <- as.numeric(R0)
-  if (is.na(R0) || R0 <= 0) {stop("Odds ratio of death under the null hypotheses 'R0' must a positive numeric value")}
-  RA <- as.numeric(RA)
-  if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")}
+  ### Check arguments
+  arg_checks <- checkmate::makeAssertCollection()
+  checkmate::assert_integerish(r, len = 1, lower = 1, add = arg_checks)
+  # checkmate::assert_data_frame(pmix, ncols = 3, add = arg_checks)
+  checkmate::assert_numeric(h, len = 1, lower = 0, add = arg_checks)
+  checkmate::assert_numeric(R0, len = 1, lower = 0, add = arg_checks)
+  checkmate::assert_numeric(RA, len = 1, lower = 0, add = arg_checks)
+  checkmate::assert_integerish(m, lower = 1, add = arg_checks)
+  type <- tolower(type)
+  checkmate::assert_choice(type, choices = c("cond", "cycl"), add = arg_checks)
+  # Report if there are any error
   .bcusum_arl_sim(r, h, df, R0, RA)
 }
 
@@ -100,6 +98,16 @@ bcusum_arl_sim <- function(r, h, df, R0 = 1, RA = 2) {
 #' @author Philipp Wittenberg
 #' @export
 bcusum_crit_sim <- function(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, jmax = 4, verbose = FALSE) {
+  ### Check arguments
+  arg_checks <- checkmate::makeAssertCollection()
+  checkmate::assert_numeric(L0, len = 1, lower = 0, add = arg_checks)
+  # checkmate::assert_data_frame(pmix, ncols = 3, add = arg_checks)
+  checkmate::assert_numeric(R0, len = 1, lower = 0, add = arg_checks)
+  checkmate::assert_numeric(RA, len = 1, lower = 0, add = arg_checks)
+  checkmate::assert_integerish(m, lower = 1, add = arg_checks)
+  checkmate::assert_integerish(nc, lower = 1, add = arg_checks)
+  checkmate::assert_logical(verbose, len = 1, add = arg_checks)
+  # Report if there are any errors
   L0 <- as.integer(L0)
   if (is.na(L0) || L0 <= 0) {stop("Given in-control ARL 'L0' must be a positive integer")}
   if (class(df) != "data.frame") {stop("Provide a dataframe for argument 'df'")}
@@ -160,24 +168,19 @@ bcusum_crit_sim <- function(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, jmax = 4, v
 #'
 #' @export
 racusum_ad_sim <- function(r, pmix, h, RA = 2, RQ = 1, m = 50, type = "cond") {
-  r <- as.integer(r)
-  if (is.na(r) || r <= 0) {stop("Number of simulation runs 'r' must be a positive integer")}
-  h <- as.numeric(h)
-  if (is.na(h) || h <= 0) {stop("Control limit 'h' must be a positive numeric value")}
-  pmix <- as.data.frame(pmix)
-  if (class(pmix) != "data.frame") {stop("Provide a data frame for argument 'pmix'")}
-  else if (ncol(pmix) != 3) {stop("Provide a data frame with three columns for argument 'pmix'")}
-  RA <- as.numeric(RA)
-  if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")}
-  RQ <- as.numeric(RQ)
-  if (is.na(RQ) || RQ <= 0) {stop("RQ must be a positive numeric value")}
-  m <- as.integer(m)
-  if (is.na(m) || m < 0) {stop("m must a positive integer")}
+  ### Check arguments
+  arg_checks <- checkmate::makeAssertCollection()
+  checkmate::assert_integerish(r, len = 1, lower = 1, add = arg_checks)
+  checkmate::assert_data_frame(pmix, ncols = 3, add = arg_checks)
+  checkmate::assert_numeric(h, len = 1, lower = 0, add = arg_checks)
+  checkmate::assert_numeric(RA, len = 1, lower = 0, add = arg_checks)
+  checkmate::assert_numeric(RQ, len = 1, lower = 0, add = arg_checks)
+  checkmate::assert_integerish(m, lower = 1, add = arg_checks)
+  type <- tolower(type)
+  checkmate::assert_choice(type, choices = c("cond", "cycl"), add = arg_checks)
   itype <- switch(type, cond = 1, cycl = 2)
-  if (is.null(itype)) {
-    warning("no valid input, using type=cond (conditional steady-state) as default")
-    itype <- 1
-  }
+  # Report if there are any errors
+  if (!arg_checks$isEmpty()) checkmate::reportAssertions(arg_checks)
   .racusum_ad_sim(r, pmix, h, RA, RQ, m, itype)
 }
 
@@ -207,19 +210,16 @@ racusum_ad_sim <- function(r, pmix, h, RA = 2, RQ = 1, m = 50, type = "cond") {
 #'
 #' @export
 racusum_arl_sim <- function(r, pmix, h, RA = 2, RQ = 1, yemp = FALSE) {
-  r <- as.integer(r)
-  if (is.na(r) || r <= 0) {stop("Number of simulation runs 'r' must be a positive integer")}
-  h <- as.numeric(h)
-  if (is.na(h) || h <= 0) {stop("Control limit 'h' must be a positive numeric value")}
-  pmix <- as.data.frame(pmix)
-  if (class(pmix) != "data.frame") {stop("Provide a data frame for argument 'pmix'")}
-  else if (ncol(pmix) != 3) {stop("Provide a data frame with three columns for argument 'pmix'")}
-  RA <- as.numeric(RA)
-  if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")}
-  RQ <- as.numeric(RQ)
-  if (is.na(RQ) || RQ <= 0) {stop("RQ must be a positive numeric value")}
-  if (is.na(yemp) || is.logical(yemp) != "TRUE") {warning("Argument 'yemp' must be logical using TRUE as default value")}
-  yemp <- as.logical(yemp)
+  ### Check arguments
+  arg_checks <- checkmate::makeAssertCollection()
+  checkmate::assert_integerish(r, len = 1, lower = 1, add = arg_checks)
+  checkmate::assert_data_frame(pmix, ncols = 3, add = arg_checks)
+  checkmate::assert_numeric(h, len = 1, lower = 0, add = arg_checks)
+  checkmate::assert_numeric(RA, len = 1, lower = 0, add = arg_checks)
+  checkmate::assert_numeric(RQ, len = 1, lower = 0, add = arg_checks)
+  checkmate::assert_logical(yemp, len = 1, add = arg_checks)
+  # Report if there are any errors
+  if (!arg_checks$isEmpty()) checkmate::reportAssertions(arg_checks)
   .racusum_arl_sim(r, pmix, h, RA, RQ, yemp)
 }
 
@@ -249,32 +249,25 @@ racusum_arl_sim <- function(r, pmix, h, RA = 2, RQ = 1, yemp = FALSE) {
 #'
 #' @export
 racusum_crit_sim <- function(L0, pmix, RA = 2, RQ = 1, yemp = FALSE, m = 1e4, nc = 1, hmax = 30, jmax = 4, verbose = FALSE) {
-  L0 <- as.integer(L0)
-  if (is.na(L0) || L0 <= 0) {stop("Given in-control ARL 'L0' must be a positive integer")}
-  pmix <- as.data.frame(pmix)
-  if (class(pmix) != "data.frame") {stop("Provide a data frame for argument 'pmix'")}
-  else if (ncol(pmix) != 3) {stop("Provide a data frame with three columns for argument 'pmix'")}
-  RA <- as.numeric(RA)
-  if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")}
-  RQ <- as.numeric(RQ)
-  if (is.na(RQ) || RQ <= 0) {stop("RQ must a positive numeric value")}
-  if (is.na(yemp) || is.logical(yemp) != "TRUE") {warning("Argument 'yemp' must be logical using TRUE as default value")}
-  yemp <- as.logical(yemp)
-  m <- as.integer(m)
-  if (is.na(m) || m < 0) {stop("m must be a positive integer")}
-  nc <- as.integer(nc)
-  if (is.na(nc) || nc <= 0) {stop("Number of cores 'nc' must be a positive integer")}
-  hmax <- as.integer(hmax)
-  if (is.na(hmax) || hmax <= 0) {stop("Maximum value for grid search 'hmax' must be a positive integer")}
-  jmax <- as.integer(jmax)
-  if (is.na(jmax) || jmax <= 0) {stop("Number of digits for grid search 'jmax' must be a positive integer")}
-
-  verbose <- as.logical(verbose)
+  ### Check arguments
+  arg_checks <- checkmate::makeAssertCollection()
+  checkmate::assert_numeric(L0, len = 1, lower = 0, add = arg_checks)
+  checkmate::assert_data_frame(pmix, ncols = 3, add = arg_checks)
+  checkmate::assert_numeric(RA, len = 1, lower = 0, add = arg_checks)
+  checkmate::assert_numeric(RQ, len = 1, lower = 0, add = arg_checks)
+  checkmate::assert_logical(yemp, len = 1, add = arg_checks)
+  checkmate::assert_integerish(m, lower = 1, add = arg_checks)
+  checkmate::assert_integerish(nc, lower = 1, add = arg_checks)
+  checkmate::assert_integerish(hmax, len = 1, lower = 1, add = arg_checks)
+  checkmate::assert_integerish(jmax, len = 1, lower = 1, add = arg_checks)
+  checkmate::assert_logical(verbose, len = 1, add = arg_checks)
+  # Report if there are any errors
+  if (!arg_checks$isEmpty()) checkmate::reportAssertions(arg_checks)
 
   cl <- parallel::makeCluster(getOption("cl.cores", nc))
 
   for ( h in 1:hmax ) {
-    parallel::clusterExport(cl, c("h", "racusum_arl_sim", "pmix", "RA", "RQ", "yemp"), envir = environment())
+    parallel::clusterExport(cl, c("h", "racusum_arl_sim", "pmix", "RA", "RQ", "yemp", "m"), envir = environment())
     L1 <- mean(parallel::parSapply(cl, 1:m, racusum_arl_sim, pmix = pmix, h = h, RA = RA, RQ = RQ, yemp = yemp))
     if ( verbose ) cat(paste("h =", h, "\tARL =", L1, "\n"))
     if ( L1 > L0 ) break
@@ -284,7 +277,7 @@ racusum_crit_sim <- function(L0, pmix, RA = 2, RQ = 1, yemp = FALSE, m = 1e4, nc
   for ( j in 1:jmax ) {
     for ( dh in 1:19 ) {
       h <- h1 + (-1)^j*dh/10^j
-      parallel::clusterExport(cl, c("h", "racusum_arl_sim", "pmix", "RA", "RQ", "yemp"), envir = environment())
+      parallel::clusterExport(cl, c("h", "racusum_arl_sim", "pmix", "RA", "RQ", "yemp", "m"), envir = environment())
       L1 <- mean(parallel::parSapply(cl, 1:m, racusum_arl_sim, pmix = pmix, h = h, RA = RA, RQ = RQ, yemp = yemp))
       if ( verbose ) cat(paste("h =", h, "\tARL =", L1, "\n"))
       if ( (j %% 2 == 1 & L1 < L0) | (j %% 2 == 0 & L1 > L0) ) break
