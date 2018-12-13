@@ -1,56 +1,3 @@
-#' @name gettherisk
-#' @title Compute Risk of death
-#' @description Compute Risk of death.
-#'
-#' @param parsonnetscore Integer. Parsonnet Score.
-#' @param coeff Numeric Vector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
-#'  from the binary logistic regression model.
-#'
-#' @return Returns a single value which is the expected risk based on a risk model.
-#'
-#' @template gettherisk
-#'
-#' @author Philipp Wittenberg
-#'
-#' @export
-gettherisk <- function(parsonnetscore, coeff) {
-  if (is.null(parsonnetscore) || is.na(parsonnetscore) || is.integer(parsonnetscore) != "TRUE") {stop("Argument 'parsonnetscore' must be an integer value")}
-  parsonnetscore <- as.integer(parsonnetscore)
-  if (is.null(coeff) || is.na(coeff) || length(coeff)  != 2) {stop("Model coefficients 'coeff' must be a numeric vector with two elements")}
-  coeff <- as.vector(coeff)
-  .gettherisk(parsonnetscore, coeff)
-}
-
-#' @name calceo
-#' @title Compute Expected minus Observed value
-#' @description Compute Expected minus Observed value.
-#'
-#' @param df Data Frame. First column Parsonnet Score and second column outcome of each operation.
-#' @param coeff Numeric Vector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
-#'  from the binary logistic regression model.
-#' @param yemp Logical. If \code{TRUE} use observed outcome value, if \code{FALSE} use estimated
-#' binary logistc regression model.
-#'
-#' @return Returns a single value which is the difference between expected risk and observed
-#' outcome.
-#'
-#' @template calceo
-#'
-#' @author Philipp Wittenberg
-#' @export
-calceo <- function(df, coeff, yemp = TRUE) {
-  if (class(df) != "data.frame") {stop("Provide a dataframe for argument 'df'")}
-  else if (ncol(df) != 2) {stop("Provide a dataframe with two columns for argument 'df'")}
-  else if (vapply(df, class, "")[1] != "integer") {stop("First column of dataframe must be of type integer")}
-  else if (vapply(df, class, "")[2] != "numeric") {stop("Second column of dataframe must be of type numeric")}
-  df <- as.data.frame(df)
-  if (is.null(coeff) || is.na(coeff) || length(coeff) != 2) {stop("Model coefficients 'coeff' must be a numeric vector with two elements")}
-  coeff <- as.vector(coeff)
-  if (is.na(yemp) || is.logical(yemp) != "TRUE") {warning("Argument 'yemp' must be logical using TRUE as default value")}
-  yemp <- as.logical(yemp)
-  .calceo(df, coeff, yemp)
-}
-
 #' @name optimal_k
 #' @title Compute approximate optimal k
 #' @description Compute approximate optimal k.
@@ -95,6 +42,11 @@ optimal_k <- function(pmix, RA, yemp = FALSE) {
 #' @param k Double. Reference value of the CUSUM control chart. Either \code{0} or a positive
 #' value. Can be determined with function \code{\link{optimal_k}}.
 #' @param h Double. Decision interval (alarm limit, threshold) of the CUSUM control chart.
+#' @param RQ Double. Defines the true performance of a surgeon with the odds ratio ratio of death
+#' \code{RQ}. Use \code{RQ = 1} to compute the in-control ARL and other values to compute the
+#' out-of-control ARL.
+#' @param yemp Logical. If \code{TRUE} use observed outcome value, if \code{FALSE} use estimated
+#' binary logistc regression model.
 #' @param side Character. Default is \code{"low"} to calculate ARL for the upper arm of the V-mask.
 #'  If side = \code{"up"}, calculate the lower arm of the V-mask.
 #'
@@ -127,6 +79,7 @@ eocusum_arl_sim <- function(r, pmix, k, h, RQ = 1, yemp = FALSE, side = "low") {
 #' @title Compute steady-state ARLs of EO-CUSUM control charts using simulation
 #' @description Compute steady-state ARLs of EO-CUSUM control charts using simulation.
 #'
+#' @inheritParams eocusum_arl_sim
 #' @param m Integer. Simulated in-control observations.
 #' @param type Character. Default argument is \code{"cond"} for computation of conditional
 #' steady-state. Other option is the cyclical steady-state \code{"cycl"}.
@@ -164,7 +117,6 @@ eocusum_ad_sim <- function(r, pmix, k, h, RQ = 1, side = "low", type = "cond", m
 #'
 #' @param L0 Double. Prespecified in-control Average Run Length.
 #' @inheritParams eocusum_arl_sim
-#' @param yemp Logical. If \code{TRUE}, use emirical outcome values, else use model.
 #' @param m Integer. Number of simulation runs.
 #' @param nc Integer. Number of cores used for parallel processing.
 #' @param hmax Integer. Maximum value of \code{h} for the grid search.

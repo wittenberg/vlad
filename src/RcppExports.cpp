@@ -7,18 +7,6 @@
 
 using namespace Rcpp;
 
-// gettherisk
-double gettherisk(int parsonnetscore, NumericVector coeff);
-RcppExport SEXP _vlad_gettherisk(SEXP parsonnetscoreSEXP, SEXP coeffSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type parsonnetscore(parsonnetscoreSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type coeff(coeffSEXP);
-    rcpp_result_gen = Rcpp::wrap(gettherisk(parsonnetscore, coeff));
-    return rcpp_result_gen;
-END_RCPP
-}
 // optimal_k
 double optimal_k(DataFrame pmix, double RA, bool yemp);
 RcppExport SEXP _vlad_optimal_k(SEXP pmixSEXP, SEXP RASEXP, SEXP yempSEXP) {
@@ -168,7 +156,6 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_vlad_gettherisk", (DL_FUNC) &_vlad_gettherisk, 2},
     {"_vlad_optimal_k", (DL_FUNC) &_vlad_optimal_k, 3},
     {"_vlad_eocusum_arl_sim", (DL_FUNC) &_vlad_eocusum_arl_sim, 7},
     {"_vlad_eocusum_ad_sim", (DL_FUNC) &_vlad_eocusum_ad_sim, 8},

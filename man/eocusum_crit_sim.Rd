@@ -17,10 +17,15 @@ Second column are the predicted probabilities from the risk model. Third
 \item{k}{Double. Reference value of the CUSUM control chart. Either \code{0} or a positive
 value. Can be determined with function \code{\link{optimal_k}}.}
 
+\item{RQ}{Double. Defines the true performance of a surgeon with the odds ratio ratio of death
+\code{RQ}. Use \code{RQ = 1} to compute the in-control ARL and other values to compute the
+out-of-control ARL.}
+
 \item{side}{Character. Default is \code{"low"} to calculate ARL for the upper arm of the V-mask.
 If side = \code{"up"}, calculate the lower arm of the V-mask.}
 
-\item{yemp}{Logical. If \code{TRUE}, use emirical outcome values, else use model.}
+\item{yemp}{Logical. If \code{TRUE} use observed outcome value, if \code{FALSE} use estimated
+binary logistc regression model.}
 
 \item{m}{Integer. Number of simulation runs.}
 

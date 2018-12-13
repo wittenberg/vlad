@@ -7,8 +7,6 @@
 
 using namespace Rcpp;
 
-double gettherisk(int parsonnetscore, NumericVector coeff);
-
 double optimal_k(DataFrame pmix, double RA, bool yemp = FALSE);
 
 int eocusum_arl_sim(int r, DataFrame pmix, double k, double h, double RQ = 1, bool yemp = FALSE, int side = 1);

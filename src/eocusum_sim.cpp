@@ -1,14 +1,5 @@
 #include "eocusum_sim.h"
 
-// [[Rcpp::export(.gettherisk)]]
-double gettherisk(int parsonnetscore, NumericVector coeff) {
-  double logitp, risk;
-
-  logitp = coeff[0] + parsonnetscore * coeff[1];
-  risk = exp(logitp)/(1 + exp(logitp));
-  return risk;
-}
-
 // [[Rcpp::export(.optimal_k)]]
 double optimal_k(DataFrame pmix, double RA, bool yemp) {
   int n;
