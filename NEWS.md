@@ -1,3 +1,10 @@
+# vlad 0.2.0.9000
+## Changes
+* use checkmate for error messages
+
+## Improvements
+* improve simulation algorithms
+
 # vlad 0.2.0
 ## Changes
 * Renamed functions:
