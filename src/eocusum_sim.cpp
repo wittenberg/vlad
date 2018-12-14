@@ -25,9 +25,9 @@ double optimal_k(DataFrame pmix, double RA, bool yemp) {
 
 // [[Rcpp::export(.eocusum_arl_sim)]]
 int eocusum_arl_sim(int r, DataFrame pmix, double k, double h, double RQ, bool yemp, int side) {
-  double qn = 0, z = 0, x, pistar, rdm, pt;
-  int y, row, rl = 0;
-  NumericVector pi1, pi2, pi3, rnd, rndm;
+  double qn = 0, z = 0, x, pistar, pt;
+  int y, row, rl = 0, pmixnrows = pmix.nrows();
+  NumericVector pi1, pi2, pi3;
   pi1 = pmix[0];                        // Empirical data
   pi2 = pmix[1];                        // 2st Predicted probability
   pi3 = pmix[2];                        //
@@ -35,17 +35,14 @@ int eocusum_arl_sim(int r, DataFrame pmix, double k, double h, double RQ, bool y
     double tn = 0;
     do{
       rl++;
-      rnd = runif(1);
-      row = rnd[0] * pmix.nrows();      // draw random row from data
+      row = floor(runif(1, 0, pmixnrows)[0]);
       x = pi2[row];                    // probability of death
       pistar = (RQ * x) / (1 - x + RQ * x);
       if (yemp == true & RQ == 1) {
         y = pi1[row];
         pt = pistar;
-      } else {                          // Surgical outcome empirical
-        rndm = runif(1);
-        rdm = as<double>(rndm);
-        y = (rdm < pistar ? 1 : 0);       // Surgical outcome
+      } else {                                  // Surgical outcome empirical
+        y = (R::runif(0, 1) < pistar ? 1 : 0);  // Step 4: y=Surgical outcome
         pt = pi3[row];
       }
       z = pt - y;
@@ -57,17 +54,14 @@ int eocusum_arl_sim(int r, DataFrame pmix, double k, double h, double RQ, bool y
     double qn = 0;
     do{
       rl++;
-      rnd = runif(1);
-      row = rnd[0] * pmix.nrows();      // draw random row from data
+      row = floor(runif(1, 0, pmixnrows)[0]);
       x = pi2[row];                    // probability of death
       pistar = (RQ * x) / (1 - x + RQ * x);
       if (yemp == true) {
         y = pi1[row];
         pt = pistar;
-      } else {          // Surgical outcome empirical
-        rndm = runif(1);
-        rdm = as<double>(rndm);
-        y = (rdm < pistar ? 1 : 0);       // Surgical outcome
+      } else {                                  // Surgical outcome empirical
+        y = (R::runif(0, 1) < pistar ? 1 : 0);  // Step 4: y=Surgical outcome
         pt = pi3[row];
       }
       z = pt - y;
@@ -97,9 +91,9 @@ int eocusum_ad_sim(int r, DataFrame pmix, double k, double h, double RQ, int sid
 // conditional steady-state ARL (EO-CUSUM) -- m = #ic-observations with m >= 0
 // lower side (deterioration)
 int eocusum_ad_sim11(int r, DataFrame pmix, double k, double h, double RQ, int m) {
-  NumericVector pi2, pi3, rnd, rndm;
-  int success = 0, rl = 0, y, row;
-  double z = 0, x, pistar, rdm, pt;
+  NumericVector pi2, pi3;
+  int success = 0, rl = 0, y, row, pmixnrows = pmix.nrows();
+  double z = 0, x, pistar, pt;
   double tn = 0, R = 1;
   pi2 = pmix[1];                                 // 2st Predicted probability
   pi3 = pmix[2];                                 // 2st Predicted probability
@@ -110,13 +104,10 @@ int eocusum_ad_sim11(int r, DataFrame pmix, double k, double h, double RQ, int m
     do{
       rl++;
       if ( rl > m) R = RQ;
-      rnd = runif(1);
-      row = rnd[0] * pmix.nrows();                // draw random row from data
+      row = floor(runif(1, 0, pmixnrows)[0]);
       x = pi2[row];                               // probability of death
       pistar = (R * x) / (1 - x + R * x);
-      rndm = runif(1);
-      rdm = as<double>(rndm);
-      y = (rdm < pistar ? 1 : 0);                 // Surgical outcome
+      y = (R::runif(0, 1) < pistar ? 1 : 0);      // Step 4: y=Surgical outcome
       pt = pi3[row];
       z = pt - y;
       tn = fmin(0, tn + z + k);
@@ -132,9 +123,9 @@ int eocusum_ad_sim11(int r, DataFrame pmix, double k, double h, double RQ, int m
 // conditional steady-state ARL (EO-CUSUM) -- m = #ic-observations with m >= 0
 // upper side (improvement)
 int eocusum_ad_sim12(int r, DataFrame pmix, double k, double h, double RQ, int m) {
-  NumericVector pi2, pi3, rnd, rndm;
-  int success = 0, rl = 0, y, row;
-  double z = 0, x, pistar, rdm, pt;
+  NumericVector pi2, pi3;
+  int success = 0, rl = 0, y, row, pmixnrows = pmix.nrows();
+  double z = 0, x, pistar, pt;
   double qn = 0, R = 1;
   pi2 = pmix[1];                                 // 2st Predicted probability
   pi3 = pmix[2];                                 // 2st Predicted probability
@@ -145,13 +136,10 @@ int eocusum_ad_sim12(int r, DataFrame pmix, double k, double h, double RQ, int m
     do{
       rl++;
       if ( rl > m) R = RQ;
-      rnd = runif(1);
-      row = rnd[0] * pmix.nrows();                // draw random row from data
+      row = floor(runif(1, 0, pmixnrows)[0]);
       x = pi2[row];                               // probability of death
       pistar = (R * x) / (1 - x + R * x);
-      rndm = runif(1);
-      rdm = as<double>(rndm);
-      y = (rdm < pistar ? 1 : 0);                 // Surgical outcome
+      y = (R::runif(0, 1) < pistar ? 1 : 0);             // Step 4: y=Surgical outcome
       pt = pi3[row];
       z = pt - y;
       qn = fmax(0, qn + z - k);
@@ -167,9 +155,9 @@ int eocusum_ad_sim12(int r, DataFrame pmix, double k, double h, double RQ, int m
 // cyclical steady-state ARL (EO-CUSUM) -- m = #ic-observations with m >= 0
 // lower side (deterioration)
 int eocusum_ad_sim21(int r, DataFrame pmix, double k, double h, double RQ, int m) {
-  NumericVector pi2, pi3, rnd, rndm;
-  int rl = 0, y, row;
-  double z = 0, x, pistar, rdm, pt;
+  NumericVector pi2, pi3;
+  int rl = 0, y, row, pmixnrows = pmix.nrows();
+  double z = 0, x, pistar, pt;
   double tn = 0, R = 1;
   pi2 = pmix[1];                                 // 2st Predicted probability
   pi3 = pmix[2];                                 // 2st Predicted probability
@@ -179,13 +167,10 @@ int eocusum_ad_sim21(int r, DataFrame pmix, double k, double h, double RQ, int m
   do{
     rl++;
     if ( rl > m) R = RQ;
-    rnd = runif(1);
-    row = rnd[0] * pmix.nrows();                // draw random row from data
+    row = floor(runif(1, 0, pmixnrows)[0]);
     x = pi2[row];                               // probability of death
     pistar = (R * x) / (1 - x + R * x);
-    rndm = runif(1);
-    rdm = as<double>(rndm);
-    y = (rdm < pistar ? 1 : 0);                 // Surgical outcome
+    y = (R::runif(0, 1) < pistar ? 1 : 0);             // Step 4: y=Surgical outcome
     pt = pi3[row];
     z = pt - y;
     tn = fmin(0, tn + z + k);
@@ -202,9 +187,9 @@ int eocusum_ad_sim21(int r, DataFrame pmix, double k, double h, double RQ, int m
 // cyclical steady-state ARL (EO-CUSUM) -- m = #ic-observations with m >= 0
 // upper side (improvement)
 int eocusum_ad_sim22(int r, DataFrame pmix, double k, double h, double RQ, int m) {
-  NumericVector pi2, pi3, rnd, rndm;
-  int rl = 0, y, row;
-  double z = 0, x, pistar, rdm, pt;
+  NumericVector pi2, pi3;
+  int rl = 0, y, row, pmixnrows = pmix.nrows();
+  double z = 0, x, pistar, pt;
   double qn = 0, R = 1;
   pi2 = pmix[1];                                 // 2st Predicted probability
   pi3 = pmix[2];                                 // 2st Predicted probability
@@ -214,13 +199,10 @@ int eocusum_ad_sim22(int r, DataFrame pmix, double k, double h, double RQ, int m
   do{
     rl++;
     if ( rl > m) R = RQ;
-    rnd = runif(1);
-    row = rnd[0] * pmix.nrows();                // draw random row from data
+    row = floor(runif(1, 0, pmixnrows)[0]);
     x = pi2[row];                               // probability of death
     pistar = (R * x) / (1 - x + R * x);
-    rndm = runif(1);
-    rdm = as<double>(rndm);
-    y = (rdm < pistar ? 1 : 0);                 // Surgical outcome
+    y = (R::runif(0, 1) < pistar ? 1 : 0);             // Step 4: y=Surgical outcome
     pt = pi3[row];
     z = pt - y;
     qn = fmax(0, qn + z - k);
