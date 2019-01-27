@@ -11,7 +11,6 @@
 #'
 #' @examples
 #' \dontrun{
-#' ## Not run:
 #' library(vlad)
 #' library(dplyr)
 #' data("cardiacsurgery", package = "spcadjust")
