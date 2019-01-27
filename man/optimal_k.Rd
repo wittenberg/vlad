@@ -45,24 +45,24 @@ pi1 <- predict(GLM, type = "response", newdata = data.frame(s = SALL$s))
 pmix <- data.frame(y, pi1, pi1)
 
 ## (Deterioration)
-optimal_k(pmix = pmix, RA = 2, yemp = FALSE)
+optimal_k(pmix = pmix, RA = 2)
 
 ## manually find optimal k for detecting deterioration
 RA <- 2
 pbar <- mean(pmix$pi1)
 kopt <- pbar * ( RA - 1 - log(RA) ) / log(RA)
 
-all.equal(kopt, optimal_k(pmix = pmix, RA = 2, yemp = FALSE))
+all.equal(kopt, optimal_k(pmix = pmix, RA = 2))
 
 ## (Improvement)
-optimal_k(pmix = pmix, RA = 1/2, yemp = FALSE)
+optimal_k(pmix = pmix, RA = 1/2)
 
 ## manually find optimal k for detecting improvement
 RA <- 1/2
 pbar <- mean(pmix$pi1)
 kopt <- pbar * ( 1 - RA + log(RA) ) / log(RA)
 
-all.equal(kopt, optimal_k(pmix = pmix, RA = 1/2, yemp = FALSE))
+all.equal(kopt, optimal_k(pmix = pmix, RA = 1/2))
 }
 }
 \references{
