@@ -427,3 +427,4 @@ double racusum_crit_mc(NumericMatrix pmix, double L0, double RA, double R, doubl
   if ( L1 < L0 ) h = h + 1 / pow(static_cast<double>(10), jmax);
   return h;
 }
+

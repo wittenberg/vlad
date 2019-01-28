@@ -34,4 +34,5 @@ ARMA_VECTOR_TYPE<T> vintersection( ARMA_VECTOR_TYPE<T> first, ARMA_VECTOR_TYPE<T
   ARMA_VECTOR_TYPE<T> result = arma::conv_to< ARMA_VECTOR_TYPE<T> >::from(output);
   return result ;
 }
+
 #endif

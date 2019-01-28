@@ -55,16 +55,13 @@ llr_score <- function(df, coeff, R0 = 1, RA = 2, yemp = TRUE) {
 #' @author Philipp Wittenberg
 #' @export
 bcusum_arl_sim <- function(r, h, df, R0 = 1, RA = 2) {
-  ### Check arguments
   arg_checks <- checkmate::makeAssertCollection()
   checkmate::assert_integerish(r, len = 1, lower = 1, add = arg_checks)
   # checkmate::assert_data_frame(pmix, ncols = 3, add = arg_checks)
   checkmate::assert_numeric(h, len = 1, lower = 0, add = arg_checks)
   checkmate::assert_numeric(R0, len = 1, lower = 0, add = arg_checks)
   checkmate::assert_numeric(RA, len = 1, lower = 0, add = arg_checks)
-  type <- tolower(type)
-  checkmate::assert_choice(type, choices = c("cond", "cycl"), add = arg_checks)
-  # Report if there are any error
+
   .bcusum_arl_sim(r, h, df, R0, RA)
 }
 
@@ -97,7 +94,6 @@ bcusum_arl_sim <- function(r, h, df, R0 = 1, RA = 2) {
 #' @author Philipp Wittenberg
 #' @export
 bcusum_crit_sim <- function(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, jmax = 4, verbose = FALSE) {
-  ### Check arguments
   arg_checks <- checkmate::makeAssertCollection()
   checkmate::assert_numeric(L0, len = 1, lower = 0, add = arg_checks)
   # checkmate::assert_data_frame(pmix, ncols = 3, add = arg_checks)
@@ -106,7 +102,7 @@ bcusum_crit_sim <- function(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, jmax = 4, v
   checkmate::assert_integerish(m, lower = 1, add = arg_checks)
   checkmate::assert_integerish(nc, lower = 1, add = arg_checks)
   checkmate::assert_logical(verbose, len = 1, add = arg_checks)
-  # Report if there are any errors
+  if (!arg_checks$isEmpty()) checkmate::reportAssertions(arg_checks)
   L0 <- as.integer(L0)
   if (is.na(L0) || L0 <= 0) {stop("Given in-control ARL 'L0' must be a positive integer")}
   if (class(df) != "data.frame") {stop("Provide a dataframe for argument 'df'")}
@@ -167,7 +163,6 @@ bcusum_crit_sim <- function(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, jmax = 4, v
 #'
 #' @export
 racusum_ad_sim <- function(r, pmix, h, RA = 2, RQ = 1, m = 50, type = "cond") {
-  ### Check arguments
   arg_checks <- checkmate::makeAssertCollection()
   checkmate::assert_integerish(r, len = 1, lower = 1, add = arg_checks)
   checkmate::assert_data_frame(pmix, ncols = 3, add = arg_checks)
@@ -178,7 +173,6 @@ racusum_ad_sim <- function(r, pmix, h, RA = 2, RQ = 1, m = 50, type = "cond") {
   type <- tolower(type)
   checkmate::assert_choice(type, choices = c("cond", "cycl"), add = arg_checks)
   itype <- switch(type, cond = 1, cycl = 2)
-  # Report if there are any errors
   if (!arg_checks$isEmpty()) checkmate::reportAssertions(arg_checks)
   .racusum_ad_sim(r, pmix, h, RA, RQ, m, itype)
 }
@@ -209,7 +203,6 @@ racusum_ad_sim <- function(r, pmix, h, RA = 2, RQ = 1, m = 50, type = "cond") {
 #'
 #' @export
 racusum_arl_sim <- function(r, pmix, h, RA = 2, RQ = 1, yemp = FALSE) {
-  ### Check arguments
   arg_checks <- checkmate::makeAssertCollection()
   checkmate::assert_integerish(r, len = 1, lower = 1, add = arg_checks)
   checkmate::assert_data_frame(pmix, ncols = 3, add = arg_checks)
@@ -217,7 +210,6 @@ racusum_arl_sim <- function(r, pmix, h, RA = 2, RQ = 1, yemp = FALSE) {
   checkmate::assert_numeric(RA, len = 1, lower = 0, add = arg_checks)
   checkmate::assert_numeric(RQ, len = 1, lower = 0, add = arg_checks)
   checkmate::assert_logical(yemp, len = 1, add = arg_checks)
-  # Report if there are any errors
   if (!arg_checks$isEmpty()) checkmate::reportAssertions(arg_checks)
   .racusum_arl_sim(r, pmix, h, RA, RQ, yemp)
 }
@@ -248,7 +240,6 @@ racusum_arl_sim <- function(r, pmix, h, RA = 2, RQ = 1, yemp = FALSE) {
 #'
 #' @export
 racusum_crit_sim <- function(L0, pmix, RA = 2, RQ = 1, yemp = FALSE, m = 1e4, nc = 1, hmax = 30, jmax = 4, verbose = FALSE) {
-  ### Check arguments
   arg_checks <- checkmate::makeAssertCollection()
   checkmate::assert_numeric(L0, len = 1, lower = 0, add = arg_checks)
   checkmate::assert_data_frame(pmix, ncols = 3, add = arg_checks)
@@ -260,7 +251,6 @@ racusum_crit_sim <- function(L0, pmix, RA = 2, RQ = 1, yemp = FALSE, m = 1e4, nc
   checkmate::assert_integerish(hmax, len = 1, lower = 1, add = arg_checks)
   checkmate::assert_integerish(jmax, len = 1, lower = 1, add = arg_checks)
   checkmate::assert_logical(verbose, len = 1, add = arg_checks)
-  # Report if there are any errors
   if (!arg_checks$isEmpty()) checkmate::reportAssertions(arg_checks)
 
   cl <- parallel::makeCluster(getOption("cl.cores", nc))
@@ -288,3 +278,4 @@ racusum_crit_sim <- function(L0, pmix, RA = 2, RQ = 1, yemp = FALSE, m = 1e4, nc
   parallel::stopCluster(cl)
   h
 }
+

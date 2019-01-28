@@ -21,12 +21,10 @@
 #' @author Philipp Wittenberg
 #' @export
 optimal_k <- function(pmix, RA, yemp = FALSE) {
-  ### Check arguments
   arg_checks <- checkmate::makeAssertCollection()
   checkmate::assert_data_frame(pmix, ncols = 3, add = arg_checks)
   checkmate::assert_numeric(RA, len = 1, lower = 0, add = arg_checks)
   checkmate::assert_logical(yemp, len = 1, add = arg_checks)
-  # Report if there are any errors
   if (!arg_checks$isEmpty()) checkmate::reportAssertions(arg_checks)
   .optimal_k(pmix, RA, yemp)
 }
@@ -57,7 +55,6 @@ optimal_k <- function(pmix, RA, yemp = FALSE) {
 #' @author Philipp Wittenberg
 #' @export
 eocusum_arl_sim <- function(r, pmix, k, h, RQ = 1, yemp = FALSE, side = "low") {
-  ### Check arguments
   arg_checks <- checkmate::makeAssertCollection()
   checkmate::assert_integerish(r, len = 1, lower = 1, add = arg_checks)
   checkmate::assert_data_frame(pmix, ncols = 3, add = arg_checks)
@@ -67,7 +64,6 @@ eocusum_arl_sim <- function(r, pmix, k, h, RQ = 1, yemp = FALSE, side = "low") {
   checkmate::assert_logical(yemp, len = 1, add = arg_checks)
   side <- tolower(side)
   checkmate::assert_choice(side, choices = c("low", "up"), add = arg_checks)
-  # Report if there are any errors
   if (!arg_checks$isEmpty()) checkmate::reportAssertions(arg_checks)
   iside <- switch(side, low = 1, up = 2)
   if (RQ < 1 && iside == 1) stop("For detecting deterioration (side='low') RQ must a positive numeric value >= 1")
@@ -106,7 +102,6 @@ eocusum_ad_sim <- function(r, pmix, k, h, RQ = 1, side = "low", type = "cond", m
   checkmate::assert_choice(type, choices = c("cond", "cycl"), add = arg_checks)
   itype <- switch(type, cond = 1, cycl = 2)
   checkmate::assert_integerish(m, lower = 1, add = arg_checks)
-  # Report if there are any errors
   if (!arg_checks$isEmpty()) checkmate::reportAssertions(arg_checks)
   .eocusum_ad_sim(r, pmix, k, h, RQ, iside, itype, m)
 }
@@ -134,7 +129,6 @@ eocusum_ad_sim <- function(r, pmix, k, h, RQ = 1, side = "low", type = "cond", m
 #'
 #' @export
 eocusum_crit_sim <- function(L0, pmix, k, RQ = 1, side = "low", yemp = FALSE, m = 1e4, nc = 1, hmax = 30, jmax = 4, verbose = FALSE) {
-  ### Check arguments
   arg_checks <- checkmate::makeAssertCollection()
   checkmate::assert_numeric(L0, len = 1, lower = 0, add = arg_checks)
   checkmate::assert_data_frame(pmix, ncols = 3, add = arg_checks)
@@ -149,7 +143,6 @@ eocusum_crit_sim <- function(L0, pmix, k, RQ = 1, side = "low", yemp = FALSE, m 
   side <- tolower(side)
   checkmate::assert_choice(side, choices = c("low", "up"), add = arg_checks)
   # iside <- switch(side, low = 1, up = 2)
-  # Report if there are any errors
   if (!arg_checks$isEmpty()) checkmate::reportAssertions(arg_checks)
   # iside <- switch(as.character(side), low = 1, up = 2)
   if (RQ < 1 && side == "low") stop("For detecting deterioration (side='low') RQ must a positive numeric value >= 1")
