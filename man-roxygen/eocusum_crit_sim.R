@@ -11,31 +11,34 @@
 #'
 #' @examples
 #' \dontrun{
+#' library(vlad)
+#' library(dplyr)
 #' data("cardiacsurgery", package = "spcadjust")
-#' library("dplyr")
 #'
-#' ## preprocess data to 30 day mortality and subset phase I (In-control) of surgeons 2
-#' S2I <- cardiacsurgery %>% rename(s = Parsonnet) %>%
+#' ## preprocess data to 30 day mortality
+#' SALL <- cardiacsurgery %>% rename(s = Parsonnet) %>%
 #'   mutate(y = ifelse(status == 1 & time <= 30, 1, 0),
-#'          phase = factor(ifelse(date < 2*365, "I", "II"))) %>%
-#'   filter(phase == "I", surgeon == 2) %>% select(s, y)
+#'          phase = factor(ifelse(date < 2*365, "I", "II")))
+#' SI <- subset(SALL, phase == "I")
+#' y <- subset(SALL, select = y)
+#' GLM <- glm(y ~ s, data = SI, family = "binomial")
+#' pi1 <- predict(GLM, type = "response", newdata = data.frame(s = SALL$s))
+#' pmix <- data.frame(y, pi1, pi1)
 #'
-#' ## estimate coefficients from logit model
-#' coeff1 <- coef(glm(y ~ s, data = S2I, family = "binomial"))
-#' ## Number of simulation runs
-#' m <- 10^3
-#' set.seed(1234)
-#' ## Number of cores
-#' nc <- parallel::detectCores()
+#' ## (Deterioration)
+#' kopt <- optimal_k(pmix = pmix, RA = 2)
+#' h <- eocusum_crit_sim(L0=370, pmix=pmix, k=kopt, side = "low", verbose=TRUE, nc=4)
 #'
-#' ## determine k for detecting deterioration
-#' kopt <- optimal_k(QA = 2, df = S2I, coeff = coeff, yemp = FALSE)
+#' ## parameters to set up a tabular CUSUM or V-Mask (upper arm)
+#' d <- h/kopt
+#' theta <- atan(kopt)*180/pi
+#' cbind(kopt, h, theta, d)
 #'
-#' ## compute threshold for prespecified in-control ARL
-#' h <- eocusum_crit_sim(L0 = 370, df = S2I, k = kopt, m = m, coeff = coeff1, side = "low",
-#' nc = nc)
+#' ## (Improvement)
+#' kopt <- optimal_k(pmix = pmix, RA = 1/2)
+#' h <- eocusum_crit_sim(L0=370, pmix=pmix, k=kopt, side = "up", verbose=TRUE, nc=4)
 #'
-#' ## parameters to set up a tabular CUSUM or V-Mask
+#' ## parameters to set up a tabular CUSUM or V-Mask (lower arm)
 #' d <- h/kopt
 #' theta <- atan(kopt)*180/pi
 #' cbind(kopt, h, theta, d)

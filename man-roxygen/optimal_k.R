@@ -5,35 +5,37 @@
 #'
 #' @examples
 #' \dontrun{
-#' library("dplyr")
 #' library(vlad)
+#' library(dplyr)
 #' data("cardiacsurgery", package = "spcadjust")
 #'
-#' ## preprocess data to 30 day mortality and subset phase I (In-control) of surgeons 2
-#' S2I <- cardiacsurgery %>% rename(s = Parsonnet) %>%
+#' ## preprocess data to 30 day mortality
+#' SALL <- cardiacsurgery %>% rename(s = Parsonnet) %>%
 #'   mutate(y = ifelse(status == 1 & time <= 30, 1, 0),
-#'         phase = factor(ifelse(date < 2*365, "I", "II"))) %>%
-#'   filter(phase == "I", surgeon == 2) %>% select(s, y)
-#'
-#' coeff <- coef(glm(y ~ s, data = S2I, family = "binomial"))
+#'          phase = factor(ifelse(date < 2*365, "I", "II")))
+#' SI <- subset(SALL, phase == "I")
+#' y <- subset(SALL, select = y)
+#' GLM <- glm(y ~ s, data = SI, family = "binomial")
+#' pi1 <- predict(GLM, type = "response", newdata = data.frame(s = SALL$s))
+#' pmix <- data.frame(y, pi1, pi1)
 #'
 #' ## (Deterioration)
-#' optimal_k(QA = 2, df = S2I, coeff = coeff, yemp = FALSE)
+#' optimal_k(pmix = pmix, RA = 2)
 #'
 #' ## manually find optimal k for detecting deterioration
-#' QA <- 2
-#' pbar <- mean(sapply(S2I[, 1], gettherisk, coef = coeff))
-#' kopt <- pbar * ( QA - 1 - log(QA) ) / log(QA)
+#' RA <- 2
+#' pbar <- mean(pmix$pi1)
+#' kopt <- pbar * ( RA - 1 - log(RA) ) / log(RA)
 #'
-#' all.equal(kopt, optimal_k(QA = 2, df = S2I, coeff = coeff, yemp = FALSE))
+#' all.equal(kopt, optimal_k(pmix = pmix, RA = 2))
 #'
 #' ## (Improvement)
-#' optimal_k(QA = 1/2, df = S2I, coeff = coeff, yemp = FALSE)
+#' optimal_k(pmix = pmix, RA = 1/2)
 #'
 #' ## manually find optimal k for detecting improvement
-#' QA <- 1/2
-#' pbar <- mean(sapply(S2I[, 1], gettherisk, coef = coeff))
-#' kopt <- pbar * ( 1 - QA + log(QA) ) / log(QA)
+#' RA <- 1/2
+#' pbar <- mean(pmix$pi1)
+#' kopt <- pbar * ( 1 - RA + log(RA) ) / log(RA)
 #'
-#' all.equal(kopt, optimal_k(QA = 1/2, df = S2I, coeff = coeff, yemp = FALSE))
+#' all.equal(kopt, optimal_k(pmix = pmix, RA = 1/2))
 #' }
