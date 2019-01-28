@@ -113,7 +113,8 @@ eocusum_ad_sim <- function(r, pmix, k, h, RQ = 1, side = "low", type = "cond", m
 #' @param L0 Double. Prespecified in-control Average Run Length.
 #' @inheritParams eocusum_arl_sim
 #' @param m Integer. Number of simulation runs.
-#' @param nc Integer. Number of cores used for parallel processing.
+#' @param nc Integer. Number of cores used for parallel processing. Value is passed to
+#' \code{\link{parSapply}}.
 #' @param hmax Integer. Maximum value of \code{h} for the grid search.
 #' @param jmax Integer. Number of digits for grid search.
 #' @param verbose Logical. If \code{TRUE} verbose output is included, if \code{FALSE} a quiet

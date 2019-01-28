@@ -223,7 +223,8 @@ racusum_arl_sim <- function(r, pmix, h, RA = 2, RQ = 1, yemp = FALSE) {
 #' @inheritParams racusum_arl_sim
 #' @param yemp Logical. If \code{TRUE}, use emirical outcome values, else use model.
 #' @param m Integer. Number of simulation runs.
-#' @param nc Integer. Number of cores used for parallel processing.
+#' @param nc Integer. Number of cores used for parallel processing. Value is passed to
+#' \code{\link{parSapply}}.
 #' @param hmax Integer. Maximum value of \code{h} for the grid search.
 #' @param jmax Integer. Number of digits for grid search.
 #' @param verbose Logical. If \code{TRUE} verbose output is included, if \code{FALSE} a quiet

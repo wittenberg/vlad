@@ -154,22 +154,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// racusum_q_sim
-int racusum_q_sim(DataFrame pmix, double alpha, double RA, double RQ, bool yemp, int N);
-RcppExport SEXP _vlad_racusum_q_sim(SEXP pmixSEXP, SEXP alphaSEXP, SEXP RASEXP, SEXP RQSEXP, SEXP yempSEXP, SEXP NSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< DataFrame >::type pmix(pmixSEXP);
-    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
-    Rcpp::traits::input_parameter< double >::type RA(RASEXP);
-    Rcpp::traits::input_parameter< double >::type RQ(RQSEXP);
-    Rcpp::traits::input_parameter< bool >::type yemp(yempSEXP);
-    Rcpp::traits::input_parameter< int >::type N(NSEXP);
-    rcpp_result_gen = Rcpp::wrap(racusum_q_sim(pmix, alpha, RA, RQ, yemp, N));
-    return rcpp_result_gen;
-END_RCPP
-}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_vlad_optimal_k", (DL_FUNC) &_vlad_optimal_k, 3},
@@ -181,7 +165,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_vlad_bcusum_arl_sim", (DL_FUNC) &_vlad_bcusum_arl_sim, 5},
     {"_vlad_racusum_ad_sim", (DL_FUNC) &_vlad_racusum_ad_sim, 7},
     {"_vlad_racusum_arl_sim", (DL_FUNC) &_vlad_racusum_arl_sim, 6},
-    {"_vlad_racusum_q_sim", (DL_FUNC) &_vlad_racusum_q_sim, 6},
     {NULL, NULL, 0}
 };
 
