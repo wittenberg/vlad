@@ -17,6 +17,8 @@ control charts in health care.
 
 ## Main features
 
+  - Risk-adjusted CUSUM chart control limit calculatons based on fast
+    and accurate Markov chain approximations
   - Risk-adjusted CUSUM chart based on E-O by Wittenberg et al. (2018)
   - Risk-adjusted CUSUM chart based on log-likelihood ratio statistic by
     Steiner et al. (2000)
@@ -185,6 +187,9 @@ devtools::install_github("wittenberg/vlad")
 <!-- ``` -->
 
 ### References
+
+Knoth et al. (2019). [Risk-adjusted CUSUM charts under model
+error](https://doi.org/10.1002/sim.8104)
 
 Wittenberg et al. (2018). [A simple signaling rule for variable
 life-adjusted display derived from an equivalent risk-adjusted CUSUM
