@@ -1,7 +1,8 @@
 ---
-    output: github_document
+output: github_document
 ---
 
+<!--  -->
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r setup, include = FALSE}
@@ -23,7 +24,7 @@ An R-package which contains functions to set up risk-adjusted quality control ch
 
 ## Main features
 
-- Risk-adjusted CUSUM chart control limit calculatons based on fast and accurate Markov chain approximations
+- Risk-adjusted CUSUM chart control limit calculations based on fast and accurate Markov chain approximations
 - Risk-adjusted CUSUM chart based on E-O by Wittenberg et al. (2018)
 - Risk-adjusted CUSUM chart based on log-likelihood ratio statistic by Steiner et al. (2000)
 - Algorithms are implemented using Rcpp and RcppArmadillo

@@ -1,4 +1,6 @@
 
+<!--  -->
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # vlad
@@ -17,7 +19,7 @@ control charts in health care.
 
 ## Main features
 
-  - Risk-adjusted CUSUM chart control limit calculatons based on fast
+  - Risk-adjusted CUSUM chart control limit calculations based on fast
     and accurate Markov chain approximations
   - Risk-adjusted CUSUM chart based on E-O by Wittenberg et al. (2018)
   - Risk-adjusted CUSUM chart based on log-likelihood ratio statistic by
