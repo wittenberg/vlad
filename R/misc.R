@@ -100,32 +100,9 @@ eocusum_scores <- function(z, k1, k2, reset = FALSE, h1 = NULL, h2 = NULL) {
 #' @param dmax Double. Maximum value for the grid search.
 #' @return Returns a single value for the Box-Cox transformation parameter.
 
+#' @template search_delta
+
 #' @author Philipp Wittenberg
-#' @examples
-#' \dontrun{
-#' ## load data
-#' data("cardiacsurgery", package = "spcadjust")
-#'
-#' ## preprocess data to 30 day mortality and subset data to
-#' ## phase I (In-control) and phase II (monitoring)
-#' SALL <- cardiacsurgery %>% rename(s = Parsonnet) %>%
-#'   mutate(y = ifelse(status == 1 & time <= 30, 1, 0),
-#'          phase = factor(ifelse(date < 2*365, "I", "II")))
-#'
-#' ## subset phase I (In-control)
-#' SI <- filter(SALL, phase == "I") %>% select(s, y)
-#'
-#' ## search delta
-#' dML <- search_delta(SI$s, SI$y, type = "ML")
-#' dQQ <- search_delta(SI$s, SI$y, type = "Pearson")
-#'
-#' ## show Log-likelihood (ell()) and Pearson measure (QQ()) for each delta
-#' delta <- c(-2, -1, 0, dML, dQQ, 0.5, 1, 2)
-#' r <- sapply(delta, function(i) rbind(i, ell(SI$s, SI$y, i), QQ(SI$s, SI$y, i)))
-#' rownames(r) <- c("d", "l", "S")
-#' t(r)
-#' data.frame(t(r)) %>% filter(l == max(l) | S == min(S))
-#' }
 #' @export
 search_delta <- function(s, y, type = "ML", dmin = -2, dmax = 2) {
   switch(type,
