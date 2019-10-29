@@ -34,7 +34,7 @@ You can install the released version of **vlad** from
 install.packages("vlad")
 ```
 
-or install the development version from
+You can install the development version from
 [GitHub](https://github.com/wittenberg/vlad) with:
 
 ``` r
