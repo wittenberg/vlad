@@ -29,7 +29,8 @@ binary logistc regression model.}
 
 \item{m}{Integer. Number of simulation runs.}
 
-\item{nc}{Integer. Number of cores used for parallel processing.}
+\item{nc}{Integer. Number of cores used for parallel processing. Value is passed to
+\code{\link{parSapply}}.}
 
 \item{hmax}{Integer. Maximum value of \code{h} for the grid search.}
 
