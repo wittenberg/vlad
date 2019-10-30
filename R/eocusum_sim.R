@@ -127,7 +127,6 @@ eocusum_ad_sim <- function(r, pmix, k, h, RQ = 1, side = "low", type = "cond", m
 #' @details Determines the control limit ("\code{h}") for given in-control ARL (\code{"L0"})
 #' applying a grid search using \code{\link{eocusum_arl_sim}} and \code{\link{parSapply}}.
 #'
-#'
 #' @author Philipp Wittenberg
 #'
 #' @export

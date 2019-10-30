@@ -18,15 +18,15 @@
 #' @param scaling Double. The \code{scaling} parameter controls the quality of the approximation,
 #' larger values achieve higher accuracy but increase the computation burden (larger transition
 #' probability matrix).
-#' @param rounding Character. If \code{rounding = "p"} a paired rounding implementation similar to
-#' \emph{Webster and Pettitt (2007)} is used, if \code{rounding = "s"} a simple rounding method of
+#' @param rounding Character. If \code{rounding = "p"} a paired rounding implementation of
+#' \emph{Knoth et al. (2019)} is used, if \code{rounding = "s"} a simple rounding method of
 #' \emph{Steiner et al. (2000)} is used.
 #' @param method Character. If \code{method = "Toep"} a combination of Sequential Probability Ratio
 #'  Test and Toeplitz matrix structure is used to calculate the ARL. \code{"ToepInv"} computes the
 #'  inverted matrix using Toeplitz matrix structure. \code{"BE"} solves a linear equation system
 #'  using the classical approach of \emph{Brook and Evans (1972)} to calculate the ARL.
 #'
-#' @return Returns a single value which is the Run Length.
+#' @return Returns a single value which is the Average Run Length.
 #'
 #' @template racusum_arl_mc
 #'

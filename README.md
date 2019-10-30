@@ -22,8 +22,8 @@ control charts in health care.
   - Risk-adjusted CUSUM chart based on E-O (Wittenberg et al. 2018)
   - Risk-adjusted CUSUM chart based on log-likelihood ratio statistic
     (Steiner et al. 2000)
-  - Algorithms are implemented using Rcpp and RcppArmadillo
-  - High performance with parallel computation
+  - Algorithms are implemented using Rcpp, RcppArmadillo and parallel
+    computation
 
 ## Installation
 
@@ -204,19 +204,19 @@ error](https://onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2Fs
 
 ### References
 
-Knoth S, Wittenberg P and Gan FF (2019). [Risk-adjusted CUSUM charts
-under model error](https://doi.org/10.1002/sim.8104). *Statistics in
-Medicine*, **38**(12), pp. 2206–2218.
+Knoth S, Wittenberg P and Gan FF (2019). Risk-adjusted CUSUM charts
+under model error. *Statistics in Medicine*, **38**(12), pp. 2206–2218.
+doi: [10.1002/sim.8104](https://doi.org/10.1002/sim.8104)
 
-Wittenberg P, Gan FF, Knoth S (2018). [A simple signaling rule for
+Wittenberg P, Gan FF, Knoth S (2018). A simple signaling rule for
 variable life-adjusted display derived from an equivalent risk-adjusted
-CUSUM chart](https://doi.org/10.1002/sim.7647). *Statistics in
-Medicine*, **37**(16), pp 2455–2473.
+CUSUM chart. *Statistics in Medicine*, **37**(16), pp 2455–2473. doi:
+[10.1002/sim.7647](https://doi.org/10.1002/sim.7647)
 
-Steiner SH, Cook RJ, Farewell VT and Treasure T (2000). [Monitoring
-surgical performance using risk-adjusted cumulative sum
-charts](https://doi.org/10.1093/biostatistics/1.4.441). *Biostatistics*,
-**1**(4), pp. 441–452.
+Steiner SH, Cook RJ, Farewell VT and Treasure T (2000). Monitoring
+surgical performance using risk-adjusted cumulative sum charts.
+*Biostatistics*, **1**(4), pp. 441–452. doi:
+[10.1093/biostatistics/1.4.441](https://doi.org/10.1093/biostatistics/1.4.441)
 
 ### Authors
 
