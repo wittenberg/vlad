@@ -10,6 +10,9 @@
 #'   <doi:10.1002/sim.8104>.
 #' @docType package
 #' @importFrom Rcpp evalCpp
+#' @importFrom magrittr "%>%"
+#' @importFrom dplyr bind_rows filter mutate select
+#' @importFrom tidyr gather
 #' @useDynLib vlad, .registration = TRUE
 #' @exportPattern "^[[:alpha:]]+"
 #' @name vlad-package
