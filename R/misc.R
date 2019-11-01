@@ -63,6 +63,7 @@ racusum_scores <- function(wt1, wt2, reset = FALSE, h1 = NULL, h2 = NULL) {
 #' @author Philipp Wittenberg
 #' @export
 eocusum_scores <- function(z, k1, k2, reset = FALSE, h1 = NULL, h2 = NULL) {
+  n <- s1 <- s1l <- o1 <- o2 <- NULL
   n <- length(z)
   s1 <- rep(0, n)
   s1l <- s1

@@ -77,7 +77,7 @@ theta2 <- atan(k2)*180 / pi
 p <- data.frame(h1, h2, k1, k2, d1, d2, theta1, theta2)
 p
 
-S2II <- subset(SALL, c(phase == "II" , surgeon == 2))
+S2II <- subset(SALL, c(phase == "II" & surgeon == 2))
 pi2  <- predict(GLM, type="response", newdata=data.frame(s=S2II$s))
 
 z  <- pi2-S2II$y
