@@ -1,6 +1,6 @@
 #' @references Knoth S, Wittenberg P and Gan FF (2019).
-#' Risk-adjusted CUSUM charts under model error. To appear in
-#' \emph{Statistics in Medicine}, \doi{10.1002/sim.8104}.
+#' Risk-adjusted CUSUM charts under model error.
+#' \emph{Statistics in Medicine}, \strong{38}(12), pp. 2206--2218..
 #' @examples
 #' \dontrun{
 #' ## load data

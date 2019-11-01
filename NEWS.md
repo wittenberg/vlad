@@ -1,6 +1,7 @@
 # vlad 0.2.0.9000
 ## Changes
 * use checkmate for error messages
+* Calculate risk of death ahead of simulations to improve computation time
 
 ## Improvements
 * improve simulation algorithms
@@ -9,14 +10,14 @@
 ## Changes
 * Renamed functions:
 
-          original name | new name
-:-----------------------|:------------- 
-`cusum_arl_h_sim()`     | `bcusum_crit_sim()` 
-`cusum_arl_sim()`       | `bcusum_arl_sim()`
-`eocusum_arl_h_sim()`   | `eocusum_crit_sim()`
-`eocusum_adoc_sim()`    | `eocusum_ad_sim()`
-`racusum_arl_h_sim()`   | `racusum_crit_sim()`
-`racusum_adoc_sim()`    | `racusum_ad_sim()`
+original name         | new name
+:---------------------|:-------------------
+`cusum_arl_h_sim()`   | `bcusum_crit_sim()` 
+`cusum_arl_sim()`     | `bcusum_arl_sim()`
+`eocusum_arl_h_sim()` | `eocusum_crit_sim()`
+`eocusum_adoc_sim()`  | `eocusum_ad_sim()`
+`racusum_arl_h_sim()` | `racusum_crit_sim()`
+`racusum_adoc_sim()`  | `racusum_ad_sim()`
 
 ## Improvements
 * Include Markov Chain approximation for risk-adjusted CUSUM chart based on log-likelihood ratio statistic in function racusum_arl_mc() and racusum_crit_mc()

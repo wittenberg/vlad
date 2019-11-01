@@ -28,8 +28,8 @@ out-of-control ARL.}
 larger values achieve higher accuracy but increase the computation burden (larger transition
 probability matrix).}
 
-\item{rounding}{Character. If \code{rounding = "p"} a paired rounding implementation similar to
-\emph{Webster and Pettitt (2007)} is used, if \code{rounding = "s"} a simple rounding method of
+\item{rounding}{Character. If \code{rounding = "p"} a paired rounding implementation of
+\emph{Knoth et al. (2019)} is used, if \code{rounding = "s"} a simple rounding method of
 \emph{Steiner et al. (2000)} is used.}
 
 \item{method}{Character. If \code{method = "Toep"} a combination of Sequential Probability Ratio
@@ -38,7 +38,7 @@ inverted matrix using Toeplitz matrix structure. \code{"BE"} solves a linear equ
 using the classical approach of \emph{Brook and Evans (1972)} to calculate the ARL.}
 }
 \value{
-Returns a single value which is the Run Length.
+Returns a single value which is the Average Run Length.
 }
 \description{
 Computes the Average Run Length of a risk-adjusted cumulative sum control chart
@@ -89,12 +89,14 @@ all.equal(findarl(pmix = pmix1, R1 = 2, R = 1, CL = 4.5, scaling = 600),
 }
 \references{
 Knoth S, Wittenberg P and Gan FF (2019).
-Risk-adjusted CUSUM charts under model error. To appear in
-\emph{Statistics in Medicine}, \doi{10.1002/sim.8104}.
+Risk-adjusted CUSUM charts under model error.
+\emph{Statistics in Medicine}, \strong{38}(12), pp. 2206--2218.
+\doi{10.1002/sim.8104}
 
 Steiner SH, Cook RJ, Farewell VT and Treasure T (2000).
  Monitoring surgical performance using risk-adjusted cumulative sum charts.
  \emph{Biostatistics}, \strong{1}(4), pp. 441--452.
+ \doi{10.1093/biostatistics/1.4.441}
 
 Brook D and Evans DA (1972)
  An approach to the probability distribution of CUSUM run length.

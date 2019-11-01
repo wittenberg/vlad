@@ -20,12 +20,21 @@ control charts in health care.
 ## Main features
 
   - Risk-adjusted CUSUM chart control limit calculations based on fast
+<<<<<<< HEAD
     and accurate Markov chain approximations
   - Risk-adjusted CUSUM chart based on E-O by Wittenberg et al. (2018)
   - Risk-adjusted CUSUM chart based on log-likelihood ratio statistic by
     Steiner et al. (2000)
   - Algorithms are implemented using Rcpp and RcppArmadillo
   - High performance with parallel computation
+=======
+    and accurate Markov chain approximations (Knoth et al. 2019)
+  - Risk-adjusted CUSUM chart based on E-O (Wittenberg et al. 2018)
+  - Risk-adjusted CUSUM chart based on log-likelihood ratio statistic
+    (Steiner et al. 2000)
+  - Algorithms are implemented using Rcpp, RcppArmadillo and parallel
+    computation
+>>>>>>> 4f234e62c9129cde072fff533b40cf636294d035
 
 ## Installation
 
@@ -36,7 +45,7 @@ You can install the released version of **vlad** from
 install.packages("vlad")
 ```
 
-And the development version from
+You can install the development version from
 [GitHub](https://github.com/wittenberg/vlad) with:
 
 ``` r
@@ -44,7 +53,23 @@ And the development version from
 devtools::install_github("wittenberg/vlad")
 ```
 
-## Example
+The package compiles C++ source code during installation, therefore you
+need the appropriate compilers:
+
+On *Windows* you need
+[Rtools](https://cran.r-project.org/bin/windows/Rtools/) available from
+CRAN.
+
+On *macOS* you need the Clang 6.x compiler and the GNU Fortran compiler
+from [macOS tools](https://cran.r-project.org/bin/macosx/tools/). Having
+installed the compilers, you need to open a terminal and start R via
+‘PATH=/usr/local/clang6/bin:$PATH R’. You can then install the package
+via *devtools::install\_github(“wittenberg/vlad”)*
+
+## Examples
+
+[Supplemental material: Risk-adjusted CUSUM charts under model
+error](https://onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2Fsim.8104&file=SIM_8104-Supp-0001-Supplemental-material-SIM-18-0571.R)
 
 <!-- Load libraries: -->
 
@@ -190,16 +215,19 @@ devtools::install_github("wittenberg/vlad")
 
 ### References
 
-Knoth et al. (2019). [Risk-adjusted CUSUM charts under model
-error](https://doi.org/10.1002/sim.8104)
+Knoth S, Wittenberg P and Gan FF (2019). Risk-adjusted CUSUM charts
+under model error. *Statistics in Medicine*, **38**(12), pp. 2206–2218.
+doi: [10.1002/sim.8104](https://doi.org/10.1002/sim.8104)
 
-Wittenberg et al. (2018). [A simple signaling rule for variable
-life-adjusted display derived from an equivalent risk-adjusted CUSUM
-chart](https://doi.org/10.1002/sim.7647)
+Wittenberg P, Gan FF, Knoth S (2018). A simple signaling rule for
+variable life-adjusted display derived from an equivalent risk-adjusted
+CUSUM chart. *Statistics in Medicine*, **37**(16), pp 2455–2473. doi:
+[10.1002/sim.7647](https://doi.org/10.1002/sim.7647)
 
-Steiner et al. (2000). [Monitoring surgical performance using
-risk-adjusted cumulative sum
-charts](https://doi.org/10.1093/biostatistics/1.4.441)
+Steiner SH, Cook RJ, Farewell VT and Treasure T (2000). Monitoring
+surgical performance using risk-adjusted cumulative sum charts.
+*Biostatistics*, **1**(4), pp. 441–452. doi:
+[10.1093/biostatistics/1.4.441](https://doi.org/10.1093/biostatistics/1.4.441)
 
 ### Authors
 
