@@ -39,7 +39,7 @@ racusum_arl_mc <- function(pmix, RA, RQ, h, scaling = 600, rounding = "p", metho
   else if (colSums(pmix)[1] != 1) {stop("Probabilities in first column of matrix 'pmix' should add to 1")}
   RA <- as.numeric(RA)
   #if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")}
-  RQ <- as.numeric(RQ)
+  # RQ <- as.numeric(RQ)
   #if (is.na(RQ) || RQ <= 0) {stop("True performance of a surgeon 'RQ' must a positive numeric value")}
   h <- as.numeric(h)
   if (is.na(h) || h <= 0) {stop("Control limit 'h' must be a positive numeric value")}
@@ -102,4 +102,3 @@ racusum_crit_mc <- function(pmix, L0, RA, RQ, scaling = 600, rounding = "p", met
   verbose <- as.logical(verbose)
   .racusum_crit_mc(pmix, L0, RA, RQ, scaling, irounding, imethod, jmax, verbose)
 }
-
