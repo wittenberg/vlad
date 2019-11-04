@@ -1,4 +1,6 @@
 
+<!--  -->
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # vlad
@@ -18,10 +20,12 @@ control charts in health care.
 ## Main features
 
   - Risk-adjusted CUSUM chart control limit calculations based on fast
-    and accurate Markov chain approximations (Knoth et al. 2019)
-  - Risk-adjusted CUSUM chart based on E-O (Wittenberg et al. 2018)
+    and accurate Markov chain approximations (Knoth, Wittenberg, and Gan
+    [2019](#ref-Knoth.etal_2019))
+  - Risk-adjusted CUSUM chart based on E-O (Wittenberg, Gan, and Knoth
+    [2018](#ref-Wittenberg.etal_2018))
   - Risk-adjusted CUSUM chart based on log-likelihood ratio statistic
-    (Steiner et al. 2000)
+    (Steiner et al. [2000](#ref-Steiner.etal_2000))
   - Algorithms are implemented using Rcpp, RcppArmadillo and parallel
     computation
 
@@ -202,22 +206,6 @@ error](https://onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2Fs
 
 <!-- ``` -->
 
-### References
-
-Knoth S, Wittenberg P and Gan FF (2019). Risk-adjusted CUSUM charts
-under model error. *Statistics in Medicine*, **38**(12), pp. 2206–2218.
-doi: [10.1002/sim.8104](https://doi.org/10.1002/sim.8104)
-
-Wittenberg P, Gan FF, Knoth S (2018). A simple signaling rule for
-variable life-adjusted display derived from an equivalent risk-adjusted
-CUSUM chart. *Statistics in Medicine*, **37**(16), pp 2455–2473. doi:
-[10.1002/sim.7647](https://doi.org/10.1002/sim.7647)
-
-Steiner SH, Cook RJ, Farewell VT and Treasure T (2000). Monitoring
-surgical performance using risk-adjusted cumulative sum charts.
-*Biostatistics*, **1**(4), pp. 441–452. doi:
-[10.1093/biostatistics/1.4.441](https://doi.org/10.1093/biostatistics/1.4.441)
-
 ### Authors
 
 Philipp Wittenberg and Sven Knoth
@@ -225,3 +213,35 @@ Philipp Wittenberg and Sven Knoth
 ### License
 
 GPL (\>= 2)
+
+### References
+
+<div id="refs" class="references">
+
+<div id="ref-Knoth.etal_2019">
+
+Knoth, S, P Wittenberg, and FF Gan. 2019. “Risk-Adjusted CUSUM Charts
+Under Model Error.” *Statistics in Medicine* 38 (12): 2206–18.
+<https://doi.org/10.1002/sim.8104>.
+
+</div>
+
+<div id="ref-Steiner.etal_2000">
+
+Steiner, SH, RJ Cook, VT Farewell, and T Treasure. 2000. “Monitoring
+Surgical Performance Using Risk-Adjusted Cumulative Sum Charts.”
+*Biostatistics* 1 (4): 441–52.
+<https://doi.org/10.1093/biostatistics/1.4.441>.
+
+</div>
+
+<div id="ref-Wittenberg.etal_2018">
+
+Wittenberg, P, FF Gan, and S Knoth. 2018. “A Simple Signaling Rule for
+Variable Life-Adjusted Display Derived from an Equivalent Risk-Adjusted
+CUSUM Chart.” *Statistics in Medicine* 37 (16): 2455–73.
+<https://doi.org/10.1002/sim.7647>.
+
+</div>
+
+</div>
