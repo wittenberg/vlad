@@ -42,22 +42,3 @@ test_that("Different input values for RA", {
     expect_error(do.call(x, racusum_crit_sim(L0, df1, coeff1, RA = x)))})
 })
 
-# test_that("Iterative search procedure I", {
-#   skip_on_cran()
-#   skip_if(SKIP==TRUE, "skip this test now")
-#   set.seed(1234)
-#   expected_results <- 2.755999
-#   coeff1 <- round(coef(glm(status~Parsonnet, data=S2I, family="binomial")), 3)
-#   works <- racusum_crit_sim(L0=740, df=S2I, coeff=coeff1, verbose=TRUE)
-#   expect_equal(works, expected_results, tolerance=0.3)
-# })
-#
-# test_that("Iterative search procedure II", {
-#   skip_on_cran()
-#   skip_if(SKIP==TRUE, "skip this test now")
-#   set.seed(123)
-#   expected_results <- 5.987258
-#   coeff1 <- round(coef(glm(status~Parsonnet, data=S2I, family="binomial")), 3)
-#   works <- racusum_crit_sim(L0=21000, df=S2I, coeff=coeff1, verbose=TRUE)
-#   expect_equivalent(works, expected_results, tolerance=0.9)
-# })

@@ -45,3 +45,53 @@ test_that("Different input values for yemp", {
   expect_error(racusum_arl_sim(r, coeff1, h, df1, yemp = as.numeric(TRUE)))
   expect_error(racusum_arl_sim(r, coeff1, h, df1, yemp = NA))
 })
+
+test_that("Iterative search procedure I", {
+  skip_on_cran()
+  skip_if(SKIP==TRUE, "skip this test now")
+  ## preprocess data to 30 day mortality and subset phase I (In-control) of surgeons 2
+  SALLI <- cardiacsurgery %>% mutate(s = Parsonnet) %>%
+    mutate(y = ifelse(status == 1 & time <= 30, 1, 0),
+        phase = factor(ifelse(date < 2*365, "I", "II"))) %>%
+    filter(phase == "I") %>% select(s, y)
+
+  ## estimate risk model, get relative frequences and probabilities
+  mod1 <- glm(y ~ s, data = SALLI, family = "binomial")
+  fi  <- as.numeric(table(SALLI$s) / length(SALLI$s))
+  usi <- sort(unique(SALLI$s))
+  pi1 <- predict(mod1, newdata = data.frame(s = usi), type = "response")
+  pi2 <- tapply(SALLI$y, SALLI$s, mean)
+
+  ## set up patient mix (risk model)
+  pmix1 <- data.frame(fi, pi1, pi1)
+  ## set up patient mix (model free)
+  pmix2  <- data.frame(fi, pi1, pi2)
+
+  set.seed(1234)
+  ## RA=2
+  expected_results <- 485
+  m <- 1e4
+  RLS <- sapply(1:m, racusum_arl_sim, h=2.75599, pmix=pmix1, RA=2)
+  works <- mean(RLS)
+  expect_equal(works, expected_results, tolerance=0.3)
+
+  expected_results <- 115
+  m <- 1e4
+  RLS <- sapply(1:m, racusum_arl_sim, h=2.75599, pmix=pmix2, RA=2)
+  works <- mean(RLS)
+  expect_equal(works, expected_results, tolerance=0.3)
+
+  ## RA=1/2
+  expected_results <- 530
+  m <- 1e4
+  RLS <- sapply(1:m, racusum_arl_sim, h=2.75599, pmix=pmix1, RA=1/2)
+  works <- mean(RLS)
+  expect_equal(works, expected_results, tolerance=0.3)
+
+  expected_results <- 250
+  m <- 1e4
+  RLS <- sapply(1:m, racusum_arl_sim, h=2.75599, pmix=pmix2, RA=1/2)
+  works <- mean(RLS)
+  expect_equal(works, expected_results, tolerance=0.3)
+
+})
