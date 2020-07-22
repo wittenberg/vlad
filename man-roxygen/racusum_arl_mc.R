@@ -1,12 +1,10 @@
 #' @references Knoth S, Wittenberg P and Gan FF (2019).
 #' Risk-adjusted CUSUM charts under model error.
 #' \emph{Statistics in Medicine}, \strong{38}(12), pp. 2206--2218.
-#' \doi{10.1002/sim.8104}
 #'
 #' Steiner SH, Cook RJ, Farewell VT and Treasure T (2000).
 #'  Monitoring surgical performance using risk-adjusted cumulative sum charts.
 #'  \emph{Biostatistics}, \strong{1}(4), pp. 441--452.
-#'  \doi{10.1093/biostatistics/1.4.441}
 #'
 #' Brook D and Evans DA (1972)
 #'  An approach to the probability distribution of CUSUM run length.

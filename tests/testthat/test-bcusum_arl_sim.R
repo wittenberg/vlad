@@ -1,14 +1,12 @@
 context("bcusum_arl_sim")
 
-# df1 <- data.frame(Parsonnet=c(0L, 0L, 50L, 50L), status = c(0, 1, 0, 1))
-# r <- 1
-# h <- 1
-#
+df1 <- data.frame(Parsonnet=c(0L, 0L, 50L, 50L), status = c(0, 1, 0, 1))
+r <- 1
+h <- 1
+
 # test_that("Input parameter of function", {
-#   expect_error(bcusum_arl_sim(r = 0, h, df1),
-#                "Number of simulation runs 'r' must be a positive integer")
-#   expect_error(bcusum_arl_sim(r, h = 0, df1),
-#                "Control limit 'h' must be a positive numeric value")
+#   expect_error(bcusum_arl_sim(r = 0, h, df1))
+#   expect_error(bcusum_arl_sim(r, h = 0, df1))
 # })
 #
 # test_that("Different input values for df", {

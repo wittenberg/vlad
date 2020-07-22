@@ -13,7 +13,7 @@ double s1(double w, double QA, double g0, double g1, double QS) {return( gX( ( Q
 double FX(double s, double g0, double g1, double shape1, double shape2, double QS) {return(R::pbeta(gX(s, g0, g1, QS), shape1, shape2, true, false));}
 
 double luFW2(double w, double QA, double g0, double g1, double shape1, double shape2, double QS, int lu) {
-  double ires = 0, x0a,  x1a, error;
+  double ires = 0, x0a,  x1a;
   auto f1 = [g0, g1, shape1, shape2, QS](double x) { return FX(exp(x), g0, g1, shape1, shape2, QS) * exp(x);};
   /* apply GL quadrature + integration by parts + change of variables */
   switch (lu) {

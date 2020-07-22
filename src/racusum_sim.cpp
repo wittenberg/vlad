@@ -55,7 +55,7 @@ int racusum_ad_sim(int r, DataFrame pmix, double h, double RA, double RQ, int m,
   // conditional steady-state ARL (RA-CUSUM) -- m = #ic-observations with m >= 0
   int rl = 0, y, row, pmixnrows = pmix.nrows();
   NumericVector pi2, pi3;
-  double wt, x, pistar, pt, logRA = log(RA);
+  double x, pistar, pt, logRA = log(RA);
   pi2 = pmix[1];                                 // 2st Predicted probability
   pi3 = pmix[2];                                 // 2st Predicted probability
   if (type == 1) {
@@ -121,7 +121,7 @@ int racusum_arl_sim(int r, DataFrame pmix, double h, double RA, double RQ, bool 
     row = floor(runif(1, 0, pmixnrows)[0]);
     x = pi2[row];                       // True probability of death
     pistar = (RQ * x) / (1 - x + RQ * x);
-    if (yemp == true & RQ == 1) {     // Only for In-control ARL (emp/model)
+    if ((yemp == true) & (RQ == 1)) {     // Only for In-control ARL (emp/model)
       y = pi1[row];
       pt = pistar;
       } else {

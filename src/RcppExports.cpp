@@ -55,6 +55,74 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// Tn
+double Tn(double z, int j);
+RcppExport SEXP _vlad_Tn(SEXP zSEXP, SEXP jSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type z(zSEXP);
+    Rcpp::traits::input_parameter< int >::type j(jSEXP);
+    rcpp_result_gen = Rcpp::wrap(Tn(z, j));
+    return rcpp_result_gen;
+END_RCPP
+}
+// f2
+double f2(double w, double RA, double RQ, double g0, double g1, double shape1, double shape2);
+RcppExport SEXP _vlad_f2(SEXP wSEXP, SEXP RASEXP, SEXP RQSEXP, SEXP g0SEXP, SEXP g1SEXP, SEXP shape1SEXP, SEXP shape2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type w(wSEXP);
+    Rcpp::traits::input_parameter< double >::type RA(RASEXP);
+    Rcpp::traits::input_parameter< double >::type RQ(RQSEXP);
+    Rcpp::traits::input_parameter< double >::type g0(g0SEXP);
+    Rcpp::traits::input_parameter< double >::type g1(g1SEXP);
+    Rcpp::traits::input_parameter< double >::type shape1(shape1SEXP);
+    Rcpp::traits::input_parameter< double >::type shape2(shape2SEXP);
+    rcpp_result_gen = Rcpp::wrap(f2(w, RA, RQ, g0, g1, shape1, shape2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// integ_t62
+double integ_t62(double xl, double xu, int j, double loc, double RA, double RQ, double g0, double g1, double shape1, double shape2);
+RcppExport SEXP _vlad_integ_t62(SEXP xlSEXP, SEXP xuSEXP, SEXP jSEXP, SEXP locSEXP, SEXP RASEXP, SEXP RQSEXP, SEXP g0SEXP, SEXP g1SEXP, SEXP shape1SEXP, SEXP shape2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type xl(xlSEXP);
+    Rcpp::traits::input_parameter< double >::type xu(xuSEXP);
+    Rcpp::traits::input_parameter< int >::type j(jSEXP);
+    Rcpp::traits::input_parameter< double >::type loc(locSEXP);
+    Rcpp::traits::input_parameter< double >::type RA(RASEXP);
+    Rcpp::traits::input_parameter< double >::type RQ(RQSEXP);
+    Rcpp::traits::input_parameter< double >::type g0(g0SEXP);
+    Rcpp::traits::input_parameter< double >::type g1(g1SEXP);
+    Rcpp::traits::input_parameter< double >::type shape1(shape1SEXP);
+    Rcpp::traits::input_parameter< double >::type shape2(shape2SEXP);
+    rcpp_result_gen = Rcpp::wrap(integ_t62(xl, xu, j, loc, RA, RQ, g0, g1, shape1, shape2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// racusum_beta_arl_int
+double racusum_beta_arl_int(double h, int N, double RA, double RQ, double g0, double g1, double shape1, double shape2, bool pw);
+RcppExport SEXP _vlad_racusum_beta_arl_int(SEXP hSEXP, SEXP NSEXP, SEXP RASEXP, SEXP RQSEXP, SEXP g0SEXP, SEXP g1SEXP, SEXP shape1SEXP, SEXP shape2SEXP, SEXP pwSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type h(hSEXP);
+    Rcpp::traits::input_parameter< int >::type N(NSEXP);
+    Rcpp::traits::input_parameter< double >::type RA(RASEXP);
+    Rcpp::traits::input_parameter< double >::type RQ(RQSEXP);
+    Rcpp::traits::input_parameter< double >::type g0(g0SEXP);
+    Rcpp::traits::input_parameter< double >::type g1(g1SEXP);
+    Rcpp::traits::input_parameter< double >::type shape1(shape1SEXP);
+    Rcpp::traits::input_parameter< double >::type shape2(shape2SEXP);
+    Rcpp::traits::input_parameter< bool >::type pw(pwSEXP);
+    rcpp_result_gen = Rcpp::wrap(racusum_beta_arl_int(h, N, RA, RQ, g0, g1, shape1, shape2, pw));
+    return rcpp_result_gen;
+END_RCPP
+}
 // FWT2
 double FWT2(double w, double QA, double g0, double g1, double shape1, double shape2, double QS);
 RcppExport SEXP _vlad_FWT2(SEXP wSEXP, SEXP QASEXP, SEXP g0SEXP, SEXP g1SEXP, SEXP shape1SEXP, SEXP shape2SEXP, SEXP QSSEXP) {
@@ -252,6 +320,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"_vlad_optimal_k", (DL_FUNC) &_vlad_optimal_k, 3},
     {"_vlad_eocusum_arl_sim", (DL_FUNC) &_vlad_eocusum_arl_sim, 7},
     {"_vlad_eocusum_ad_sim", (DL_FUNC) &_vlad_eocusum_ad_sim, 8},
+    {"_vlad_Tn", (DL_FUNC) &_vlad_Tn, 2},
+    {"_vlad_f2", (DL_FUNC) &_vlad_f2, 7},
+    {"_vlad_integ_t62", (DL_FUNC) &_vlad_integ_t62, 10},
+    {"_vlad_racusum_beta_arl_int", (DL_FUNC) &_vlad_racusum_beta_arl_int, 9},
     {"_vlad_FWT2", (DL_FUNC) &_vlad_FWT2, 7},
     {"_vlad_racusum_beta_arl_mc", (DL_FUNC) &_vlad_racusum_beta_arl_mc, 9},
     {"_vlad_racusum_beta_crit_mc", (DL_FUNC) &_vlad_racusum_beta_crit_mc, 11},

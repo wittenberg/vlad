@@ -1,52 +1,46 @@
 context("racusum_arl_h_mc")
 
-# pmix <- data.frame(cbind(c(0.1, 0.5, 0.4), c(0.1, 0.12, 0.14), c(0.1, 0.12, 0.14)))
-# RA <- 2
-# RQ <- 1
-# h <- 2.9
-# scaling <- 600
-# rounding <- "p"
-# method <- "Toep"
-# L0 <- 100
-#
-# test_that("Different input values for pmix", {
-#
-#   pmix2 <- data.frame(cbind(c(0.2, 0.5, 0.4), c(0.1, 0.12, 0.14), c(0.1, 0.12, 0.14)))
-#   expect_error(racusum_crit_mc(pmix = pmix2, L0, RA, RQ, h),
-#                "Probabilities in first column of matrix 'pmix' should add to 1")
-# })
-#
+pmix <- data.frame(cbind(c(0.1, 0.5, 0.4), c(0.1, 0.12, 0.14), c(0.1, 0.12, 0.14)))
+RA <- 2
+RQ <- 1
+h <- 2.9
+scaling <- 600
+rounding <- "p"
+method <- "Toep"
+L0 <- 100
+
+test_that("Different input values for pmix", {
+  pmix2 <- data.frame(cbind(c(0.2, 0.5, 0.4), c(0.1, 0.12, 0.14), c(0.1, 0.12, 0.14)))
+  expect_error(racusum_crit_mc(pmix = pmix2, L0, RA, RQ, h))
+})
+
 # test_that("Different input values for RA", {
 #   RAtest <- list(-1, 0, "0", NA)
 #   lapply(RAtest, function(x) {
-#     expect_error(do.call(x, racusum_crit_mc(pmix, L0, RQ, scaling, rounding, method, RA = x)),
-#                  "Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")})
+#     expect_error(do.call(x, racusum_crit_mc(pmix, L0, RQ, scaling, rounding, method, RA = x)))})
 # })
 #
-# test_that("Different input values for RQ", {
-#   R0test <- list(-1, 0, "0", NA)
-#   lapply(R0test, function(x) {
-#     expect_error(do.call(x, racusum_crit_mc(pmix, L0, RA, scaling, rounding, method, RQ = x)),
-#                  "True performance of a surgeon 'RQ' must a positive numeric value")})
-# })
-#
+test_that("Different input values for RQ", {
+  R0test <- list(-1, 0, "0", NA)
+  lapply(R0test, function(x) {
+    expect_error(do.call(x, racusum_crit_mc(pmix, L0, RA, scaling, rounding, method, RQ = x)))})
+})
+
 # test_that("Input parameter for L0", {
-#   expect_error(racusum_crit_mc(pmix, L0 = 0, RA, RQ, scaling, rounding, method),
-#                "In-control ARL 'L0' must be a positive numeric value")
+#   expect_error(racusum_crit_mc(pmix, L0 = 0, RA, RQ, scaling, rounding, method))
 # })
-#
-# test_that("Different input values for scaling", {
-#   scatest <- list(-1, 0, "0", NA)
-#   lapply(scatest, function(x) {
-#     expect_error(do.call(x, racusum_crit_mc(pmix, L0, RA, RQ, rounding, method, scaling = x)),
-#                  "Parameter 'scaling' must a positive integer value")})
-# })
-#
+
+test_that("Different input values for scaling", {
+  scatest <- list(-1, 0, "0")
+  lapply(scatest, function(x) {
+    expect_error(do.call(x, racusum_crit_mc(pmix, L0, RA, RQ, rounding, method, scaling = x)))})
+})
+
 # library("dplyr")
 # data("cardiacsurgery", package = "spcadjust")
-#
+
 # ## preprocess data to 30 day mortality and subset phase I (In-control) of surgeons 2
-# SALLI <- cardiacsurgery %>% rename(s = Parsonnet) %>%
+# SALLI <- cardiacsurgery %>% mutate(s = Parsonnet) %>%
 #   mutate(y = ifelse(status == 1 & time <= 30, 1, 0),
 #          phase = factor(ifelse(date < 2*365, "I", "II"))) %>%
 #   filter(phase == "I") %>% select(s, y)
@@ -62,8 +56,8 @@ context("racusum_arl_h_mc")
 #
 # RQ <- 1
 #
-# ## control limit for detecting deterioration R1=2:
-#
+## control limit for detecting deterioration R1=2:
+
 # test_that("Iterative search procedure I, deterioration R1 = 2", {
 #   skip_on_cran()
 #   skip_if(SKIP == TRUE, "skip this test now")

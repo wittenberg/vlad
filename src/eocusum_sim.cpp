@@ -25,7 +25,7 @@ double optimal_k(DataFrame pmix, double RA, bool yemp) {
 
 // [[Rcpp::export(.eocusum_arl_sim)]]
 int eocusum_arl_sim(int r, DataFrame pmix, double k, double h, double RQ, bool yemp, int side) {
-  double qn = 0, z = 0, x, pistar, pt;
+  double z = 0, x, pistar, pt;
   int y, row, rl = 0, pmixnrows = pmix.nrows();
   NumericVector pi1, pi2, pi3;
   pi1 = pmix[0];                        // Empirical data
@@ -38,7 +38,7 @@ int eocusum_arl_sim(int r, DataFrame pmix, double k, double h, double RQ, bool y
       row = floor(runif(1, 0, pmixnrows)[0]);
       x = pi2[row];                    // probability of death
       pistar = (RQ * x) / (1 - x + RQ * x);
-      if (yemp == true & RQ == 1) {
+      if ((yemp == true) & (RQ == 1)) {
         y = pi1[row];
         pt = pistar;
       } else {                                  // Surgical outcome empirical

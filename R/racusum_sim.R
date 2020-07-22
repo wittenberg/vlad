@@ -22,19 +22,17 @@
 #' @author Philipp Wittenberg
 #' @export
 llr_score <- function(df, coeff, R0 = 1, RA = 2, yemp = TRUE) {
-  if (class(df) != "data.frame") {stop("Provide a dataframe for argument 'df'")}
-  else if (ncol(df) != 2) {stop("Provide a dataframe with two columns for argument 'df'")}
-  else if (vapply(df, class, "")[1] != "integer") {stop("First column of dataframe must be of type integer")}
-  else if (vapply(df, class, "")[2] != "numeric") {stop("Second column of dataframe must be of type numeric")}
+  arg_checks <- checkmate::makeAssertCollection()
+  # if (class(df) != "data.frame") {stop("Provide a dataframe for argument 'df'")}
+  # else if (ncol(df) != 2) {stop("Provide a dataframe with two columns for argument 'df'")}
+  # else if (vapply(df, class, "")[1] != "integer") {stop("First column of dataframe must be of type integer")}
+  # else if (vapply(df, class, "")[2] != "numeric") {stop("Second column of dataframe must be of type numeric")}
   df <- as.data.frame(df)
-  if (is.null(coeff) || is.na(coeff) || length(coeff) != 2) {stop("Model coefficients 'coeff' must be a numeric vector with two elements")}
-  coeff <- as.vector(coeff)
-  if (is.na(R0) || R0 <= 0) {stop("Odds ratio of death under the null hypotheses 'R0' must a positive numeric value")}
-  R0 <- as.numeric(R0)
-  if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")}
-  RA <- as.numeric(RA)
-  if (is.na(yemp) || is.logical(yemp) != "TRUE") {warning("Argument 'yemp' must be logical using TRUE as default value")}
-  yemp <- as.logical(yemp)
+  checkmate::assert_vector(coeff, len = 2, add = arg_checks)
+  checkmate::assert_numeric(R0, len = 1, lower = 0, add = arg_checks)
+  checkmate::assert_numeric(RA, len = 1, lower = 0, add = arg_checks)
+  checkmate::assert_logical(yemp, len = 1, add = arg_checks)
+  if (!arg_checks$isEmpty()) checkmate::reportAssertions(arg_checks)
   .llr_score(df, coeff, R0, RA, yemp)
 }
 
@@ -61,7 +59,7 @@ bcusum_arl_sim <- function(r, h, df, R0 = 1, RA = 2) {
   checkmate::assert_numeric(h, len = 1, lower = 0, add = arg_checks)
   checkmate::assert_numeric(R0, len = 1, lower = 0, add = arg_checks)
   checkmate::assert_numeric(RA, len = 1, lower = 0, add = arg_checks)
-
+  if (!arg_checks$isEmpty()) checkmate::reportAssertions(arg_checks)
   .bcusum_arl_sim(r, h, df, R0, RA)
 }
 

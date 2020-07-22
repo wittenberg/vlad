@@ -13,6 +13,22 @@
     .Call(`_vlad_eocusum_ad_sim`, r, pmix, k, h, RQ, side, type, m)
 }
 
+.Tn <- function(z, j) {
+    .Call(`_vlad_Tn`, z, j)
+}
+
+.f2 <- function(w, RA, RQ, g0, g1, shape1, shape2) {
+    .Call(`_vlad_f2`, w, RA, RQ, g0, g1, shape1, shape2)
+}
+
+.integ_t62 <- function(xl, xu, j, loc, RA, RQ, g0, g1, shape1, shape2) {
+    .Call(`_vlad_integ_t62`, xl, xu, j, loc, RA, RQ, g0, g1, shape1, shape2)
+}
+
+.racusum_beta_arl_int <- function(h, N, RA, RQ, g0, g1, shape1, shape2, pw) {
+    .Call(`_vlad_racusum_beta_arl_int`, h, N, RA, RQ, g0, g1, shape1, shape2, pw)
+}
+
 .FWT2 <- function(w, QA, g0, g1, shape1, shape2, QS) {
     .Call(`_vlad_FWT2`, w, QA, g0, g1, shape1, shape2, QS)
 }
