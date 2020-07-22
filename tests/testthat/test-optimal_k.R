@@ -7,10 +7,10 @@ QA <- 2
 
 # test_that("Output of optimal_k calculation", {
 #   expected_results <- 0.1255
-#   works <- round(optimal_k(QA = 2, df, coeff, FALSE), 4)
+#   works <- round(optimal_k(pmix = df, RA = 2, FALSE), 4)
 #   expect_equal(works, expected_results)
 # })
-#
+
 # test_that("Output of optimal_k calculation", {
 #   expected_results <- 0.079
 #   QA <- 1/2

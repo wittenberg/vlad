@@ -34,8 +34,7 @@ h <- 1
 # test_that("Different input values for R0", {
 #   R0test <- list(-1, 0, "0", NA)
 #   lapply(R0test, function(x) {
-#     expect_error(do.call(x, bcusum_arl_sim(r, h, df1, R0 = x)),
-#                  "Odds ratio of death under the null hypotheses 'R0' must a positive numeric value")})
+#     expect_error(do.call(x, bcusum_arl_sim(r, h, df1, R0 = x)))})
 # })
 #
 # test_that("Different input values for RA", {
