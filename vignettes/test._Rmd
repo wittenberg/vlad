@@ -29,27 +29,33 @@ knitr::opts_chunk$set(echo=TRUE, cache=FALSE, fig.align="center", comment="#>", 
 
 Install the *vlad* package from CRAN
 
-```{r}
+```{r, message=FALSE}
 library("vlad")
 ```
 
 He says @Wittenberg.etal_2018.
 [@Wittenberg.etal_2018]
 
-```{r, eval=TRUE}
+```{r, eval=TRUE, message=FALSE}
 data("cardiacsurgery", package="spcadjust") # example data set
 library("parallel")                         # parallel simulations
 library("dplyr")                            # data handling/manipulation
 library("tidyr")                            # data preparation for plotting
 library("ggplot2")                          # for plotting
+```
 
+```{r}
 theme_set(theme_bw() +
             theme(panel.grid.major=element_blank(),
                   panel.grid.minor=element_blank(),
                   plot.title=element_text(hjust=.5))
           )
 
+```
 
+
+## Get started
+```{r, eval=TRUE}
 SALL <- cardiacsurgery %>% rename(s = Parsonnet) %>%
   mutate(y = ifelse(status == 1 & time <= 30, 1, 0),
          phase = factor(ifelse(date < 2*365, "I", "II")))
@@ -61,7 +67,7 @@ pmix <- data.frame(SI$y, pi1, pi1)
 
 L0 <- 740
 m  <- 1e2
-nc <- detectCores()
+nc <- 1#detectCores()
 
 k1 <- optimal_k(pmix=pmix, RA=1/2)
 k2 <- optimal_k(pmix=pmix, RA=2)
@@ -83,6 +89,9 @@ pi2  <- predict(GLM, type="response", newdata=data.frame(s=S2II$s))
 z  <- pi2-S2II$y
 Sn <- cumsum(z)
 VM <- compute_vmask(z, p$d1, p$d2, p$theta1, p$theta2)
+```
+
+```{r, fig.height=4.5, fig.width=7, fig.align="center", message=FALSE}
 data.frame(n=1:length(Sn), value=Sn) %>%
   ggplot(aes(x=n, y=value)) +
   geom_hline(yintercept=0, colour="darkgreen", linetype="dashed") +
@@ -95,6 +104,22 @@ data.frame(n=1:length(Sn), value=Sn) %>%
   ## alarm points
   geom_point(data=VM$alarms, aes(colour=Masks), size=2) +
   labs(x="Patient number n", y="E-O CUSUM", title=paste0("Surgeon: ", 2)) +
+  guides(colour = "none")
+
+```
+
+```{r}
+full <- MASKS(a=a2, d1=d1, d2=d1, theta1=theta1, theta2=theta1, Sn=Sn)
+
+
+data.frame(n=1:length(Sn), value=Sn) %>% 
+    ggplot(aes(x=n, y=value)) +
+    geom_hline(yintercept=0, colour="darkgreen", linetype="dashed") +  
+    ## VLAD
+    geom_line() +
+  ## V-mask arms
+  geom_line(data=full[[1]], aes(group = interaction(group, number), colour=Masks), alpha=.3) +
+  labs(title="VLAD with V-Mask") +
   guides(colour = "none")
 ```
 

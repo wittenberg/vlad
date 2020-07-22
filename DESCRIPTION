@@ -29,5 +29,5 @@ Suggests:
     testthat,
     knitr
 LinkingTo: Rcpp, RcppArmadillo
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1
 VignetteBuilder: knitr

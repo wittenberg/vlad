@@ -83,7 +83,7 @@ time <- system.time( {
   RLS <- array(NA, dim = c( length(QS_vec), length(h_vec), m))
   for (h in h_vec) {
     for (QS in QS_vec) {
-      cat(h, " ", QS, "\\n")
+      cat(h, " ", QS, "\n")
       RLS[which(QS_vec==QS), which(h==h_vec), ] <- parallel::parSapply(cl, 1:m, eocusum_arloc_sim,
                                                                        side = side, QS = QS, h = h,
                                                                        k = k, df = df1,

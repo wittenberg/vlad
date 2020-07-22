@@ -170,7 +170,7 @@ racusum_ad_sim <- function(r, pmix, h, RA = 2, RQ = 1, m = 50, type = "cond") {
   checkmate::assert_numeric(RA, len = 1, lower = 0, add = arg_checks)
   checkmate::assert_numeric(RQ, len = 1, lower = 0, add = arg_checks)
   checkmate::assert_integerish(m, lower = 1, add = arg_checks)
-  type <- tolower(type)
+  type <- tolower(type)#
   checkmate::assert_choice(type, choices = c("cond", "cycl"), add = arg_checks)
   itype <- switch(type, cond = 1, cycl = 2)
   if (!arg_checks$isEmpty()) checkmate::reportAssertions(arg_checks)

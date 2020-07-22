@@ -4,8 +4,7 @@
 \alias{eocusum_ad_sim}
 \title{Compute steady-state ARLs of EO-CUSUM control charts using simulation}
 \usage{
-eocusum_ad_sim(r, pmix, k, h, RQ = 1, side = "low", type = "cond",
-  m = 50)
+eocusum_ad_sim(r, pmix, k, h, RQ = 1, side = "low", type = "cond", m = 50)
 }
 \arguments{
 \item{r}{Integer. Number of of simulation runs.}

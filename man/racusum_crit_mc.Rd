@@ -4,8 +4,17 @@
 \alias{racusum_crit_mc}
 \title{Compute alarm threshold of RA-CUSUM control chart using Markov chain approximation}
 \usage{
-racusum_crit_mc(pmix, L0, RA, RQ, scaling = 600, rounding = "p",
-  method = "Toep", jmax = 4, verbose = FALSE)
+racusum_crit_mc(
+  pmix,
+  L0,
+  RA,
+  RQ,
+  scaling = 600,
+  rounding = "p",
+  method = "Toep",
+  jmax = 4,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{pmix}{Numeric Matrix. A three column matrix. First column is the risk

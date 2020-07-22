@@ -4,8 +4,18 @@
 \alias{racusum_crit_sim}
 \title{Compute alarm threshold of RA-CUSUM control charts using simulation}
 \usage{
-racusum_crit_sim(L0, pmix, RA = 2, RQ = 1, yemp = FALSE, m = 10000,
-  nc = 1, hmax = 30, jmax = 4, verbose = FALSE)
+racusum_crit_sim(
+  L0,
+  pmix,
+  RA = 2,
+  RQ = 1,
+  yemp = FALSE,
+  m = 10000,
+  nc = 1,
+  hmax = 30,
+  jmax = 4,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{L0}{Double. Prespecified in-control Average Run Length.}

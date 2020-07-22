@@ -33,26 +33,17 @@
 #' @author Philipp Wittenberg
 #' @export
 racusum_arl_mc <- function(pmix, RA, RQ, h, scaling = 600, rounding = "p", method = "Toep") {
+  arg_checks <- checkmate::makeAssertCollection()
   pmix <- as.matrix(pmix)
-  if (class(pmix) != "matrix") {stop("Provide a matrix for argument 'pmix'")}
-  else if (ncol(pmix) != 3) {stop("Provide a matrix with three columns for argument 'pmix'")}
-  else if (colSums(pmix)[1] != 1) {stop("Probabilities in first column of matrix 'pmix' should add to 1")}
-  RA <- as.numeric(RA)
-  #if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")}
-  # RQ <- as.numeric(RQ)
-  #if (is.na(RQ) || RQ <= 0) {stop("True performance of a surgeon 'RQ' must a positive numeric value")}
-  h <- as.numeric(h)
-  if (is.na(h) || h <= 0) {stop("Control limit 'h' must be a positive numeric value")}
-  as.integer(scaling)
-  if (is.na(scaling) || scaling <= 0) {stop("Parameter 'scaling' must a positive integer value")}
+  checkmate::assert_matrix(pmix, ncols = 3, add = arg_checks)
+  checkmate::assert_numeric(RA, len = 1, lower = 0, add = arg_checks)
+  checkmate::assert_integerish(scaling, lower = 1, add = arg_checks)
+  rounding <- tolower(rounding)
+  checkmate::assert_choice(rounding, c("p", "s"))
   irounding <- switch(rounding, p = 1, s = 2)
-  as.integer(irounding)
+  checkmate::assert_choice(method, c("Toep", "ToepInv", "BE"))
   imethod <- switch(method, Toep = 1, ToepInv = 2, BE = 3)
-  as.integer(imethod)
-  if (is.null(imethod)) {
-    warning("no valid input, using method=toeplitz as default")
-    imethod <- 1
-  }
+  if (!arg_checks$isEmpty()) checkmate::reportAssertions(arg_checks)
   .racusum_arl_mc(pmix, RA, RQ, h, scaling, irounding, imethod)
 }
 
@@ -78,27 +69,20 @@ racusum_arl_mc <- function(pmix, RA, RQ, h, scaling = 600, rounding = "p", metho
 #' @author Philipp Wittenberg
 #' @export
 racusum_crit_mc <- function(pmix, L0, RA, RQ, scaling = 600, rounding = "p", method = "Toep", jmax = 4, verbose = FALSE) {
+  arg_checks <- checkmate::makeAssertCollection()
   pmix <- as.matrix(pmix)
-  if (class(pmix) != "matrix") {stop("Provide a matrix for argument 'pmix'")}
-  else if (ncol(pmix) != 3) {stop("Provide a matrix with three columns for argument 'pmix'")}
-  else if (colSums(pmix)[1] != 1) {stop("Probabilities in first column of matrix 'pmix' should add to 1")}
-  L0 <- as.numeric(L0)
-  if (is.na(L0) || L0 <= 0) {stop("In-control ARL 'L0' must be a positive numeric value")}
-  RA <- as.numeric(RA)
-  #if (is.na(RA) || RA <= 0) {stop("Odds ratio of death under the alternative hypotheses 'RA' must a positive numeric value")}
-  RQ <- as.numeric(RQ)
-  #if (is.na(RQ) || RQ <= 0) {stop("True performance of a surgeon 'RQ' must a positive numeric value")}
-  as.integer(scaling)
-  if (is.na(scaling) || scaling <= 0) {stop("Parameter 'scaling' must a positive integer value")}
+  checkmate::assert_matrix(pmix, ncols = 3, add = arg_checks)
+  checkmate::assert_integerish(L0, lower = 0, add = arg_checks)
+  checkmate::assert_numeric(RA, len = 1, lower = 0, add = arg_checks)
+  checkmate::assert_numeric(RQ, len = 1, lower = 0, add = arg_checks)
+  checkmate::assert_integerish(scaling, lower = 1, add = arg_checks)
+  rounding <- tolower(rounding)
+  checkmate::assert_choice(rounding, c("p", "s"))
   irounding <- switch(rounding, p = 1, s = 2)
-  as.integer(irounding)
+  checkmate::assert_choice(method, c("Toep", "ToepInv", "BE"))
   imethod <- switch(method, Toep = 1, ToepInv = 2, BE = 3)
-  if (is.null(imethod)) {
-    warning("no valid input, using method=toeplitz as default")
-    imethod <- 1
-  }
-  jmax <- as.integer(jmax)
-  if (is.na(jmax) || jmax <= 0) {stop("Number of digits for grid search 'jmax' must be a positive integer")}
-  verbose <- as.logical(verbose)
+  checkmate::assert_integerish(scaling, lower = 0, add = arg_checks)
+  checkmate::assert_logical(verbose, len = 1, add = arg_checks)
+  if (!arg_checks$isEmpty()) checkmate::reportAssertions(arg_checks)
   .racusum_crit_mc(pmix, L0, RA, RQ, scaling, irounding, imethod, jmax, verbose)
 }

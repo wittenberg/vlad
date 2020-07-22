@@ -4,8 +4,7 @@
 \alias{racusum_arl_mc}
 \title{Compute ARLs of RA-CUSUM control charts using Markov chain approximation}
 \usage{
-racusum_arl_mc(pmix, RA, RQ, h, scaling = 600, rounding = "p",
-  method = "Toep")
+racusum_arl_mc(pmix, RA, RQ, h, scaling = 600, rounding = "p", method = "Toep")
 }
 \arguments{
 \item{pmix}{Numeric Matrix. A three column matrix. First column is the risk
