@@ -57,41 +57,37 @@ test_that("Iterative search procedure I", {
 
   ## estimate risk model, get relative frequences and probabilities
   mod1 <- glm(y ~ s, data = SALLI, family = "binomial")
-  fi  <- as.numeric(table(SALLI$s) / length(SALLI$s))
-  usi <- sort(unique(SALLI$s))
-  pi1 <- predict(mod1, newdata = data.frame(s = usi), type = "response")
-  pi2 <- tapply(SALLI$y, SALLI$s, mean)
+  y <- SALLI$y
+  pi1 <- fitted.values(mod1)
 
   ## set up patient mix (risk model)
-  pmix1 <- data.frame(fi, pi1, pi1)
-  ## set up patient mix (model free)
-  pmix2  <- data.frame(fi, pi1, pi2)
+  pmix <- data.frame(y, pi1, pi1)
+  h <- 2.75599
 
   set.seed(1234)
   ## RA=2
-  expected_results <- 485
+  expected_results <- 1000
   m <- 1e4
-  RLS <- sapply(1:m, racusum_arl_sim, h=2.75599, pmix=pmix1, RA=2)
+  RLS <- sapply(1:m, racusum_arl_sim, h=h, pmix=pmix, RA=2, yemp=TRUE)
   works <- mean(RLS)
   expect_equal(works, expected_results, tolerance=0.3)
 
-  expected_results <- 115
+  expected_results <- 1150
   m <- 1e4
-  RLS <- sapply(1:m, racusum_arl_sim, h=2.75599, pmix=pmix2, RA=2)
+  RLS <- sapply(1:m, racusum_arl_sim, h=h, pmix=pmix, RA=2, yemp=FALSE)
   works <- mean(RLS)
   expect_equal(works, expected_results, tolerance=0.3)
 
   ## RA=1/2
-  expected_results <- 530
+  expected_results <- 1450
   m <- 1e4
-  RLS <- sapply(1:m, racusum_arl_sim, h=2.75599, pmix=pmix1, RA=1/2)
+  RLS <- sapply(1:m, racusum_arl_sim, h=h, pmix=pmix, RA=1/2, yemp=TRUE)
   works <- mean(RLS)
   expect_equal(works, expected_results, tolerance=0.3)
 
-  expected_results <- 250
+  expected_results <- 1600
   m <- 1e4
-  RLS <- sapply(1:m, racusum_arl_sim, h=2.75599, pmix=pmix2, RA=1/2)
+  RLS <- sapply(1:m, racusum_arl_sim, h=h, pmix=pmix, RA=1/2, yemp=FALSE)
   works <- mean(RLS)
   expect_equal(works, expected_results, tolerance=0.3)
-
 })
