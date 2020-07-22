@@ -28,6 +28,6 @@ Suggests:
     spcadjust (>= 1.1),
     testthat,
     knitr
-LinkingTo: Rcpp, RcppArmadillo
+LinkingTo: BH, Rcpp, RcppArmadillo
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
