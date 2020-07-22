@@ -7,30 +7,30 @@ h <- 2.9
 scaling <- 600
 rounding <- "p"
 method <- "Toep"
-
-test_that("Different input values for pmix", {
-  pmix2 <- data.frame(cbind(c(0.2, 0.5, 0.4), c(0.1, 0.12, 0.14), c(0.1, 0.12, 0.14)))
-  expect_error(racusum_arl_mc(pmix = pmix2, RA, RQ, h))
-})
-
-test_that("Different input values for RA", {
-  RAtest <- list(-1, 0, "0", NA)
-  lapply(RAtest, function(x) {
-    expect_error(do.call(x, racusum_arl_mc(pmix, RQ, h, scaling, rounding, method, RA = x)))
-    })
-})
-
-test_that("Different input values for RQ", {
-  R0test <- list(-1, 0, "0", NA)
-  lapply(R0test, function(x) {
-    expect_error(do.call(x, racusum_arl_mc(pmix, RA, h, scaling, rounding, method, RQ = x)))
-    })
-})
-
-test_that("Input parameter for h", {
-  expect_error(racusum_arl_mc(pmix, RA, RQ, h = 0, scaling, rounding, method),
-               "Control limit 'h' must be a positive numeric value")
-})
+#
+# test_that("Different input values for pmix", {
+#   pmix2 <- data.frame(cbind(c(0.2, 0.5, 0.4), c(0.1, 0.12, 0.14), c(0.1, 0.12, 0.14)))
+#   expect_error(racusum_arl_mc(pmix = pmix2, RA, RQ, h))
+# })
+#
+# test_that("Different input values for RA", {
+#   RAtest <- list(-1, 0, "0", NA)
+#   lapply(RAtest, function(x) {
+#     expect_error(do.call(x, racusum_arl_mc(pmix, RQ, h, scaling, rounding, method, RA = x)))
+#     })
+# })
+#
+# test_that("Different input values for RQ", {
+#   R0test <- list(-1, 0, "0", NA)
+#   lapply(R0test, function(x) {
+#     expect_error(do.call(x, racusum_arl_mc(pmix, RA, h, scaling, rounding, method, RQ = x)))
+#     })
+# })
+#
+# test_that("Input parameter for h", {
+#   expect_error(racusum_arl_mc(pmix, RA, RQ, h = 0, scaling, rounding, method),
+#                "Control limit 'h' must be a positive numeric value")
+# })
 #
 # test_that("Different input values for scaling", {
 #   scatest <- list(-1, 0, "0", NA)
