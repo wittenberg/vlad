@@ -25,6 +25,14 @@
     .Call(`_vlad_racusum_beta_crit_mc`, L0, QA, g0, g1, shape1, shape2, method, r, jmax, verbose, QS)
 }
 
+.racusum_beta_arl_sim <- function(r, shape1, shape2, coeff, h, RA, rs, RQ) {
+    .Call(`_vlad_racusum_beta_arl_sim`, r, shape1, shape2, coeff, h, RA, rs, RQ)
+}
+
+.racusum_betabinomial_arl_sim <- function(r, shape1, shape2, coeff, h, RA, rs, RQ) {
+    .Call(`_vlad_racusum_betabinomial_arl_sim`, r, shape1, shape2, coeff, h, RA, rs, RQ)
+}
+
 .racusum_arl_mc <- function(pmix, RA, RQ, h, scaling, rounding, method) {
     .Call(`_vlad_racusum_arl_mc`, pmix, RA, RQ, h, scaling, rounding, method)
 }
