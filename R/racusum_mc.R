@@ -81,7 +81,7 @@ racusum_crit_mc <- function(pmix, L0, RA, RQ, scaling = 600, rounding = "p", met
   irounding <- switch(rounding, p = 1, s = 2)
   checkmate::assert_choice(method, c("Toep", "ToepInv", "BE"))
   imethod <- switch(method, Toep = 1, ToepInv = 2, BE = 3)
-  checkmate::assert_integerish(scaling, lower = 0, add = arg_checks)
+  checkmate::assert_integerish(jmax, lower = 0, add = arg_checks)
   checkmate::assert_logical(verbose, len = 1, add = arg_checks)
   if (!arg_checks$isEmpty()) checkmate::reportAssertions(arg_checks)
   .racusum_crit_mc(pmix, L0, RA, RQ, scaling, irounding, imethod, jmax, verbose)

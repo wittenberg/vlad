@@ -55,6 +55,63 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// FWT2
+double FWT2(double w, double QA, double g0, double g1, double shape1, double shape2, double QS);
+RcppExport SEXP _vlad_FWT2(SEXP wSEXP, SEXP QASEXP, SEXP g0SEXP, SEXP g1SEXP, SEXP shape1SEXP, SEXP shape2SEXP, SEXP QSSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type w(wSEXP);
+    Rcpp::traits::input_parameter< double >::type QA(QASEXP);
+    Rcpp::traits::input_parameter< double >::type g0(g0SEXP);
+    Rcpp::traits::input_parameter< double >::type g1(g1SEXP);
+    Rcpp::traits::input_parameter< double >::type shape1(shape1SEXP);
+    Rcpp::traits::input_parameter< double >::type shape2(shape2SEXP);
+    Rcpp::traits::input_parameter< double >::type QS(QSSEXP);
+    rcpp_result_gen = Rcpp::wrap(FWT2(w, QA, g0, g1, shape1, shape2, QS));
+    return rcpp_result_gen;
+END_RCPP
+}
+// racusum_beta_arl_mc
+double racusum_beta_arl_mc(double h, double QA, double g0, double g1, double shape1, double shape2, int r, int method, double QS);
+RcppExport SEXP _vlad_racusum_beta_arl_mc(SEXP hSEXP, SEXP QASEXP, SEXP g0SEXP, SEXP g1SEXP, SEXP shape1SEXP, SEXP shape2SEXP, SEXP rSEXP, SEXP methodSEXP, SEXP QSSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type h(hSEXP);
+    Rcpp::traits::input_parameter< double >::type QA(QASEXP);
+    Rcpp::traits::input_parameter< double >::type g0(g0SEXP);
+    Rcpp::traits::input_parameter< double >::type g1(g1SEXP);
+    Rcpp::traits::input_parameter< double >::type shape1(shape1SEXP);
+    Rcpp::traits::input_parameter< double >::type shape2(shape2SEXP);
+    Rcpp::traits::input_parameter< int >::type r(rSEXP);
+    Rcpp::traits::input_parameter< int >::type method(methodSEXP);
+    Rcpp::traits::input_parameter< double >::type QS(QSSEXP);
+    rcpp_result_gen = Rcpp::wrap(racusum_beta_arl_mc(h, QA, g0, g1, shape1, shape2, r, method, QS));
+    return rcpp_result_gen;
+END_RCPP
+}
+// racusum_beta_crit_mc
+double racusum_beta_crit_mc(double L0, double QA, double g0, double g1, double shape1, double shape2, int method, int r, int jmax, bool verbose, double QS);
+RcppExport SEXP _vlad_racusum_beta_crit_mc(SEXP L0SEXP, SEXP QASEXP, SEXP g0SEXP, SEXP g1SEXP, SEXP shape1SEXP, SEXP shape2SEXP, SEXP methodSEXP, SEXP rSEXP, SEXP jmaxSEXP, SEXP verboseSEXP, SEXP QSSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type L0(L0SEXP);
+    Rcpp::traits::input_parameter< double >::type QA(QASEXP);
+    Rcpp::traits::input_parameter< double >::type g0(g0SEXP);
+    Rcpp::traits::input_parameter< double >::type g1(g1SEXP);
+    Rcpp::traits::input_parameter< double >::type shape1(shape1SEXP);
+    Rcpp::traits::input_parameter< double >::type shape2(shape2SEXP);
+    Rcpp::traits::input_parameter< int >::type method(methodSEXP);
+    Rcpp::traits::input_parameter< int >::type r(rSEXP);
+    Rcpp::traits::input_parameter< int >::type jmax(jmaxSEXP);
+    Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
+    Rcpp::traits::input_parameter< double >::type QS(QSSEXP);
+    rcpp_result_gen = Rcpp::wrap(racusum_beta_crit_mc(L0, QA, g0, g1, shape1, shape2, method, r, jmax, verbose, QS));
+    return rcpp_result_gen;
+END_RCPP
+}
 // racusum_arl_mc
 double racusum_arl_mc(NumericMatrix pmix, double RA, double RQ, double h, double scaling, int rounding, int method);
 RcppExport SEXP _vlad_racusum_arl_mc(SEXP pmixSEXP, SEXP RASEXP, SEXP RQSEXP, SEXP hSEXP, SEXP scalingSEXP, SEXP roundingSEXP, SEXP methodSEXP) {
@@ -159,6 +216,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_vlad_optimal_k", (DL_FUNC) &_vlad_optimal_k, 3},
     {"_vlad_eocusum_arl_sim", (DL_FUNC) &_vlad_eocusum_arl_sim, 7},
     {"_vlad_eocusum_ad_sim", (DL_FUNC) &_vlad_eocusum_ad_sim, 8},
+    {"_vlad_FWT2", (DL_FUNC) &_vlad_FWT2, 7},
+    {"_vlad_racusum_beta_arl_mc", (DL_FUNC) &_vlad_racusum_beta_arl_mc, 9},
+    {"_vlad_racusum_beta_crit_mc", (DL_FUNC) &_vlad_racusum_beta_crit_mc, 11},
     {"_vlad_racusum_arl_mc", (DL_FUNC) &_vlad_racusum_arl_mc, 7},
     {"_vlad_racusum_crit_mc", (DL_FUNC) &_vlad_racusum_crit_mc, 9},
     {"_vlad_llr_score", (DL_FUNC) &_vlad_llr_score, 5},

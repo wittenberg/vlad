@@ -13,6 +13,18 @@
     .Call(`_vlad_eocusum_ad_sim`, r, pmix, k, h, RQ, side, type, m)
 }
 
+.FWT2 <- function(w, QA, g0, g1, shape1, shape2, QS) {
+    .Call(`_vlad_FWT2`, w, QA, g0, g1, shape1, shape2, QS)
+}
+
+.racusum_beta_arl_mc <- function(h, QA, g0, g1, shape1, shape2, r, method, QS) {
+    .Call(`_vlad_racusum_beta_arl_mc`, h, QA, g0, g1, shape1, shape2, r, method, QS)
+}
+
+.racusum_beta_crit_mc <- function(L0, QA, g0, g1, shape1, shape2, method, r, jmax, verbose, QS) {
+    .Call(`_vlad_racusum_beta_crit_mc`, L0, QA, g0, g1, shape1, shape2, method, r, jmax, verbose, QS)
+}
+
 .racusum_arl_mc <- function(pmix, RA, RQ, h, scaling, rounding, method) {
     .Call(`_vlad_racusum_arl_mc`, pmix, RA, RQ, h, scaling, rounding, method)
 }
