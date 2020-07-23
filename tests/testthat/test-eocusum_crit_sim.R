@@ -1,5 +1,62 @@
 context("eocusum_crit_sim")
-#
+
+test_that("Iterative search procedure I", {
+  skip_on_cran()
+  skip_if(SKIP==TRUE, "skip this test now")
+
+  data("cardiacsurgery", package = "spcadjust")
+  SALLI <- cardiacsurgery %>% mutate(s = Parsonnet) %>%
+    mutate(y = ifelse(status == 1 & time <= 30, 1, 0),
+        phase = factor(ifelse(date < 2*365, "I", "II"))) %>%
+    filter(phase == "I") %>% select(s, y)
+
+  ## estimate risk model, get relative frequences and probabilities
+  mod1 <- glm(y ~ s, data = SALLI, family = "binomial")
+  y <- SALLI$y
+  pi1 <- fitted.values(mod1)
+
+  ## set up patient mix (risk model)
+  pmix <- data.frame(y, pi1, pi1)
+  L0 <- 370
+  m <- 1e3
+
+  set.seed(1234)
+  RQ <- 1
+  expected_results <- 1000
+  m <- 1e3
+  tol <- 0.3
+
+  # yemp = FALSE
+  kopt_det <- optimal_k(pmix, RA=2)
+  MCtest <- list(
+    eocusum_crit_sim(L0=L0, pmix=pmix, k=kopt_det, RQ=RQ, side="low", yemp=FALSE,  m=m, verbose=TRUE),
+    eocusum_crit_sim(L0=L0, pmix=pmix, k=kopt_det, RQ=RQ, side="low", yemp=FALSE,  m=m, verbose=FALSE)
+  )
+  lapply(MCtest, function(x) expect_equal(x, 2.5063, tolerance = tol) )
+
+  kopt_imp <- optimal_k(pmix, RA=1/2)
+  MCtest <- list(
+    eocusum_crit_sim(L0=L0, pmix=pmix, k=kopt_imp, RQ=RQ, side="up", yemp=FALSE,  m=m, verbose=TRUE),
+    eocusum_crit_sim(L0=L0, pmix=pmix, k=kopt_imp, RQ=RQ, side="up", yemp=FALSE,  m=m, verbose=FALSE)
+  )
+  lapply(MCtest, function(x) expect_equal(x, 2.1405, tolerance = tol) )
+
+  # yemp = TRUE
+  kopt_det <- optimal_k(pmix, RA=2)
+  MCtest <- list(
+    eocusum_crit_sim(L0=L0, pmix=pmix, k=kopt_det, RQ=RQ, side="low", yemp=TRUE,  m=m, verbose=TRUE),
+    eocusum_crit_sim(L0=L0, pmix=pmix, k=kopt_det, RQ=RQ, side="low", yemp=TRUE,  m=m, verbose=FALSE)
+  )
+  lapply(MCtest, function(x) expect_equal(x, 2.5681, tolerance = tol) )
+
+  kopt_imp <- optimal_k(pmix, RA=1/2)
+  MCtest <- list(
+    eocusum_crit_sim(L0=L0, pmix=pmix, k=kopt_imp, RQ=RQ, m=m, side="up", yemp=TRUE, verbose=TRUE),
+    eocusum_crit_sim(L0=L0, pmix=pmix, k=kopt_imp, RQ=RQ, m=m, side="up", yemp=FALSE, verbose=FALSE)
+  )
+  lapply(MCtest, function(x) expect_equal(x, 2.2262, tolerance = tol) )})
+
+
 # df1 <- data.frame(Parsonnet=c(0L, 0L, 50L, 50L), status = c(0, 1, 0, 1))
 # coeff1 <- c("(Intercept)" = -3.68, "Parsonnet" = 0.077)
 # k <- 0.01

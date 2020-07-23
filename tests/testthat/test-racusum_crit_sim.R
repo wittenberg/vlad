@@ -42,3 +42,34 @@ test_that("Different input values for RA", {
     expect_error(do.call(x, racusum_crit_sim(L0, df1, coeff1, RA = x)))})
 })
 
+test_that("Iterative search procedure I", {
+  skip_on_cran()
+  skip_if(SKIP==TRUE, "skip this test now")
+  ## preprocess data to 30 day mortality and subset phase I (In-control) of surgeons 2
+  SALLI <- cardiacsurgery %>% mutate(s = Parsonnet) %>%
+    mutate(y = ifelse(status == 1 & time <= 30, 1, 0),
+        phase = factor(ifelse(date < 2*365, "I", "II"))) %>%
+    filter(phase == "I") %>% select(s, y)
+
+  ## estimate risk model, get relative frequences and probabilities
+  mod1 <- glm(y ~ s, data = SALLI, family = "binomial")
+  y <- SALLI$y
+  pi1 <- fitted.values(mod1)
+
+  ## set up patient mix (risk model)
+  pmix <- data.frame(y, pi1, pi1)
+  L0 <- 370
+  m <- 1e3
+  tol <- 0.3
+
+  set.seed(1234)
+
+  ## RA=2
+  expect_equal(racusum_crit_sim(pmix = pmix, L0 = L0, m = m, RA = 2, verbose = TRUE), 1.8481, tolerance=tol)
+  expect_equal(racusum_crit_sim(pmix = pmix, L0 = L0, m = m, RA = 2, verbose = FALSE), 1.8481, tolerance=tol)
+
+  ## RA=1/2
+  expect_equal(racusum_crit_sim(pmix = pmix, L0 = L0, m = m, RA = 1/2, verbose = TRUE), 1.6383, tolerance=tol)
+  expect_equal(racusum_crit_sim(pmix = pmix, L0 = L0, m = m, RA = 1/2, verbose = FALSE), 1.6383, tolerance=tol)
+})
+
