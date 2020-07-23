@@ -17,6 +17,7 @@
 #'
 #' @return Returns a single value which is the Run Length.
 #'
+#' @template racusum_beta_arl_int
 #'
 #' @author Philipp Wittenberg
 #' @export

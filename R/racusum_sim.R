@@ -197,6 +197,8 @@ racusum_ad_sim <- function(r, pmix, h, RA = 2, RQ = 1, m = 50, type = "cond") {
 #'
 #' @return Returns a single value which is the Run Length.
 #'
+#' @template racusum_arl_sim
+#'
 #' @author Philipp Wittenberg
 #'
 #' @export

@@ -1,4 +1,4 @@
-context("racusum_arl_h_mc")
+context("racusum_crit_mc")
 
 pmix <- data.frame(cbind(c(0.1, 0.5, 0.4), c(0.1, 0.12, 0.14), c(0.1, 0.12, 0.14)))
 RA <- 2
