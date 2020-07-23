@@ -36,7 +36,6 @@ test_that("Different input values for scaling", {
 test_that("Different Markov Chain algorithms, detecting deterioration", {
   skip_on_cran()
   skip_if(SKIP == TRUE, "skip this test now")
-  set.seed(1234)
   data("cardiacsurgery", package = "spcadjust")
   ## preprocess data to 30 day mortality and subset phase I (In-control) of surgeons 2
   SALLI <- cardiacsurgery %>% mutate(s = Parsonnet) %>%
@@ -49,30 +48,30 @@ test_that("Different Markov Chain algorithms, detecting deterioration", {
   fi  <- as.numeric(table(SALLI$s)/length(SALLI$s))
   pi <- predict(mod1, newdata = data.frame(s), type = "response")
   pmix  <- data.frame(fi, pi, pi)
+
   h <- 4.655
   sca <- 600
 
+  works <- racusum_arl_mc(pmix = pmix, h = h, RA = 2, RQ = 1, scaling = sca, rounding = "s", method = "Toep")
   ## simple rounding
-  expected_results <- racusum_arl_mc(pmix = pmix, h = h, RA = 2, RQ = 1, scaling = sca, rounding = "s", method = "Toep")
   MCtest <- list(
     racusum_arl_mc(pmix = pmix, h = h, RA = 2, RQ = 1, scaling = sca, rounding = "s", method = "ToepInv"),
     racusum_arl_mc(pmix = pmix, h = h, RA = 2, RQ = 1, scaling = sca, rounding = "s", method = "BE")
   )
-  lapply(MCtest, function(x) expect_equal(x, expected_results, tolerance = 10^-6) )
+  lapply(MCtest, function(x) expect_equal(x, works, tolerance = 10^-6) )
 
   ## paired rounding
-  expected_results <- racusum_arl_mc(pmix = pmix, h = h, RA = 2, RQ = 1, scaling = sca, rounding = "p", method = "Toep")
+  works <- racusum_arl_mc(pmix = pmix, h = h, RA = 2, RQ = 1, scaling = sca, rounding = "p", method = "Toep")
   MCtest <- list(
     racusum_arl_mc(pmix = pmix, h = h, RA = 2, RQ = 1, scaling = sca, rounding = "p", method = "ToepInv"),
     racusum_arl_mc(pmix = pmix, h = h, RA = 2, RQ = 1, scaling = sca, rounding = "p", method = "BE")
   )
-  lapply(MCtest, function(x) expect_equal(x, expected_results, tolerance = 10^-6) )
+  lapply(MCtest, function(x) expect_equal(x, works, tolerance = 10^-6) )
 })
 
 test_that("Different Markov Chain algorithms, detecting improvement", {
   skip_on_cran()
   skip_if(SKIP == TRUE, "skip this test now")
-  set.seed(1234)
   data("cardiacsurgery", package = "spcadjust")
   ## preprocess data to 30 day mortality and subset phase I (In-control) of surgeons 2
   SALLI <- cardiacsurgery %>% mutate(s = Parsonnet) %>%
@@ -88,19 +87,19 @@ test_that("Different Markov Chain algorithms, detecting improvement", {
   h <- 4.655
   sca <- 600
 
+  works <- racusum_arl_mc(pmix = pmix, h = h, RA = 1/2, RQ = 1, scaling = sca, rounding = "s", method = "Toep")
   ## simple rounding
-  expected_results <- racusum_arl_mc(pmix = pmix, h = h, RA = 1/2, RQ = 1, scaling = sca, rounding = "s", method = "Toep")
   MCtest <- list(
     racusum_arl_mc(pmix = pmix, h = h, RA = 1/2, RQ = 1, scaling = sca, rounding = "s", method = "ToepInv"),
     racusum_arl_mc(pmix = pmix, h = h, RA = 1/2, RQ = 1, scaling = sca, rounding = "s", method = "BE")
   )
-  lapply(MCtest, function(x) expect_equal(x, expected_results, tolerance = 10^-6) )
+  lapply(MCtest, function(x) expect_equal(x, works, tolerance = 10^-6) )
 
+  works <- racusum_arl_mc(pmix = pmix, h = h, RA = 1/2, RQ = 1, scaling = sca, rounding = "p", method = "Toep")
   ## paired rounding
-  expected_results <- racusum_arl_mc(pmix = pmix, h = h, RA = 1/2, RQ = 1, scaling = sca, rounding = "p", method = "Toep")
   MCtest <- list(
     racusum_arl_mc(pmix = pmix, h = h, RA = 1/2, RQ = 1, scaling = sca, rounding = "p", method = "ToepInv"),
     racusum_arl_mc(pmix = pmix, h = h, RA = 1/2, RQ = 1, scaling = sca, rounding = "p", method = "BE")
   )
-  lapply(MCtest, function(x) expect_equal(x, expected_results, tolerance = 10^-6) )
+  lapply(MCtest, function(x) expect_equal(x, works, tolerance = 10^-6) )
 })

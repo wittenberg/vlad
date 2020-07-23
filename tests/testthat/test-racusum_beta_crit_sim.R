@@ -3,7 +3,7 @@ context("racusum_beta_crit_sim")
 test_that("Different simulation algorithms, detecting deterioration", {
   skip_on_cran()
   skip_if(SKIP == TRUE, "skip this test now")
-  set.seed(1234)
+
   L0 <- 500
   RQ <- 1
   maxS <- 71
@@ -15,6 +15,6 @@ test_that("Different simulation algorithms, detecting deterioration", {
 
   ## RA=2
   m <- 1e3
-  expect_equal(racusum_beta_crit_sim(L0=L0, RA=2, RQ=RQ, coeff=c(g0,g1), shape1=shape1, shape2=shape2, rs=maxS, verbose=TRUE), 2.5351, tolerance=0.3)
-  expect_equal(racusum_beta_crit_sim(L0=L0, RA=2, RQ=RQ, coeff=c(g0,g1), shape1=shape1, shape2=shape2, rs=maxS, verbose=FALSE), 2.5351, tolerance=0.3)
+  expect_equal(racusum_beta_crit_sim(L0=L0, RA=2, RQ=RQ, coeff=c(g0,g1), shape1=shape1, shape2=shape2, rs=maxS, verbose=TRUE, m=m), 2.5094, tolerance=0.3)
+  expect_equal(racusum_beta_crit_sim(L0=L0, RA=2, RQ=RQ, coeff=c(g0,g1), shape1=shape1, shape2=shape2, rs=maxS, verbose=FALSE, m=m), 2.5094, tolerance=0.3)
 })
