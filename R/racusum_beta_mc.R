@@ -66,7 +66,7 @@ racusum_beta_arl_mc <- function(h, QA, g0, g1, shape1, shape2, r = 600, method =
 racusum_beta_crit_mc <- function(L0, QA, g0, g1, shape1, shape2, method = 1, r = 600, jmax = 4, verbose = TRUE, QS = 1) {
   arg_checks <- checkmate::makeAssertCollection()
   checkmate::assert_integerish(L0, lower = 0, add = arg_checks)
-  checkmate::assert_integerish(QA, lower = 0, add = arg_checks)
+  checkmate::assert_numeric(QA, lower = 0, add = arg_checks)
   checkmate::assert_numeric(g0, len = 1, add = arg_checks)
   checkmate::assert_numeric(g1, len = 1, add = arg_checks)
   checkmate::assert_numeric(shape1, len = 1, lower = 0, add = arg_checks)
@@ -75,7 +75,7 @@ racusum_beta_crit_mc <- function(L0, QA, g0, g1, shape1, shape2, method = 1, r =
   checkmate::assert_numeric(r, len = 1, lower = 0, add = arg_checks)
   checkmate::assert_integerish(jmax, lower = 0, add = arg_checks)
   checkmate::assert_logical(verbose, len = 1, add = arg_checks)
-  checkmate::assert_integerish(QS, lower = 0, add = arg_checks)
+  checkmate::assert_numeric(QS, lower = 0, add = arg_checks)
   if (!arg_checks$isEmpty()) checkmate::reportAssertions(arg_checks)
   .racusum_beta_crit_mc(L0, QA, g0, g1, shape1, shape2, method, r, jmax, verbose, QS)
 }
@@ -100,12 +100,12 @@ racusum_beta_crit_mc <- function(L0, QA, g0, g1, shape1, shape2, method = 1, r =
 FWT2 <- function(w, QA, g0, g1, shape1, shape2, QS) {
   arg_checks <- checkmate::makeAssertCollection()
   checkmate::assert_numeric(w, len = 1, add = arg_checks)
-  checkmate::assert_integerish(QA, lower = 0, add = arg_checks)
+  checkmate::assert_numeric(QA, lower = 0, add = arg_checks)
   checkmate::assert_numeric(g0, len = 1, add = arg_checks)
   checkmate::assert_numeric(g1, len = 1, add = arg_checks)
   checkmate::assert_numeric(shape1, len = 1, lower = 0, add = arg_checks)
   checkmate::assert_numeric(shape2, len = 1, lower = 0, add = arg_checks)
-  checkmate::assert_integerish(QS, lower = 0, add = arg_checks)
+  checkmate::assert_numeric(QS, lower = 0, add = arg_checks)
   if (!arg_checks$isEmpty()) checkmate::reportAssertions(arg_checks)
   .FWT2(w, QA, g0, g1, shape1, shape2, QS)
 }

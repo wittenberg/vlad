@@ -55,21 +55,21 @@ double luFW2(double w, double QA, double g0, double g1, double shape1, double sh
 // [[Rcpp::export(.FWT2)]]
 double FWT2(double w, double QA, double g0, double g1, double shape1, double shape2, double QS) {
 
-  double w0, w1, w2, w3, res;
+  double w0, w1, w2, w3, res, logQA = log(QA);
 
   if (QA > 1) {   /* Decting deterioration QA > 1 */
     w0 = -log(1 + (QA-1) * hS(1, g0, g1, 1));           /* lower limit left side of FW */
     w1 = -log(1 + (QA-1) * hS(0, g0, g1, 1));           /* upper limit left side of FW */
-    w2 = -log(1 + (QA-1) * hS(1, g0, g1, 1)) + log(QA); /* lower limit right side of FW */
-    w3 = -log(1 + (QA-1) * hS(0, g0, g1, 1)) + log(QA); /* upper limit right side of FW */
+    w2 = -log(1 + (QA-1) * hS(1, g0, g1, 1)) + logQA; /* lower limit right side of FW */
+    w3 = -log(1 + (QA-1) * hS(0, g0, g1, 1)) + logQA; /* upper limit right side of FW */
     if (w0 > w) {res = 0;}
     else if ((w0 <= w) & (w <= w1)) {res = luFW2(w,  QA, g0, g1, shape1, shape2, QS, 1);}
     else if ((w1 <= w) & (w <= w2)) {res = luFW2(w1, QA, g0, g1, shape1, shape2, QS, 1);}
     else if ((w2 <= w) & (w <= w3)) {res = luFW2(w1, QA, g0, g1, shape1, shape2, QS, 1) + luFW2(w, QA, g0, g1, shape1, shape2, QS, 2);}
     else {res = 1;}
   } else if ((QA < 1) & (QA >0)){   /* Decting improvement QA > 0 and QA < 1 */
-    w0 = -log(1 + (QA-1) * hS(0, g0, g1, 1)) + log(QA); /* lower limit left side of FW */
-    w1 = -log(1 + (QA-1) * hS(1, g0, g1, 1)) + log(QA); /* upper limit left side of FW */
+    w0 = -log(1 + (QA-1) * hS(0, g0, g1, 1)) + logQA; /* lower limit left side of FW */
+    w1 = -log(1 + (QA-1) * hS(1, g0, g1, 1)) + logQA; /* upper limit left side of FW */
     w2 = -log(1 + (QA-1) * hS(0, g0, g1, 1));           /* lower limit right side of FW */
     w3 = -log(1 + (QA-1) * hS(1, g0, g1, 1));           /* upper limit right side of FW */
     if (w0 > w) {res = 0;}

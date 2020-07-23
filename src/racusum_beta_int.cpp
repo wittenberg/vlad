@@ -184,9 +184,6 @@ double racusum_beta_arl_int(double h, int N, double RA, double RQ, double g0, do
     /* Decting improvement 0 < RA < 1 */
     else if (RA < 1.) {
       w0 = abs(-log(1 + (RA-1) * hS(0, g0, g1, RQ)) + log(RA));
-      w1 = abs(-log(1 + (RA-1) * hS(1, g0, g1, RQ)) + log(RA));
-      w2 = abs(-log(1 + (RA-1) * hS(0, g0, g1, RQ)));
-      w3 = abs(-log(1 + (RA-1) * hS(1, g0, g1, RQ)));
       M1 = 0;
       M2 = ceil(h/w0)+1;
       NumericVector b11(M1), b12(M2);
