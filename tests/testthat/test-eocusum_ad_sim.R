@@ -88,9 +88,9 @@ test_that("Iterative search procedure I", {
   expect_equal(mean(RLS), 265, tolerance=tol)
 
   # type = cycl
-  kopt_det <- optimal_k(pmix, RA=2)
-  RLS <- sapply(1:m, eocusum_ad_sim, pmix, k=kopt_det, h=2, RQ = RQ, type = "cycl", side = "low")
-  expect_equal(mean(RLS), 197, tolerance=tol)
+  # kopt_det <- optimal_k(pmix, RA=2)
+  # RLS <- sapply(1:m, eocusum_ad_sim, pmix, k=kopt_det, h=2, RQ = RQ, type = "cycl", side = "low")
+  # expect_equal(mean(RLS), 197, tolerance=tol)
 
   kopt_imp <- optimal_k(pmix, RA=1/2)
   RLS <- sapply(1:m, eocusum_ad_sim, pmix, k=kopt_imp, h=2, RQ = RQ, type = "cycl", side = "up")
