@@ -6,35 +6,35 @@ double Tn(double z, int j) {return( cos( (j-1) * acos(z) ) );}
 //* PDF of W */
 // [[Rcpp::export(.f2)]]
 double f2(double w, double RA, double RQ, double g0, double g1, double shape1, double shape2) {
-  double w0, w1, w2, w3, res, QS=1, QA=RA;
+  double w0, w1, w2, w3, res, logRA=log(RA);
 
-  if (QA > 1) {   /* Decting deterioration QA > 1 */
-    w0 = -log(1 + (QA-1) * hS(1, g0, g1, 1));           /* lower limit left side of fW */
-    w1 = -log(1 + (QA-1) * hS(0, g0, g1, 1));           /* upper limit left side of fW */
-    w2 = -log(1 + (QA-1) * hS(1, g0, g1, 1)) + log(QA); /* lower limit right side of fW */
-    w3 = -log(1 + (QA-1) * hS(0, g0, g1, 1)) + log(QA); /* upper limit right side of fW */
+  if (RA > 1) {   /* Decting deterioration QA > 1 */
+    w0 = -log(1 + (RA-1) * hS(1, g0, g1, 1));           /* lower limit left side of fW */
+    w1 = -log(1 + (RA-1) * hS(0, g0, g1, 1));           /* upper limit left side of fW */
+    w2 = -log(1 + (RA-1) * hS(1, g0, g1, 1)) + logRA; /* lower limit right side of fW */
+    w3 = -log(1 + (RA-1) * hS(0, g0, g1, 1)) + logRA; /* upper limit right side of fW */
     if ((w0 <= w) & (w <= w1)) {
-      res = -(1 - hS(s0(w, QA, g0, g1, RQ), g0, g1, 1)) *
-            R::dbeta(s0(w, QA, g0, g1, 1), shape1, shape2, false) *
-            s0p(w, QA, g0, g1, 1) ;}
+      res = -(1 - hS(s0(w, RA, g0, g1, RQ), g0, g1, 1)) *
+            R::dbeta(s0(w, RA, g0, g1, 1), shape1, shape2, false) *
+            s0p(w, RA, g0, g1, 1) ;}
     else if ((w2 <= w) & (w <= w3)) {
-      res = -hS(s1(w, QA, g0, g1, RQ), g0, g1, 1) *
-            R::dbeta(s1(w, QA, g0, g1, 1), shape1, shape2, false) *
-            s1p(w, QA, g0, g1, 1);}
+      res = -hS(s1(w, RA, g0, g1, RQ), g0, g1, 1) *
+            R::dbeta(s1(w, RA, g0, g1, 1), shape1, shape2, false) *
+            s1p(w, RA, g0, g1, 1);}
     else {res = 0;}
   } else {   /* Decting improvement QA > 0 and QA < 1 */
-    w0 = -log(1 + (QA-1) * hS(0, g0, g1, 1)) + log(QA); /* lower limit left side of fW */
-    w1 = -log(1 + (QA-1) * hS(1, g0, g1, 1)) + log(QA); /* upper limit left side of fW */
-    w2 = -log(1 + (QA-1) * hS(0, g0, g1, 1));           /* lower limit right side of fW */
-    w3 = -log(1 + (QA-1) * hS(1, g0, g1, 1));           /* upper limit right side of fW */
+    w0 = -log(1 + (RA-1) * hS(0, g0, g1, 1)) + logRA; /* lower limit left side of fW */
+    w1 = -log(1 + (RA-1) * hS(1, g0, g1, 1)) + logRA; /* upper limit left side of fW */
+    w2 = -log(1 + (RA-1) * hS(0, g0, g1, 1));           /* lower limit right side of fW */
+    w3 = -log(1 + (RA-1) * hS(1, g0, g1, 1));           /* upper limit right side of fW */
     if ((w0 <= w) & (w <= w1)) {
-      res = hS(s1(w, QA, g0, g1, RQ), g0, g1, 1) *
-            R::dbeta(s1(w, QA, g0, g1, 1), shape1, shape2, false) *
-            s1p(w, QA, g0, g1, 1);}
+      res = hS(s1(w, RA, g0, g1, RQ), g0, g1, 1) *
+            R::dbeta(s1(w, RA, g0, g1, 1), shape1, shape2, false) *
+            s1p(w, RA, g0, g1, 1);}
     else if ((w2 <= w) & (w <= w3)) {
-      res = (1 - hS(s0(w, QA, g0, g1, RQ), g0, g1, 1)) *
-            R::dbeta(s0(w, QA, g0, g1, 1), shape1, shape2, false) *
-            s0p(w, QA, g0, g1, 1) ;}
+      res = (1 - hS(s0(w, RA, g0, g1, RQ), g0, g1, 1)) *
+            R::dbeta(s0(w, RA, g0, g1, 1), shape1, shape2, false) *
+            s0p(w, RA, g0, g1, 1) ;}
     else {res = 0;}
   }
   return(res);
@@ -42,14 +42,13 @@ double f2(double w, double RA, double RQ, double g0, double g1, double shape1, d
 
 // [[Rcpp::export(.integ_t62)]]
 double integ_t62(double xl, double xu, int j, double loc, double RA, double RQ, double g0, double g1, double shape1, double shape2) {
-  double w0 = 0, w1 = 0, w2 = 0, w3 = 0, ires = 0, I1l, I1u, I2l, I2u, ires1=0, ires2=0, lower, upper;
-  int i;
+  double w0 = 0, w1 = 0, w2 = 0, w3 = 0, ires = 0, I1l, I1u, I2l, I2u, ires1=0, ires2=0, lower, upper, logRA=log(RA);
 
-  if (RA > 1) {   /* Decting deterioration QA > 1 */
+  if (RA > 1) {   /* Detecting deterioration QA > 1 */
     w0 = -log(1 + (RA-1) * hS(1, g0, g1, RQ));           /* lower limit left side of fW */
     w1 = -log(1 + (RA-1) * hS(0, g0, g1, RQ));           /* upper limit left side of fW */
-    w2 = -log(1 + (RA-1) * hS(1, g0, g1, RQ)) + log(RA); /* lower limit right side of fW */
-    w3 = -log(1 + (RA-1) * hS(0, g0, g1, RQ)) + log(RA); /* upper limit right side of fW */
+    w2 = -log(1 + (RA-1) * hS(1, g0, g1, RQ)) + logRA;   /* lower limit right side of fW */
+    w3 = -log(1 + (RA-1) * hS(0, g0, g1, RQ)) + logRA;   /* upper limit right side of fW */
 
     if ( loc + w3 < xl ) {return(ires = 0.);}
     if ( loc + w0 > xu ) {return(ires = 0.);}
@@ -79,9 +78,9 @@ double integ_t62(double xl, double xu, int j, double loc, double RA, double RQ, 
       ires2 = gauss_kronrod<double, 61>::integrate(f23, lower, upper, 10, 1e-4);
     }
     ires -= ires1 + ires2;
-  } else if (RA < 1) {   /* Decting improvement QA > 0 and QA < 1 */
-    w0 = -log(1 + (RA-1) * hS(0, g0, g1, RQ)) + log(RA); /* lower limit left side of fW */
-    w1 = -log(1 + (RA-1) * hS(1, g0, g1, RQ)) + log(RA); /* upper limit left side of fW */
+  } else if (RA < 1) {   /* Detecting improvement QA > 0 and QA < 1 */
+    w0 = -log(1 + (RA-1) * hS(0, g0, g1, RQ)) + logRA;   /* lower limit left side of fW */
+    w1 = -log(1 + (RA-1) * hS(1, g0, g1, RQ)) + logRA;   /* upper limit left side of fW */
     w2 = -log(1 + (RA-1) * hS(0, g0, g1, RQ));           /* lower limit right side of fW */
     w3 = -log(1 + (RA-1) * hS(1, g0, g1, RQ));           /* upper limit right side of fW */
 
@@ -119,14 +118,14 @@ double integ_t62(double xl, double xu, int j, double loc, double RA, double RQ, 
 
 // [[Rcpp::export(.racusum_beta_arl_int)]]
 double racusum_beta_arl_int(double h, int N, double RA, double RQ, double g0, double g1, double shape1, double shape2, bool pw) {
-  double arl = 0., w0=0, w1=0, w2=0, w3=0, M1=0, M2=0, M=0, za=0, zb=0, xl=0, xu=0;
+  double arl = 0., w0=0, w3=0, M1=0, M2=0, M=0, za=0, zb=0, xl=0, xu=0, logRA=log(RA);
   int i=0, j=0, ii=0, jj=0, dN=0, NN=0, Ntilde=0, qi=0, qj=0;
 
   if (pw == TRUE) { /* Piece-wise collocation */
 
     /* Decting deterioration RA > 1 */
     if (RA > 1.) {
-      w3 = abs(-log(1. + (RA-1) * hS(0, g0, g1, RQ)) + log(RA));
+      w3 = abs(-log(1. + (RA-1) * hS(0, g0, g1, RQ)) + logRA);
       M1 = ceil(h/w3) + 1;
       NumericVector b11(M1);
 
@@ -183,7 +182,7 @@ double racusum_beta_arl_int(double h, int N, double RA, double RQ, double g0, do
     }
     /* Decting improvement 0 < RA < 1 */
     else if (RA < 1.) {
-      w0 = abs(-log(1 + (RA-1) * hS(0, g0, g1, RQ)) + log(RA));
+      w0 = abs(-log(1 + (RA-1) * hS(0, g0, g1, RQ)) + logRA);
       M1 = 0;
       M2 = ceil(h/w0)+1;
       NumericVector b11(M1), b12(M2);

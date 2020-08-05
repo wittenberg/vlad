@@ -13,8 +13,8 @@ test_that("Different Markov Chain algorithms, detecting deterioration", {
 
   expected_results <- 2.5178
   MCtest <- list(
-    racusum_beta_crit_mc(L0=L0, QA=2, g0=g0, g1=g1, shape1=shape1, shape2=shape2, r=r, method=1, verbose=TRUE),
-    racusum_beta_crit_mc(L0=L0, QA=2, g0=g0, g1=g1, shape1=shape1, shape2=shape2, r=r, method=1, verbose=FALSE)
+    racusum_beta_crit_mc(L0=L0, RA=2, g0=g0, g1=g1, shape1=shape1, shape2=shape2, r=r, method=1, verbose=TRUE),
+    racusum_beta_crit_mc(L0=L0, RA=2, g0=g0, g1=g1, shape1=shape1, shape2=shape2, r=r, method=1, verbose=FALSE)
   )
   lapply(MCtest, function(x) expect_equal(x, expected_results, tolerance = tol) )
 })

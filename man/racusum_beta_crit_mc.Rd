@@ -7,7 +7,7 @@ distribution using Markov chain approximation.}
 \usage{
 racusum_beta_crit_mc(
   L0,
-  QA,
+  RA,
   g0,
   g1,
   shape1,
@@ -16,16 +16,16 @@ racusum_beta_crit_mc(
   r = 600,
   jmax = 4,
   verbose = TRUE,
-  QS = 1
+  RQ = 1
 )
 }
 \arguments{
 \item{L0}{Double. Prespecified Average Run Length.}
 
-\item{QA}{Double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
-in performance with increased mortality risk by doubling the odds Ratio \code{QA = 2}. Detecting
+\item{RA}{Double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
+in performance with increased mortality risk by doubling the odds Ratio \code{RA = 2}. Detecting
  improvement in performance with decreased mortality risk by halving the odds ratio of death
- \code{QA = 1/2}. Odds ratio of death under the null hypotheses is \code{1}.}
+ \code{RA = 1/2}. Odds ratio of death under the null hypotheses is \code{1}.}
 
 \item{g0}{...}
 
@@ -47,7 +47,7 @@ ARL.}
 \item{verbose}{Logical. If \code{FALSE} a quiet calculation of \code{h} is done. If \code{TRUE}
 verbose output of the search procedure (see details) is included.}
 
-\item{QS}{...}
+\item{RQ}{...}
 }
 \value{
 Returns a single value which is the control limit \code{h} for a given In-control ARL.
@@ -63,7 +63,7 @@ Determines the control limit for given in-control ARL (\code{"L0"}) using
 \examples{
 \dontrun{
 library(vlad)
-racusum_beta_crit_mc(L0=7500, QA=2, g0=-3.6798, g1=0.0768*71, shape1=.61, shape2=4.09, r=1000)
+racusum_beta_crit_mc(L0=7500, RA=2, g0=-3.6798, g1=0.0768*71, shape1=.61, shape2=4.09, r=1000)
 }
 }
 \author{

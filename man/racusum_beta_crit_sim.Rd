@@ -65,7 +65,7 @@ applying a grid search using \code{\link{racusum_beta_arl_sim}} and \code{\link{
 \examples{
 \dontrun{
 library(vlad)
-racusum_beta_crit_mc(L0=7500, QA=2, g0=-3.6798, g1=0.0768*71, shape1=.61, shape2=4.09, r=1000)
+racusum_beta_crit_mc(L0=7500, RA=2, g0=-3.6798, g1=0.0768*71, shape1=.61, shape2=4.09, r=1000)
 }
 }
 \author{

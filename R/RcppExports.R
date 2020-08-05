@@ -29,16 +29,16 @@
     .Call(`_vlad_racusum_beta_arl_int`, h, N, RA, RQ, g0, g1, shape1, shape2, pw)
 }
 
-.FWT2 <- function(w, QA, g0, g1, shape1, shape2, QS) {
-    .Call(`_vlad_FWT2`, w, QA, g0, g1, shape1, shape2, QS)
+.FWT2 <- function(w, RA, g0, g1, shape1, shape2, RQ) {
+    .Call(`_vlad_FWT2`, w, RA, g0, g1, shape1, shape2, RQ)
 }
 
-.racusum_beta_arl_mc <- function(h, QA, g0, g1, shape1, shape2, r, method, QS) {
-    .Call(`_vlad_racusum_beta_arl_mc`, h, QA, g0, g1, shape1, shape2, r, method, QS)
+.racusum_beta_arl_mc <- function(h, RA, g0, g1, shape1, shape2, r, method, RQ) {
+    .Call(`_vlad_racusum_beta_arl_mc`, h, RA, g0, g1, shape1, shape2, r, method, RQ)
 }
 
-.racusum_beta_crit_mc <- function(L0, QA, g0, g1, shape1, shape2, method, r, jmax, verbose, QS) {
-    .Call(`_vlad_racusum_beta_crit_mc`, L0, QA, g0, g1, shape1, shape2, method, r, jmax, verbose, QS)
+.racusum_beta_crit_mc <- function(L0, RA, g0, g1, shape1, shape2, method, r, jmax, verbose, RQ) {
+    .Call(`_vlad_racusum_beta_crit_mc`, L0, RA, g0, g1, shape1, shape2, method, r, jmax, verbose, RQ)
 }
 
 .racusum_beta_arl_sim <- function(r, shape1, shape2, coeff, h, RA, rs, RQ) {

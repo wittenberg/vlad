@@ -1,1 +1,1 @@
-SKIP <- as.logical(FALSE)
+SKIP <- as.logical(TRUE)

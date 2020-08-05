@@ -13,17 +13,17 @@ using namespace Rcpp;
 using namespace std;
 using namespace boost::math::quadrature;
 
-double hS(double s, double g0, double g1, double QS);
-double gX(double x, double g0, double g1, double QS);
-double s0(double w, double QA, double g0, double g1, double QS);
-double s1(double w, double QA, double g0, double g1, double QS);
-double FX(double s, double g0, double g1, double shape1, double shape2, double QS);
+double hS(double s, double g0, double g1, double RQ);
+double gX(double x, double g0, double g1, double RQ);
+double s0(double w, double RA, double g0, double g1, double RQ);
+double s1(double w, double RA, double g0, double g1, double RQ);
+double FX(double s, double g0, double g1, double shape1, double shape2, double RQ);
 
-double FWT2(double w, double QA, double g0, double g1, double shape1, double shape2, double QS);
+double FWT2(double w, double RA, double g0, double g1, double shape1, double shape2, double RQ);
 
-double Qi(int i, double w, double QA, double g0, double g1, double shape1, double shape2, double QS);
-double qij(int i, int j, double w, double QA, double g0, double g1, double shape1, double shape2, double QS);
-double racusum_beta_arl_mc(double h, double QA, double g0, double g1, double shape1, double shape2, int r = 600, int method = 1, double QS = 1);
-double racusum_beta_crit_mc(double L0, double QA, double g0, double g1, double shape1, double shape2, int method = 1, int r = 600, int jmax = 4, bool verbose = true, double QS = 1);
+double Qi(int i, double w, double RA, double g0, double g1, double shape1, double shape2, double RQ);
+double qij(int i, int j, double w, double RA, double g0, double g1, double shape1, double shape2, double RQ);
+double racusum_beta_arl_mc(double h, double RA, double g0, double g1, double shape1, double shape2, int r = 600, int method = 1, double RQ = 1);
+double racusum_beta_crit_mc(double L0, double RA, double g0, double g1, double shape1, double shape2, int method = 1, int r = 600, int jmax = 4, bool verbose = true, double RQ = 1);
 
 #endif

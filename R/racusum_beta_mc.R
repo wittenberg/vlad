@@ -5,16 +5,16 @@
 #' distribution using Markov chain approximation.
 #'
 #' @param h Double. \code{h} is the control limit (>\code{0}).
-#' @param QA Double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
-#' in performance with increased mortality risk by doubling the odds Ratio \code{QA = 2}. Detecting
+#' @param RA Double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
+#' in performance with increased mortality risk by doubling the odds Ratio \code{RA = 2}. Detecting
 #'  improvement in performance with decreased mortality risk by halving the odds ratio of death
-#'  \code{QA = 1/2}. Odds ratio of death under the null hypotheses is \code{1}.
+#'  \code{RA = 1/2}. Odds ratio of death under the null hypotheses is \code{1}.
 #' @param g0 ...
 #' @param g1 ...
 #' @param shape1 Double. Shape parameter \eqn{\alpha}{alpha} \code{> 0} of the beta distribution.
 #' @param shape2 Double. Shape parameter \eqn{\beta}{beta} \code{> 0} of the beta distribution.
 #' @param r ...
-#' @param QS  ...
+#' @param RQ  ...
 #' @param method Character. If \code{method = "1"} a combination of Sequential Probability Ratio
 #'  Test and Toeplitz matrix structure is used to calculate the ARL. \code{"2"} solves a linear
 #'  equation system using the classical approach of \emph{Brook and Evans (1972)} to calculate the
@@ -26,19 +26,19 @@
 #'
 #' @author Philipp Wittenberg
 #' @export
-racusum_beta_arl_mc <- function(h, QA, g0, g1, shape1, shape2, r = 600, method = 1, QS = 1) {
+racusum_beta_arl_mc <- function(h, RA, g0, g1, shape1, shape2, r = 600, method = 1, RQ = 1) {
   arg_checks <- checkmate::makeAssertCollection()
   checkmate::assert_numeric(h, len = 1, lower = 0, add = arg_checks)
-  checkmate::assert_numeric(QA, len = 1, lower = 0, add = arg_checks)
+  checkmate::assert_numeric(RA, len = 1, lower = 0, add = arg_checks)
   checkmate::assert_numeric(g0, len = 1, add = arg_checks)
   checkmate::assert_numeric(g1, len = 1, add = arg_checks)
   checkmate::assert_numeric(shape1, len = 1, lower = 0, add = arg_checks)
   checkmate::assert_numeric(shape2, len = 1, lower = 0, add = arg_checks)
   checkmate::assert_numeric(r, len = 1, lower = 0, add = arg_checks)
   checkmate::assert_integerish(method, lower = 1, add = arg_checks)
-  checkmate::assert_numeric(QS, len = 1, lower = 0, add = arg_checks)
+  checkmate::assert_numeric(RQ, len = 1, lower = 0, add = arg_checks)
   if (!arg_checks$isEmpty()) checkmate::reportAssertions(arg_checks)
-  .racusum_beta_arl_mc(h, QA, g0, g1, shape1, shape2, r, method, QS)
+  .racusum_beta_arl_mc(h, RA, g0, g1, shape1, shape2, r, method, RQ)
 }
 
 #' @name racusum_beta_crit_mc
@@ -63,10 +63,10 @@ racusum_beta_arl_mc <- function(h, QA, g0, g1, shape1, shape2, r = 600, method =
 #'
 #' @author Philipp Wittenberg
 #' @export
-racusum_beta_crit_mc <- function(L0, QA, g0, g1, shape1, shape2, method = 1, r = 600, jmax = 4, verbose = TRUE, QS = 1) {
+racusum_beta_crit_mc <- function(L0, RA, g0, g1, shape1, shape2, method = 1, r = 600, jmax = 4, verbose = TRUE, RQ = 1) {
   arg_checks <- checkmate::makeAssertCollection()
   checkmate::assert_integerish(L0, lower = 0, add = arg_checks)
-  checkmate::assert_numeric(QA, lower = 0, add = arg_checks)
+  checkmate::assert_numeric(RA, lower = 0, add = arg_checks)
   checkmate::assert_numeric(g0, len = 1, add = arg_checks)
   checkmate::assert_numeric(g1, len = 1, add = arg_checks)
   checkmate::assert_numeric(shape1, len = 1, lower = 0, add = arg_checks)
@@ -75,9 +75,9 @@ racusum_beta_crit_mc <- function(L0, QA, g0, g1, shape1, shape2, method = 1, r =
   checkmate::assert_numeric(r, len = 1, lower = 0, add = arg_checks)
   checkmate::assert_integerish(jmax, lower = 0, add = arg_checks)
   checkmate::assert_logical(verbose, len = 1, add = arg_checks)
-  checkmate::assert_numeric(QS, lower = 0, add = arg_checks)
+  checkmate::assert_numeric(RQ, lower = 0, add = arg_checks)
   if (!arg_checks$isEmpty()) checkmate::reportAssertions(arg_checks)
-  .racusum_beta_crit_mc(L0, QA, g0, g1, shape1, shape2, method, r, jmax, verbose, QS)
+  .racusum_beta_crit_mc(L0, RA, g0, g1, shape1, shape2, method, r, jmax, verbose, RQ)
 }
 
 #' @name FWT2
@@ -85,27 +85,27 @@ racusum_beta_crit_mc <- function(L0, QA, g0, g1, shape1, shape2, method = 1, r =
 #' @description Compute the log-leikelie
 #'
 #' @param w ...
-#' @param QA Double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
-#' in performance with increased mortality risk by doubling the odds Ratio \code{QA = 2}. Detecting
+#' @param RA Double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
+#' in performance with increased mortality risk by doubling the odds Ratio \code{RA = 2}. Detecting
 #'  improvement in performance with decreased mortality risk by halving the odds ratio of death
-#'  \code{QA = 1/2}. Odds ratio of death under the null hypotheses is \code{1}.
+#'  \code{RA = 1/2}. Odds ratio of death under the null hypotheses is \code{1}.
 #' @param g0 ...
 #' @param g1 ...
 #' @param shape1 Double. Shape parameter \eqn{\alpha}{alpha} \code{> 0} of the beta distribution.
 #' @param shape2 Double. Shape parameter \eqn{\beta}{beta} \code{> 0} of the beta distribution.
-#' @param QS  ...
+#' @param RQ  ...
 #'
 #' @author Philipp Wittenberg
 #' @export
-FWT2 <- function(w, QA, g0, g1, shape1, shape2, QS) {
+FWT2 <- function(w, RA, g0, g1, shape1, shape2, RQ) {
   arg_checks <- checkmate::makeAssertCollection()
   checkmate::assert_numeric(w, len = 1, add = arg_checks)
-  checkmate::assert_numeric(QA, lower = 0, add = arg_checks)
+  checkmate::assert_numeric(RA, lower = 0, add = arg_checks)
   checkmate::assert_numeric(g0, len = 1, add = arg_checks)
   checkmate::assert_numeric(g1, len = 1, add = arg_checks)
   checkmate::assert_numeric(shape1, len = 1, lower = 0, add = arg_checks)
   checkmate::assert_numeric(shape2, len = 1, lower = 0, add = arg_checks)
-  checkmate::assert_numeric(QS, lower = 0, add = arg_checks)
+  checkmate::assert_numeric(RQ, lower = 0, add = arg_checks)
   if (!arg_checks$isEmpty()) checkmate::reportAssertions(arg_checks)
-  .FWT2(w, QA, g0, g1, shape1, shape2, QS)
+  .FWT2(w, RA, g0, g1, shape1, shape2, RQ)
 }

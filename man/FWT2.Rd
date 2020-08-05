@@ -4,15 +4,15 @@
 \alias{FWT2}
 \title{scascas}
 \usage{
-FWT2(w, QA, g0, g1, shape1, shape2, QS)
+FWT2(w, RA, g0, g1, shape1, shape2, RQ)
 }
 \arguments{
 \item{w}{...}
 
-\item{QA}{Double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
-in performance with increased mortality risk by doubling the odds Ratio \code{QA = 2}. Detecting
+\item{RA}{Double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
+in performance with increased mortality risk by doubling the odds Ratio \code{RA = 2}. Detecting
  improvement in performance with decreased mortality risk by halving the odds ratio of death
- \code{QA = 1/2}. Odds ratio of death under the null hypotheses is \code{1}.}
+ \code{RA = 1/2}. Odds ratio of death under the null hypotheses is \code{1}.}
 
 \item{g0}{...}
 
@@ -22,7 +22,7 @@ in performance with increased mortality risk by doubling the odds Ratio \code{QA
 
 \item{shape2}{Double. Shape parameter \eqn{\beta}{beta} \code{> 0} of the beta distribution.}
 
-\item{QS}{...}
+\item{RQ}{...}
 }
 \description{
 Compute the log-leikelie

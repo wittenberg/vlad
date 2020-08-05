@@ -124,49 +124,49 @@ BEGIN_RCPP
 END_RCPP
 }
 // FWT2
-double FWT2(double w, double QA, double g0, double g1, double shape1, double shape2, double QS);
-RcppExport SEXP _vlad_FWT2(SEXP wSEXP, SEXP QASEXP, SEXP g0SEXP, SEXP g1SEXP, SEXP shape1SEXP, SEXP shape2SEXP, SEXP QSSEXP) {
+double FWT2(double w, double RA, double g0, double g1, double shape1, double shape2, double RQ);
+RcppExport SEXP _vlad_FWT2(SEXP wSEXP, SEXP RASEXP, SEXP g0SEXP, SEXP g1SEXP, SEXP shape1SEXP, SEXP shape2SEXP, SEXP RQSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< double >::type w(wSEXP);
-    Rcpp::traits::input_parameter< double >::type QA(QASEXP);
+    Rcpp::traits::input_parameter< double >::type RA(RASEXP);
     Rcpp::traits::input_parameter< double >::type g0(g0SEXP);
     Rcpp::traits::input_parameter< double >::type g1(g1SEXP);
     Rcpp::traits::input_parameter< double >::type shape1(shape1SEXP);
     Rcpp::traits::input_parameter< double >::type shape2(shape2SEXP);
-    Rcpp::traits::input_parameter< double >::type QS(QSSEXP);
-    rcpp_result_gen = Rcpp::wrap(FWT2(w, QA, g0, g1, shape1, shape2, QS));
+    Rcpp::traits::input_parameter< double >::type RQ(RQSEXP);
+    rcpp_result_gen = Rcpp::wrap(FWT2(w, RA, g0, g1, shape1, shape2, RQ));
     return rcpp_result_gen;
 END_RCPP
 }
 // racusum_beta_arl_mc
-double racusum_beta_arl_mc(double h, double QA, double g0, double g1, double shape1, double shape2, int r, int method, double QS);
-RcppExport SEXP _vlad_racusum_beta_arl_mc(SEXP hSEXP, SEXP QASEXP, SEXP g0SEXP, SEXP g1SEXP, SEXP shape1SEXP, SEXP shape2SEXP, SEXP rSEXP, SEXP methodSEXP, SEXP QSSEXP) {
+double racusum_beta_arl_mc(double h, double RA, double g0, double g1, double shape1, double shape2, int r, int method, double RQ);
+RcppExport SEXP _vlad_racusum_beta_arl_mc(SEXP hSEXP, SEXP RASEXP, SEXP g0SEXP, SEXP g1SEXP, SEXP shape1SEXP, SEXP shape2SEXP, SEXP rSEXP, SEXP methodSEXP, SEXP RQSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< double >::type h(hSEXP);
-    Rcpp::traits::input_parameter< double >::type QA(QASEXP);
+    Rcpp::traits::input_parameter< double >::type RA(RASEXP);
     Rcpp::traits::input_parameter< double >::type g0(g0SEXP);
     Rcpp::traits::input_parameter< double >::type g1(g1SEXP);
     Rcpp::traits::input_parameter< double >::type shape1(shape1SEXP);
     Rcpp::traits::input_parameter< double >::type shape2(shape2SEXP);
     Rcpp::traits::input_parameter< int >::type r(rSEXP);
     Rcpp::traits::input_parameter< int >::type method(methodSEXP);
-    Rcpp::traits::input_parameter< double >::type QS(QSSEXP);
-    rcpp_result_gen = Rcpp::wrap(racusum_beta_arl_mc(h, QA, g0, g1, shape1, shape2, r, method, QS));
+    Rcpp::traits::input_parameter< double >::type RQ(RQSEXP);
+    rcpp_result_gen = Rcpp::wrap(racusum_beta_arl_mc(h, RA, g0, g1, shape1, shape2, r, method, RQ));
     return rcpp_result_gen;
 END_RCPP
 }
 // racusum_beta_crit_mc
-double racusum_beta_crit_mc(double L0, double QA, double g0, double g1, double shape1, double shape2, int method, int r, int jmax, bool verbose, double QS);
-RcppExport SEXP _vlad_racusum_beta_crit_mc(SEXP L0SEXP, SEXP QASEXP, SEXP g0SEXP, SEXP g1SEXP, SEXP shape1SEXP, SEXP shape2SEXP, SEXP methodSEXP, SEXP rSEXP, SEXP jmaxSEXP, SEXP verboseSEXP, SEXP QSSEXP) {
+double racusum_beta_crit_mc(double L0, double RA, double g0, double g1, double shape1, double shape2, int method, int r, int jmax, bool verbose, double RQ);
+RcppExport SEXP _vlad_racusum_beta_crit_mc(SEXP L0SEXP, SEXP RASEXP, SEXP g0SEXP, SEXP g1SEXP, SEXP shape1SEXP, SEXP shape2SEXP, SEXP methodSEXP, SEXP rSEXP, SEXP jmaxSEXP, SEXP verboseSEXP, SEXP RQSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< double >::type L0(L0SEXP);
-    Rcpp::traits::input_parameter< double >::type QA(QASEXP);
+    Rcpp::traits::input_parameter< double >::type RA(RASEXP);
     Rcpp::traits::input_parameter< double >::type g0(g0SEXP);
     Rcpp::traits::input_parameter< double >::type g1(g1SEXP);
     Rcpp::traits::input_parameter< double >::type shape1(shape1SEXP);
@@ -175,8 +175,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type r(rSEXP);
     Rcpp::traits::input_parameter< int >::type jmax(jmaxSEXP);
     Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
-    Rcpp::traits::input_parameter< double >::type QS(QSSEXP);
-    rcpp_result_gen = Rcpp::wrap(racusum_beta_crit_mc(L0, QA, g0, g1, shape1, shape2, method, r, jmax, verbose, QS));
+    Rcpp::traits::input_parameter< double >::type RQ(RQSEXP);
+    rcpp_result_gen = Rcpp::wrap(racusum_beta_crit_mc(L0, RA, g0, g1, shape1, shape2, method, r, jmax, verbose, RQ));
     return rcpp_result_gen;
 END_RCPP
 }

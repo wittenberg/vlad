@@ -5,15 +5,15 @@
 \title{Compute ARL of RA-CUSUM control charts assuming patient mix with beta distribution using
  Markov chain approximation.}
 \usage{
-racusum_beta_arl_mc(h, QA, g0, g1, shape1, shape2, r = 600, method = 1, QS = 1)
+racusum_beta_arl_mc(h, RA, g0, g1, shape1, shape2, r = 600, method = 1, RQ = 1)
 }
 \arguments{
 \item{h}{Double. \code{h} is the control limit (>\code{0}).}
 
-\item{QA}{Double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
-in performance with increased mortality risk by doubling the odds Ratio \code{QA = 2}. Detecting
+\item{RA}{Double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
+in performance with increased mortality risk by doubling the odds Ratio \code{RA = 2}. Detecting
  improvement in performance with decreased mortality risk by halving the odds ratio of death
- \code{QA = 1/2}. Odds ratio of death under the null hypotheses is \code{1}.}
+ \code{RA = 1/2}. Odds ratio of death under the null hypotheses is \code{1}.}
 
 \item{g0}{...}
 
@@ -30,7 +30,7 @@ Test and Toeplitz matrix structure is used to calculate the ARL. \code{"2"} solv
 equation system using the classical approach of \emph{Brook and Evans (1972)} to calculate the
 ARL.}
 
-\item{QS}{...}
+\item{RQ}{...}
 }
 \value{
 Returns a single value which is the Run Length.
@@ -42,7 +42,7 @@ distribution using Markov chain approximation.
 \examples{
 \dontrun{
 library(vlad)
-racusum_beta_arl_mc(h=4.5, QA=2, g0=-3.6798, g1=0.0768*100, shape1=1, shape2=6, r=1e4, method=1)
+racusum_beta_arl_mc(h=4.5, RA=2, g0=-3.6798, g1=0.0768*100, shape1=1, shape2=6, r=1e4, method=1)
 }
 }
 \author{
