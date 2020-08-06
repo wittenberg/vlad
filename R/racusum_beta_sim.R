@@ -11,7 +11,7 @@
 #'  \code{RA = 1/2}.
 #' @param coeff Numeric Vector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
 #'  from the binary logistic regression model.
-#' @param RQ Double. Defines the performance of a surgeon with the odds ratio ratio of death
+#' @param RQ Double. Defines the performance of a surgeon with the odds ratio ratio of death.
 #' \code{Q}.
 #' @param h Double. Control Chart limit for detecting deterioration/improvement.
 #' @param rs Integer. Maximum risk score.

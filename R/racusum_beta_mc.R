@@ -14,7 +14,7 @@
 #' @param shape1 Double. Shape parameter \eqn{\alpha}{alpha} \code{> 0} of the beta distribution.
 #' @param shape2 Double. Shape parameter \eqn{\beta}{beta} \code{> 0} of the beta distribution.
 #' @param r ...
-#' @param RQ  ...
+#' @param RQ Double. Defines the performance of a surgeon with the odds ratio ratio of death.
 #' @param method Character. If \code{method = "1"} a combination of Sequential Probability Ratio
 #'  Test and Toeplitz matrix structure is used to calculate the ARL. \code{"2"} solves a linear
 #'  equation system using the classical approach of \emph{Brook and Evans (1972)} to calculate the

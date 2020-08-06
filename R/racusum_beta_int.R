@@ -7,8 +7,11 @@
 #' @param h Double. \code{h} is the control limit (>\code{0}).
 #' @param N Integer. Number of quadrature nodes, dimension of the resulting linear equation system
 #'  is equal TODO ???.
-#' @param RA ...
-#' @param RQ ...
+#' @param RA Double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
+#' in performance with increased mortality risk by doubling the odds Ratio \code{RA = 2}. Detecting
+#'  improvement in performance with decreased mortality risk by halving the odds ratio of death
+#'  \code{RA = 1/2}.
+#' @param RQ Double. Defines the performance of a surgeon with the odds ratio ratio of death.
 #' @param g0 Double. ...
 #' @param g1 Double. ...
 #' @param shape1 Double. Shape parameter \eqn{\alpha}{alpha} \code{> 0} of the beta distribution.
