@@ -15,6 +15,6 @@ test_that("Different simulation algorithms, detecting deterioration", {
 
   ## RA=2
   m <- 1e3
-  expect_equal(racusum_beta_crit_sim(L0=L0, RA=2, RQ=RQ, coeff=c(g0,g1), shape1=shape1, shape2=shape2, rs=maxS+1, verbose=TRUE, m=m), 2.5192, tolerance=tol)
-  expect_equal(racusum_beta_crit_sim(L0=L0, RA=2, RQ=RQ, coeff=c(g0,g1), shape1=shape1, shape2=shape2, rs=maxS+1, verbose=FALSE, m=m), 2.5192, tolerance=tol)
+  expect_equal(racusum_discretebeta_crit_sim(L0=L0, RA=2, RQ=RQ, coeff=c(g0,g1), shape1=shape1, shape2=shape2, rs=maxS+1, verbose=TRUE, m=m), 2.5192, tolerance=tol)
+  expect_equal(racusum_discretebeta_crit_sim(L0=L0, RA=2, RQ=RQ, coeff=c(g0,g1), shape1=shape1, shape2=shape2, rs=maxS+1, verbose=FALSE, m=m), 2.5192, tolerance=tol)
 })
