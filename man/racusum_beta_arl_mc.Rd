@@ -30,7 +30,7 @@ Test and Toeplitz matrix structure is used to calculate the ARL. \code{"2"} solv
 equation system using the classical approach of \emph{Brook and Evans (1972)} to calculate the
 ARL.}
 
-\item{RQ}{...}
+\item{RQ}{Double. Defines the performance of a surgeon with the odds ratio ratio of death.}
 }
 \value{
 Returns a single value which is the Run Length.

@@ -36,7 +36,7 @@ in performance with increased mortality risk by doubling the odds Ratio \code{RA
  improvement in performance with decreased mortality risk by halving the odds ratio of death
  \code{RA = 1/2}.}
 
-\item{RQ}{Double. Defines the performance of a surgeon with the odds ratio ratio of death
+\item{RQ}{Double. Defines the performance of a surgeon with the odds ratio ratio of death.
 \code{Q}.}
 
 \item{nc}{Integer. Number of cores used for parallel processing. Value is passed to

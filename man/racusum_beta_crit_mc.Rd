@@ -47,7 +47,7 @@ ARL.}
 \item{verbose}{Logical. If \code{FALSE} a quiet calculation of \code{h} is done. If \code{TRUE}
 verbose output of the search procedure (see details) is included.}
 
-\item{RQ}{...}
+\item{RQ}{Double. Defines the performance of a surgeon with the odds ratio ratio of death.}
 }
 \value{
 Returns a single value which is the control limit \code{h} for a given In-control ARL.

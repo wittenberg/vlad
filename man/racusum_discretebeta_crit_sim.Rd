@@ -29,14 +29,14 @@ racusum_discretebeta_crit_sim(
 \item{coeff}{Numeric Vector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
 from the binary logistic regression model.}
 
-\item{rs}{Integer. Maximum risk score.}
+\item{rs}{Integer. Number of intervals between 0 and the maximum risk score.}
 
 \item{RA}{Double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
 in performance with increased mortality risk by doubling the odds Ratio \code{RA = 2}. Detecting
  improvement in performance with decreased mortality risk by halving the odds ratio of death
  \code{RA = 1/2}.}
 
-\item{RQ}{Double. Defines the performance of a surgeon with the odds ratio ratio of death
+\item{RQ}{Double. Defines the performance of a surgeon with the odds ratio ratio of death.
 \code{Q}.}
 
 \item{nc}{Integer. Number of cores used for parallel processing. Value is passed to

@@ -13,9 +13,12 @@ racusum_beta_arl_int(h, N, RA, RQ, g0, g1, shape1, shape2, pw)
 \item{N}{Integer. Number of quadrature nodes, dimension of the resulting linear equation system
 is equal TODO ???.}
 
-\item{RA}{...}
+\item{RA}{Double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
+in performance with increased mortality risk by doubling the odds Ratio \code{RA = 2}. Detecting
+ improvement in performance with decreased mortality risk by halving the odds ratio of death
+ \code{RA = 1/2}.}
 
-\item{RQ}{...}
+\item{RQ}{Double. Defines the performance of a surgeon with the odds ratio ratio of death.}
 
 \item{g0}{Double. ...}
 

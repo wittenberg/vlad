@@ -32,9 +32,9 @@ in performance with increased mortality risk by doubling the odds Ratio \code{RA
  improvement in performance with decreased mortality risk by halving the odds ratio of death
  \code{RA = 1/2}.}
 
-\item{rs}{Integer. Maximum risk score.}
+\item{rs}{Integer. Number of intervals between 0 and the maximum risk score.}
 
-\item{RQ}{Double. Defines the performance of a surgeon with the odds ratio ratio of death
+\item{RQ}{Double. Defines the performance of a surgeon with the odds ratio ratio of death.
 \code{Q}.}
 }
 \value{
