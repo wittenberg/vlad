@@ -28,12 +28,6 @@ test_that("Different input values for coeff", {
     expect_error(do.call(x, racusum_arl_sim(r, coeff = x, h, df1)))})
 })
 
-test_that("Different input values for R0", {
-  R0test <- list(-1, 0, "0", NA)
-  lapply(R0test, function(x) {
-    expect_error(do.call(x, racusum_arl_sim(r, coeff1, h, df1, R0 = x)))})
-})
-
 test_that("Different input values for RA", {
   RAtest <- list(-1, 0, "0", NA)
   lapply(RAtest, function(x) {
