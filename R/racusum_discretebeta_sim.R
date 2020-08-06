@@ -1,4 +1,4 @@
-#' @name racusum_beta_arl_sim
+#' @name racusum_discretebeta_arl_sim
 #' @title Compute ARLs of RA-CUSUM control charts using simulation
 #' @description Compute ARLs of RA-CUSUM control charts using simulation.
 #'
@@ -18,11 +18,10 @@
 #'
 #' @return Returns a single value which is the Run Length.
 #'
-#' @template racusum_beta_arl_sim
 #'
 #' @author Philipp Wittenberg
 #' @export
-racusum_beta_arl_sim <- function(r, shape1, shape2, coeff, h, RA = 2, rs = 71, RQ = 1) {
+racusum_discretebeta_arl_sim <- function(r, shape1, shape2, coeff, h, RA = 2, rs = 71, RQ = 1) {
   arg_checks <- checkmate::makeAssertCollection()
   checkmate::assert_integerish(r, lower = 1, add = arg_checks)
   checkmate::assert_vector(coeff, len = 2, add = arg_checks)
@@ -31,16 +30,16 @@ racusum_beta_arl_sim <- function(r, shape1, shape2, coeff, h, RA = 2, rs = 71, R
   checkmate::assert_integerish(rs, lower = 1, add = arg_checks)
   checkmate::assert_numeric(RQ, len = 1, lower = 0, add = arg_checks)
   if (!arg_checks$isEmpty()) checkmate::reportAssertions(arg_checks)
-  .racusum_beta_arl_sim(r, shape1, shape2, coeff, h, RA, rs, RQ)
+  .racusum_discretebeta_arl_sim(r, shape1, shape2, coeff, h, RA, rs, RQ)
 }
 
-#' @name racusum_beta_crit_sim
+#' @name racusum_discretebeta_crit_sim
 #' @title Compute alarm threshold of RA-CUSUM control charts using simulation
 #' @description Compute alarm threshold of risk-adjusted cumulative sum control charts using
 #'  simulation.
 #'
 #' @param L0 Double. Prespecified in-control Average Run Length.
-#' @inheritParams racusum_beta_arl_sim
+#' @inheritParams racusum_discretebeta_arl_sim
 #' @param nc Integer. Number of cores used for parallel processing. Value is passed to
 #' \code{\link{parSapply}}.
 #' @param m Integer. Number of simulation runs.
@@ -51,15 +50,15 @@ racusum_beta_arl_sim <- function(r, shape1, shape2, coeff, h, RA = 2, rs = 71, R
 #'
 #' @return Returns a single value which is the control limit \code{h} for a given in-control ARL.
 #'
-#' @details Determines the control limit ("\code{h}") for given in-control ARL (\code{"L0"})
-#' applying a grid search using \code{\link{racusum_beta_arl_sim}} and \code{\link{parSapply}}.
+#' @template racusum_discretebeta_crit_sim
 #'
-#' @template racusum_beta_crit_sim
+#' @details Determines the control limit ("\code{h}") for given in-control ARL (\code{"L0"})
+#' applying a grid search using \code{\link{racusum_discretebeta_arl_sim}} and \code{\link{parSapply}}.
 #'
 #' @author Philipp Wittenberg
 #'
 #' @export
-racusum_beta_crit_sim <- function(L0, shape1, shape2, coeff, rs = 71, RA = 2, RQ = 1, nc = 1, hmax = 30, jmax = 4, m = 1e4, verbose = FALSE) {
+racusum_discretebeta_crit_sim <- function(L0, shape1, shape2, coeff, rs = 71, RA = 2, RQ = 1, nc = 1, hmax = 30, jmax = 4, m = 1e4, verbose = FALSE) {
   arg_checks <- checkmate::makeAssertCollection()
   checkmate::assert_numeric(L0, len = 1, lower = 0, add = arg_checks)
   checkmate::assert_numeric(shape1, len = 1, lower = 0, add = arg_checks)
@@ -77,8 +76,8 @@ racusum_beta_crit_sim <- function(L0, shape1, shape2, coeff, rs = 71, RA = 2, RQ
   cl <- parallel::makeCluster(getOption("cl.cores", nc))
 
   for ( h in 1:hmax ) {
-    parallel::clusterExport(cl, c("h", "racusum_beta_arl_sim", "shape1", "shape2", "coeff", "h", "RA", "rs", "RQ", "m"), envir = environment())
-    L1 <- mean(parallel::parSapply(cl, 1:m, racusum_beta_arl_sim, shape1 = shape1, shape2 = shape2, coeff = coeff, h = h, RA = RA, rs = rs, RQ = RQ))
+    parallel::clusterExport(cl, c("h", "racusum_discretebeta_arl_sim", "shape1", "shape2", "coeff", "h", "RA", "rs", "RQ", "m"), envir = environment())
+    L1 <- mean(parallel::parSapply(cl, 1:m, racusum_discretebeta_arl_sim, shape1 = shape1, shape2 = shape2, coeff = coeff, h = h, RA = RA, rs = rs, RQ = RQ))
     if ( verbose ) cat(paste("h =", h, "\tARL =", L1, "\n"))
     if ( L1 > L0 ) break
   }
@@ -87,8 +86,8 @@ racusum_beta_crit_sim <- function(L0, shape1, shape2, coeff, rs = 71, RA = 2, RQ
   for ( j in 1:jmax ) {
     for ( dh in 1:19 ) {
       h <- h1 + (-1)^j*dh/10^j
-      parallel::clusterExport(cl, c("h", "racusum_beta_arl_sim", "shape1", "shape2", "coeff", "h", "RA", "rs", "RQ", "m"), envir = environment())
-    L1 <- mean(parallel::parSapply(cl, 1:m, racusum_beta_arl_sim, shape1 = shape1, shape2 = shape2, coeff = coeff, h = h, RA = RA, rs = rs, RQ = RQ))
+      parallel::clusterExport(cl, c("h", "racusum_discretebeta_arl_sim", "shape1", "shape2", "coeff", "h", "RA", "rs", "RQ", "m"), envir = environment())
+    L1 <- mean(parallel::parSapply(cl, 1:m, racusum_discretebeta_arl_sim, shape1 = shape1, shape2 = shape2, coeff = coeff, h = h, RA = RA, rs = rs, RQ = RQ))
       if ( verbose ) cat(paste("h =", h, "\tARL =", L1, "\n"))
       if ( (j %% 2 == 1 & L1 < L0) | (j %% 2 == 0 & L1 > L0) ) break
     }

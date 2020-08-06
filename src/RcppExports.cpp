@@ -216,6 +216,24 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// racusum_discretebeta_arl_sim
+int racusum_discretebeta_arl_sim(int r, double shape1, double shape2, NumericVector coeff, double h, double RA, int rs, double RQ);
+RcppExport SEXP _vlad_racusum_discretebeta_arl_sim(SEXP rSEXP, SEXP shape1SEXP, SEXP shape2SEXP, SEXP coeffSEXP, SEXP hSEXP, SEXP RASEXP, SEXP rsSEXP, SEXP RQSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type r(rSEXP);
+    Rcpp::traits::input_parameter< double >::type shape1(shape1SEXP);
+    Rcpp::traits::input_parameter< double >::type shape2(shape2SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type coeff(coeffSEXP);
+    Rcpp::traits::input_parameter< double >::type h(hSEXP);
+    Rcpp::traits::input_parameter< double >::type RA(RASEXP);
+    Rcpp::traits::input_parameter< int >::type rs(rsSEXP);
+    Rcpp::traits::input_parameter< double >::type RQ(RQSEXP);
+    rcpp_result_gen = Rcpp::wrap(racusum_discretebeta_arl_sim(r, shape1, shape2, coeff, h, RA, rs, RQ));
+    return rcpp_result_gen;
+END_RCPP
+}
 // racusum_arl_mc
 double racusum_arl_mc(NumericMatrix pmix, double RA, double RQ, double h, double scaling, int rounding, int method);
 RcppExport SEXP _vlad_racusum_arl_mc(SEXP pmixSEXP, SEXP RASEXP, SEXP RQSEXP, SEXP hSEXP, SEXP scalingSEXP, SEXP roundingSEXP, SEXP methodSEXP) {
@@ -329,6 +347,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_vlad_racusum_beta_crit_mc", (DL_FUNC) &_vlad_racusum_beta_crit_mc, 11},
     {"_vlad_racusum_beta_arl_sim", (DL_FUNC) &_vlad_racusum_beta_arl_sim, 8},
     {"_vlad_racusum_betabinomial_arl_sim", (DL_FUNC) &_vlad_racusum_betabinomial_arl_sim, 8},
+    {"_vlad_racusum_discretebeta_arl_sim", (DL_FUNC) &_vlad_racusum_discretebeta_arl_sim, 8},
     {"_vlad_racusum_arl_mc", (DL_FUNC) &_vlad_racusum_arl_mc, 7},
     {"_vlad_racusum_crit_mc", (DL_FUNC) &_vlad_racusum_crit_mc, 9},
     {"_vlad_llr_score", (DL_FUNC) &_vlad_llr_score, 5},

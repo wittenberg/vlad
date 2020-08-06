@@ -49,6 +49,10 @@
     .Call(`_vlad_racusum_betabinomial_arl_sim`, r, shape1, shape2, coeff, h, RA, rs, RQ)
 }
 
+.racusum_discretebeta_arl_sim <- function(r, shape1, shape2, coeff, h, RA, rs, RQ) {
+    .Call(`_vlad_racusum_discretebeta_arl_sim`, r, shape1, shape2, coeff, h, RA, rs, RQ)
+}
+
 .racusum_arl_mc <- function(pmix, RA, RQ, h, scaling, rounding, method) {
     .Call(`_vlad_racusum_arl_mc`, pmix, RA, RQ, h, scaling, rounding, method)
 }
