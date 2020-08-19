@@ -79,33 +79,3 @@ racusum_beta_crit_mc <- function(L0, RA, g0, g1, shape1, shape2, method = 1, r =
   if (!arg_checks$isEmpty()) checkmate::reportAssertions(arg_checks)
   .racusum_beta_crit_mc(L0, RA, g0, g1, shape1, shape2, method, r, jmax, verbose, RQ)
 }
-
-#' @name FWT2
-#' @title scascas
-#' @description Compute the log-leikelie
-#'
-#' @param w ...
-#' @param RA Double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
-#' in performance with increased mortality risk by doubling the odds Ratio \code{RA = 2}. Detecting
-#'  improvement in performance with decreased mortality risk by halving the odds ratio of death
-#'  \code{RA = 1/2}. Odds ratio of death under the null hypotheses is \code{1}.
-#' @param g0 ...
-#' @param g1 ...
-#' @param shape1 Double. Shape parameter \eqn{\alpha}{alpha} \code{> 0} of the beta distribution.
-#' @param shape2 Double. Shape parameter \eqn{\beta}{beta} \code{> 0} of the beta distribution.
-#' @param RQ  ...
-#'
-#' @author Philipp Wittenberg
-#' @export
-FWT2 <- function(w, RA, g0, g1, shape1, shape2, RQ) {
-  arg_checks <- checkmate::makeAssertCollection()
-  checkmate::assert_numeric(w, len = 1, add = arg_checks)
-  checkmate::assert_numeric(RA, lower = 0, add = arg_checks)
-  checkmate::assert_numeric(g0, len = 1, add = arg_checks)
-  checkmate::assert_numeric(g1, len = 1, add = arg_checks)
-  checkmate::assert_numeric(shape1, len = 1, lower = 0, add = arg_checks)
-  checkmate::assert_numeric(shape2, len = 1, lower = 0, add = arg_checks)
-  checkmate::assert_numeric(RQ, lower = 0, add = arg_checks)
-  if (!arg_checks$isEmpty()) checkmate::reportAssertions(arg_checks)
-  .FWT2(w, RA, g0, g1, shape1, shape2, RQ)
-}

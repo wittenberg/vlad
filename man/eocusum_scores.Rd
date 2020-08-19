@@ -41,26 +41,33 @@ SALL <- cardiacsurgery \%>\% rename(s = Parsonnet) \%>\%
          phase = factor(ifelse(date < 2*365, "I", "II")))
 
 ## subset phase I (In-control)
-SI <- filter(SALL, phase == "I") \%>\% select(s, y)
+SI <- subset(SALL, phase == "I")
 
 ## estimate coefficients from logit model
-coeff1 <- coef(glm(y ~ s, data = SI, family = "binomial"))
+GLM <- glm(y ~ s, data = SI, family = "binomial")
+
+## set up patient mix
+pi1 <- predict(GLM, type = "response", newdata = data.frame(s = SI$s))
+pmix <- data.frame(SI$y, pi1, pi1)
+
+## determine k for detecting improvement
+k1opt <- optimal_k(pmix=pmix, RA = 1/2)
 
 ## determine k for detecting deterioration
-kopt <- optimal_k(QA = 2, df = SI, coeff = coeff, yemp = FALSE)
+k2opt <- optimal_k(pmix=pmix, RA = 2)
 
 ## subset phase II of surgeons 2
 S2II <- filter(SALL, phase == "II", surgeon == 2) \%>\% select(s, y)
 n <- nrow(S2II)
+z <- predict(GLM, type = "response", newdata = data.frame(s = S2II$s))-S2II$y
 
 ## CUSUM statistic without reset
-z <- sapply(1:n, function(i) calceo(df = S2II[i, c("s", "y")], coeff = coeff1))
-cv <- eocusum_scores(z = z, k = kopt)
+cv <- eocusum_scores(z = z, k1 = k1opt, k2 = k2opt)
 s1 <- cv$s1; s1l <- cv$s1l
 dm1 <- data.frame(cbind("n" = 1:length(s1), "Cup" = s1, "Clow" = s1l, "h1" = 2, "h2" = -2))
 
 ## CUSUM statistic reset after signal
-cv <- eocusum_scores(z = z, k = kopt, reset = TRUE, h1 = 2, h2 = 2)
+cv <- eocusum_scores(z = z, k1 = k1opt, k2 = k2opt, reset = TRUE, h1 = 2, h2 = 2)
 s1 <- cv$s1; s1l <- cv$s1l
 dm2 <- data.frame(cbind("n" = 1:length(s1), "Cup" = s1, "Clow" = s1l, "h1" = 2, "h2" = -2))
 
@@ -78,6 +85,7 @@ dm3 \%>\%
   guides(colour = "none") +
   scale_color_manual(values = c("blue", "orange", "red", "red"))
 }
+
 }
 \references{
 Wittenberg P, Gan FF, Knoth S (2018).

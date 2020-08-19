@@ -9,7 +9,7 @@ racusum_discretebeta_crit_sim(
   shape1,
   shape2,
   coeff,
-  rs = 71,
+  rs = 72,
   RA = 2,
   RQ = 1,
   nc = 1,
@@ -65,8 +65,7 @@ applying a grid search using \code{\link{racusum_discretebeta_arl_sim}} and \cod
 \examples{
 \dontrun{
 library(vlad)
-racusum_discretebeta_crit_sim(L0=7500, shape1=.61, shape2=4.09, rs=(maxS+1),
-coeff=c(-3.6798, .0768), RA=2, RQ=1, nc=28, verbose=TRUE, m=1e4)
+racusum_discretebeta_crit_sim(L0=7500, shape1=.61, shape2=4.09, rs=(71+1), coeff=c(-3.6798, .0768), RA=2, RQ=1, nc=4, verbose=TRUE, m=1e3)
 }
 
 }

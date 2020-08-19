@@ -39,10 +39,9 @@ SALL <- cardiacsurgery \%>\% rename(s = Parsonnet) \%>\%
   mutate(y = ifelse(status == 1 & time <= 30, 1, 0),
          phase = factor(ifelse(date < 2*365, "I", "II")))
 SI <- subset(SALL, phase == "I")
-y <- subset(SALL, select = y)
 GLM <- glm(y ~ s, data = SI, family = "binomial")
-pi1 <- predict(GLM, type = "response", newdata = data.frame(s = SALL$s))
-pmix <- data.frame(y, pi1, pi1)
+pi1 <- predict(GLM, type = "response", newdata = data.frame(s = SI$s))
+pmix <- data.frame(SI$y, pi1, pi1)
 
 ## (Deterioration)
 optimal_k(pmix = pmix, RA = 2)

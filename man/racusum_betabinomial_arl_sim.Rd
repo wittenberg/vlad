@@ -46,8 +46,10 @@ Compute ARLs of RA-CUSUM control charts using simulation.
 \examples{
 \dontrun{
 library(vlad)
-racusum_betabinomial_arl_sim(r=1, shape1=1, shape2=3, coeff=c(-3.6798, 0.0768), h=4.5, RA = 2,
- rs = 71, RQ = 1)
+m <- 1e3
+RLS <- sapply(1:m, racusum_betabinomial_arl_sim, shape1=1, shape2=3, coeff=c(-3.6798, 0.0768),
+h=4.5, RA=2,  rs=71, RQ=1)
+data.frame(cbind(ARL=mean(RLS), ARLSE=sd(RLS)/sqrt(m)))
 }
 
 }

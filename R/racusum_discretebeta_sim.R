@@ -18,10 +18,11 @@
 #'
 #' @return Returns a single value which is the Run Length.
 #'
+#' @template racusum_discretebeta_arl_sim
 #'
 #' @author Philipp Wittenberg
 #' @export
-racusum_discretebeta_arl_sim <- function(r, shape1, shape2, coeff, h, RA = 2, rs = 71, RQ = 1) {
+racusum_discretebeta_arl_sim <- function(r, shape1, shape2, coeff, h, RA = 2, rs = 72, RQ = 1) {
   arg_checks <- checkmate::makeAssertCollection()
   checkmate::assert_integerish(r, lower = 1, add = arg_checks)
   checkmate::assert_vector(coeff, len = 2, add = arg_checks)
@@ -58,7 +59,7 @@ racusum_discretebeta_arl_sim <- function(r, shape1, shape2, coeff, h, RA = 2, rs
 #' @author Philipp Wittenberg
 #'
 #' @export
-racusum_discretebeta_crit_sim <- function(L0, shape1, shape2, coeff, rs = 71, RA = 2, RQ = 1, nc = 1, hmax = 30, jmax = 4, m = 1e4, verbose = FALSE) {
+racusum_discretebeta_crit_sim <- function(L0, shape1, shape2, coeff, rs = 72, RA = 2, RQ = 1, nc = 1, hmax = 30, jmax = 4, m = 1e4, verbose = FALSE) {
   arg_checks <- checkmate::makeAssertCollection()
   checkmate::assert_numeric(L0, len = 1, lower = 0, add = arg_checks)
   checkmate::assert_numeric(shape1, len = 1, lower = 0, add = arg_checks)
