@@ -11,7 +11,7 @@ racusum_beta_arl_int(h, N, RA, RQ, g0, g1, shape1, shape2, pw)
 \item{h}{Double. \code{h} is the control limit (>\code{0}).}
 
 \item{N}{Integer. Number of quadrature nodes, dimension of the resulting linear equation system
-is equal TODO ???.}
+is equal to \code{N}.}
 
 \item{RA}{Double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
 in performance with increased mortality risk by doubling the odds Ratio \code{RA = 2}. Detecting
@@ -20,15 +20,19 @@ in performance with increased mortality risk by doubling the odds Ratio \code{RA
 
 \item{RQ}{Double. Defines the performance of a surgeon with the odds ratio ratio of death.}
 
-\item{g0}{Double. ...}
+\item{g0}{Double. Estimated intercept coefficient from a binary logistic regression model.}
 
-\item{g1}{Double. ...}
+\item{g1}{Double. Estimated slope coefficient from a binary logistic regression model.}
 
 \item{shape1}{Double. Shape parameter \eqn{\alpha}{alpha} \code{> 0} of the beta distribution.}
 
 \item{shape2}{Double. Shape parameter \eqn{\beta}{beta} \code{> 0} of the beta distribution.}
 
-\item{pw}{Logical. Pice-wise collocation yes or no.}
+\item{pw}{Logical. If \code{FALSE} full collocation is applied. If \code{TRUE} a piece-wise
+collocation method is used.}
+
+\item{verbose}{Logical. If \code{FALSE} a quiet calculation of \code{h} is done. If \code{TRUE}
+verbose output of the search procedure is included.}
 }
 \value{
 Returns a single value which is the Run Length.

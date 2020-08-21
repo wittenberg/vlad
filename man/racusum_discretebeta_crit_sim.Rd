@@ -26,10 +26,10 @@ racusum_discretebeta_crit_sim(
 
 \item{shape2}{Double. Shape parameter \eqn{\beta}{beta} \code{> 0} of the beta distribution.}
 
-\item{coeff}{Numeric Vector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
-from the binary logistic regression model.}
+\item{coeff}{Numeric Vector. Estimated intercept and slope coefficients
+from a binary logistic regression model.}
 
-\item{rs}{Integer. Number of intervals between 0 and the maximum risk score.}
+\item{rs}{Integer. Number of intervals between \code{0} and the maximum risk score.}
 
 \item{RA}{Double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
 in performance with increased mortality risk by doubling the odds Ratio \code{RA = 2}. Detecting

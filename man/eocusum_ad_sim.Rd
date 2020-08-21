@@ -80,7 +80,6 @@ Wittenberg P, Gan FF, Knoth S (2018).
 A simple signaling rule for variable life-adjusted display derived from
 an equivalent risk-adjusted CUSUM chart.
 \emph{Statistics in Medicine}, \strong{37}(16), pp 2455--2473.
-\doi{10.1002/sim.7647}
 
 Taylor HM (1968). The Economic Design of Cumulative Sum Control Charts.
 \emph{Technometrics}, \strong{10}(3), pp. 479--488.

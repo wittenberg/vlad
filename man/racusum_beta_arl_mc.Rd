@@ -15,15 +15,15 @@ in performance with increased mortality risk by doubling the odds Ratio \code{RA
  improvement in performance with decreased mortality risk by halving the odds ratio of death
  \code{RA = 1/2}. Odds ratio of death under the null hypotheses is \code{1}.}
 
-\item{g0}{...}
+\item{g0}{Double. Estimated intercept coefficient from a binary logistic regression model.}
 
-\item{g1}{...}
+\item{g1}{Double. Estimated slope coefficient from a binary logistic regression model.}
 
 \item{shape1}{Double. Shape parameter \eqn{\alpha}{alpha} \code{> 0} of the beta distribution.}
 
 \item{shape2}{Double. Shape parameter \eqn{\beta}{beta} \code{> 0} of the beta distribution.}
 
-\item{r}{...}
+\item{r}{Double. Matrix system dimension.}
 
 \item{method}{Character. If \code{method = "1"} a combination of Sequential Probability Ratio
 Test and Toeplitz matrix structure is used to calculate the ARL. \code{"2"} solves a linear
