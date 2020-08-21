@@ -9,11 +9,11 @@
 #' in performance with increased mortality risk by doubling the odds Ratio \code{RA = 2}. Detecting
 #'  improvement in performance with decreased mortality risk by halving the odds ratio of death
 #'  \code{RA = 1/2}. Odds ratio of death under the null hypotheses is \code{1}.
-#' @param g0 ...
-#' @param g1 ...
+#' @param g0 Double. Estimated intercept coefficient from a binary logistic regression model.
+#' @param g1 Double. Estimated slope coefficient from a binary logistic regression model.
 #' @param shape1 Double. Shape parameter \eqn{\alpha}{alpha} \code{> 0} of the beta distribution.
 #' @param shape2 Double. Shape parameter \eqn{\beta}{beta} \code{> 0} of the beta distribution.
-#' @param r ...
+#' @param r Double. Matrix system dimension.
 #' @param RQ Double. Defines the performance of a surgeon with the odds ratio ratio of death.
 #' @param method Character. If \code{method = "1"} a combination of Sequential Probability Ratio
 #'  Test and Toeplitz matrix structure is used to calculate the ARL. \code{"2"} solves a linear

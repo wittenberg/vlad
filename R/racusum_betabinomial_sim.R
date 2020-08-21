@@ -9,12 +9,12 @@
 #' in performance with increased mortality risk by doubling the odds Ratio \code{RA = 2}. Detecting
 #'  improvement in performance with decreased mortality risk by halving the odds ratio of death
 #'  \code{RA = 1/2}.
-#' @param coeff Numeric Vector. Estimated coefficients \eqn{\alpha}{alpha} and \eqn{\beta}{beta}
-#'  from the binary logistic regression model.
+#' @param coeff Numeric Vector. Estimated intercept and slope coefficients
+#'  from a binary logistic regression model.
 #' @param RQ Double. Defines the performance of a surgeon with the odds ratio ratio of death
 #' \code{Q}.
 #' @param h Double. Control Chart limit for detecting deterioration/improvement.
-#' @param rs maxS
+#' @param rs Integer. Maximum risk score.
 #'
 #' @return Returns a single value which is the Run Length.
 #'
