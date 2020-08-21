@@ -216,7 +216,7 @@ GPL (\>= 2)
 
 ### References
 
-<div id="refs" class="references">
+<div id="refs" class="references hanging-indent">
 
 <div id="ref-Knoth.etal_2019">
 

@@ -40,8 +40,6 @@ Possibly mis-spelled words in DESCRIPTION:
     al (19:18, 21:30)
     et (19:15, 21:27)
 
-
-
 ## Release summary
 
 This is a first submission of the package to CRAN.
