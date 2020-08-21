@@ -18,9 +18,11 @@ racusum_betabinomial_arl_sim(
 \arguments{
 \item{r}{Integer Vector. Number of runs.}
 
-\item{shape1}{Double. Shape parameter \eqn{\alpha}{alpha} \code{> 0} of the beta-binomial distribution.}
+\item{shape1}{Double. Shape parameter \eqn{\alpha}{alpha} \code{> 0} of the beta-binomial
+distribution.}
 
-\item{shape2}{Double. Shape parameter \eqn{\beta}{beta} \code{> 0} of the beta-binomial distribution.}
+\item{shape2}{Double. Shape parameter \eqn{\beta}{beta} \code{> 0} of the beta-binomial
+distribution.}
 
 \item{coeff}{Numeric Vector. Estimated intercept and slope coefficients
 from a binary logistic regression model.}

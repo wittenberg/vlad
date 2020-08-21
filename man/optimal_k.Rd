@@ -8,8 +8,8 @@ optimal_k(pmix, RA, yemp = FALSE)
 }
 \arguments{
 \item{pmix}{Data Frame. A three column data frame. First column is the operation outcome.
-Second column are the predicted probabilities from the risk model. Third
- column can be either the predicted probabilities from the risk model or TODO .............}
+Second column are the predicted probabilities from the risk model. Third column can be either the
+ predicted probabilities from the risk model or average outcome.}
 
 \item{RA}{Double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
 in performance with increased mortality risk by doubling the odds Ratio \code{RA = 2}. Detecting
@@ -25,8 +25,10 @@ Returns a single value which is the approximate optimal \code{k}.
 Compute approximate optimal k.
 }
 \details{
-Formula deterioration:  \deqn{ k{det} = \frac{R{A} - 1 - log(R{A})}{log(R{A})}\bar{p} , R{A} > 1    }
-         Formula improvement:    \deqn{ k{imp} = \frac{1 - R{A} + log(R{A})}{log(R{A})}\bar{p} , R{A} < 1    }
+Formula deterioration:  \deqn{ k{det} = \frac{R{A} - 1 - log(R{A})}{log(R{A})}\bar{p} ,
+R{A} > 1    }
+         Formula improvement:    \deqn{ k{imp} = \frac{1 - R{A} + log(R{A})}{log(R{A})}\bar{p} ,
+R{A} < 1    }
 }
 \examples{
 \dontrun{

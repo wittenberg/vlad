@@ -60,12 +60,14 @@ Compute alarm threshold of risk-adjusted cumulative sum control charts using
 }
 \details{
 Determines the control limit ("\code{h}") for given in-control ARL (\code{"L0"})
-applying a grid search using \code{\link{racusum_discretebeta_arl_sim}} and \code{\link{parSapply}}.
+applying a grid search using \code{\link{racusum_discretebeta_arl_sim}} and
+\code{\link{parSapply}}.
 }
 \examples{
 \dontrun{
 library(vlad)
-racusum_discretebeta_crit_sim(L0=7500, shape1=.61, shape2=4.09, rs=(71+1), coeff=c(-3.6798, .0768), RA=2, RQ=1, nc=4, verbose=TRUE, m=1e3)
+racusum_discretebeta_crit_sim(L0=7500, shape1=.61, shape2=4.09, rs=(71+1),
+coeff=c(-3.6798, .0768), RA=2, RQ=1, nc=4, verbose=TRUE, m=1e3)
 }
 
 }

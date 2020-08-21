@@ -1,8 +1,8 @@
 #' @name racusum_beta_arl_int
 #' @title Compute ARL of RA-CUSUM control charts assuming a beta distributed patient mix with using
 #'  collocation methods.
-#' @description Compute ARL of RA-CUSUM control charts assuming a beta distributed patient mix with using
-#'  collocation methods.
+#' @description Compute ARL of RA-CUSUM control charts assuming a beta distributed patient mix with
+#' using collocation methods.
 #'
 #' @param h Double. \code{h} is the control limit (>\code{0}).
 #' @param N Integer. Number of quadrature nodes, dimension of the resulting linear equation system
@@ -18,8 +18,6 @@
 #' @param shape2 Double. Shape parameter \eqn{\beta}{beta} \code{> 0} of the beta distribution.
 #' @param pw Logical. If \code{FALSE} full collocation is applied. If \code{TRUE} a piece-wise
 #'  collocation method is used.
-#' @param verbose Logical. If \code{FALSE} a quiet calculation of \code{h} is done. If \code{TRUE}
-#'  verbose output of the search procedure is included.
 #'
 #' @return Returns a single value which is the Run Length.
 #'

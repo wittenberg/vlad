@@ -3,8 +3,10 @@
 #' @description Compute ARLs of RA-CUSUM control charts using simulation.
 #'
 #' @param r Integer Vector. Number of runs.
-#' @param shape1 Double. Shape parameter \eqn{\alpha}{alpha} \code{> 0} of the beta-binomial distribution.
-#' @param shape2 Double. Shape parameter \eqn{\beta}{beta} \code{> 0} of the beta-binomial distribution.
+#' @param shape1 Double. Shape parameter \eqn{\alpha}{alpha} \code{> 0} of the beta-binomial
+#' distribution.
+#' @param shape2 Double. Shape parameter \eqn{\beta}{beta} \code{> 0} of the beta-binomial
+#' distribution.
 #' @param RA Double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
 #' in performance with increased mortality risk by doubling the odds Ratio \code{RA = 2}. Detecting
 #'  improvement in performance with decreased mortality risk by halving the odds ratio of death
@@ -53,7 +55,8 @@ racusum_betabinomial_arl_sim <- function(r, shape1, shape2, coeff, h, RA = 2, rs
 #' @return Returns a single value which is the control limit \code{h} for a given in-control ARL.
 #'
 #' @details Determines the control limit ("\code{h}") for given in-control ARL (\code{"L0"})
-#' applying a grid search using \code{\link{racusum_betabinomial_arl_sim}} and \code{\link{parSapply}}.
+#' applying a grid search using \code{\link{racusum_betabinomial_arl_sim}} and
+#' \code{\link{parSapply}}.
 #'
 #' @template racusum_betabinomial_crit_sim
 #'

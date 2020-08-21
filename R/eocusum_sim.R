@@ -3,8 +3,8 @@
 #' @description Compute approximate optimal k.
 #'
 #' @param pmix Data Frame. A three column data frame. First column is the operation outcome.
-#' Second column are the predicted probabilities from the risk model. Third
-#'  column can be either the predicted probabilities from the risk model or TODO .............
+#' Second column are the predicted probabilities from the risk model. Third column can be either the
+#'  predicted probabilities from the risk model or average outcome.
 #' @param RA Double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
 #' in performance with increased mortality risk by doubling the odds Ratio \code{RA = 2}. Detecting
 #'  improvement in performance with decreased mortality risk by halving the odds ratio of death
@@ -13,8 +13,10 @@
 #'
 #' @return Returns a single value which is the approximate optimal \code{k}.
 #'
-#' @details Formula deterioration:  \deqn{ k{det} = \frac{R{A} - 1 - log(R{A})}{log(R{A})}\bar{p} , R{A} > 1    }
-#'          Formula improvement:    \deqn{ k{imp} = \frac{1 - R{A} + log(R{A})}{log(R{A})}\bar{p} , R{A} < 1    }
+#' @details Formula deterioration:  \deqn{ k{det} = \frac{R{A} - 1 - log(R{A})}{log(R{A})}\bar{p} ,
+#' R{A} > 1    }
+#'          Formula improvement:    \deqn{ k{imp} = \frac{1 - R{A} + log(R{A})}{log(R{A})}\bar{p} ,
+#' R{A} < 1    }
 #'
 #' @template optimal_k
 #'
@@ -34,8 +36,8 @@ optimal_k <- function(pmix, RA, yemp = FALSE) {
 #' @description Compute ARLs of EO-CUSUM control charts using simulation.
 #'
 #' @param pmix Data Frame. A three column data frame. First column is the operation outcome.
-#' Second column are the predicted probabilities from the risk model. Third
-#'  column can be either the predicted probabilities from the risk model or TODO .............
+#' Second column are the predicted probabilities from the risk model. Third column can be either the
+#'  predicted probabilities from the risk model or average outcome.
 #' @param r Integer. Number of of simulation runs.
 #' @param k Double. Reference value of the CUSUM control chart. Either \code{0} or a positive
 #' value. Can be determined with function \code{\link{optimal_k}}.

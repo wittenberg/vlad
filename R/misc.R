@@ -47,10 +47,10 @@ racusum_scores <- function(wt1, wt2, reset = FALSE, h1 = NULL, h2 = NULL) {
 #' @description Compute CUSUM scores based on E-O.
 #'
 #' @param z NumericVector. \code{E-O} values.
-#' @param k1 Double. Reference value \code{k} for detecting improvement can be determined from function
-#' \code{\link{optimal_k}}.
-#' @param k2 Double. Reference value \code{k} for detecting deteroration can be determined from function
-#' \code{\link{optimal_k}}.
+#' @param k1 Double. Reference value \code{k} for detecting improvement can be determined from
+#' function \code{\link{optimal_k}}.
+#' @param k2 Double. Reference value \code{k} for detecting deteroration can be determined from
+#' function \code{\link{optimal_k}}.
 #' @param reset Logical. If \code{FALSE} CUSUM statistic is not reset. If \code{TRUE} CUSUM
 #' statistic is reset to \code{0} after a signal is issued.
 #' @param h1 Double. Upper control limit of the CUSUM chart.

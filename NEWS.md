@@ -1,12 +1,12 @@
 # vlad 0.2.1
 ## Changes
-* use checkmate for error messages
+* Use checkmate for error messages
 * Calculate risk of death ahead of simulations to improve computation time
-* include various functions for distributions to compute the patient mix
+* Include various functions for distributions to compute the patient mix
 
 ## Improvements
-* improve simulation algorithms
-* improve testing
+* Improve simulation algorithms
+* Improve testing
 
 # vlad 0.2.0
 ## Changes

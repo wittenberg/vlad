@@ -21,8 +21,8 @@ racusum_crit_sim(
 \item{L0}{Double. Prespecified in-control Average Run Length.}
 
 \item{pmix}{Data Frame. A three column data frame. First column is the operation outcome.
-Second column are the predicted probabilities from the risk model. Third
- column can be either the predicted probabilities from the risk model or TODO .............}
+Second column are the predicted probabilities from the risk model. Third column can be either the
+ predicted probabilities from the risk model or average outcome.}
 
 \item{RA}{Double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
 in performance with increased mortality risk by doubling the odds Ratio \code{RA = 2}. Detecting

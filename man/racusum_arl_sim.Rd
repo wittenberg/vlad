@@ -10,8 +10,8 @@ racusum_arl_sim(r, pmix, h, RA = 2, RQ = 1, yemp = FALSE)
 \item{r}{Integer Vector. Number of runs.}
 
 \item{pmix}{Data Frame. A three column data frame. First column is the operation outcome.
-Second column are the predicted probabilities from the risk model. Third
- column can be either the predicted probabilities from the risk model or TODO .............}
+Second column are the predicted probabilities from the risk model. Third column can be either the
+ predicted probabilities from the risk model or average outcome.}
 
 \item{h}{Double. Control Chart limit for detecting deterioration/improvement.}
 

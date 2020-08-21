@@ -23,10 +23,6 @@
 #' @export
 llr_score <- function(df, coeff, R0 = 1, RA = 2, yemp = TRUE) {
   arg_checks <- checkmate::makeAssertCollection()
-  # if (class(df) != "data.frame") {stop("Provide a dataframe for argument 'df'")}
-  # else if (ncol(df) != 2) {stop("Provide a dataframe with two columns for argument 'df'")}
-  # else if (vapply(df, class, "")[1] != "integer") {stop("First column of dataframe must be of type integer")}
-  # else if (vapply(df, class, "")[2] != "numeric") {stop("Second column of dataframe must be of type numeric")}
   df <- as.data.frame(df)
   checkmate::assert_vector(coeff, len = 2, add = arg_checks)
   checkmate::assert_numeric(R0, len = 1, lower = 0, add = arg_checks)
@@ -141,8 +137,8 @@ bcusum_crit_sim <- function(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, jmax = 4, v
 #'  simulation.
 #' @param r Integer Vector. Number of runs.
 #' @param pmix Data Frame. A three column data frame. First column is the operation outcome.
-#' Second column are the predicted probabilities from the risk model. Third
-#'  column can  TODO .............
+#' Second column are the predicted probabilities from the risk model. Third column can be either the
+#'  predicted probabilities from the risk model or average outcome.
 #' @param h Double. Control Chart limit for detecting deterioration/improvement.
 #' @param RA Double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
 #' in performance with increased mortality risk by doubling the odds Ratio \code{RA = 2}. Detecting
@@ -182,8 +178,8 @@ racusum_ad_sim <- function(r, pmix, h, RA = 2, RQ = 1, m = 50, type = "cond") {
 #'
 #' @param r Integer Vector. Number of runs.
 #' @param pmix Data Frame. A three column data frame. First column is the operation outcome.
-#' Second column are the predicted probabilities from the risk model. Third
-#'  column can be either the predicted probabilities from the risk model or TODO .............
+#' Second column are the predicted probabilities from the risk model. Third column can be either the
+#'  predicted probabilities from the risk model or average outcome.
 #' @param h Double. Control Chart limit for detecting deterioration/improvement.
 #' @param RA Double. Odds ratio of death under the alternative hypotheses. Detecting deterioration
 #' in performance with increased mortality risk by doubling the odds Ratio \code{RA = 2}. Detecting

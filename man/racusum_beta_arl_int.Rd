@@ -30,16 +30,13 @@ in performance with increased mortality risk by doubling the odds Ratio \code{RA
 
 \item{pw}{Logical. If \code{FALSE} full collocation is applied. If \code{TRUE} a piece-wise
 collocation method is used.}
-
-\item{verbose}{Logical. If \code{FALSE} a quiet calculation of \code{h} is done. If \code{TRUE}
-verbose output of the search procedure is included.}
 }
 \value{
 Returns a single value which is the Run Length.
 }
 \description{
-Compute ARL of RA-CUSUM control charts assuming a beta distributed patient mix with using
- collocation methods.
+Compute ARL of RA-CUSUM control charts assuming a beta distributed patient mix with
+using collocation methods.
 }
 \examples{
 \dontrun{

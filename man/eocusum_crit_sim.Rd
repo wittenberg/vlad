@@ -22,8 +22,8 @@ eocusum_crit_sim(
 \item{L0}{Double. Prespecified in-control Average Run Length.}
 
 \item{pmix}{Data Frame. A three column data frame. First column is the operation outcome.
-Second column are the predicted probabilities from the risk model. Third
- column can be either the predicted probabilities from the risk model or TODO .............}
+Second column are the predicted probabilities from the risk model. Third column can be either the
+ predicted probabilities from the risk model or average outcome.}
 
 \item{k}{Double. Reference value of the CUSUM control chart. Either \code{0} or a positive
 value. Can be determined with function \code{\link{optimal_k}}.}

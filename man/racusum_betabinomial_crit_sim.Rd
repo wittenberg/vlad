@@ -22,9 +22,11 @@ racusum_betabinomial_crit_sim(
 \arguments{
 \item{L0}{Double. Prespecified in-control Average Run Length.}
 
-\item{shape1}{Double. Shape parameter \eqn{\alpha}{alpha} \code{> 0} of the beta-binomial distribution.}
+\item{shape1}{Double. Shape parameter \eqn{\alpha}{alpha} \code{> 0} of the beta-binomial
+distribution.}
 
-\item{shape2}{Double. Shape parameter \eqn{\beta}{beta} \code{> 0} of the beta-binomial distribution.}
+\item{shape2}{Double. Shape parameter \eqn{\beta}{beta} \code{> 0} of the beta-binomial
+distribution.}
 
 \item{coeff}{Numeric Vector. Estimated intercept and slope coefficients
 from a binary logistic regression model.}
@@ -60,7 +62,8 @@ Compute alarm threshold of risk-adjusted cumulative sum control charts using
 }
 \details{
 Determines the control limit ("\code{h}") for given in-control ARL (\code{"L0"})
-applying a grid search using \code{\link{racusum_betabinomial_arl_sim}} and \code{\link{parSapply}}.
+applying a grid search using \code{\link{racusum_betabinomial_arl_sim}} and
+\code{\link{parSapply}}.
 }
 \examples{
 \dontrun{

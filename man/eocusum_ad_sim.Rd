@@ -10,8 +10,8 @@ eocusum_ad_sim(r, pmix, k, h, RQ = 1, side = "low", type = "cond", m = 50)
 \item{r}{Integer. Number of of simulation runs.}
 
 \item{pmix}{Data Frame. A three column data frame. First column is the operation outcome.
-Second column are the predicted probabilities from the risk model. Third
- column can be either the predicted probabilities from the risk model or TODO .............}
+Second column are the predicted probabilities from the risk model. Third column can be either the
+ predicted probabilities from the risk model or average outcome.}
 
 \item{k}{Double. Reference value of the CUSUM control chart. Either \code{0} or a positive
 value. Can be determined with function \code{\link{optimal_k}}.}

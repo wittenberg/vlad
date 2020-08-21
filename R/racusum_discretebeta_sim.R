@@ -54,7 +54,8 @@ racusum_discretebeta_arl_sim <- function(r, shape1, shape2, coeff, h, RA = 2, rs
 #' @template racusum_discretebeta_crit_sim
 #'
 #' @details Determines the control limit ("\code{h}") for given in-control ARL (\code{"L0"})
-#' applying a grid search using \code{\link{racusum_discretebeta_arl_sim}} and \code{\link{parSapply}}.
+#' applying a grid search using \code{\link{racusum_discretebeta_arl_sim}} and
+#' \code{\link{parSapply}}.
 #'
 #' @author Philipp Wittenberg
 #'
