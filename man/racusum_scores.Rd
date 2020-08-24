@@ -28,7 +28,7 @@ Compute CUSUM scores based on the log-likelihood ratio statistic.
 }
 \examples{
 \dontrun{
-#' library(vlad)
+# library(vlad)
 # patient Cusum values with different odds ratios, see Rigdon and Fricker p. 225, 226
 coeff <- c("(Intercept)" = -3.67, "Parsonnet" = 0.077)
 wt1 <- round(llr_score(df = data.frame(19L, 0), coeff = coeff, R0 = 1, RA = 2), 4)

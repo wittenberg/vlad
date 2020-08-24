@@ -1,5 +1,22 @@
 ## Release summary
 
+This is the third submission of the package to CRAN.
+
+## Test environments
+
+* local x86_64-pc-linux-gnu (64-bit), R 4.0.2
+* ubuntu 16.04, R 4.0.2, R-devel.
+* win-builder (oldrelease, release, devel)
+* macOS 10.13.6 High Sierra, R 4.0.2
+* Oracle Solaris 10, R 4.0.2
+
+## R CMD check results
+
+0 ERRORs | 0 WARNINGs | 1 NOTEs
+
+Possibly mis-spelled words in DESCRIPTION:
+  Knoth (19:593)
+
 This is the second submission of the package to CRAN.
 
 ## Test environments

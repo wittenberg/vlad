@@ -33,7 +33,7 @@ control charts in health care.
 ## Installation
 
 You can install the released version of **vlad** from
-[CRAN](https://cran.r-project.org/web/packages/vlad/index.html) with:
+[CRAN](https://CRAN.R-project.org/package=vlad) with:
 
 ``` r
 install.packages("vlad")
