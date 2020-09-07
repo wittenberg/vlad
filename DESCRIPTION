@@ -1,7 +1,7 @@
 Package: vlad
 Type: Package
 Title: Variable Life Adjusted Display and Other Risk-Adjusted Quality Control Charts
-Version: 0.2.1
+Version: 0.2.1.9000
 Authors@R: c(
             person("Philipp", "Wittenberg", 
             email = "pwitten@hsu-hh.de", 
@@ -30,3 +30,4 @@ Suggests:
     knitr
 LinkingTo: BH, Rcpp, RcppArmadillo
 RoxygenNote: 7.1.1
+Roxygen: list(old_usage = TRUE)

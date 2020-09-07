@@ -4,19 +4,8 @@
 \alias{eocusum_crit_sim}
 \title{Compute alarm threshold of EO-CUSUM control charts using simulation}
 \usage{
-eocusum_crit_sim(
-  L0,
-  pmix,
-  k,
-  RQ = 1,
-  side = "low",
-  yemp = FALSE,
-  m = 10000,
-  nc = 1,
-  hmax = 30,
-  jmax = 4,
-  verbose = FALSE
-)
+eocusum_crit_sim(L0, pmix, k, RQ = 1, side = "low", yemp = FALSE,
+  m = 10000, nc = 1, hmax = 30, jmax = 4, verbose = FALSE)
 }
 \arguments{
 \item{L0}{Double. Prespecified in-control Average Run Length.}

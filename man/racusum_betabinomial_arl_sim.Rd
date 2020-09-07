@@ -4,16 +4,8 @@
 \alias{racusum_betabinomial_arl_sim}
 \title{Compute ARLs of RA-CUSUM control charts using simulation}
 \usage{
-racusum_betabinomial_arl_sim(
-  r,
-  shape1,
-  shape2,
-  coeff,
-  h,
-  RA = 2,
-  rs = 71,
-  RQ = 1
-)
+racusum_betabinomial_arl_sim(r, shape1, shape2, coeff, h, RA = 2, rs = 71,
+  RQ = 1)
 }
 \arguments{
 \item{r}{Integer Vector. Number of runs.}

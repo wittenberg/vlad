@@ -4,20 +4,8 @@
 \alias{racusum_betabinomial_crit_sim}
 \title{Compute alarm threshold of RA-CUSUM control charts using simulation}
 \usage{
-racusum_betabinomial_crit_sim(
-  L0,
-  shape1,
-  shape2,
-  coeff,
-  RA = 2,
-  rs = 71,
-  RQ = 1,
-  m = 10000,
-  nc = 1,
-  hmax = 30,
-  jmax = 4,
-  verbose = FALSE
-)
+racusum_betabinomial_crit_sim(L0, shape1, shape2, coeff, RA = 2, rs = 71,
+  RQ = 1, m = 10000, nc = 1, hmax = 30, jmax = 4, verbose = FALSE)
 }
 \arguments{
 \item{L0}{Double. Prespecified in-control Average Run Length.}

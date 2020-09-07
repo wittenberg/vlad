@@ -4,16 +4,8 @@
 \alias{bcusum_crit_sim}
 \title{Compute alarm threshold of Bernoulli CUSUM control charts using simulation}
 \usage{
-bcusum_crit_sim(
-  L0,
-  df,
-  R0 = 1,
-  RA = 2,
-  m = 100,
-  nc = 1,
-  jmax = 4,
-  verbose = FALSE
-)
+bcusum_crit_sim(L0, df, R0 = 1, RA = 2, m = 100, nc = 1, jmax = 4,
+  verbose = FALSE)
 }
 \arguments{
 \item{L0}{Double. Prespecified in-control Average Run Length.}

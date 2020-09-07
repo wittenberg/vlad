@@ -4,20 +4,8 @@
 \alias{racusum_discretebeta_crit_sim}
 \title{Compute alarm threshold of RA-CUSUM control charts using simulation}
 \usage{
-racusum_discretebeta_crit_sim(
-  L0,
-  shape1,
-  shape2,
-  coeff,
-  rs = 72,
-  RA = 2,
-  RQ = 1,
-  nc = 1,
-  hmax = 30,
-  jmax = 4,
-  m = 10000,
-  verbose = FALSE
-)
+racusum_discretebeta_crit_sim(L0, shape1, shape2, coeff, rs = 72, RA = 2,
+  RQ = 1, nc = 1, hmax = 30, jmax = 4, m = 10000, verbose = FALSE)
 }
 \arguments{
 \item{L0}{Double. Prespecified in-control Average Run Length.}
