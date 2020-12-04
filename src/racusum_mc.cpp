@@ -184,27 +184,30 @@ double racusum_arl_mc(NumericMatrix pmix, double RA, double RQ, double h, double
     }
       // ARL calculation: Brook and Evans 1972 approach
     case 3: {
-      // arma::uword t, k, i;
-      int i, k, t;
+      int i, k, g;
+      double pU;
       arma::mat rrr, id;
       arma::colvec b, arl;
       arma::vec jj;
-      arma::uvec j0, j1, j2;
+      arma::uvec j0, j1, j2, j4;
       arma::ivec j3;
 
-      t = round(h * scaling);
-      rrr.zeros(t, t);               // system matrix
-      id.eye(t, t);                  // identity matrix
-      b.ones(t);                     // vector of ones
+      g = floor(h * scaling);
+      pU = h*scaling - g;
+      rrr.zeros(g, g);               // system matrix
+      id.eye(g, g);                  // identity matrix
+      b.ones(g);                     // vector of ones
 
-      for (i = 0; i < t; i++ ) {     // fill transition probability matrix
+      for (i = 0; i < g; i++ ) {     // fill transition probability matrix
         jj = i + zzz;
         j0 = find(jj <= 0);
         rrr(i, 0) = sum(ppp(j0));
         j1 = find(0 < jj);
-        j2 = find(jj < t);
+        j2 = find(jj < g);
         j3 = vintersection(arma::conv_to<arma::ivec>::from(j1), arma::conv_to<arma::ivec>::from(j2));
         for (k = 0; k < j3.size(); k++) rrr(i, jj(j3(k))) = ppp(j3(k));
+        j4 = find(jj == g);
+        if (any(j4)) rrr(i, g-1) += arma::as_scalar(pU*ppp(j4));
       }
 
       arl = arma::solve(id - rrr, b, arma::solve_opts::fast + arma::solve_opts::no_approx);
