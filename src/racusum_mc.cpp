@@ -30,7 +30,7 @@ double racusum_arl_mc(NumericMatrix pmix, double RA, double RQ, double h, double
   /* paired rounding, Knoth et al. (2019) implementation */
   if (rounding == 1) {
     arma::vec sz, iza, izb, pp, pa, pb, zz, ppp, zzz;
-
+    
     sz  = join_cols(as<arma::vec>(z1), as<arma::vec>(z2)) * scaling;
     iza = floor(sz);
     izb = ceil(sz);
@@ -39,26 +39,27 @@ double racusum_arl_mc(NumericMatrix pmix, double RA, double RQ, double h, double
     pb  = pp % ( sz - iza );
     zz  = join_cols(iza, izb);
     pp  = join_cols(pa, pb);
-
+    
     ppp = tapply3arma(pp, arma::conv_to<arma::ivec>::from(zz));
     zzz = unique(zz);
 
     switch (method) {
     /* ARL calculation: Toeplitz SPRT approach, Knoth et al. (2019) */
     case 1: {
-      double pU, al, be, et, ka, ga, de, nen = 0, zae = 0, ell;
+      double r0=0., pU=0., al, be, et, ka, ga, de, nen = 0, zae = 0, ell;
       int i, j, N, N1, N2;
-      N = floor(h * scaling);
+      N  = floor(h * scaling);
       pU = h*scaling - N;
       N1 = N - 1;       /* w/o state N - 1 */
       N2 = N1 - 1;
       NumericVector x(N1), y(N1), z(N1), phi(N1), psi(N1), xi(N1), a(2*N1 - 1), b1(N1, 1.), b2(N1), b3(N1), g(N), gx(N);
-      arma::vec jj, bb, rcg;
+      arma::vec ii, jj, bb, rcg;
       arma::colvec cg;
       arma::rowvec rg;
-      arma::uvec j0, j2, j3;
+      arma::uvec j0, j2, j3, j4;
+      arma::ivec ii0, ii1, ii2;
 
-      bb.zeros(2 * N - 1);
+      bb.zeros(2*N - 1);
       rg.zeros(N1);
       cg.zeros(N1);
       rcg.zeros(1);
@@ -77,15 +78,21 @@ double racusum_arl_mc(NumericMatrix pmix, double RA, double RQ, double h, double
       /* Additional row, column and single element */
 
       /* Toeplitz band for dimension N ( N1 + 1) */
-      bb( arma::conv_to<arma::uvec>::from(arma::conv_to<arma::ivec>::from(-zzz) + N - 1) ) = ppp;
+      ii  = -zzz + N;
+      ii0 = arma::conv_to<arma::ivec>::from( find(ii > 0) );
+      ii1 = arma::conv_to<arma::ivec>::from( find(ii < 2*N) );
+      j4  = arma::conv_to<arma::uvec>::from( vintersection(ii0, ii1) );
+      ii2 = arma::conv_to<arma::ivec>::from( ii(j4) );
+      bb  = so_subset_params( bb, arma::conv_to<arma::uvec>::from(ii2-1), ppp(j4) );
 
       /* Row */
       j3 = arma::regspace<arma::uvec>(N, 1, (2*N-2));
       for (i = 0; i < N-1; i++) rg[i] = bb[j3(i)];
       jj = N-1 + zzz;
       j0 = find(jj <= 0);
-      for (i = 0; i < j0.n_elem;  i++) rg[0] = ppp[j0(i)];
       rg = reverse(rg);
+      for (i = 0; i < j0.n_elem;  i++) r0 += ppp[j0(i)];
+      rg[0] = r0;
 
       /* Column */
       for (i = 0; i < N-1; i++) cg[i] = bb[i];
@@ -162,20 +169,21 @@ double racusum_arl_mc(NumericMatrix pmix, double RA, double RQ, double h, double
     }
     /* ARL calculation: Toeplitz full matrix inversion, Knoth et al. (2019) */
     case 2: {
-      int d, g, i, j, m;
-      double pU, d1, d2, psi1, psi2, tau, gamma, phi, f1, f2, f3, arl, zae=0., nen=0., ell;
+      int d=0, g=0, i, j, m;
+      double r0=0., pU=0., d1, d2, psi1, psi2, tau, gamma, phi, f1, f2, f3, arl, zae=0., nen=0., ell;
       arma::colvec b1, cg, avg, avg2, pstar;
       arma::rowvec rg;
-      arma::vec r, b, bb, rcg, jj, x, y, z;
+      arma::vec r, b, bb, rcg, ii, jj, x, y, z;
+      arma::uvec j0, j2, j3, j4;
+      arma::ivec ii0, ii1, ii2;
       arma::mat N;
-      arma::uvec j0, j2, j3;
 
       g = floor(h * scaling);
       pU = h*scaling - g;
       d = g - 1;       /* w/o state g - 1 */
-      b.zeros(2 * d - 1);
+      b.zeros(2*d - 1);
       r.zeros(d);
-      bb.zeros(2 * g - 1);
+      bb.zeros(2*g - 1);
       rg.zeros(d);
       cg.zeros(d);
       x.zeros(d);
@@ -184,33 +192,44 @@ double racusum_arl_mc(NumericMatrix pmix, double RA, double RQ, double h, double
       N.zeros(d, d);
       b1.ones(d);
       avg2.zeros(g);
-
+      
       /* Toeplitz band (already for I - Q) (with new dimension d) */
-      b( arma::conv_to<arma::uvec>::from(arma::conv_to<arma::ivec>::from(-zzz) + d - 1) ) = -ppp;
-      b[d-1] = 1 + b[d-1];
-
+      ii  = -zzz + d;
+      ii0 = arma::conv_to<arma::ivec>::from( find(ii > 0) );
+      ii1 = arma::conv_to<arma::ivec>::from( find(ii < 2*d) );
+      j4  = arma::conv_to<arma::uvec>::from( vintersection(ii0, ii1) );
+      ii2 = arma::conv_to<arma::ivec>::from( ii(j4) );
+      b   = so_subset_params( b, arma::conv_to<arma::uvec>::from(ii2-1), -1.*ppp(j4) );
+      b[d-1] += 1;
+      
       /* Original first column (CUSUM's zero) */
-      for (i = 0; i < d-1; i++) {
+      for (i = 0; i < d; i++) {
         jj = i + zzz;
         j0 = find(jj <= 0);
         r(i, 0) = -sum(ppp(j0));
       }
-      r[0] = 1 + r[0];
-
+      r[0] += 1;
+      
       /* Prepare the Yashchin trick */
       /* Additional row, column and single element */
-
+      
       /* Toeplitz band for dimension g ( d + 1) */
-      bb( arma::conv_to<arma::uvec>::from(arma::conv_to<arma::ivec>::from(-zzz) + g - 1) ) = ppp;
+      ii  = -zzz + g;
+      ii0 = arma::conv_to<arma::ivec>::from( find(ii > 0) );
+      ii1 = arma::conv_to<arma::ivec>::from( find(ii < 2*g) );
+      j4  = arma::conv_to<arma::uvec>::from( vintersection(ii0, ii1) );
+      ii2 = arma::conv_to<arma::ivec>::from( ii(j4) );
+      bb  = so_subset_params( bb, arma::conv_to<arma::uvec>::from(ii2-1), ppp(j4) );
 
       /* Row */
       j3 = arma::regspace<arma::uvec>(g, 1, (2*g-2));
       for (i = 0; i < g-1; i++) rg[i] = bb[j3(i)];
       jj = g-1 + zzz;
       j0 = find(jj <= 0);
-      for (i = 0; i < j0.n_elem;  i++) rg[0] = ppp[j0(i)];
       rg = reverse(rg);
-
+      for (i = 0; i < j0.n_elem;  i++) r0 += ppp[j0(i)];
+      rg[0] = r0;
+      
       /* Column */
       for (i = 0; i < g-1; i++) cg[i] = bb[i];
       for (i = 0; i < d; i++) {
@@ -218,13 +237,13 @@ double racusum_arl_mc(NumericMatrix pmix, double RA, double RQ, double h, double
         j2  = find(jj == g);
         if (any(j2)) cg[i] += arma::as_scalar(pU*ppp(j2));
       }
-
+      
       /* Single element at bottomright corner */
       rcg = bb[g-1];
       jj  = g - 1 + zzz;
       j2  = find(jj == g);
       if (any(j2)) rcg[0] += arma::as_scalar(pU*ppp(j2));
-
+      
       /* Initial values */
       x[0]  = 1 / r[0];
       y[0]  = 0;
@@ -250,14 +269,14 @@ double racusum_arl_mc(NumericMatrix pmix, double RA, double RQ, double h, double
         psi2   = d2/gamma;
         tau    = z[0];
         z[m]   = 1;
-
+      
         for (j = m; j >= 0; j--) {
           x[j] -= psi1*z[j];
           y[j] -= psi2*z[j];
           z[j]  = (j > 0 ? z[j-1] - phi*x[j] + z[0]*y[j] : - phi*x[j] + z[0]*y[j]);
         }
       }
-
+      
       /* Build inverse matrix */
       N.col(0) = x;
       for (j = 1; j <= d-1; j++) {
@@ -268,10 +287,10 @@ double racusum_arl_mc(NumericMatrix pmix, double RA, double RQ, double h, double
         N(0, j) = - f1*x[0] - f2*z[0] + f3*y[0];
         for (i = 1; i <= d-1; i++) N(i, j) = N(i-1, j-1) - f1*x[i] - f2*z[i] + f3*y[i];
       }
-
+      
       /* Solve ARL equation system */
       avg = ( N * b1 );
-
+      
       /* The 'Yashchin' trick, Yashchin (2019), p.5, Eq. (13), (14) */
       pstar = ( N * cg );
       for (i = 0; i < d; i++) {
@@ -300,7 +319,7 @@ double racusum_arl_mc(NumericMatrix pmix, double RA, double RQ, double h, double
       rrr.zeros(g, g);               /* system matrix */
       id.eye(g, g);                  /* identity matrix */
       b.ones(g);                     /* vector of ones */
-
+      
       for (i = 0; i < g; i++ ) {     /* fill transition probability matrix */
         jj = i + zzz;
         j0 = find(jj <= 0);
@@ -312,7 +331,7 @@ double racusum_arl_mc(NumericMatrix pmix, double RA, double RQ, double h, double
         j4 = find(jj == g);
         if (any(j4)) rrr(i, g-1) += arma::as_scalar(pU*ppp(j4));
       }
-
+      
       arl = arma::solve(id - rrr, b, arma::solve_opts::fast + arma::solve_opts::no_approx);
       value = arl[0];
       break;
@@ -351,8 +370,8 @@ double racusum_arl_mc(NumericMatrix pmix, double RA, double RQ, double h, double
         b2[i] = sum(ppp(j0));
       }
 
-      x[0] = 1 / a[N1];
-      y[0] = 1 / a[N1];
+      x[0]   = 1 / a[N1];
+      y[0]   = 1 / a[N1];
       phi[0] = b1[0] / a[N1];
       psi[0] = b2[0] / a[N1];
 
@@ -464,8 +483,8 @@ double racusum_arl_mc(NumericMatrix pmix, double RA, double RQ, double h, double
       }
 
       /* Solve ARL equation system */
-      avg = ( N * b1 );
-      arl = avg[0];
+      avg   = ( N * b1 );
+      arl   = avg[0];
       value = arl;
       break;
     }
@@ -492,7 +511,7 @@ double racusum_arl_mc(NumericMatrix pmix, double RA, double RQ, double h, double
         j3 = vintersection(arma::conv_to<arma::ivec>::from(j1), arma::conv_to<arma::ivec>::from(j2));
         for (k = 0; k < j3.size(); k++) rrr(i, jj(j3(k))) = ppp(j3(k));
       }
-      arl = arma::solve(id - rrr, b, arma::solve_opts::fast + arma::solve_opts::no_approx);
+      arl   = arma::solve(id - rrr, b, arma::solve_opts::fast + arma::solve_opts::no_approx);
       value = arl[0];
       break;
     }
@@ -504,18 +523,18 @@ double racusum_arl_mc(NumericMatrix pmix, double RA, double RQ, double h, double
 // [[Rcpp::export(.racusum_crit_mc)]]
 double racusum_crit_mc(NumericMatrix pmix, double L0, double RA, double R, double scaling, int rounding, int method, int jmax, bool verbose) {
   double L1, h, h1;
-  int i;
-  for (i = 1; i < 10; i++ ) {
-    L1 = racusum_arl_mc(pmix, RA, 1, double(i), scaling, rounding, method);
+  int i, j, dh;
+  for ( i = 1; i < 30; i++ ) {
+    L1 = racusum_arl_mc(pmix, RA, R, double(i), scaling, rounding, method);
     if ( verbose ) Rcpp::Rcout << "h = " <<  i << "\t" << "ARL = " << L1 << std::endl;
-      if ( L1 > L0 ) break;
+    if ( L1 > L0 ) { break; }
   }
   h1 = i;
 
-  for (int j = 1; j <= jmax; j++ ) {
-    for (int dh = 1; dh <= 19; dh++ ) {
+  for ( j = 1; j <= jmax; j++ ) {
+    for ( dh = 1; dh <= 19; dh++ ) {
       h = h1 + pow(static_cast<double>(-1), j) * dh / pow(static_cast<double>(10), j);
-      L1 = racusum_arl_mc(pmix, RA, 1, h, scaling, rounding, method);
+      L1 = racusum_arl_mc(pmix, RA, R, h, scaling, rounding, method);
       if ( verbose ) Rcpp::Rcout << "h = " <<  h << "\t" << "ARL = " << L1 << std::endl;
       if ( ((j % 2 == 1) & (L1 < L0) ) | ((j % 2 == 0) & (L1 > L0)) ) break;
     }
