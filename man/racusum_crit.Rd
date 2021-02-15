@@ -27,6 +27,10 @@ in performance with increased mortality risk by doubling the odds Ratio \code{RA
 \code{RQ}. Use \code{RQ = 1} to compute the in-control ARL and other values to compute the
 out-of-control ARL.}
 
+\item{RQ}{Double. Defines the true performance of a surgeon with the odds ratio ratio of death
+\code{RQ}. Use \code{RQ = 1} to compute the in-control ARL and other values to compute the
+out-of-control ARL.}
+
 \item{scaling}{Double. The \code{scaling} parameter controls the quality of the approximation,
 larger values achieve higher accuracy but increase the computation burden (larger transition
 probability matrix).}

@@ -23,14 +23,14 @@ test_that("Different simulation algorithms, detecting deterioration", {
   ## RA=2
   expected_results <- 4568
   m <- 1e4
-  RLS <- sapply(1:m, racusum_beta_arl_sim, h=h, RA=2, RQ=RQ, coeff=c(g0,g1), shape1=shape1, shape2=shape2, rs=maxS)
+  RLS <- sapply(1:m, racusum_beta_arl_sim, h=h, RA=2, RQ=RQ, g0=g0, g1=g1, shape1=shape1, shape2=shape2, rs=maxS)
   works <- mean(RLS)
   expect_equal(works, expected_results, tolerance=0.3)
 
   ## RA=1/2
   expected_results <- 5644
   m <- 1e4
-  RLS <- sapply(1:m, racusum_beta_arl_sim, h=h, RA=1/2, RQ=RQ, coeff=c(g0,g1), shape1=shape1, shape2=shape2, rs=maxS)
+  RLS <- sapply(1:m, racusum_beta_arl_sim, h=h, RA=1/2, RQ=RQ, g0=g0, g1=g1, shape1=shape1, shape2=shape2, rs=maxS)
   works <- mean(RLS)
   expect_equal(works, expected_results, tolerance=0.3)
 })

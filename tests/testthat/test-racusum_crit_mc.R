@@ -63,5 +63,5 @@ test_that("Different Markov Chain algorithms, detecting deterioration", {
     racusum_crit_mc(L0=L0, pmix = pmix, RA = RA, RQ = RQ, scaling = sca, rounding = "p", method = "Toep", verbose=FALSE),
     racusum_crit_mc(L0=L0, pmix = pmix, RA = RA, RQ = RQ, scaling = sca, rounding = "p", method = "Toep", verbose=TRUE)
   )
-  lapply(MCtest, function(x) expect_equal(x, works, tolerance = 10^-6) )
+  lapply(MCtest, function(x) expect_equal(x, works, tolerance = 10^-4) )
 })

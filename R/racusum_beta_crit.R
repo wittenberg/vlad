@@ -12,7 +12,9 @@
 #'  improvement in performance with decreased mortality risk by halving the odds ratio of death
 #'  \code{RA = 1/2}. Odds ratio of death under the null hypotheses is \code{1}.
 #' @param r Double. Matrix system dimension.
-#' @param RQ Double. Defines the performance of a surgeon with the odds ratio ratio of death.
+#' @param RQ Double. Defines the true performance of a surgeon with the odds ratio ratio of death
+#' \code{RQ}. Use \code{RQ = 1} to compute the in-control ARL and other values to compute the
+#' out-of-control ARL.
 #' @param method Character. If \code{method = "1"} a combination of Sequential Probability Ratio
 #'  Test and Toeplitz matrix structure is used to calculate the ARL. \code{"2"} solves a linear
 #'  equation system using the classical approach of \emph{Brook and Evans (1972)} to calculate the
@@ -59,6 +61,7 @@ racusum_beta_crit_mc <- function(L0, shape1, shape2, g0, g1, RA, RQ = 1, method 
 #' @param nc Integer. Number of cores used for parallel processing. Value is passed to
 #' \code{\link{parSapply}}.
 #' @param m Integer. Number of simulation runs.
+#' @param rs Integer. Maximum risk score.
 #' @param hmax Integer. Maximum value of \code{h} for the grid search.
 #' @export
 racusum_beta_crit_sim <- function(L0, shape1, shape2, g0, g1, RA = 2, RQ = 1, nc = 1, rs = 71, hmax = 30, jmax = 4, m = 1e4, verbose = FALSE) {

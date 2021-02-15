@@ -28,7 +28,9 @@ in performance with increased mortality risk by doubling the odds Ratio \code{RA
  improvement in performance with decreased mortality risk by halving the odds ratio of death
  \code{RA = 1/2}. Odds ratio of death under the null hypotheses is \code{1}.}
 
-\item{RQ}{Double. Defines the performance of a surgeon with the odds ratio ratio of death.}
+\item{RQ}{Double. Defines the true performance of a surgeon with the odds ratio ratio of death
+\code{RQ}. Use \code{RQ = 1} to compute the in-control ARL and other values to compute the
+out-of-control ARL.}
 
 \item{method}{Character. If \code{method = "1"} a combination of Sequential Probability Ratio
 Test and Toeplitz matrix structure is used to calculate the ARL. \code{"2"} solves a linear
@@ -44,6 +46,8 @@ verbose output of the search procedure (see details) is included.}
 
 \item{nc}{Integer. Number of cores used for parallel processing. Value is passed to
 \code{\link{parSapply}}.}
+
+\item{rs}{Integer. Maximum risk score.}
 
 \item{hmax}{Integer. Maximum value of \code{h} for the grid search.}
 

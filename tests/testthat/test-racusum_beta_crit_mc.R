@@ -9,7 +9,7 @@ test_that("Different Markov Chain algorithms, detecting deterioration", {
   shape1 <- 1
   shape2 <- 3
   r <- 600
-  tol <- 10^-6
+  tol <- 10^-3
 
   expected_results <- 2.5178
   MCtest <- list(

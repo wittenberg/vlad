@@ -12,7 +12,7 @@ tol <- .3
 test_that("Different input values for RA", {
   RAtest <- list(-1, 0, "0", NA)
   lapply(RAtest, function(x) {
-    expect_error(do.call(x, racusum_beta_crit_sim, L0=L0, RQ=RQ, coeff=c(g0,g1), shape1=shape1, shape2=shape2, rs=maxS, RA=x))})
+    expect_error(do.call(x, racusum_beta_crit_sim, L0=L0, RQ=RQ, g0=g0, g1=g1, shape1=shape1, shape2=shape2, rs=maxS, RA=x))})
 })
 
 test_that("Different simulation algorithms, detecting deterioration", {
@@ -21,6 +21,6 @@ test_that("Different simulation algorithms, detecting deterioration", {
 
   ## RA=2
   m <- 1e3
-  expect_equal(racusum_beta_crit_sim(L0=L0, RA=2, RQ=RQ, coeff=c(g0,g1), shape1=shape1, shape2=shape2, rs=maxS, verbose=TRUE, m=m), 2.5091, tolerance=tol)
-  expect_equal(racusum_beta_crit_sim(L0=L0, RA=2, RQ=RQ, coeff=c(g0,g1), shape1=shape1, shape2=shape2, rs=maxS, verbose=FALSE, m=m), 2.5091, tolerance=tol)
+  expect_equal(racusum_beta_crit_sim(L0=L0, RA=2, RQ=RQ, g0=g0, g1=g1, shape1=shape1, shape2=shape2, rs=maxS, verbose=TRUE, m=m), 2.5091, tolerance=tol)
+  expect_equal(racusum_beta_crit_sim(L0=L0, RA=2, RQ=RQ, g0=g0, g1=g1, shape1=shape1, shape2=shape2, rs=maxS, verbose=FALSE, m=m), 2.5091, tolerance=tol)
 })

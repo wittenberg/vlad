@@ -13,6 +13,9 @@
 #'  \code{RA = 1/2}. Odds ratio of death under the null hypotheses is \code{1}.
 #' \code{RQ}. Use \code{RQ = 1} to compute the in-control ARL and other values to compute the
 #' out-of-control ARL.
+#' @param RQ Double. Defines the true performance of a surgeon with the odds ratio ratio of death
+#' \code{RQ}. Use \code{RQ = 1} to compute the in-control ARL and other values to compute the
+#' out-of-control ARL.
 #' @param scaling Double. The \code{scaling} parameter controls the quality of the approximation,
 #' larger values achieve higher accuracy but increase the computation burden (larger transition
 #' probability matrix).
@@ -110,7 +113,6 @@ racusum_crit_mc <- function(L0, pmix, RA, RQ, scaling = 600, rounding = "p", met
 }
 
 #' @rdname racusum_crit
-#' @inheritParams racusum_arl_sim
 #' @param yemp Logical. If \code{TRUE}, use emirical outcome values, else use model.
 #' @param m Integer. Number of simulation runs.
 #' @param nc Integer. Number of cores used for parallel processing. Value is passed to
