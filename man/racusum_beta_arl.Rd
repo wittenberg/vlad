@@ -47,7 +47,8 @@ collocation method is used.}
 \item{rs}{Integer. Maximum risk score.}
 }
 \value{
-Returns a single value which is the Run Length.
+Returns a single value which is the Average Run Length for \code{"racusum_beta_arl_mc"}
+and \code{"racusum_beta_arl_int"}, and the Run Length for \code{"racusum_beta_arl_sim"}.
 }
 \description{
 Compute the ARL of risk-adjusted CUSUM charts assuming a beta distributed

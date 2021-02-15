@@ -1,5 +1,24 @@
 ## Release summary
 
+This is the fourth submission of the package to CRAN.
+
+## Test environments
+
+* local x86_64-pc-linux-gnu (64-bit), R 4.0.3
+* win-builder (oldrelease, release, devel)
+* macOS 10.13.6 High Sierra, R 4.0.2
+* Oracle Solaris 10, R 4.0.2
+
+## R CMD check results
+
+0 ERRORs | 0 WARNINGs | 1 NOTEs
+
+Found the following (possibly) invalid DOIs:
+  DOI: 10.1093/biostatistics/1.4.441
+    From: DESCRIPTION
+    Status: Forbidden
+    Message: 403
+    
 This is the third submission of the package to CRAN.
 
 ## Test environments

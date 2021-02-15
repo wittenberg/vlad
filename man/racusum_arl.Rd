@@ -47,7 +47,8 @@ using the classical approach of \emph{Brook and Evans (1972)} to calculate the A
 binary logistc regression model.}
 }
 \value{
-Returns a single value which is the Average Run Length.
+Returns a single value which is the Average Run Length for \code{"racusum_arl_mc"} and
+the Run Length for \code{"racusum_arl_sim"}.
 }
 \description{
 Compute the ARL of risk-adjusted CUSUM charts.

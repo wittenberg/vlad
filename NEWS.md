@@ -1,3 +1,10 @@
+# vlad 0.2.2
+## Changes
+* Combine documentation of multiple functions in same file
+
+## Improvements
+Fix ARL calculation for paired rounding approach for Markov Chain
+
 # vlad 0.2.1
 ## Changes
 * Use checkmate for error messages

@@ -25,7 +25,8 @@
 #'  Test and Toeplitz matrix structure is used to calculate the ARL. \code{"ToepInv"} computes the
 #'  inverted matrix using Toeplitz matrix structure. \code{"BE"} solves a linear equation system
 #'  using the classical approach of \emph{Brook and Evans (1972)} to calculate the ARL.
-#' @return Returns a single value which is the Average Run Length.
+#' @return Returns a single value which is the Average Run Length for \code{"racusum_arl_mc"} and
+#' the Run Length for \code{"racusum_arl_sim"}.
 #' @author Philipp Wittenberg
 #' @references Steiner SH, Cook RJ, Farewell VT and Treasure T (2000).
 #'  Monitoring surgical performance using risk-adjusted cumulative sum charts.

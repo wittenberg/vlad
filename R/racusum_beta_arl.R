@@ -1,4 +1,5 @@
 #' @name racusum_beta_arl
+#' @order 1
 #' @title ARL of Beta RA-CUSUM charts
 #' @description Compute the ARL of risk-adjusted CUSUM charts assuming a beta distributed
 #' patient mix.
@@ -17,7 +18,8 @@
 #'  Test and Toeplitz matrix structure is used to calculate the ARL. \code{"2"} solves a linear
 #'  equation system using the classical approach of \emph{Brook and Evans (1972)} to calculate the
 #'  ARL.
-#' @return Returns a single value which is the Run Length.
+#' @return Returns a single value which is the Average Run Length for \code{"racusum_beta_arl_mc"}
+#' and \code{"racusum_beta_arl_int"}, and the Run Length for \code{"racusum_beta_arl_sim"}.
 #' @references Brook D and Evans DA (1972)
 #'  An approach to the probability distribution of CUSUM run length.
 #'  \emph{Biometrika}, \strong{59}(3), pp. 539--549
@@ -56,6 +58,7 @@ racusum_beta_arl_mc <- function(h, shape1, shape2, g0, g1, RA, RQ = 1, r = 600, 
 }
 
 #' @rdname racusum_beta_arl
+#' @order 2
 #' @param N Integer. Number of quadrature nodes, dimension of the resulting linear equation system
 #'  is equal to \code{N}.
 #' @param pw Logical. If \code{FALSE} full collocation is applied. If \code{TRUE} a piece-wise
@@ -77,6 +80,7 @@ racusum_beta_arl_int <- function(h, shape1, shape2, g0, g1, RA, RQ, N, pw) {
 }
 
 #' @rdname racusum_beta_arl
+#' @order 3
 #' @param r Integer. Number of runs.
 #' @param rs Integer. Maximum risk score.
 #' @export
