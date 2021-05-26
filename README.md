@@ -63,7 +63,7 @@ via *devtools::install\_github(“wittenberg/vlad”)*
 ## Examples
 
 [Supplemental material: Risk-adjusted CUSUM charts under model
-error](https://onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2Fsim.8104&file=SIM_8104-Supp-0001-Supplemental-material-SIM-18-0571.R)
+error](https://raw.githubusercontent.com/wittenberg/vlad/master/man/examples/Supplemental-material-SIM-18-0571.R)
 
 <!-- Load libraries: -->
 
